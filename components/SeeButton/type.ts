@@ -20,3 +20,10 @@ export type ClientRectData = {
 
   finalWidth?: number
 }
+
+export interface RippleItem {
+	id: number;
+	x: number;
+	y: number;
+	size: number;
+}

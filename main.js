@@ -1,5 +1,4 @@
 import App from "./App";
-import "./theme.scss";
 
 // #ifndef VUE3
 import Vue from "vue";
