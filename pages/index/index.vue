@@ -1,8 +1,11 @@
 <template>
 	<view class="content">
 		<image class="logo" src="/static/logo.png"></image>
+		<view class="subtitle">一个基于 uni-app 的组件库</view>
 		<view class="list" v-for="(item, index) in list" :key="index">
-			<text class="list-title">{{ item.title }}</text>
+			<view class="list-title">
+				<text>{{ item.title }}</text>
+			</view>
 			<view class="list-item"
 				:style="key === 0 && 'border-top: 1px #f1f1f1 solid'"
 				v-for="(val, key) in item.componentsList"
@@ -67,12 +70,17 @@ const clickItem = (url: string) => (uni.navigateTo({url}));
 }
 
 .logo {
-	height: 200rpx;
-	width: 200rpx;
-	margin-top: 50rpx;
+	height: 100px;
+	width: 100px;
+	margin-top: 12px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 50rpx;
+	margin-bottom: 12px;
+}
+
+.subtitle{
+	font-size: 15px;
+	color: #999;
 }
 
 .list {
@@ -84,11 +92,12 @@ const clickItem = (url: string) => (uni.navigateTo({url}));
 .list-title {
 	font-size: 15px;
 	color: #999;
+	padding: 12px 24px;
 }
 
 .list-item {
 	width: 100%;
-	padding: 24rpx 48rpx;
+	padding: 12px 24px;
 	box-sizing: border-box;
 	border-bottom: 1px #f1f1f1 solid;
 }
