@@ -40,6 +40,10 @@ const list = ref<listType>([
 			{
 				title: 'Text 文本',
 				url: '/pages/seeText/index'
+			},
+			{
+				title: 'Color 色彩',
+				url: '/pages/seeColor/index'
 			}
 		]
 	},

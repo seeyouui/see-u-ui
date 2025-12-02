@@ -21,6 +21,14 @@
 				"navigationBarTitleText" : "Text 文本",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/seeColor/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Color 色彩",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

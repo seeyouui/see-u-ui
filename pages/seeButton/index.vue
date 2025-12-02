@@ -42,7 +42,7 @@
 		<view class="content">
 			<see-button :customStyle="customStyle" title="自定义宽高" />
 			<see-button :radius="24" title="圆角按钮" />
-			<see-button size="large" title="渐变色按钮" textColor="#FFFFFF" color="linear-gradient(to right, rgb(66, 83, 216), rgb(213, 51, 186))" isRipple />
+			<see-button size="large" title="渐变色按钮" textColor="#FFFFFF" color="linear-gradient(135deg, #3ca7ff, #52f7bd)" isRipple />
 			<see-button title="自定义颜色" color="#8A4D35" textColor="#FFFFFF" isRipple />
 			<see-button title="传入一个view">
 				<view style="width: 10px; height: 10px; border: 1px red solid" />
