@@ -80,7 +80,7 @@ const customStyle = {
 		flex-wrap: warp;
 		align-items: center;
 		:deep(.see-button) {
-			margin: 0 15px 15px 0;
+			margin: 0 12px 12px 0;
 		}
 	}
 }
