@@ -29,6 +29,14 @@
 				"navigationBarTitleText" : "Color 色彩",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/seeLink/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Link 链接",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

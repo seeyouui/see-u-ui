@@ -34,6 +34,10 @@ const list = ref<listType>([
 		title: '基础组件',
 		componentsList: [
 			{
+				title: 'Color 色彩',
+				url: '/pages/seeColor/index'
+			},
+			{
 				title: 'Button 按钮',
 				url: '/pages/seeButton/index'
 			},
@@ -42,8 +46,8 @@ const list = ref<listType>([
 				url: '/pages/seeText/index'
 			},
 			{
-				title: 'Color 色彩',
-				url: '/pages/seeColor/index'
+				title: 'Link 链接',
+				url: '/pages/seeLink/index'
 			}
 		]
 	},
