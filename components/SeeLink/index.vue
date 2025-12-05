@@ -8,7 +8,7 @@
  * @description 此组件基于uniapp官方button，进行二次封装
  * @tutorial http://113.44.242.235:9000/components/link/
  *
- * @property {String}												text			内容
+ * @property {String | Number}										text			内容
  * @property {"info" | "primary" | "error" | "warning" | "success"}	type			文本的预置样式，info，primary，error，warning，success (默认 'info' )
  * @property {String}												color			自定义文本颜色（填写此值时，type失效。）
  * @property {String}												href			超链接
@@ -22,7 +22,7 @@ import { nextTick, computed } from 'vue';
 /** ---------- props ---------- */
 const props = withDefaults(
 	defineProps<{
-		text?: string;
+		text?: string | number;
 		type?: 'info' | 'primary' | 'error' | 'warning' | 'success';
 		color?: string;
 		href?: string;
