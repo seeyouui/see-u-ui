@@ -6,7 +6,7 @@ type DateInput = string | number | Date | null | undefined;
 /**
  * 格式化配置选项
  */
-interface DateFormatOptions {
+export interface DateFormatOptions {
 	/** 默认显示的占位符，当日期无效时显示 */
 	placeholder?: string;
 }
