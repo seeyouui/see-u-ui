@@ -2,6 +2,11 @@
 	<text :class="getClass" :style="getStyle" @click="onClick">{{ props.text }}</text>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'SeeLink'
+}
+</script>
 <script lang="ts" setup>
 /**
  * Link 链接

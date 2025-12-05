@@ -47,6 +47,11 @@
 	<!-- #endif -->
 </template>
 
+<script lang="ts">
+export default {
+  name: 'SeeButton'
+}
+</script>
 <script lang="ts" setup>
 /**
  * Button 按钮
