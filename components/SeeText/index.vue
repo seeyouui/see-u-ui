@@ -54,9 +54,9 @@ export default {
 <script lang="ts" setup>
 import { computed, nextTick } from 'vue';
 import SeeLink from '../SeeLink/index.vue';
-import { formatDate } from '@/utils/hooks/useDateFormat';
-import { formatTimeAgo } from '@/utils/hooks/useTimeAgo';
-import { formatCurrency } from '@/utils/hooks/useCurrencyFormat';
+import { formatDate } from '../../utils/hooks/useDateFormat';
+import { formatTimeAgo } from '../../utils/hooks/useTimeAgo';
+import { formatCurrency } from '../../utils/hooks/useCurrencyFormat';
 
 /** ---------- props ---------- */
 const props = withDefaults(
