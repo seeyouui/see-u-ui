@@ -5,7 +5,7 @@
 If you discover a security vulnerability in this project, we ask that you **report it as soon as possible**. Please follow the instructions below for submitting a report:
 
 1. **Do not create a GitHub issue** to report a vulnerability.
-2. Send an email to **security@example.com** with the following information:
+2. Send an email to **GmhLovEDM@gmail.com** with the following information:
     - A description of the vulnerability
     - Steps to reproduce (if applicable)
     - Any potential risks to the project or users
