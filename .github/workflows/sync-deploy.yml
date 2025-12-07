@@ -1,0 +1,85 @@
+name: Sync SeeYouUI to NPM # 工作流名称，显示在 Actions 面板中
+
+# 1. 触发条件配置
+on:
+  push:
+    branches: [ main ] # 当 main 分支有代码推送时触发（如果是 master 请修改）
+    paths:             # 路径过滤器：只有当以下文件夹发生变化时才触发，避免改了 README 也触发同步
+      - 'uni_modules/see-u-ui/**'
+      # - '你的其他源码目录/**' 
+
+jobs:
+  sync-code:
+    runs-on: ubuntu-latest # 使用 GitHub 提供的最新 Linux 环境运行
+
+    steps:
+      # ----------------------------------------------------------------
+      # 第一步：检出（下载）源仓库代码
+      # ----------------------------------------------------------------
+      - name: Checkout Source Repo (Uniapp)
+        uses: actions/checkout@v4
+        with:
+          path: source-repo # 将代码下载到 source-repo 文件夹，防止混淆
+
+      # ----------------------------------------------------------------
+      # 第二步：检出（下载）目标仓库代码
+      # ----------------------------------------------------------------
+      - name: Checkout Target Repo (NPM Package)
+        uses: actions/checkout@v4
+        with:
+          # 修改这里：你的 NPM 仓库地址（用户名/仓库名）
+          repository: GmhLovEDM/SeeYouUINpm
+          token: ${{ secrets.TARGET_REPO_TOKEN }} # 使用刚才配置的 Secret 权限
+          path: target-repo # 将代码下载到 target-repo 文件夹
+          ref: main # 确保拉取的是 main 分支
+
+      # ----------------------------------------------------------------
+      # 第三步：同步代码 (核心逻辑)
+      # ----------------------------------------------------------------
+      - name: Sync Files via Rsync
+        run: |
+          echo "开始同步文件..."
+          
+          # 说明：
+          # 1. ../source-repo/uni_modules/my-component/ 是源路径
+          # 2. ../target-repo/src/ 是目标路径
+          # 3. -a: 归档模式，保留文件属性；-v: 显示详细过程
+          # 4. --delete: 关键参数！如果源文件夹里删除了某个文件，目标文件夹里也会对应删除。
+          #    (只在 ../target-repo/src/ 范围内删除，不会删外面的 package.json)
+          
+          # >>>>> 请根据你的实际目录结构修改下面这两行 <<<<<
+          
+          # 示例1：同步组件目录
+          # 注意：rsync 对末尾的斜杠 / 非常敏感，建议保持源目录末尾有 /
+          rsync -av --delete source-repo/uni_modules/see-u-ui/ target-repo/src/
+          
+          # 示例2：(可选) 如果还有 utils 目录要同步，可以追加命令
+          # rsync -av source-repo/common/utils/ target-repo/src/utils/
+
+          echo "文件同步完成，准备检查变更..."
+
+      # ----------------------------------------------------------------
+      # 第四步：提交并推送
+      # ----------------------------------------------------------------
+      - name: Commit and Push
+        working-directory: target-repo # 切换到目标仓库目录进行 Git 操作
+        run: |
+          # 配置临时的 Git 用户信息（显示在 commit 记录里）
+          git config user.name "GitHub Action Bot"
+          git config user.email "action@github.com"
+
+          # 添加所有变更
+          git add .
+
+          # 检查是否有变更需要提交
+          # 如果文件没变化（比如你只是改了 commit message），git commit 会报错，所以要判断
+          if git diff --staged --quiet; then
+            echo "检测到没有文件发生变化，跳过提交步骤。"
+          else
+            echo "检测到文件变更，正在提交..."
+            git commit -m "同步了：SeeYouUI 到 SeeYouUINPM"
+            
+            # 推送回 NPM 仓库
+            git push origin main
+            echo "推送成功！"
+          fi
