@@ -44,3 +44,13 @@
 SeeYouUI 组件库 基于 [MIT 协议](https://opensource.org/license/MIT) 开源协议，意味着您无需支付任何费用，也无需授权，即可将 SeeYouUI 应用到您的产品中。
 
 注意：这并不意味着您可以将 SeeYouUI 应用到非法的领域，比如涉及赌博，暴力等方面。如因此产生纠纷或法律问题，SeeYouUI 相关方不承担任何责任。
+
+## 自动化
+
+```mermaid
+graph TD
+  see-u-ui:main提交 -->  GmhLovEDM手动review --> 发布至Dcloud
+  see-u-ui:main提交 --> GitHubAction自动同步至SeeYouUINPM --> GmhLovEDM手动review --> 发布至NPM
+  see-u-ui:main提交 --> Jenkins自动部署演示项目至https://www.seeuui.cn/
+  see-u-ui-doc:main提交 --> Jenkins自动部署演示项目至https://www.seeuui.cn/
+```
