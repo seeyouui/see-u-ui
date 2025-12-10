@@ -14,22 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 下载可用的 HBuilderX ZIP（官方公开版本）
+      # 2. 下载 HBuilderX ZIP
       - name: Download HBuilderX
         run: |
           curl -L -o hbuilderx.zip https://github.com/GmhLovEDM/hbuilderx/releases/download/4.87/HBuilderX.4.87.2025121004.zip
           mkdir HBuilderX
           7z x hbuilderx.zip -oHBuilderX
 
+      # 2.1 列出 HBuilderX 文件夹内容，确认 cli.exe 是否存在
+      - name: List HBuilderX folder
+        run: |
+          dir HBuilderX -Recurse
+
       # 3. 使用 HBuilderX CLI 构建 uni-app H5
       - name: Build UniApp H5
         run: |
-          & "HBuilderX/cli.exe" publish --platform h5 --project ./
-      
-      # ⚠ 默认构建输出：unpackage/dist/build/web/
-      # 你指定的 path 正确，我不动它
+          & ".\HBuilderX\cli.exe" publish --platform h5 --project .\
 
-      # 4. 部署到服务器（使用 rsync）—— 不做任何修改
+      # 4. 部署到服务器（使用 rsync）—— 保持不变
       - name: Deploy to server
         uses: burnett01/rsync-deployments@7.0.1
         with:
