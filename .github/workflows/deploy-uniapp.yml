@@ -21,15 +21,11 @@ jobs:
           mkdir HBuilderX
           7z x hbuilderx.zip -oHBuilderX
 
-      # 2.1 列出 HBuilderX 文件夹内容，确认 cli.exe 是否存在
-      - name: List HBuilderX folder
-        run: |
-          dir HBuilderX -Recurse
 
       # 3. 使用 HBuilderX CLI 构建 uni-app H5
       - name: Build UniApp H5
         run: |
-          & ".\HBuilderX\cli.exe" publish --platform h5 --project .\
+          & ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
 
       # 4. 部署到服务器（使用 rsync）—— 保持不变
       - name: Deploy to server
