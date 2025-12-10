@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build:h5": "./HBuilderX/HBuilderX/cli.exe publish --platform h5 --project see-u-ui"
+    "build:h5": "cli publish --platform h5 --project see-u-ui"
   }
 }

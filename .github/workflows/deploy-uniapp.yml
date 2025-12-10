@@ -6,54 +6,38 @@ on:
       - main
 
 jobs:
-  build-h5:
+  build-and-deploy:
     runs-on: windows-latest
 
     steps:
+      # 1. 拉取代码
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. 下载 HBuilderX ZIP
       - name: Download HBuilderX
         run: |
           curl -L -o hbuilderx.zip https://github.com/GmhLovEDM/hbuilderx/releases/download/4.87/HBuilderX.4.87.2025121004.zip
           mkdir HBuilderX
           7z x hbuilderx.zip -oHBuilderX
 
+      # 3. 使用 HBuilderX CLI 构建 uni-app H5
       - name: Build UniApp H5
-        shell: cmd
-        run: npm run build:h5
+        run: |
+          & ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
 
-      - name: List project files
+      - name: Wait 1 minute
+        run: Start-Sleep -Seconds 60
+
+      - name: Check build output
         run: dir
 
-      - name: Upload H5 build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: h5-dist
-          path: unpackage/dist/build/web/
-
-  # ------------------------
-  # 2️⃣ Linux: 部署到服务器
-  # ------------------------
-  deploy-h5:
-    runs-on: ubuntu-latest
-    needs: build-h5
-
-    steps:
-      - name: Download H5 build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: h5-dist
-          path: ./deploy
-
-      - name: List deploy folder (debug)
-        run: ls -R ./deploy
-
-      - name: Deploy via rsync
+      # 4. 部署到服务器（使用 rsync）—— 保持不变
+      - name: Deploy to server
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avz --delete --exclude=".*"
-          path: ./deploy
+          path: unpackage/dist/build/web/
           remote_path: /www/wwwroot/demo.seeuui.cn/
           remote_host: ${{ secrets.SERVER_HOST }}
           remote_user: ${{ secrets.SERVER_USER }}
