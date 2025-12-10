@@ -21,8 +21,7 @@ jobs:
 
       - name: Build UniApp H5
         shell: cmd
-        run: |
-          ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
+        run: npm run build
 
       - name: List project files
         run: dir
