@@ -6,38 +6,65 @@ on:
       - main
 
 jobs:
-  # ------------------------
-  # 1️⃣ Windows: 构建 UniApp H5
-  # ------------------------
   build-h5:
     runs-on: windows-latest
+    
+    env:
+      HX_VERSION: "4.87.2025121004"
+      HX_URL: "https://github.com/GmhLovEDM/hbuilderx/releases/download/4.87/HBuilderX.${{ env.HX_VERSION }}.zip"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js (if needed for dependencies)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install 7-Zip
+        run: choco install 7zip -y
+
       - name: Download HBuilderX
         run: |
-          curl -L -o hbuilderx.zip https://github.com/GmhLovEDM/hbuilderx/releases/download/4.87/HBuilderX.4.87.2025121004.zip
+          curl -L -o hbuilderx.zip "${{ env.HX_URL }}"
           mkdir HBuilderX
-          7z x hbuilderx.zip -oHBuilderX
+          7z x hbuilderx.zip -oHBuilderX -y
 
-      - name: List HBuilderX folder (debug)
-        run: dir HBuilderX -Recurse
-
-      - name: Build UniApp H5
+      - name: Verify HBuilderX CLI exists
         run: |
-          & ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
+          if (Test-Path ".\HBuilderX\HBuilderX\cli.exe") {
+            Write-Host "✓ HBuilderX CLI found"
+            Get-Item ".\HBuilderX\HBuilderX\cli.exe"
+          } else {
+            Write-Host "✗ HBuilderX CLI not found"
+            Get-ChildItem ".\HBuilderX" -Recurse | Select-Object FullName
+            exit 1
+          }
 
-      - name: Check build output
-        run: dir unpackage /s
+      - name: Build UniApp H5 (with real-time output)
+        shell: cmd
+        run: |
+          ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
+          
+      - name: Verify build output
+        run: |
+          if (Test-Path "unpackage/dist/build/web") {
+            Write-Host "✓ Build successful!"
+            Get-ChildItem "unpackage/dist/build/web" -Recurse | Select-Object Name, Length
+          } else {
+            Write-Host "✗ Build output not found"
+            Get-ChildItem "unpackage" -Recurse -ErrorAction SilentlyContinue
+            exit 1
+          }
 
       - name: Upload H5 build artifact
         uses: actions/upload-artifact@v4
         with:
           name: h5-dist
           path: unpackage/dist/build/web/
-
+          retention-days: 7
+          
   # ------------------------
   # 2️⃣ Linux: 部署到服务器
   # ------------------------
