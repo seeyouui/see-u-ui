@@ -26,11 +26,8 @@ jobs:
         # 强制使用 cmd shell 执行命令
         shell: cmd 
         run: |
-          .\HBuilderX\HBuilderX\cli.exe publish --platform h5 --project "%CD%"
+          .\HBuilderX\HBuilderX\cli.exe publish --platform h5 --project see-u-ui
 
-      # 增加一个合理的等待时间，确保构建完成
-      - name: Wait 1 minute
-        run: Start-Sleep -Seconds 60
 
       - name: Check build output
         run: dir
