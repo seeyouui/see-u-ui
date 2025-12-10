@@ -24,9 +24,7 @@ jobs:
       # 3. 使用 HBuilderX CLI 构建 uni-app H5
       - name: Build UniApp H5
         run: |
-          ./HBuilderX/cli.exe publish ^
-            --platform h5 ^
-            --project ./ 
+          ./HBuilderX/cli.exe publish --platform h5 --project ./
       
       # ⚠ 默认构建输出：unpackage/dist/build/web/
       # 你指定的 path 正确，我不动它
