@@ -24,6 +24,9 @@ jobs:
         run: |
           ".\HBuilderX\HBuilderX\cli.exe" publish --platform h5 --project .\
 
+      - name: List project files
+        run: dir
+
       - name: Upload H5 build artifact
         uses: actions/upload-artifact@v4
         with:
