@@ -1,5 +1,5 @@
 <template>
-	<text :class="getClass" :style="getStyle" @click="onClick">{{ props.text }}11</text>
+	<text :class="getClass" :style="getStyle" @click="onClick">{{ props.text }}</text>
 </template>
 
 <script lang="ts">
