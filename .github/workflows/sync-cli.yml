@@ -20,10 +20,12 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-      - name: Copy all files from see-u-ui → see-u-ui-cli/src
+      - name: Sync files to see-u-ui-cli/src (safe rsync)
         run: |
-          rm -rf target-repo/src/*
-          cp -r ./* target-repo/src/
+          rsync -av --delete \
+            --exclude 'target-repo' \
+            --exclude '.git' \
+            ./ target-repo/src/
 
       - name: Commit & Push to see-u-ui-cli
         run: |
@@ -34,7 +36,4 @@ jobs:
             exit 0
           fi
           git commit -m "同步了：SeeYouUI $(date +'%Y-%m-%d %H:%M:%S')"
-          git push https://github.com/seeyouui/see-u-ui-cli.git HEAD:main
-        env:
-          GIT_ASKPASS: /bin/echo
-          GIT_PASSWORD: ${{ secrets.SYNC_TOKEN }}
+          git push https://x-access-token:${{ secrets.SYNC_TOKEN }}@github.com/seeyouui/see-u-ui-cli.git HEAD:main
