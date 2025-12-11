@@ -72,7 +72,7 @@ jobs:
             echo "检测到没有文件发生变化，跳过提交步骤。"
           else
             echo "检测到文件变更，正在提交..."
-            git commit -m "同步SeeYouUI $(date +'%Y-%m-%d %H:%M:%S')"
+            TZ='Asia/Shanghai' git commit -m "同步了：SeeYouUI 到 see-u-ui-cli $(date +'%Y-%m-%d %H:%M:%S')"
             
             # 推送
             git push origin main
