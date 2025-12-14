@@ -43,6 +43,13 @@
 				"navigationBarTitleText" : "Link 链接",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/seeIcon/index",
+			"style" : 
+			{
+				"navigationBarTitleText" : "Icon 图标"
+			}
 		}
 	],
 	"globalStyle": {
