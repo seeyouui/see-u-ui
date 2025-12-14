@@ -5,8 +5,8 @@
 <script lang="ts">
 /**
  * Link 链接
- * @description 此组件基于uniapp官方button，进行二次封装
- * @tutorial http://113.44.242.235:9000/components/link/
+ * @description 暂无说明
+ * @tutorial https://www.seeuui.cn/components/link/
  *
  * @property {String | Number}										text			内容
  * @property {"info" | "primary" | "error" | "warning" | "success"}	type			文本的预置样式，info，primary，error，warning，success (默认 'info' )
@@ -14,7 +14,7 @@
  * @property {String}												href			超链接
  * @property {Boolean}												isLine			是否添加下划线（默认false）
  * @property {String}												lineColor		下划线颜色（填写此字段后type失效）
- *
+ * @property {String | Number}										size			字体大小（px），默认16
  * @example
  */
 export default {
@@ -33,6 +33,7 @@ const props = withDefaults(
 		href?: string;
 		isLine?: boolean;
 		lineColor?: string;
+		size: string | number;
 	}>(),
 	{
 		text: '',
@@ -40,7 +41,8 @@ const props = withDefaults(
 		color: '',
 		href: '',
 		isLine: false,
-		lineColor: ''
+		lineColor: '',
+		size: 16
 	}
 );
 
@@ -73,6 +75,9 @@ const getStyle = computed(() => {
 	if (props.isLine && props.lineColor) {
 		style.borderBottomColor = props.lineColor;
 	}
+
+	// 添加字体大小
+	style.fontSize = typeof props.size === 'number' ? `${props.size}px` : props.size;
 
 	return style;
 });
