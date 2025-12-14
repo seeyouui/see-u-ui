@@ -14,7 +14,7 @@
 
 # SeeYouUI
 
-## [官方文档：(http://113.44.242.235:9000/)](http://113.44.242.235:9000/)
+## [官方文档：(https://www.seeuui.cn/)](https://seeuui.cn/)
 
 ## 特性
 
@@ -26,18 +26,18 @@
 
 ## 关于 PR
 
-我们 **真诚、迫切、由衷地欢迎** 你提交任何形式的 [Pull Request](https://github.com/GmhLovEDM/SeeYouUI/pulls) 来一起完善 SeeYouUI 组件库。
+我们 **真诚、迫切、由衷地欢迎** 你提交任何形式的 [Pull Request](https://github.com/seeyouui/see-u-ui/pulls) 来一起完善 SeeYouUI 组件库。
 
 无论是修个 typo、补一句注释、提个小优化，还是提交一个超棒的新功能——**都对我们来说无比重要**。
 你的每一次贡献，真的都会让这个项目变得更好。
 
-**我们真的非常需要你的 PR 🙏❤️**
-如果你愿意帮我们一点点，我们会非常感激的。
+更多说明请参阅我们的 [贡献指南](https://www.seeuui.cn/contributing.html) 🙏❤️
 
 ## 社区
 
-- QQ 一群：123456789
-- 钉钉一群：123456789
+- QQ 一群：[792613113](https://qun.qq.com/universal-share/share?ac=1&authKey=P2tlNsOAS4mvQS0Q8V%2BdjBtgYusIkYXU7c63TgJab8l8%2BxZvwwga1kbJozS2gQC6&busi_data=eyJncm91cENvZGUiOiI3OTI2MTMxMTMiLCJ0b2tlbiI6IjVPK3pHUStkZVBNck5QMVFYRnRSZmlMeUlsZkVuVnZZemkxS25sOWFBT2pmeXFERFBQazUvTVZPRU5hbU0xT1YiLCJ1aW4iOiIxMjY1OTAzMTU5In0%3D&data=BIQGz4XNkPWHqdHMLLCiD-S9ZXFGmy1bACPq32ZzaJ8tWNRRXn5Mmw5ki6rR1ID-R7Azxu4wNHLl6eaLdeS7_w&svctype=4&tempid=h5_group_info)
+- 钉钉一群：[160655009037](https://qr.dingtalk.com/action/joingroup?code=v1,k1,nVryX8WJ3cP/UkIbFU2KwhIdefjMJ5j1SEi6Y5bAC6k=&_dt_no_comment=1&origin=11)
+- Discord 大群：[点击进入](https://discord.gg/c3KdbBZS)
 
 ## 许可
 

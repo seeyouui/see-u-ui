@@ -51,7 +51,7 @@
 /**
  * Button 按钮
  * @description 此组件基于uniapp官方button，进行二次封装
- * @tutorial http://113.44.242.235:9000/components/button/
+ * @tutorial https://www.seeuui.cn/components/button/
  *
  * @property {String}												title			标题
  * @property {"normal" | "large" | "small" | "mini"}				size			大小（默认normal）
