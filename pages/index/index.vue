@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
+		<image class="logo" src="/static/logo.png" alt="see-u-ui Logo"></image>
 		<view class="subtitle">一个基于 uni-app 的组件库</view>
 		<view class="list" v-for="(item, index) in list" :key="index">
 			<view class="list-title">
