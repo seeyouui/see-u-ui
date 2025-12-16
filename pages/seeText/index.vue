@@ -83,9 +83,9 @@
 			<see-text ref="textRef" mode="text" :text="message" :isTextUp="true" :textUp="{ speed: 120, autoStart: false, showCursor: true }" @onTextUpComplete="handleComplete" />
 			<view class="gap-12"></view>
 			<view class="flex-sb">
-				<see-button isRipple title="开始打字" @click="start" />
+				<see-button isRipple title="开始打字" @tap="start" />
 				<see-button isRipple :title="isStop ? '暂停' : '继续'" :type="isStop ? 'warning' : 'primary'" :isDisabled="!isStart" @tap="stopResume" />
-				<see-button @click="showAll" title="立即显示" />
+				<see-button @tap="showAll" title="立即显示" />
 			</view>
 		</view>
 	</view>
