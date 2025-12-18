@@ -2,7 +2,7 @@
 	<view class="container">
 		<text class="title">基本使用</text>
 		<view class="content">
-			<view class="item" v-for="(item, index) in 30" :key="index">
+			<view class="item" v-for="(item, index) in 31" :key="index">
 				<see-icon></see-icon>
 				<see-text :size="14" :text="item" type="primary"></see-text>
 			</view>
