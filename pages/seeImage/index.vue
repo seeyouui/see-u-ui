@@ -18,53 +18,21 @@
 			</view>
 			<view class="demo-item">
 				<text class="demo-label">黑色遮罩(0.3)</text>
-				<see-image
-					src="https://www.seeuui.cn/logo.png"
-					width="120px"
-					height="120px"
-					:radius="8"
-					showMask
-					maskColor="#000"
-					:maskOpacity="0.3"
-				/>
+				<see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" showMask maskColor="#000" :maskOpacity="0.3" />
 			</view>
 			<view class="demo-item">
 				<text class="demo-label">白色遮罩(0.5)</text>
-				<see-image
-					src="https://www.seeuui.cn/logo.png"
-					width="120px"
-					height="120px"
-					:radius="8"
-					showMask
-					maskColor="#fff"
-					:maskOpacity="0.5"
-				/>
+				<see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" showMask maskColor="#fff" :maskOpacity="0.5" />
 			</view>
 			<view class="demo-item">
 				<text class="demo-label">蓝色遮罩(0.4)</text>
-				<see-image
-					src="https://www.seeuui.cn/logo.png"
-					width="120px"
-					height="120px"
-					:radius="8"
-					showMask
-					maskColor="#3ca7ff"
-					:maskOpacity="0.4"
-				/>
+				<see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" showMask maskColor="#3ca7ff" :maskOpacity="0.4" />
 			</view>
 		</view>
 
 		<text class="title">图片预览</text>
 		<view class="content">
-			<see-image
-				src="https://www.seeuui.cn/logo.png"
-				width="200px"
-				height="200px"
-				:radius="8"
-				previewMode
-				preview-tip="点击图片预览大图"
-				@onClick="handlePreviewClick"
-			/>
+			<see-image src="https://www.seeuui.cn/logo.png" width="200px" height="200px" :radius="8" previewMode preview-tip="点击图片预览大图" @onClick="handlePreviewClick" />
 		</view>
 
 		<text class="title">淡入动画</text>
@@ -86,13 +54,7 @@
 		<text class="title">错误处理</text>
 		<view class="content">
 			<view class="demo-item">
-				<see-image
-					src="https://invalid-url-for-test.com/image.jpg"
-					width="200px"
-					height="200px"
-					:radius="8"
-					@onError="handleImageError"
-				/>
+				<see-image src="https://invalid-url-for-test.com/image.jpg" width="200px" height="200px" :radius="8" @onError="handleImageError" />
 			</view>
 		</view>
 
@@ -109,14 +71,7 @@
 		<text class="title">懒加载</text>
 		<view class="content">
 			<text class="lazy-text">已启用懒加载，滚动时加载图片</text>
-			<see-image
-				src="https://www.seeuui.cn/logo.png"
-				width="200px"
-				height="200px"
-				:radius="8"
-				:lazyLoad="true"
-				loading-text="图片加载中..."
-			/>
+			<see-image src="https://www.seeuui.cn/logo.png" width="200px" height="200px" :radius="8" :lazyLoad="true" loading-text="图片加载中..." />
 		</view>
 
 		<text class="title">组件事件</text>
@@ -202,6 +157,7 @@ const handlePreviewClick = () => {
 	width: 100vw;
 	overflow: hidden;
 	padding: 12px;
+	padding-top: 0;
 	box-sizing: border-box;
 	background-color: #f9f9f9;
 
