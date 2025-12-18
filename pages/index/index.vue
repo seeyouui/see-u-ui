@@ -52,6 +52,10 @@ const list = ref<listType>([
 			{
 				title: 'Icon 图标',
 				url: '/pages/seeIcon/index'
+			},
+			{
+				title: 'Image 图片',
+				url: '/pages/seeImage/index'
 			}
 		]
 	},

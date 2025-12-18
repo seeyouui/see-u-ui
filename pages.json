@@ -50,6 +50,12 @@
 			{
 				"navigationBarTitleText" : "Icon 图标"
 			}
+		},
+		{
+			"path": "pages/seeImage/index",
+			"style": {
+				"navigationBarTitleText": "Image 图片"
+			}
 		}
 	],
 	"globalStyle": {
