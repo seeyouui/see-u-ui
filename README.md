@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
+  <a href="https://seeuui.cn/" target="_blank" rel="noopener noreferrer">
     <img width="180" src="https://raw.githubusercontent.com/GmhLovEDM/bolgImage/main/seeui.png" alt="Vite logo">
   </a>
 </p>
