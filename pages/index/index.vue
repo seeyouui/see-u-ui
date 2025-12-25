@@ -56,6 +56,14 @@ const list = ref<listType>([
 			{
 				title: 'Image 图片',
 				url: '/pages/seeImage/index'
+			},
+			{
+				title: 'Badge 徽标数',
+				url: '/pages/seeBadge/index'
+			},
+			{
+				title: 'Tag 标签',
+				url: '/pages/seeTag/index'
 			}
 		]
 	},

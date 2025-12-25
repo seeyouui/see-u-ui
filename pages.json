@@ -56,6 +56,12 @@
 			"style": {
 				"navigationBarTitleText": "Image 图片"
 			}
+		},
+		{
+			"path": "pages/seeBadge/index",
+			"style": {
+				"navigationBarTitleText": "Badge 徽标数"
+			}
 		}
 	],
 	"globalStyle": {
