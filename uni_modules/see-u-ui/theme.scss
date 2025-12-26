@@ -49,3 +49,118 @@ $see-text: #ffffff;
 $see-dark-text: #ffffff;
 $see-disabled-text: #f2f3f5;
 $see-light-text: #aeb0b4;
+
+/* =========================
+ * Light Theme
+ * ========================= */
+:root,
+.see-theme-light {
+  /* ---------- 文字颜色 ---------- */
+  --see-main-color: #2e2f33;
+  --see-content-color: #5a5c60;
+  --see-tips-color: #8c8e93;
+  --see-light-color: #c9ccd1;
+
+  /* ---------- 边框颜色 ---------- */
+  --see-border-color: #aeb0b4;
+  --see-border-two-color: #c3c5c8;
+  --see-border-three-color: #d9dadc;
+  --see-border-four-color: #eceff1;
+
+  /* ---------- 背景颜色 ---------- */
+  --see-bg-light-color: #f6faff;
+  --see-bg-dark-color: #1e222a; /* 备用 */
+
+  /* ---------- 主色 ---------- */
+  --see-primary: #3ca7ff;
+  --see-primary-dark: #208ee8;
+  --see-primary-disabled: #a8d8ff;
+  --see-primary-light: #e9f6ff;
+
+  /* ---------- 警告 ---------- */
+  --see-warning: #ffb645;
+  --see-warning-dark: #f0a233;
+  --see-warning-disabled: #ffd9a6;
+  --see-warning-light: #fff6e8;
+
+  /* ---------- 成功 ---------- */
+  --see-success: #37d497;
+  --see-success-dark: #2bb881;
+  --see-success-disabled: #b6efd9;
+  --see-success-light: #f2fff9;
+
+  /* ---------- 错误 ---------- */
+  --see-error: #ff6b6b;
+  --see-error-dark: #e85b5b;
+  --see-error-disabled: #ffbaba;
+  --see-error-light: #fff2f2;
+
+  /* ---------- 默认 / info ---------- */
+  --see-info: #8a8f99;
+  --see-info-dark: #6e737c;
+  --see-info-disabled: #d2d5d9;
+  --see-info-light: #f5f6f7;
+
+  /* ---------- 背景文字 ---------- */
+  --see-text: #ffffff;
+  --see-dark-text: #ffffff;
+  --see-disabled-text: #f2f3f5;
+  --see-light-text: #aeb0b4;
+}
+
+/* =========================
+ * Dark Theme
+ * ========================= */
+.see-theme-dark {
+  /* ---------- 文字颜色 ---------- */
+  --see-main-color: #e5e6eb;
+  --see-content-color: #c9cdd4;
+  --see-tips-color: #9ea3ab;
+  --see-light-color: #6b7078;
+
+  /* ---------- 边框颜色 ---------- */
+  --see-border-color: #3a3f45;
+  --see-border-two-color: #2f3338;
+  --see-border-three-color: #262a30;
+  --see-border-four-color: #1f2328;
+
+  /* ---------- 背景颜色 ---------- */
+  --see-bg-light-color: #1e222a;
+  --see-bg-dark-color: #14171d;
+
+  /* ---------- 主色（保持品牌一致） ---------- */
+  --see-primary: #3ca7ff;
+  --see-primary-dark: #1d7fd6;
+  --see-primary-disabled: #244a66;
+  --see-primary-light: rgba(60, 167, 255, 0.15);
+
+  /* ---------- 警告 ---------- */
+  --see-warning: #ffb645;
+  --see-warning-dark: #e09a2d;
+  --see-warning-disabled: #5a4424;
+  --see-warning-light: rgba(255, 182, 69, 0.15);
+
+  /* ---------- 成功 ---------- */
+  --see-success: #37d497;
+  --see-success-dark: #2aa372;
+  --see-success-disabled: #245b4a;
+  --see-success-light: rgba(55, 212, 151, 0.15);
+
+  /* ---------- 错误 ---------- */
+  --see-error: #ff6b6b;
+  --see-error-dark: #d55555;
+  --see-error-disabled: #5a2e2e;
+  --see-error-light: rgba(255, 107, 107, 0.15);
+
+  /* ---------- 默认 / info ---------- */
+  --see-info: #9aa0aa;
+  --see-info-dark: #7a808a;
+  --see-info-disabled: #3a3f45;
+  --see-info-light: rgba(154, 160, 170, 0.15);
+
+  /* ---------- 背景文字 ---------- */
+  --see-text: #ffffff;
+  --see-dark-text: #ffffff;
+  --see-disabled-text: rgba(255, 255, 255, 0.4);
+  --see-light-text: #8b9098;
+}
