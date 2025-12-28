@@ -29,6 +29,10 @@ page {
 	scrollbar-width: none; /* Firefox */
 }
 
+* {
+    scrollbar-width: none !important;
+}
+
 page::-webkit-scrollbar {
 	display: none; /* Chrome, Safari 和 Opera */
 }
