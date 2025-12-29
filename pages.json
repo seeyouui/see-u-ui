@@ -65,10 +65,10 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "@navTxtStyle",
 		"navigationBarTitleText": "SeeYouUI",
-		"navigationBarBackgroundColor": "#FFFFFF",
-		"backgroundColor": "#FFFFFF"
+		"navigationBarBackgroundColor": "@navBgColor",
+		"backgroundColor": "@navBgColor"
 	},
 	"uniIdRouter": {}
 }

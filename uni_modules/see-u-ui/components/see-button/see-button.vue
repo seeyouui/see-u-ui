@@ -249,18 +249,20 @@ const getClientRect = () => {
 <style lang="scss" scoped>
 /** ---------- disabled ---------- */
 .disabled-info {
+	/* 适配变量 */
+	background-color: var(--see-info-disabled) !important;
 }
 .disabled-primary {
-	background-color: $see-primary-disabled !important;
+	background-color: var(--see-primary-disabled) !important;
 }
 .disabled-error {
-	background-color: $see-error-disabled !important;
+	background-color: var(--see-error-disabled) !important;
 }
 .disabled-warning {
-	background-color: $see-warning-disabled !important;
+	background-color: var(--see-warning-disabled) !important;
 }
 .disabled-success {
-	background-color: $see-success-disabled !important;
+	background-color: var(--see-success-disabled) !important;
 }
 /** ---------- border ---------- */
 .border-info-0,
@@ -271,23 +273,24 @@ const getClientRect = () => {
 	box-shadow: none !important;
 }
 .border-info-1 {
-	box-shadow: inset 0 0 0 1px #ebedf0 !important;
+	/* #ebedf0 -> var(--see-border-four-color) */
+	box-shadow: inset 0 0 0 1px var(--see-info) !important;
 }
 
 .border-primary-1 {
-	box-shadow: inset 0 0 0 1px $see-primary !important;
+	box-shadow: inset 0 0 0 1px var(--see-primary) !important;
 }
 
 .border-error-1 {
-	box-shadow: inset 0 0 0 1px $see-error !important;
+	box-shadow: inset 0 0 0 1px var(--see-error) !important;
 }
 
 .border-warning-1 {
-	box-shadow: inset 0 0 0 1px $see-warning !important;
+	box-shadow: inset 0 0 0 1px var(--see-warning) !important;
 }
 
 .border-success-1 {
-	box-shadow: inset 0 0 0 1px $see-success !important;
+	box-shadow: inset 0 0 0 1px var(--see-success) !important;
 }
 /** ---------- size ---------- */
 .normal {
@@ -310,50 +313,53 @@ const getClientRect = () => {
 }
 /** ---------- type ---------- */
 .info {
+	background-color: var(--see-info);
+	text {
+		color: var(--see-info-text); /* 保持文字清晰白色 */
+	}
 }
 .primary {
-	background-color: $see-primary;
+	background-color: var(--see-primary);
 	text {
-		color: $see-primary-light;
+		color: var(--see-text); /* 保持文字清晰白色 */
 	}
 }
 .error {
-	background-color: $see-error;
+	background-color: var(--see-error);
 	text {
-		color: $see-error-light;
+		color: var(--see-text);
 	}
 }
 .warning {
-	background-color: $see-warning;
+	background-color: var(--see-warning);
 	text {
-		color: $see-warning-light;
+		color: var(--see-text);
 	}
 }
 .success {
-	background-color: $see-success;
+	background-color: var(--see-success);
 	text {
-		color: $see-success-light;
+		color: var(--see-text);
 	}
 }
 /** ---------- button-hover ---------- */
 .button-hover-info {
-	color: rgba(0, 0, 0, 0.6);
-	background-color: #dedede;
+	background-color: var(--see-info-light) !important;
 }
 .button-hover-primary {
-	background-color: $see-primary-dark !important;
+	background-color: var(--see-primary-dark) !important;
 }
 
 .button-hover-error {
-	background-color: $see-error-dark !important;
+	background-color: var(--see-error-dark) !important;
 }
 
 .button-hover-warning {
-	background-color: $see-warning-dark !important;
+	background-color: var(--see-warning-dark) !important;
 }
 
 .button-hover-success {
-	background-color: $see-success-dark !important;
+	background-color: var(--see-success-dark) !important;
 }
 /** ---------- hollow base ---------- */
 .hollow-info,
@@ -379,56 +385,58 @@ const getClientRect = () => {
 :deep(.hollow-success)::after {
 	border: none !important;
 }
+
+/* 镂空按钮样式适配 */
 .hollow-info {
-	border-color: #aaa;
-	color: #666;
+	border-color: var(--see-info-border);
+	color: var(--see-info);
 }
 .hollow-info text {
-	color: #666;
+	color: var(--see-info-text);
 }
 .hollow-primary {
-	border-color: $see-primary;
-	color: $see-primary;
+	border-color: var(--see-primary);
+	color: var(--see-primary);
 }
 .hollow-primary text {
-	color: $see-primary;
+	color: var(--see-primary);
 }
 .hollow-error {
-	border-color: $see-error;
-	color: $see-error;
+	border-color: var(--see-error);
+	color: var(--see-error);
 }
 .hollow-error text {
-	color: $see-error;
+	color: var(--see-error);
 }
 .hollow-warning {
-	border-color: $see-warning;
-	color: $see-warning;
+	border-color: var(--see-warning);
+	color: var(--see-warning);
 }
 .hollow-warning text {
-	color: $see-warning;
+	color: var(--see-warning);
 }
 .hollow-success {
-	border-color: $see-success;
-	color: $see-success;
+	border-color: var(--see-success);
+	color: var(--see-success);
 }
 .hollow-success text {
-	color: $see-success;
+	color: var(--see-success);
 }
 /** ---------- hollow hover ---------- */
 .button-hover-info-hollow {
-	background-color: rgba(0, 0, 0, 0.05) !important;
+	background-color: var(--see-info-light) !important; /* 浅灰/透明背景 */
 }
 .button-hover-primary-hollow {
-	background-color: rgba($see-primary, 0.1) !important;
+	background-color: var(--see-primary-light) !important; /* 使用系统定义的浅色/透明变量 */
 }
 .button-hover-error-hollow {
-	background-color: rgba($see-error, 0.1) !important;
+	background-color: var(--see-error-light) !important;
 }
 .button-hover-warning-hollow {
-	background-color: rgba($see-warning, 0.1) !important;
+	background-color: var(--see-warning-light) !important;
 }
 .button-hover-success-hollow {
-	background-color: rgba($see-success, 0.1) !important;
+	background-color: var(--see-success-light) !important;
 }
 /** ---------- components ---------- */
 .title {

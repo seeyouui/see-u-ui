@@ -156,8 +156,7 @@
 	</view>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
 .container {
@@ -181,148 +180,238 @@
 		.item {
 			width: 80px;
 			height: 40px;
-			
+
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-			
+
 			border-radius: 4px;
-			
-			.subtitle{
+
+			.subtitle {
 				font-size: 12px;
 				font-weight: 600;
 			}
-			.color{
+			.color {
 				font-size: 13px;
 			}
 		}
-		.primary-primary{
+		.primary-primary {
 			background-color: $see-primary;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.primary-dark{
+		.primary-dark {
 			background-color: $see-primary-dark;
-			.subtitle, .color{ color: $see-dark-text; }
+			.subtitle,
+			.color {
+				color: $see-dark-text;
+			}
 		}
-		.primary-disabled{
+		.primary-disabled {
 			background-color: $see-primary-disabled;
-			.subtitle, .color{ color: $see-disabled-text; }
+			.subtitle,
+			.color {
+				color: $see-disabled-text;
+			}
 		}
-		.primary-light{
+		.primary-light {
 			background-color: $see-primary-light;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		
-		.error-primary{
+
+		.error-primary {
 			background-color: $see-error;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.error-dark{
+		.error-dark {
 			background-color: $see-error-dark;
-			.subtitle, .color{ color: $see-dark-text; }
+			.subtitle,
+			.color {
+				color: $see-dark-text;
+			}
 		}
-		.error-disabled{
+		.error-disabled {
 			background-color: $see-error-disabled;
-			.subtitle, .color{ color:  $see-disabled-text; }
+			.subtitle,
+			.color {
+				color: $see-disabled-text;
+			}
 		}
-		.error-light{
+		.error-light {
 			background-color: $see-error-light;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		
-		.warning-primary{
+
+		.warning-primary {
 			background-color: $see-warning;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.warning-dark{
+		.warning-dark {
 			background-color: $see-warning-dark;
-			.subtitle, .color{ color: $see-dark-text; }
+			.subtitle,
+			.color {
+				color: $see-dark-text;
+			}
 		}
-		.warning-disabled{
+		.warning-disabled {
 			background-color: $see-warning-disabled;
-			.subtitle, .color{ color: $see-disabled-text; }
+			.subtitle,
+			.color {
+				color: $see-disabled-text;
+			}
 		}
-		.warning-light{
+		.warning-light {
 			background-color: $see-warning-light;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		
-		.info-primary{
+
+		.info-primary {
 			background-color: $see-info;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.info-dark{
+		.info-dark {
 			background-color: $see-info-dark;
-			.subtitle, .color{ color: $see-dark-text; }
+			.subtitle,
+			.color {
+				color: $see-dark-text;
+			}
 		}
-		.info-disabled{
+		.info-disabled {
 			background-color: $see-info-disabled;
-			.subtitle, .color{ color: $see-disabled-text; }
+			.subtitle,
+			.color {
+				color: $see-disabled-text;
+			}
 		}
-		.info-light{
+		.info-light {
 			background-color: $see-info-light;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		
-		.success-primary{
+
+		.success-primary {
 			background-color: $see-success;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.success-dark{
+		.success-dark {
 			background-color: $see-success-dark;
-			.subtitle, .color{ color: $see-dark-text; }
+			.subtitle,
+			.color {
+				color: $see-dark-text;
+			}
 		}
-		.success-disabled{
+		.success-disabled {
 			background-color: $see-success-disabled;
-			.subtitle, .color{ color: $see-disabled-text; }
+			.subtitle,
+			.color {
+				color: $see-disabled-text;
+			}
 		}
-		.success-light{
+		.success-light {
 			background-color: $see-success-light;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		
-		.text-primary{
-			background-color:$see-main-color;
-			.subtitle, .color{ color: $see-text; }
+
+		.text-primary {
+			background-color: $see-main-color;
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.text-dark{
+		.text-dark {
 			background-color: $see-content-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.text-disabled{
+		.text-disabled {
 			background-color: $see-tips-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.text-light{
+		.text-light {
 			background-color: $see-light-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		
-		.border-primary{
+
+		.border-primary {
 			background-color: $see-border-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.border-dark{
+		.border-dark {
 			background-color: $see-border-two-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.border-disabled{
+		.border-disabled {
 			background-color: $see-border-three-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		.border-light{
+		.border-light {
 			background-color: $see-border-four-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
-		
-		.bg-primary{
+
+		.bg-primary {
 			background-color: $see-bg-light-color;
-			.subtitle, .color{ color: $see-light-text; }
+			.subtitle,
+			.color {
+				color: $see-light-text;
+			}
 		}
-		.bg-dark{
+		.bg-dark {
 			background-color: $see-bg-dark-color;
-			.subtitle, .color{ color: $see-text; }
+			.subtitle,
+			.color {
+				color: $see-text;
+			}
 		}
 	}
 }

@@ -159,7 +159,6 @@ const handlePreviewClick = () => {
 	padding: 12px;
 	padding-top: 0;
 	box-sizing: border-box;
-	background-color: #f9f9f9;
 
 	.title {
 		font-size: 18px;
@@ -232,7 +231,7 @@ const handlePreviewClick = () => {
 /* 事件日志 */
 .event-text {
 	font-size: 14px;
-	color: #3ca7ff;
+	color: var(--see-primary);
 	font-weight: bold;
 	padding: 12px;
 	background-color: #f0f8ff;

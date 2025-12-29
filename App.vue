@@ -1,19 +1,35 @@
 <script>
+import { useNavBarTheme } from '@/hooks/useNavBarTheme'
 export default {
 	onLaunch: function () {
 		console.log('App Launch');
+		useNavBarTheme()
 	},
 	onShow: function () {
 		console.log('App Show');
 	},
 	onHide: function () {
 		console.log('App Hide');
-	}
+	},
 };
 </script>
 
-<style>
-/*每个页面公共css */
+<style lang="scss">
+/* 每个页面公共css */
+@import '@/uni_modules/see-u-ui/theme.scss';
+
+/* 确保全局背景色生效 */
+html,
+body,
+page {
+	/* 保证背景色铺满，防止漏出白底 */
+	min-height: 100%;
+	background-color: var(--see-bg-color);
+	color: var(--see-main-color);
+
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* 隐藏所有页面的滚动条 */
 ::-webkit-scrollbar {
 	display: none;
@@ -29,9 +45,11 @@ page {
 	scrollbar-width: none; /* Firefox */
 }
 
+/* #ifdef H5 */
 * {
-    scrollbar-width: none !important;
+	scrollbar-width: none !important;
 }
+/* #endif */
 
 page::-webkit-scrollbar {
 	display: none; /* Chrome, Safari 和 Opera */

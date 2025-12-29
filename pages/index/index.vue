@@ -6,8 +6,9 @@
 			<view class="list-title">
 				<text>{{ item.title }}</text>
 			</view>
-			<view class="list-item"
-				:style="key === 0 && 'border-top: 1px #f1f1f1 solid'"
+			<view
+				class="list-item"
+				:style="key === 0 && 'border-top: 1px var(--see-border-color) solid'"
 				v-for="(val, key) in item.componentsList"
 				:key="key"
 				@tap="clickItem(val.url)"
@@ -66,7 +67,7 @@ const list = ref<listType>([
 				url: '/pages/seeTag/index'
 			}
 		]
-	},
+	}
 	// {
 	// 	title: '表单组件',
 	// 	componentsList: [
@@ -82,7 +83,7 @@ const list = ref<listType>([
 	// }
 ]);
 
-const clickItem = (url: string) => (uni.navigateTo({url}));
+const clickItem = (url: string) => uni.navigateTo({ url });
 </script>
 
 <style>
@@ -91,6 +92,7 @@ const clickItem = (url: string) => (uni.navigateTo({url}));
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	background: var(--see-bg-color);
 }
 
 .logo {
@@ -102,7 +104,7 @@ const clickItem = (url: string) => (uni.navigateTo({url}));
 	margin-bottom: 12px;
 }
 
-.subtitle{
+.subtitle {
 	font-size: 15px;
 	color: #999;
 }
@@ -123,6 +125,6 @@ const clickItem = (url: string) => (uni.navigateTo({url}));
 	width: 100%;
 	padding: 12px 24px;
 	box-sizing: border-box;
-	border-bottom: 1px #f1f1f1 solid;
+	border-bottom: 1px var(--see-border-four-color) solid;
 }
 </style>
