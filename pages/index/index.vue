@@ -21,9 +21,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { onShow } from '@dcloudio/uni-app';
-import useSetNavBarTheme from '@/hooks/useSetNavBarTheme';
-onShow(() => useSetNavBarTheme());
 
 type listType = Array<{
 	title: string;

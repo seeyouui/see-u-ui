@@ -1,16 +1,31 @@
 <script>
-import { useNavBarTheme } from '@/hooks/useNavBarTheme'
 export default {
 	onLaunch: function () {
 		console.log('App Launch');
-		useNavBarTheme()
+
+		// #ifdef H5
+		window.addEventListener('message', (event) => {
+			const data = event.data;
+			if (!data || data.type !== 'vp-theme') return;
+			const targetTheme = data.theme;
+
+			// 切换 CSS 类名
+			if (targetTheme === 'dark') {
+				document.documentElement.classList.remove('see-theme-light');
+				document.documentElement.classList.add('see-theme-dark');
+			} else {
+				document.documentElement.classList.remove('see-theme-dark');
+				document.documentElement.classList.add('see-theme-light');
+			}
+		});
+		// #endif
 	},
 	onShow: function () {
 		console.log('App Show');
 	},
 	onHide: function () {
 		console.log('App Hide');
-	},
+	}
 };
 </script>
 

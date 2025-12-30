@@ -160,7 +160,7 @@ $see-light-text: #aeb0b4;
 	--see-info-dark: #7a808a;
 	--see-info-border: #4c4c4c;
 	--see-info-disabled: #2b2b2b;
-	--see-info-light: rgba(255,255,255,.08);
+	--see-info-light: rgba(255, 255, 255, 0.08);
 
 	/* ---------- 背景文字 ---------- */
 	--see-text: #ffffff;
@@ -194,6 +194,14 @@ page {
 	& uni-page-body {
 		@include dark-theme-vars;
 	}
+
+	.uni-page-head {
+		background: #14171d !important;
+		color: #ffffff !important;
+		svg path {
+			fill: #ffffff !important;
+		}
+	}
 }
 
 /* 4.4 手动强制明亮 (Manual Class Light) - ⚠️ 核心修复 */
@@ -204,5 +212,14 @@ page {
 	& page,
 	& uni-page-body {
 		@include light-theme-vars;
+	}
+
+	.uni-page-head {
+		background: #ffffff !important;
+		color: #000000 !important;
+
+		svg path {
+			fill: #000000 !important;
+		}
 	}
 }
