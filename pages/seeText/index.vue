@@ -93,6 +93,9 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { onShow } from '@dcloudio/uni-app';
+import useSetNavBarTheme from '@/hooks/useSetNavBarTheme';
+onShow(() => useSetNavBarTheme());
 
 const currentTime = ref(new Date());
 let timer: ReturnType<typeof setInterval> | null = null;

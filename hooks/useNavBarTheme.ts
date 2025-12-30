@@ -1,19 +1,12 @@
-const updateNavBar = (targetTheme: 'dark' | 'light') => {
-	// 1. 切换 CSS 类名
-	if (targetTheme === 'dark') {
-		document.documentElement.classList.remove('see-theme-light');
-		document.documentElement.classList.add('see-theme-dark');
-	} else {
-		document.documentElement.classList.remove('see-theme-dark');
-		document.documentElement.classList.add('see-theme-light');
-	}
+import store from '@/store/index';
 
+export const updateNavBar = (targetTheme: 'dark' | 'light', duration: number = 300) => {
 	// 2. 设置导航栏和底部栏
 	if (targetTheme === 'dark') {
 		uni.setNavigationBarColor({
 			frontColor: '#ffffff',
 			backgroundColor: '#14171d',
-			animation: { duration: 300, timingFunc: 'easeIn' }
+			animation: { duration: duration, timingFunc: 'easeIn' }
 		}).catch((e) => {
 			console.warn(e);
 		});
@@ -29,7 +22,7 @@ const updateNavBar = (targetTheme: 'dark' | 'light') => {
 		uni.setNavigationBarColor({
 			frontColor: '#000000',
 			backgroundColor: '#ffffff',
-			animation: { duration: 300, timingFunc: 'easeIn' }
+			animation: { duration: duration, timingFunc: 'easeIn' }
 		}).catch((e) => {
 			console.warn(e);
 		});
@@ -50,10 +43,21 @@ export const useNavBarTheme = () => {
 		const data = event.data;
 		if (!data || data.type !== 'vp-theme') return;
 		const targetTheme = data.theme;
-		
+
+		// 存到vuex
+		store.commit('SET_THEME', targetTheme);
+
 		setTimeout(() => {
-			updateNavBar(targetTheme)
+			// 1. 切换 CSS 类名
+			if (targetTheme === 'dark') {
+				document.documentElement.classList.remove('see-theme-light');
+				document.documentElement.classList.add('see-theme-dark');
+			} else {
+				document.documentElement.classList.remove('see-theme-dark');
+				document.documentElement.classList.add('see-theme-light');
+			}
+			updateNavBar(targetTheme);
 		}, 200);
 	});
 	// #endif
-}
+};

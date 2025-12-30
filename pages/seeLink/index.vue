@@ -27,7 +27,11 @@
 	</view>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { onShow } from '@dcloudio/uni-app';
+import useSetNavBarTheme from '@/hooks/useSetNavBarTheme';
+onShow(() => useSetNavBarTheme());
+</script>
 
 <style lang="scss" scoped>
 .gap-12 {

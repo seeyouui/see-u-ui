@@ -55,6 +55,10 @@
 </template>
 
 <script lang="ts" setup>
+import { onShow } from '@dcloudio/uni-app';
+import useSetNavBarTheme from '@/hooks/useSetNavBarTheme';
+onShow(() => useSetNavBarTheme());
+
 const customStyle = {
 	width: '200px',
 	height: '150px'
