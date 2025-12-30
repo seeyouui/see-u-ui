@@ -62,6 +62,12 @@
 			"style": {
 				"navigationBarTitleText": "Badge 徽标数"
 			}
+		},
+		{
+			"path": "pages/config/index",
+			"style": {
+				"navigationBarTitleText": "配置"
+			}
 		}
 	],
 	"globalStyle": {
@@ -69,6 +75,23 @@
 		"navigationBarTitleText": "SeeYouUI",
 		"navigationBarBackgroundColor": "@navBgColor",
 		"backgroundColor": "@navBgColor"
+	},
+	"tabBar": {
+	  "color": "@color",
+	  "selectedColor": "@selectedColor",
+	  "backgroundColor": "@bgColorBottom",
+	  "borderStyle": "@borderStyle",
+	  "fontSize": "14px",
+	  "list": [
+	    {
+	      "pagePath": "pages/index/index",
+	      "text": "组件"
+	    },
+	    {
+	      "pagePath": "pages/config/index",
+	      "text": "配置"
+	    }
+	  ]
 	},
 	"uniIdRouter": {}
 }

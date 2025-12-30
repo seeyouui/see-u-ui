@@ -1,14 +1,24 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png" alt="see-u-ui Logo"></image>
-		<view class="subtitle">一个基于 uni-app 的组件库</view>
+		<view class="content-detail">
+			<view class="logo">
+				<image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
+			</view>
+			<view class="detail-text">
+				<view class="title">SeeYouUI 1.0.13</view>
+				<view class="subtitle">一个基于 uni-app 的组件库</view>
+			</view>
+		</view>
+		<view class="content-detail">
+			<text class="subtitle">SeeYouUI 使用 TypeScript 开发，提供丰富组件与工具函数，帮助你快速构建跨平台应用。</text>
+		</view>
 		<view class="list" v-for="(item, index) in list" :key="index">
 			<view class="list-title">
 				<text>{{ item.title }}</text>
 			</view>
 			<view
 				class="list-item"
-				:style="key === 0 && 'border-top: 1px var(--see-border-color) solid'"
+				:style="key === 0 && 'border-top: 1px var(--see-border-four-color) solid'"
 				v-for="(val, key) in item.componentsList"
 				:key="key"
 				@tap="clickItem(val.url)"
@@ -67,26 +77,26 @@ const list = ref<listType>([
 				url: '/pages/seeTag/index'
 			}
 		]
+	},
+	{
+		title: '表单组件',
+		componentsList: [
+			{
+				title: 'Form 表单',
+				url: '/pages/seeForm/index'
+			},
+			{
+				title: 'Input 输入框',
+				url: '/pages/seeInput/text'
+			}
+		]
 	}
-	// {
-	// 	title: '表单组件',
-	// 	componentsList: [
-	// 		{
-	// 			title: 'Form 表单',
-	// 			url: '/pages/seeForm/index'
-	// 		},
-	// 		{
-	// 			title: 'Input 输入框',
-	// 			url: '/pages/seeInput/text'
-	// 		}
-	// 	]
-	// }
 ]);
 
 const clickItem = (url: string) => uni.navigateTo({ url });
 </script>
 
-<style>
+<style lang="scss" scoped>
 .content {
 	display: flex;
 	flex-direction: column;
@@ -95,29 +105,52 @@ const clickItem = (url: string) => uni.navigateTo({ url });
 	background: var(--see-bg-color);
 }
 
+.content-detail {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0 24px;
+	padding-top: 0;
+	box-sizing: border-box;
+}
+
+.detail-text {
+	margin-left: 24px;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+}
+
+.title {
+	font-size: 24px;
+	font-weight: bold;
+}
+
 .logo {
-	height: 100px;
-	width: 100px;
+	height: 90px;
 	margin-top: 12px;
-	margin-left: auto;
-	margin-right: auto;
 	margin-bottom: 12px;
+	image {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 .subtitle {
-	font-size: 15px;
+	font-size: 14px;
 	color: #999;
 }
 
 .list {
 	width: 100%;
 	box-sizing: border-box;
-	margin-bottom: 18px;
 }
 
 .list-title {
 	font-size: 15px;
-	color: #999;
+	color: var(--see-info-dark);
 	padding: 12px 24px;
 }
 

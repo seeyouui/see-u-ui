@@ -195,12 +195,16 @@ page {
 		@include dark-theme-vars;
 	}
 
-	.uni-page-head {
+	.uni-page-head,
+	.uni-tabbar .uni-tabbar__item {
 		background: #14171d !important;
 		color: #ffffff !important;
 		svg path {
 			fill: #ffffff !important;
 		}
+	}
+	.uni-tabbar .uni-tabbar-border{
+		background: #3a3f45 !important;
 	}
 }
 
@@ -214,12 +218,16 @@ page {
 		@include light-theme-vars;
 	}
 
-	.uni-page-head {
+	.uni-page-head,
+	.uni-tabbar .uni-tabbar__item {
 		background: #ffffff !important;
-		color: #000000 !important;
+		color: #14171d !important;
 
 		svg path {
-			fill: #000000 !important;
+			fill: #14171d !important;
 		}
+	}
+	.uni-tabbar .uni-tabbar-border{
+		background: #aeb0b4 !important;
 	}
 }
