@@ -10,7 +10,7 @@
 			</view>
 		</view>
 		<view class="content-detail">
-			<text class="subtitle">SeeYouUI 使用 TypeScript 开发，提供丰富组件与工具函数，帮助你快速构建跨平台应用。</text>
+			<text class="subtitle">SeeYouUI 是一个基于 uni-app 的高质量组件库，使用 TypeScript 开发，提供丰富组件与工具函数，帮助你快速构建跨平台应用。</text>
 		</view>
 		<view class="list" v-for="(item, index) in list" :key="index">
 			<view class="list-title">
@@ -129,7 +129,7 @@ const clickItem = (url: string) => uni.navigateTo({ url });
 }
 
 .logo {
-	height: 90px;
+	height: 88px;
 	margin-top: 12px;
 	margin-bottom: 12px;
 	image {

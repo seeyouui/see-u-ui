@@ -5,7 +5,8 @@
 			"^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
 		}
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
@@ -13,42 +14,37 @@
 			}
 		},
 		{
-			"path" : "pages/seeButton/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "Button 按钮",
-				"enablePullDownRefresh" : false
+			"path": "pages/seeButton/index",
+			"style": {
+				"navigationBarTitleText": "Button 按钮",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/seeText/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "Text 文本",
-				"enablePullDownRefresh" : false
+			"path": "pages/seeText/index",
+			"style": {
+				"navigationBarTitleText": "Text 文本",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/seeColor/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "Color 色彩",
-				"enablePullDownRefresh" : false
+			"path": "pages/seeColor/index",
+			"style": {
+				"navigationBarTitleText": "Color 色彩",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/seeLink/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "Link 链接",
-				"enablePullDownRefresh" : false
+			"path": "pages/seeLink/index",
+			"style": {
+				"navigationBarTitleText": "Link 链接",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/seeIcon/index",
-			"style" : 
-			{
-				"navigationBarTitleText" : "Icon 图标"
+			"path": "pages/seeIcon/index",
+			"style": {
+				"navigationBarTitleText": "Icon 图标"
 			}
 		},
 		{
@@ -77,21 +73,20 @@
 		"backgroundColor": "@navBgColor"
 	},
 	"tabBar": {
-	  "color": "@color",
-	  "selectedColor": "@selectedColor",
-	  "backgroundColor": "@bgColorBottom",
-	  "borderStyle": "@borderStyle",
-	  "fontSize": "14px",
-	  "list": [
-	    {
-	      "pagePath": "pages/index/index",
-	      "text": "组件"
-	    },
-	    {
-	      "pagePath": "pages/config/index",
-	      "text": "配置"
-	    }
-	  ]
+		"color": "@color",
+		"selectedColor": "@selectedColor",
+		"backgroundColor": "@bgColorBottom",
+		"borderStyle": "@borderStyle",
+		"fontSize": "14px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "组件"
+			},
+			{
+				"pagePath": "pages/config/index",
+				"text": "配置"
+			}
+		]
 	},
 	"uniIdRouter": {}
 }
