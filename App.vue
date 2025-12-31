@@ -3,6 +3,10 @@ export default {
 	onLaunch: function () {
 		console.log('App Launch');
 
+		// #ifdef APP
+		plus.nativeUI.setUIStyle('auto')
+		// #endif
+
 		// #ifdef H5
 		window.addEventListener('message', (event) => {
 			const data = event.data;

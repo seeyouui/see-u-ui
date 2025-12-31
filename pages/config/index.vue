@@ -1,14 +1,14 @@
 <template>
-	<view>
+	<view class="container">
 		<view class="uni-list">
 			<view class="uni-list-cell">
-				<view class="uni-list-cell-left">暗黑模式</view>
+				<view class="uni-list-cell-left">全局暗黑模式（当前：{{ isManual ? '手动切换' : '跟随系统' }}）</view>
 				<view class="uni-list-cell-db">
-					<switch disabled :checked="isSwitchChecked" @change="changeSwitch" style="transform: scale(0.7); position: relative; left: 14px" />
+					<switch :disabled="isMiniProgram" :checked="isSwitchChecked" @change="changeSwitch" />
 				</view>
 			</view>
 			<view class="uni-list-detail">
-				<text>支持浅色/暗黑模式切换，可随系统主题或通过 API 手动控制。</text>
+				<text>支持浅色模式/暗黑模式切换，可随系统主题或通过 API 手动控制（手动控制仅H5 / APP ，暂不支持小程序）。</text>
 			</view>
 		</view>
 		<view class="uni-list">
@@ -41,7 +41,7 @@
 			<view class="uni-list-cell">
 				<view class="uni-list-cell-left">全局骨架屏</view>
 				<view class="uni-list-cell-db">
-					<switch disabled :checked="false" style="transform: scale(0.7); position: relative; left: 14px" />
+					<switch disabled :checked="false" />
 				</view>
 			</view>
 			<view class="uni-list-detail">
@@ -54,11 +54,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-// 暗黑模式
-const isSwitchChecked = ref(true);
+// 暗黑模式切换
+const isManual = ref(false);
+const isMiniProgram = ref(false);
+const isSwitchChecked = ref(uni.getSystemInfoSync().theme == 'dark' ? true : false);
+uni.onThemeChange(({ theme }) => (isSwitchChecked.value = theme == 'dark' ? true : false));
 const changeSwitch = () => {
+	isManual.value = true;
 	isSwitchChecked.value = !isSwitchChecked.value;
-	console.log(isSwitchChecked.value);
 	// #ifdef H5
 	if (isSwitchChecked.value) {
 		document.documentElement.classList.remove('see-theme-light');
@@ -68,18 +71,21 @@ const changeSwitch = () => {
 		document.documentElement.classList.add('see-theme-light');
 	}
 	// #endif
+	// #ifdef APP
+	plus.nativeUI.setUIStyle(isSwitchChecked.value ? 'dark' : 'light');
+	// #endif
 };
-
-// 国际化配置
-const array = ref<string[]>(['中国', '美国', '巴西', '日本']);
-const index = ref<number>(0);
-const bindPickerChange = (e: UniHelper.PickerChangeEvent) => {
-	console.log('picker发送选择改变，携带值为', e.detail.value);
-	index.value = Number(e.detail.value);
-};
+// #ifdef MP
+isMiniProgram.value = true;
+// #endif
 </script>
 
 <style lang="scss" scoped>
+.container {
+	width: 100vw;
+	overflow: hidden;
+}
+
 /* 列表容器 */
 .uni-list {
 	width: 100%;
