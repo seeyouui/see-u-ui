@@ -1,5 +1,5 @@
-import SeeLink from "./see-link.vue";
+import SeeLink from './see-link.vue'
 
-export { SeeLink };
+export { SeeLink }
 
-export default SeeLink;
+export default SeeLink

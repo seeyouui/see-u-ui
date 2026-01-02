@@ -1,5 +1,5 @@
-import SeeText from "./see-text.vue";
+import SeeText from './see-text.vue'
 
-export { SeeText };
+export { SeeText }
 
-export default SeeText;
+export default SeeText

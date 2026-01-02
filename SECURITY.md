@@ -6,10 +6,10 @@ If you discover a security vulnerability in this project, we ask that you **repo
 
 1. **Do not create a GitHub issue** to report a vulnerability.
 2. Send an email to **GmhLovEDM@gmail.com** with the following information:
-    - A description of the vulnerability
-    - Steps to reproduce (if applicable)
-    - Any potential risks to the project or users
-    - A proposed solution (if you have one)
+   - A description of the vulnerability
+   - Steps to reproduce (if applicable)
+   - Any potential risks to the project or users
+   - A proposed solution (if you have one)
 
 We will respond to your report within **72 hours** and provide an update on the status of the issue.
 
@@ -20,7 +20,7 @@ We maintain security updates for the following versions:
 - Version 1.x.x (current LTS)
 - Version 0.x.x (security updates for critical issues)
 
-If you're using an unsupported version, we recommend upgrading to the latest stable release. 
+If you're using an unsupported version, we recommend upgrading to the latest stable release.
 
 ## Security Best Practices
 

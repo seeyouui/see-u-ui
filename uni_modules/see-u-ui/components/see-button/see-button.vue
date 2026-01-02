@@ -1,50 +1,62 @@
 <template>
-	<!-- #ifdef H5 -->
-	<view :id="seeButtonId" :style="{ ...props.customStyle, borderRadius: props.radius + 'px' }" class="see-button" :class="[props.size]" @click="onTouchstart($event)">
-		<!-- #endif -->
-		<!-- #ifndef H5 -->
-		<view :id="seeButtonId" :style="{ ...props.customStyle, borderRadius: props.radius + 'px' }" class="see-button" :class="[props.size]" @touchstart="onTouchstart($event)">
-			<!-- #endif -->
-			<button
-				:style="{
-					...props.customStyle,
-					borderRadius: props.radius + 'px',
-					background: props.color
-				}"
-				class="see-botton-class"
-				:class="[
-					props.size,
-					props.isDisabled && `disabled-${props.type}`,
-					props.isHollow ? `hollow-${props.type}` : props.type,
-					`border-${props.type}-${props.border ?? 1}`
-				]"
-				:hover-class="getHoverClass"
-				:disabled="props.isDisabled"
-			>
-				<text :style="{ color: props.textColor }" class="title">{{ props.title }}</text>
-				<slot></slot>
-			</button>
-			<view
-				v-if="props.isRipple"
-				class="see-button-ripple"
-				:class="{ active: active }"
-				:style="{
-					...props.rippleStyle,
-					top: rippleTop + 'px',
-					left: rippleLeft + 'px',
-					width: field.finalWidth + 'px',
-					height: field.finalWidth + 'px',
-					'background-color': rippleColor,
-					'--ripple-time': props.rippleTime + 'ms',
-					'--mask-time': props.maskTime + 'ms'
-				}"
-			></view>
-			<!-- #ifdef H5 -->
-		</view>
-		<!-- #endif -->
-		<!-- #ifndef H5 -->
-	</view>
-	<!-- #endif -->
+  <!-- #ifdef H5 -->
+  <view
+    :id="seeButtonId"
+    :style="{ ...props.customStyle, borderRadius: props.radius + 'px' }"
+    class="see-button"
+    :class="[props.size]"
+    @click="onTouchstart($event)"
+  >
+    <!-- #endif -->
+    <!-- #ifndef H5 -->
+    <view
+      :id="seeButtonId"
+      :style="{ ...props.customStyle, borderRadius: props.radius + 'px' }"
+      class="see-button"
+      :class="[props.size]"
+      @touchstart="onTouchstart($event)"
+    >
+      <!-- #endif -->
+      <button
+        :style="{
+          ...props.customStyle,
+          borderRadius: props.radius + 'px',
+          background: props.color
+        }"
+        class="see-botton-class"
+        :class="[
+          props.size,
+          props.isDisabled && `disabled-${props.type}`,
+          props.isHollow ? `hollow-${props.type}` : props.type,
+          `border-${props.type}-${props.border ?? 1}`
+        ]"
+        :hover-class="getHoverClass"
+        :disabled="props.isDisabled"
+      >
+        <text :style="{ color: props.textColor }" class="title">{{ props.title }}</text>
+        <slot></slot>
+      </button>
+      <view
+        v-if="props.isRipple"
+        class="see-button-ripple"
+        :class="{ active: active }"
+        :style="{
+          ...props.rippleStyle,
+          top: rippleTop + 'px',
+          left: rippleLeft + 'px',
+          width: field.finalWidth + 'px',
+          height: field.finalWidth + 'px',
+          'background-color': rippleColor,
+          '--ripple-time': props.rippleTime + 'ms',
+          '--mask-time': props.maskTime + 'ms'
+        }"
+      ></view>
+      <!-- #ifdef H5 -->
+    </view>
+    <!-- #endif -->
+    <!-- #ifndef H5 -->
+  </view>
+  <!-- #endif -->
 </template>
 
 <script lang="ts" setup>
@@ -71,72 +83,72 @@
  *
  * @example
  */
-import { ref, computed, nextTick, getCurrentInstance } from 'vue';
-import type { TouchEvent, ClientRectData, RippleItem } from './type';
+import { ref, computed, nextTick, getCurrentInstance } from 'vue'
+import type { TouchEvent, ClientRectData, RippleItem } from './type'
 
 defineOptions({
   name: 'SeeButton'
-});
+})
 
-let globalId = 0;
-const instance = getCurrentInstance();
+let globalId = 0
+const instance = getCurrentInstance()
 
 /** ---------- props ---------- */
 const props = withDefaults(
-	defineProps<{
-		title?: string;
-		size?: 'normal' | 'large' | 'small' | 'mini';
-		type?: 'info' | 'primary' | 'error' | 'warning' | 'success';
-		color?: string;
-		textColor?: string;
-		isRipple?: boolean;
-		rippleTime?: number;
-		maskTime?: number;
-		isHollow?: boolean;
-		rippleColor?: string;
-		rippleStyle?: Record<string, any> | null;
-		customStyle?: Record<string, any> | null;
-		hoverClass?: string | null;
-		border?: 1 | 0;
-		isDisabled?: boolean;
-		radius?: number;
-	}>(),
-	{
-		title: '',
-		size: 'normal',
-		type: 'info',
-		color: '',
-		textColor: '',
-		isRipple: false,
-		rippleTime: 500,
-		maskTime: 1000,
-		isHollow: false,
-		rippleColor: 'rgba(0, 0, 0, .15)',
-		rippleStyle: null,
-		customStyle: null,
-		hoverClass: '',
-		border: 1,
-		isDisabled: false,
-		radius: 4
-	}
-);
+  defineProps<{
+    title?: string
+    size?: 'normal' | 'large' | 'small' | 'mini'
+    type?: 'info' | 'primary' | 'error' | 'warning' | 'success'
+    color?: string
+    textColor?: string
+    isRipple?: boolean
+    rippleTime?: number
+    maskTime?: number
+    isHollow?: boolean
+    rippleColor?: string
+    rippleStyle?: Record<string, any> | null
+    customStyle?: Record<string, any> | null
+    hoverClass?: string | null
+    border?: 1 | 0
+    isDisabled?: boolean
+    radius?: number
+  }>(),
+  {
+    title: '',
+    size: 'normal',
+    type: 'info',
+    color: '',
+    textColor: '',
+    isRipple: false,
+    rippleTime: 500,
+    maskTime: 1000,
+    isHollow: false,
+    rippleColor: 'rgba(0, 0, 0, .15)',
+    rippleStyle: null,
+    customStyle: null,
+    hoverClass: '',
+    border: 1,
+    isDisabled: false,
+    radius: 4
+  }
+)
 
 /** ---------- emits ---------- */
 const emit = defineEmits<{
-	(e: 'onTap'): void;
-}>();
+  (e: 'onTap'): void
+}>()
 
 /** ---------- state ---------- */
-globalId++;
-const rippleTop = ref(0);
-const rippleLeft = ref(0);
-const active = ref(false);
-const field = ref<any>({});
-const seeButtonId = 'seeButton_' + globalId;
+globalId++
+const rippleTop = ref(0)
+const rippleLeft = ref(0)
+const active = ref(false)
+const field = ref<any>({})
+const seeButtonId = 'seeButton_' + globalId
 
 /** 水波动画队列 */
-let rippleUniqueId = 0;
-const rippleQueue = ref<RippleItem[]>([]);
+let rippleUniqueId = 0
+const rippleQueue = ref<RippleItem[]>([])
 
 /** ---------- methods ---------- */
 /**
@@ -146,15 +158,15 @@ const rippleQueue = ref<RippleItem[]>([]);
  * @returns {string} 最终用于组件的 hover class 名称
  */
 const getHoverClass = computed(() => {
-	if (props.isRipple) return 'none';
-	if (props.hoverClass) return props.hoverClass;
+  if (props.isRipple) return 'none'
+  if (props.hoverClass) return props.hoverClass
 
-	if (props.isHollow) {
-		return `button-hover-${props.type}-hollow`;
-	}
+  if (props.isHollow) {
+    return `button-hover-${props.type}-hollow`
+  }
 
-	return `button-hover-${props.type}`;
-});
+  return `button-hover-${props.type}`
+})
 
 /**
  * @title 触摸开始事件（H5: click / App: touchstart）
@@ -163,9 +175,9 @@ const getHoverClass = computed(() => {
  * @param {Event} e 触摸或点击事件对象
  */
 const onTouchstart = (e: any) => {
-	active.value = false;
-	nextTick(() => activeWaves(e));
-};
+  active.value = false
+  nextTick(() => activeWaves(e))
+}
 
 /**
  * @title 启动水波纹效果
@@ -179,51 +191,51 @@ const onTouchstart = (e: any) => {
  * @param {TouchEvent} e 触摸事件
  */
 const activeWaves = (e: TouchEvent) => {
-	getClientRect().then((data: ClientRectData) => {
-		if (!data?.height) return;
+  getClientRect().then((data: ClientRectData) => {
+    if (!data?.height) return
 
-		data.finalWidth = data.height > data.width ? data.height : data.width;
-		if (!data.finalWidth) return;
+    data.finalWidth = data.height > data.width ? data.height : data.width
+    if (!data.finalWidth) return
 
-		field.value = data;
+    field.value = data
 
-		let touchesX: number;
-		let touchesY: number;
+    let touchesX: number
+    let touchesY: number
 
-		// #ifdef MP-BAIDU
-		touchesX = e.changedTouches[0].clientX;
-		touchesY = e.changedTouches[0].clientY;
-		// #endif
+    // #ifdef MP-BAIDU
+    touchesX = e.changedTouches[0].clientX
+    touchesY = e.changedTouches[0].clientY
+    // #endif
 
-		// #ifdef MP-ALIPAY
-		touchesX = e.detail.clientX;
-		touchesY = e.detail.clientY;
-		// #endif
+    // #ifdef MP-ALIPAY
+    touchesX = e.detail.clientX
+    touchesY = e.detail.clientY
+    // #endif
 
-		// #ifndef MP-BAIDU || MP-ALIPAY
-		touchesX = e.touches[0].clientX;
-		touchesY = e.touches[0].clientY;
-		// #endif
+    // #ifndef MP-BAIDU || MP-ALIPAY
+    touchesX = e.touches[0].clientX
+    touchesY = e.touches[0].clientY
+    // #endif
 
-		rippleTop.value = touchesY - data.top - data.finalWidth / 2;
-		rippleLeft.value = touchesX - data.left - data.finalWidth / 2;
+    rippleTop.value = touchesY - data.top - data.finalWidth / 2
+    rippleLeft.value = touchesX - data.left - data.finalWidth / 2
 
-		nextTick(() => (active.value = true));
+    nextTick(() => (active.value = true))
 
-		rippleQueue.value.push({
-			id: rippleUniqueId++,
-			x: touchesX - data.left - data.finalWidth / 2,
-			y: touchesY - data.top - data.finalWidth / 2,
-			size: data.finalWidth
-		});
-	});
-};
+    rippleQueue.value.push({
+      id: rippleUniqueId++,
+      x: touchesX - data.left - data.finalWidth / 2,
+      y: touchesY - data.top - data.finalWidth / 2,
+      size: data.finalWidth
+    })
+  })
+}
 
 // 新增：动画结束回调，替代 setTimeout
 const removeRipple = (id: number) => {
-	const index = rippleQueue.value.findIndex((item) => item.id === id);
-	if (index > -1) rippleQueue.value.splice(index, 1);
-};
+  const index = rippleQueue.value.findIndex((item) => item.id === id)
+  if (index > -1) rippleQueue.value.splice(index, 1)
+}
 
 /**
  * @title 获取按钮 DOM 位置与尺寸
@@ -232,261 +244,314 @@ const removeRipple = (id: number) => {
  * @returns {Promise<ClientRectData>} 按钮的位置信息
  */
 const getClientRect = () => {
-	return new Promise((resolve) => {
-		const query = uni.createSelectorQuery().in(instance);
-		const id = '#' + seeButtonId;
+  return new Promise((resolve) => {
+    const query = uni.createSelectorQuery().in(instance)
+    const id = '#' + seeButtonId
 
-		query
-			.select(id)
-			.boundingClientRect((data) => {
-				resolve(data);
-			})
-			.exec();
-	});
-};
+    query
+      .select(id)
+      .boundingClientRect((data) => {
+        resolve(data)
+      })
+      .exec()
+  })
+}
 </script>
 
 <style lang="scss" scoped>
 /** ---------- disabled ---------- */
 .disabled-info {
-	/* 适配变量 */
-	background-color: var(--see-info-disabled) !important;
+  /* 适配变量 */
+  background-color: var(--see-info-disabled) !important;
 }
+
 .disabled-primary {
-	background-color: var(--see-primary-disabled) !important;
+  background-color: var(--see-primary-disabled) !important;
 }
+
 .disabled-error {
-	background-color: var(--see-error-disabled) !important;
+  background-color: var(--see-error-disabled) !important;
 }
+
 .disabled-warning {
-	background-color: var(--see-warning-disabled) !important;
+  background-color: var(--see-warning-disabled) !important;
 }
+
 .disabled-success {
-	background-color: var(--see-success-disabled) !important;
+  background-color: var(--see-success-disabled) !important;
 }
+
 /** ---------- border ---------- */
 .border-info-0,
 .border-primary-0,
 .border-error-0,
 .border-warning-0,
 .border-success-0 {
-	box-shadow: none !important;
+  box-shadow: none !important;
 }
+
 .border-info-1 {
-	/* #ebedf0 -> var(--see-border-four-color) */
-	box-shadow: inset 0 0 0 1px var(--see-info) !important;
+  /* #ebedf0 -> var(--see-border-four-color) */
+  box-shadow: inset 0 0 0 1px var(--see-info) !important;
 }
 
 .border-primary-1 {
-	box-shadow: inset 0 0 0 1px var(--see-primary) !important;
+  box-shadow: inset 0 0 0 1px var(--see-primary) !important;
 }
 
 .border-error-1 {
-	box-shadow: inset 0 0 0 1px var(--see-error) !important;
+  box-shadow: inset 0 0 0 1px var(--see-error) !important;
 }
 
 .border-warning-1 {
-	box-shadow: inset 0 0 0 1px var(--see-warning) !important;
+  box-shadow: inset 0 0 0 1px var(--see-warning) !important;
 }
 
 .border-success-1 {
-	box-shadow: inset 0 0 0 1px var(--see-success) !important;
+  box-shadow: inset 0 0 0 1px var(--see-success) !important;
 }
+
 /** ---------- size ---------- */
 .normal {
-	min-width: 180rpx;
-	min-height: 41px;
+  min-width: 180rpx;
+  min-height: 41px;
 }
+
 .small {
-	min-width: 60px;
-	min-height: 40px;
-	font-size: 14px;
+  min-width: 60px;
+  min-height: 40px;
+  font-size: 14px;
 }
+
 .mini {
-	min-width: 30px;
-	min-height: 20px;
-	font-size: 10px;
+  min-width: 30px;
+  min-height: 20px;
+  font-size: 10px;
 }
+
 .large {
-	min-width: 100%;
-	min-height: 41px;
+  min-width: 100%;
+  min-height: 41px;
 }
+
 /** ---------- type ---------- */
 .info {
-	background-color: var(--see-info);
-	text {
-		color: var(--see-info-text); /* 保持文字清晰白色 */
-	}
+  background-color: var(--see-info);
+
+  text {
+    color: var(--see-info-text);
+    /* 保持文字清晰白色 */
+  }
 }
+
 .primary {
-	background-color: var(--see-primary);
-	text {
-		color: var(--see-text); /* 保持文字清晰白色 */
-	}
+  background-color: var(--see-primary);
+
+  text {
+    color: var(--see-text);
+    /* 保持文字清晰白色 */
+  }
 }
+
 .error {
-	background-color: var(--see-error);
-	text {
-		color: var(--see-text);
-	}
+  background-color: var(--see-error);
+
+  text {
+    color: var(--see-text);
+  }
 }
+
 .warning {
-	background-color: var(--see-warning);
-	text {
-		color: var(--see-text);
-	}
+  background-color: var(--see-warning);
+
+  text {
+    color: var(--see-text);
+  }
 }
+
 .success {
-	background-color: var(--see-success);
-	text {
-		color: var(--see-text);
-	}
+  background-color: var(--see-success);
+
+  text {
+    color: var(--see-text);
+  }
 }
+
 /** ---------- button-hover ---------- */
 .button-hover-info {
-	background-color: var(--see-info-light) !important;
+  background-color: var(--see-info-light) !important;
 }
+
 .button-hover-primary {
-	background-color: var(--see-primary-dark) !important;
+  background-color: var(--see-primary-dark) !important;
 }
 
 .button-hover-error {
-	background-color: var(--see-error-dark) !important;
+  background-color: var(--see-error-dark) !important;
 }
 
 .button-hover-warning {
-	background-color: var(--see-warning-dark) !important;
+  background-color: var(--see-warning-dark) !important;
 }
 
 .button-hover-success {
-	background-color: var(--see-success-dark) !important;
+  background-color: var(--see-success-dark) !important;
 }
+
 /** ---------- hollow base ---------- */
 .hollow-info,
 .hollow-primary,
 .hollow-error,
 .hollow-warning,
 .hollow-success {
-	background-color: transparent !important;
-	border: none !important;
+  background-color: transparent !important;
+  border: none !important;
 }
+
 :deep(.hollow-info)::after {
-	border: none !important;
+  border: none !important;
 }
+
 :deep(.hollow-primary)::after {
-	border: none !important;
+  border: none !important;
 }
+
 :deep(.hollow-error)::after {
-	border: none !important;
+  border: none !important;
 }
+
 :deep(.hollow-warning)::after {
-	border: none !important;
+  border: none !important;
 }
+
 :deep(.hollow-success)::after {
-	border: none !important;
+  border: none !important;
 }
 
 /* 镂空按钮样式适配 */
 .hollow-info {
-	border-color: var(--see-info-border);
-	color: var(--see-info);
+  border-color: var(--see-info-border);
+  color: var(--see-info);
 }
+
 .hollow-info text {
-	color: var(--see-info-text);
+  color: var(--see-info-text);
 }
+
 .hollow-primary {
-	border-color: var(--see-primary);
-	color: var(--see-primary);
+  border-color: var(--see-primary);
+  color: var(--see-primary);
 }
+
 .hollow-primary text {
-	color: var(--see-primary);
+  color: var(--see-primary);
 }
+
 .hollow-error {
-	border-color: var(--see-error);
-	color: var(--see-error);
+  border-color: var(--see-error);
+  color: var(--see-error);
 }
+
 .hollow-error text {
-	color: var(--see-error);
+  color: var(--see-error);
 }
+
 .hollow-warning {
-	border-color: var(--see-warning);
-	color: var(--see-warning);
+  border-color: var(--see-warning);
+  color: var(--see-warning);
 }
+
 .hollow-warning text {
-	color: var(--see-warning);
+  color: var(--see-warning);
 }
+
 .hollow-success {
-	border-color: var(--see-success);
-	color: var(--see-success);
+  border-color: var(--see-success);
+  color: var(--see-success);
 }
+
 .hollow-success text {
-	color: var(--see-success);
+  color: var(--see-success);
 }
+
 /** ---------- hollow hover ---------- */
 .button-hover-info-hollow {
-	background-color: var(--see-info-light) !important; /* 浅灰/透明背景 */
+  background-color: var(--see-info-light) !important;
+  /* 浅灰/透明背景 */
 }
+
 .button-hover-primary-hollow {
-	background-color: var(--see-primary-light) !important; /* 使用系统定义的浅色/透明变量 */
+  background-color: var(--see-primary-light) !important;
+  /* 使用系统定义的浅色/透明变量 */
 }
+
 .button-hover-error-hollow {
-	background-color: var(--see-error-light) !important;
+  background-color: var(--see-error-light) !important;
 }
+
 .button-hover-warning-hollow {
-	background-color: var(--see-warning-light) !important;
+  background-color: var(--see-warning-light) !important;
 }
+
 .button-hover-success-hollow {
-	background-color: var(--see-success-light) !important;
+  background-color: var(--see-success-light) !important;
 }
+
 /** ---------- components ---------- */
 .title {
 }
+
 .see-button {
-	position: relative;
-	overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-	display: inline-flex;
-	width: auto;
+  display: inline-flex;
+  width: auto;
 
-	.see-button-ripple {
-		position: absolute;
-		border-radius: 100%;
-		background-clip: padding-box;
-		pointer-events: none;
-		user-select: none;
-		transform: scale(0);
-		opacity: 1;
-	}
+  .see-button-ripple {
+    position: absolute;
+    border-radius: 100%;
+    background-clip: padding-box;
+    pointer-events: none;
+    user-select: none;
+    transform: scale(0);
+    opacity: 1;
+  }
 
-	.active {
-		opacity: 0;
-		// transform: scale(2);
-		// transition: opacity 1s ease-out, transform 0.5s ease-out;
-		transform: scale(0);
-		opacity: 1;
-		/* 两个动画同时进行：扩散(ripple-grow) 和 消失(ripple-fade) */
-		animation: ripple-grow var(--ripple-time) linear forwards, ripple-fade var(--mask-time) ease-out forwards;
-	}
+  .active {
+    opacity: 0;
+    // transform: scale(2);
+    // transition: opacity 1s ease-out, transform 0.5s ease-out;
+    transform: scale(0);
+    opacity: 1;
+    /* 两个动画同时进行：扩散(ripple-grow) 和 消失(ripple-fade) */
+    animation:
+      ripple-grow var(--ripple-time) linear forwards,
+      ripple-fade var(--mask-time) ease-out forwards;
+  }
 }
+
 @keyframes ripple-grow {
-	to {
-		transform: scale(2);
-	}
+  to {
+    transform: scale(2);
+  }
 }
 
 @keyframes ripple-fade {
-	to {
-		opacity: 0;
-	}
+  to {
+    opacity: 0;
+  }
 }
-.see-botton-class {
-	display: inline-flex;
-	width: auto;
 
-	align-items: center;
-	justify-content: center;
+.see-botton-class {
+  display: inline-flex;
+  width: auto;
+
+  align-items: center;
+  justify-content: center;
 }
+
 button::after {
-	border: none !important;
+  border: none !important;
 }
 </style>

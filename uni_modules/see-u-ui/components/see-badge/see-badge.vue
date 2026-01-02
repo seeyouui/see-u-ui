@@ -1,13 +1,18 @@
 <template>
-	<view class="see-badge" :style="badgeWrapperStyle" @click="onClick">
-		<slot></slot>
+  <view class="see-badge" :style="badgeWrapperStyle" @click="onClick">
+    <slot></slot>
 
-		<view v-if="isShow" class="see-badge__content" :class="[`badge-${props.shape}`, { 'is-dot': props.isDot }, { 'is-inverted': props.inverted }]" :style="badgeContentStyle">
-			<text v-if="!props.isDot" class="see-badge__text">
-				{{ displayValue }}
-			</text>
-		</view>
-	</view>
+    <view
+      v-if="isShow"
+      class="see-badge__content"
+      :class="[`badge-${props.shape}`, { 'is-dot': props.isDot }, { 'is-inverted': props.inverted }]"
+      :style="badgeContentStyle"
+    >
+      <text v-if="!props.isDot" class="see-badge__text">
+        {{ displayValue }}
+      </text>
+    </view>
+  </view>
 </template>
 
 <script lang="ts" setup>
@@ -39,239 +44,239 @@
  * <see-badge :isDot="true" type="success"></see-badge>
  */
 
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 defineOptions({
-	name: 'SeeBadge'
-});
+  name: 'SeeBadge'
+})
 
 interface BadgeProps {
-	value?: string | number;
-	type?: 'info' | 'primary' | 'error' | 'warning' | 'success';
-	color?: string;
-	bgColor?: string;
-	max?: string | number;
-	isDot?: boolean;
-	show?: boolean;
-	showZero?: boolean;
-	shape?: 'circle' | 'horn';
-	numberType?: 'overflow' | 'ellipsis' | 'limit';
-	offset?: [number, number];
-	absolute?: boolean;
-	inverted?: boolean;
-	size?: number;
-	dotSize?: number;
+  value?: string | number
+  type?: 'info' | 'primary' | 'error' | 'warning' | 'success'
+  color?: string
+  bgColor?: string
+  max?: string | number
+  isDot?: boolean
+  show?: boolean
+  showZero?: boolean
+  shape?: 'circle' | 'horn'
+  numberType?: 'overflow' | 'ellipsis' | 'limit'
+  offset?: [number, number]
+  absolute?: boolean
+  inverted?: boolean
+  size?: number
+  dotSize?: number
 }
 
 const props = withDefaults(defineProps<BadgeProps>(), {
-	value: '',
-	type: 'error',
-	color: '',
-	bgColor: '',
-	max: 99,
-	isDot: false,
-	show: true,
-	showZero: false,
-	shape: 'circle',
-	numberType: 'overflow',
-	offset: () => [0, 0],
-	absolute: false,
-	inverted: false,
-	size: 8,
-	dotSize: 18
-});
+  value: '',
+  type: 'error',
+  color: '',
+  bgColor: '',
+  max: 99,
+  isDot: false,
+  show: true,
+  showZero: false,
+  shape: 'circle',
+  numberType: 'overflow',
+  offset: () => [0, 0],
+  absolute: false,
+  inverted: false,
+  size: 8,
+  dotSize: 18
+})
 
 const emit = defineEmits<{
-	(e: 'onClick'): void;
-}>();
+  (e: 'onClick'): void
+}>()
 
 /** 主题色配置 */
 const themeColorMap = {
-	info: { bg: '#919399', text: '#ffffff' },
-	primary: '#0066cc',
-	error: '#dd001b',
-	warning: '#ff6600',
-	success: '#19be6b'
-};
+  info: { bg: '#919399', text: '#ffffff' },
+  primary: '#0066cc',
+  error: '#dd001b',
+  warning: '#ff6600',
+  success: '#19be6b'
+}
 
 /** 计算是否显示徽标 */
 const isShow = computed(() => {
-	if (!props.show) return false;
+  if (!props.show) return false
 
-	if (props.isDot) return true;
+  if (props.isDot) return true
 
-	const val = props.value;
-	if ((val === '' || val === 0) && !props.showZero) return false;
+  const val = props.value
+  if ((val === '' || val === 0) && !props.showZero) return false
 
-	return true;
-});
+  return true
+})
 
 /** 计算显示的值 */
 const displayValue = computed(() => {
-	if (props.isDot) return '';
+  if (props.isDot) return ''
 
-	let val = props.value;
-	const max = Number(props.max);
+  let val = props.value
+  const max = Number(props.max)
 
-	// overflow 模式：超过最大值显示 '{max}+'
-	if (props.numberType === 'overflow') {
-		if (Number(val) > max) {
-			return `${max}+`;
-		}
-		return String(val);
-	}
+  // overflow 模式：超过最大值显示 '{max}+'
+  if (props.numberType === 'overflow') {
+    if (Number(val) > max) {
+      return `${max}+`
+    }
+    return String(val)
+  }
 
-	// ellipsis 模式：超过最大值显示 '{max}...'
-	if (props.numberType === 'ellipsis') {
-		if (Number(val) > max) {
-			return `${max}...`;
-		}
-		return String(val);
-	}
+  // ellipsis 模式：超过最大值显示 '{max}...'
+  if (props.numberType === 'ellipsis') {
+    if (Number(val) > max) {
+      return `${max}...`
+    }
+    return String(val)
+  }
 
-	// limit 模式：按 1000、10000 格式化显示
-	if (props.numberType === 'limit') {
-		const numVal = Number(val);
-		if (numVal >= 10000) {
-			return (numVal / 10000).toFixed(2).replace(/\.?0+$/, '') + 'w';
-		}
-		if (numVal >= 1000) {
-			return (numVal / 1000).toFixed(2).replace(/\.?0+$/, '') + 'k';
-		}
-		return String(val);
-	}
+  // limit 模式：按 1000、10000 格式化显示
+  if (props.numberType === 'limit') {
+    const numVal = Number(val)
+    if (numVal >= 10000) {
+      return (numVal / 10000).toFixed(2).replace(/\.?0+$/, '') + 'w'
+    }
+    if (numVal >= 1000) {
+      return (numVal / 1000).toFixed(2).replace(/\.?0+$/, '') + 'k'
+    }
+    return String(val)
+  }
 
-	return String(val);
-});
+  return String(val)
+})
 
 /** 获取背景颜色 */
 const getBgColor = (): string => {
-	if (props.bgColor) return props.bgColor;
+  if (props.bgColor) return props.bgColor
 
-	const themeColor = themeColorMap[props.type];
-	if (typeof themeColor === 'object') {
-		return themeColor.bg;
-	}
-	return themeColor;
-};
+  const themeColor = themeColorMap[props.type]
+  if (typeof themeColor === 'object') {
+    return themeColor.bg
+  }
+  return themeColor
+}
 
 /** 获取文字颜色 */
 const getTextColor = (): string => {
-	if (props.color) return props.color;
+  if (props.color) return props.color
 
-	const themeColor = themeColorMap[props.type];
-	if (typeof themeColor === 'object') {
-		return themeColor.text;
-	}
-	return '#ffffff';
-};
+  const themeColor = themeColorMap[props.type]
+  if (typeof themeColor === 'object') {
+    return themeColor.text
+  }
+  return '#ffffff'
+}
 
 /** 计算徽标内容样式 */
 const badgeContentStyle = computed(() => {
-	let bgColor = getBgColor();
-	let textColor = getTextColor();
+  let bgColor = getBgColor()
+  let textColor = getTextColor()
 
-	// 反转颜色
-	if (props.inverted) {
-		[bgColor, textColor] = [textColor, bgColor];
-	}
+  // 反转颜色
+  if (props.inverted) {
+    ;[bgColor, textColor] = [textColor, bgColor]
+  }
 
-	const style: Record<string, string | number> = {
-		backgroundColor: props.inverted ? textColor : bgColor,
-		color: props.inverted ? bgColor : textColor,
-		fontSize: `${props.size}px`
-	};
+  const style: Record<string, string | number> = {
+    backgroundColor: props.inverted ? textColor : bgColor,
+    color: props.inverted ? bgColor : textColor,
+    fontSize: `${props.size}px`
+  }
 
-	// 绝对定位
-	if (props.absolute) {
-	    style.transform = 'translate(50%, -50%)'; 
-	}
+  // 绝对定位
+  if (props.absolute) {
+    style.transform = 'translate(50%, -50%)'
+  }
 
-	// 圆点大小
-	if (props.isDot) {
-		style.width = `${props.dotSize}rpx`;
-		style.height = `${props.dotSize}rpx`;
-	}
+  // 圆点大小
+  if (props.isDot) {
+    style.width = `${props.dotSize}rpx`
+    style.height = `${props.dotSize}rpx`
+  }
 
-	return style;
-});
+  return style
+})
 
 /** 计算徽标包裹层样式 */
 const badgeWrapperStyle = computed(() => {
-    const style: Record<string, string | number> = {
-        display: 'inline-block'
-    };
+  const style: Record<string, string | number> = {
+    display: 'inline-block'
+  }
 
-    if (props.absolute) {
-        // 修改点 1：让 wrapper 自身变成绝对定位，去寻找父级 .box
-        style.position = 'absolute'; 
-        style.top = `${props.offset[0]}rpx`;
-        style.right = `${props.offset[1]}rpx`;
-        style.zIndex = 1; // 防止被遮挡
-    }
+  if (props.absolute) {
+    // 修改点 1：让 wrapper 自身变成绝对定位，去寻找父级 .box
+    style.position = 'absolute'
+    style.top = `${props.offset[0]}rpx`
+    style.right = `${props.offset[1]}rpx`
+    style.zIndex = 1 // 防止被遮挡
+  }
 
-    return style;
-});
+  return style
+})
 
 /** 点击事件 */
 const onClick = () => {
-	emit('onClick');
-};
+  emit('onClick')
+}
 
 /** 暴露的方法 */
 defineExpose({
-	getValue: () => props.value,
-	getDisplayValue: () => displayValue.value
-});
+  getValue: () => props.value,
+  getDisplayValue: () => displayValue.value
+})
 </script>
 
 <style lang="scss" scoped>
 .see-badge {
-	position: relative;
-	display: inline-block;
+  position: relative;
+  display: inline-block;
 
-	&__content {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 14px;
-		height: 14px;
-		padding: 0 4px;
-		border-radius: 10px;
-		font-weight: 600;
-		line-height: 1;
-		white-space: nowrap;
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 4px;
+    border-radius: 10px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
 
-		// 圆点样式
-		&.is-dot {
-			min-width: auto;
-			padding: 0;
-			border-radius: 50%;
-		}
+    // 圆点样式
+    &.is-dot {
+      min-width: auto;
+      padding: 0;
+      border-radius: 50%;
+    }
 
-		// 圆形：四角均为圆角
-		&.badge-circle {
-			border-radius: 10px;
+    // 圆形：四角均为圆角
+    &.badge-circle {
+      border-radius: 10px;
 
-			&.is-dot {
-				border-radius: 50%;
-			}
-		}
+      &.is-dot {
+        border-radius: 50%;
+      }
+    }
 
-		// 角形：左下角为直角
-		&.badge-horn {
-			border-radius: 0 10px 10px 0;
+    // 角形：左下角为直角
+    &.badge-horn {
+      border-radius: 0 10px 10px 0;
 
-			&.is-dot {
-				border-radius: 50%;
-			}
-		}
-	}
+      &.is-dot {
+        border-radius: 50%;
+      }
+    }
+  }
 
-	&__text {
-		font-size: inherit;
-		font-weight: 600;
-		line-height: 1;
-	}
+  &__text {
+    font-size: inherit;
+    font-weight: 600;
+    line-height: 1;
+  }
 }
 </style>

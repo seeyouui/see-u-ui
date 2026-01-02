@@ -1,7 +1,5 @@
 <template>
-	<view class="see-icon">
-		这是see-icon组件
-	</view>
+  <view class="see-icon">这是see-icon组件</view>
 </template>
 
 <script lang="ts" setup>
@@ -16,9 +14,7 @@
  */
 defineOptions({
   name: 'SeeIcon'
-});
+})
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

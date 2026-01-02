@@ -1,92 +1,93 @@
 {
-	"easycom": {
-		"autoscan": true,
-		"custom": {
-			"^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
-		}
-	},
-	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "SeeYouUI"
-			}
-		},
-		{
-			"path": "pages/seeButton/index",
-			"style": {
-				"navigationBarTitleText": "Button 按钮",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/seeText/index",
-			"style": {
-				"navigationBarTitleText": "Text 文本",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/seeColor/index",
-			"style": {
-				"navigationBarTitleText": "Color 色彩",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/seeLink/index",
-			"style": {
-				"navigationBarTitleText": "Link 链接",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/seeIcon/index",
-			"style": {
-				"navigationBarTitleText": "Icon 图标"
-			}
-		},
-		{
-			"path": "pages/seeImage/index",
-			"style": {
-				"navigationBarTitleText": "Image 图片"
-			}
-		},
-		{
-			"path": "pages/seeBadge/index",
-			"style": {
-				"navigationBarTitleText": "Badge 徽标数"
-			}
-		},
-		{
-			"path": "pages/config/index",
-			"style": {
-				"navigationBarTitleText": "配置"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "@navTxtStyle",
-		"navigationBarTitleText": "SeeYouUI",
-		"navigationBarBackgroundColor": "@navBgColor",
-		"backgroundColor": "@navBgColor"
-	},
-	"tabBar": {
-		"color": "@color",
-		"selectedColor": "@selectedColor",
-		"backgroundColor": "@bgColorBottom",
-		"borderStyle": "@borderStyle",
-		"fontSize": "14px",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"text": "组件"
-			},
-			{
-				"pagePath": "pages/config/index",
-				"text": "配置"
-			}
-		]
-	},
-	"uniIdRouter": {}
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
+    }
+  },
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "SeeYouUI"
+      }
+    },
+    {
+      "path": "pages/seeButton/index",
+      "style": {
+        "navigationBarTitleText": "Button 按钮",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeText/index",
+      "style": {
+        "navigationBarTitleText": "Text 文本",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeColor/index",
+      "style": {
+        "navigationBarTitleText": "Color 色彩",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeLink/index",
+      "style": {
+        "navigationBarTitleText": "Link 链接",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeIcon/index",
+      "style": {
+        "navigationBarTitleText": "Icon 图标"
+      }
+    },
+    {
+      "path": "pages/seeImage/index",
+      "style": {
+        "navigationBarTitleText": "Image 图片"
+      }
+    },
+    {
+      "path": "pages/seeBadge/index",
+      "style": {
+        "navigationBarTitleText": "Badge 徽标数"
+      }
+    },
+    {
+      "path": "pages/config/index",
+      "style": {
+        "navigationBarTitleText": "配置"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "@navTxtStyle",
+    "navigationBarTitleText": "SeeYouUI",
+    "navigationBarBackgroundColor": "@navBgColor",
+    "backgroundColor": "@navBgColor"
+  },
+  "tabBar": {
+    "color": "@color",
+    "selectedColor": "@selectedColor",
+    "backgroundColor": "@bgColorBottom",
+    "borderStyle": "@borderStyle",
+    "fontSize": "14px",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "组件"
+      },
+      {
+        "pagePath": "pages/config/index",
+        "text": "配置"
+      }
+    ]
+  },
+  "uniIdRouter": {}
 }

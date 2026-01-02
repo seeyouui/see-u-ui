@@ -1,65 +1,65 @@
 <template>
-	<view class="see-image-wrapper" :style="{ ...props.customStyle }">
-		<!-- 加载中状态 -->
-		<view v-if="loading" class="see-image-loading">
-			<text class="loading-text">{{ props.loadingText }}</text>
-		</view>
+  <view class="see-image-wrapper" :style="{ ...props.customStyle }">
+    <!-- 加载中状态 -->
+    <view v-if="loading" class="see-image-loading">
+      <text class="loading-text">{{ props.loadingText }}</text>
+    </view>
 
-		<!-- 错误状态 -->
-		<view v-if="error && !props.showErrorImage" class="see-image-error">
-			<text class="error-text">{{ props.errorText }}</text>
-		</view>
+    <!-- 错误状态 -->
+    <view v-if="error && !props.showErrorImage" class="see-image-error">
+      <text class="error-text">{{ props.errorText }}</text>
+    </view>
 
-		<!-- 图片容器 -->
-		<view
-			v-if="!error || props.showErrorImage"
-			class="see-image-container"
-			:style="{
-				width: props.width,
-				height: props.height,
-				borderRadius: props.radius + 'px',
-				overflow: 'hidden',
-				position: 'relative'
-			}"
-			@click="onImageClick"
-		>
-			<!-- 主图片 -->
-			<image
-				class="see-image"
-				:src="error && props.showErrorImage ? props.errorImage : props.src"
-				:mode="props.mode"
-				:lazy-load="props.lazyLoad"
-				:show-menu-by-longpress="props.showMenuByLongpress"
-				:style="{
-					opacity: loading ? 0 : 1,
-					transition: `opacity ${props.fadeInDuration}ms ease-in-out`,
-					width: '100%',
-					height: '100%'
-				}"
-				@load="onImageLoad"
-				@error="onImageError"
-				@longpress="onLongpress"
-			/>
+    <!-- 图片容器 -->
+    <view
+      v-if="!error || props.showErrorImage"
+      class="see-image-container"
+      :style="{
+        width: props.width,
+        height: props.height,
+        borderRadius: props.radius + 'px',
+        overflow: 'hidden',
+        position: 'relative'
+      }"
+      @click="onImageClick"
+    >
+      <!-- 主图片 -->
+      <image
+        class="see-image"
+        :src="error && props.showErrorImage ? props.errorImage : props.src"
+        :mode="props.mode"
+        :lazy-load="props.lazyLoad"
+        :show-menu-by-longpress="props.showMenuByLongpress"
+        :style="{
+          opacity: loading ? 0 : 1,
+          transition: `opacity ${props.fadeInDuration}ms ease-in-out`,
+          width: '100%',
+          height: '100%'
+        }"
+        @load="onImageLoad"
+        @error="onImageError"
+        @longpress="onLongpress"
+      />
 
-			<!-- 遮罩层 -->
-			<view
-				v-if="props.showMask"
-				class="see-image-mask"
-				:style="{
-					backgroundColor: props.maskColor,
-					opacity: props.maskOpacity
-				}"
-			/>
+      <!-- 遮罩层 -->
+      <view
+        v-if="props.showMask"
+        class="see-image-mask"
+        :style="{
+          backgroundColor: props.maskColor,
+          opacity: props.maskOpacity
+        }"
+      />
 
-			<!-- 自定义内容插槽 -->
-			<view v-if="$slots.default" class="see-image-slot">
-				<slot></slot>
-			</view>
-		</view>
+      <!-- 自定义内容插槽 -->
+      <view v-if="$slots.default" class="see-image-slot">
+        <slot></slot>
+      </view>
+    </view>
 
-		<!-- 预览模式提示 -->
-		<text v-if="props.previewMode" class="preview-tip">{{ props.previewTip }}</text>
-	</view>
+    <!-- 预览模式提示 -->
+    <text v-if="props.previewMode" class="preview-tip">{{ props.previewTip }}</text>
+  </view>
 </template>
 
 <script lang="ts" setup>
@@ -89,229 +89,229 @@
  *
  * @example
  */
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 defineOptions({
-	name: 'SeeImage'
-});
+  name: 'SeeImage'
+})
 
 /** ---------- props ---------- */
 const props = withDefaults(
-	defineProps<{
-		src: string;
-		width?: string;
-		height?: string;
-		mode?:
-			| 'scaleToFill'
-			| 'aspectFit'
-			| 'aspectFill'
-			| 'widthFix'
-			| 'heightFix'
-			| 'top'
-			| 'bottom'
-			| 'center'
-			| 'left'
-			| 'right'
-			| 'top left'
-			| 'top right'
-			| 'bottom left'
-			| 'bottom right';
-		radius?: number;
-		lazyLoad?: boolean;
-		previewMode?: boolean;
-		showMask?: boolean;
-		maskColor?: string;
-		maskOpacity?: number;
-		fadeInDuration?: number;
-		loadingText?: string;
-		showErrorImage?: boolean;
-		errorImage?: string;
-		errorText?: string;
-		showMenuByLongpress?: boolean;
-		customStyle?: Record<string, any> | null;
-		previewTip?: string;
-	}>(),
-	{
-		src: '',
-		width: '100%',
-		height: '100%',
-		mode: 'scaleToFill',
-		radius: 0,
-		lazyLoad: true,
-		previewMode: false,
-		showMask: false,
-		maskColor: '#000',
-		maskOpacity: 0.3,
-		fadeInDuration: 300,
-		loadingText: '加载中...',
-		showErrorImage: false,
-		errorImage: '',
-		errorText: '图片加载失败',
-		showMenuByLongpress: true,
-		customStyle: null,
-		previewTip: '点击图片预览'
-	}
-);
+  defineProps<{
+    src: string
+    width?: string
+    height?: string
+    mode?:
+      | 'scaleToFill'
+      | 'aspectFit'
+      | 'aspectFill'
+      | 'widthFix'
+      | 'heightFix'
+      | 'top'
+      | 'bottom'
+      | 'center'
+      | 'left'
+      | 'right'
+      | 'top left'
+      | 'top right'
+      | 'bottom left'
+      | 'bottom right'
+    radius?: number
+    lazyLoad?: boolean
+    previewMode?: boolean
+    showMask?: boolean
+    maskColor?: string
+    maskOpacity?: number
+    fadeInDuration?: number
+    loadingText?: string
+    showErrorImage?: boolean
+    errorImage?: string
+    errorText?: string
+    showMenuByLongpress?: boolean
+    customStyle?: Record<string, any> | null
+    previewTip?: string
+  }>(),
+  {
+    src: '',
+    width: '100%',
+    height: '100%',
+    mode: 'scaleToFill',
+    radius: 0,
+    lazyLoad: true,
+    previewMode: false,
+    showMask: false,
+    maskColor: '#000',
+    maskOpacity: 0.3,
+    fadeInDuration: 300,
+    loadingText: '加载中...',
+    showErrorImage: false,
+    errorImage: '',
+    errorText: '图片加载失败',
+    showMenuByLongpress: true,
+    customStyle: null,
+    previewTip: '点击图片预览'
+  }
+)
 
 /** ---------- emits ---------- */
 const emit = defineEmits<{
-	(e: 'onLoad'): void;
-	(e: 'onError'): void;
-	(e: 'onClick'): void;
-	(e: 'onLongpress'): void;
-}>();
+  (e: 'onLoad'): void
+  (e: 'onError'): void
+  (e: 'onClick'): void
+  (e: 'onLongpress'): void
+}>()
 
 /** ---------- state ---------- */
-const loading = ref(true);
-const error = ref(false);
+const loading = ref(true)
+const error = ref(false)
 
 /** ---------- computed ---------- */
 const imageList = computed(() => {
-	return [props.src];
-});
+  return [props.src]
+})
 
 /** ---------- methods ---------- */
 /**
  * @title 图片加载完成
  */
 const onImageLoad = () => {
-	loading.value = false;
-	error.value = false;
-	emit('onLoad');
-};
+  loading.value = false
+  error.value = false
+  emit('onLoad')
+}
 
 /**
  * @title 图片加载失败
  */
 const onImageError = () => {
-	loading.value = false;
-	error.value = true;
-	emit('onError');
-};
+  loading.value = false
+  error.value = true
+  emit('onError')
+}
 
 /**
  * @title 图片点击事件
  */
 const onImageClick = () => {
-	emit('onClick');
+  emit('onClick')
 
-	if (props.previewMode) {
-		uni.previewImage({
-			urls: imageList.value,
-			current: 0,
-			showmenu: true
-		});
-	}
-};
+  if (props.previewMode) {
+    uni.previewImage({
+      urls: imageList.value,
+      current: 0,
+      showmenu: true
+    })
+  }
+}
 
 /**
  * @title 长按事件
  */
 const onLongpress = () => {
-	emit('onLongpress');
-};
+  emit('onLongpress')
+}
 
 /** ---------- 暴露方法 ---------- */
 defineExpose({
-	// 重新加载图片
-	reload: () => {
-		loading.value = true;
-		error.value = false;
-	},
-	// 获取加载状态
-	getLoadingState: () => loading.value,
-	// 获取错误状态
-	getErrorState: () => error.value
-});
+  // 重新加载图片
+  reload: () => {
+    loading.value = true
+    error.value = false
+  },
+  // 获取加载状态
+  getLoadingState: () => loading.value,
+  // 获取错误状态
+  getErrorState: () => error.value
+})
 </script>
 
 <style lang="scss" scoped>
 .see-image-wrapper {
-	display: inline-block;
-	position: relative;
+  display: inline-block;
+  position: relative;
 }
 
 /* 加载状态 */
 .see-image-loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #f5f5f5;
-	color: #999;
-	font-size: 14px;
-	min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+  color: #999;
+  font-size: 14px;
+  min-height: 100px;
 
-	.loading-text {
-		animation: loading-spin 1s linear infinite;
-	}
+  .loading-text {
+    animation: loading-spin 1s linear infinite;
+  }
 }
 
 @keyframes loading-spin {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* 错误状态 */
 .see-image-error {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: #f0f0f0;
-	color: #ccc;
-	font-size: 14px;
-	min-height: 100px;
-	border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #ccc;
+  font-size: 14px;
+  min-height: 100px;
+  border: 1px solid #e0e0e0;
 
-	.error-text {
-		text-align: center;
-	}
+  .error-text {
+    text-align: center;
+  }
 }
 
 /* 图片容器 */
 .see-image-container {
-	position: relative;
-	display: inline-block;
+  position: relative;
+  display: inline-block;
 
-	.see-image {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
+  .see-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* 遮罩层 */
 .see-image-mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
 }
 
 /* 自定义内容插槽 */
 .see-image-slot {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
 /* 预览模式提示 */
 .preview-tip {
-	display: block;
-	margin-top: 8px;
-	font-size: 12px;
-	color: #999;
-	text-align: center;
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
 }
 </style>

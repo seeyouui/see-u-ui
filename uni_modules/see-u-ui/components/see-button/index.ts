@@ -1,5 +1,5 @@
-import SeeButton from "./see-button.vue";
+import SeeButton from './see-button.vue'
 
-export { SeeButton };
+export { SeeButton }
 
-export default SeeButton;
+export default SeeButton

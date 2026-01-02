@@ -1,8 +1,25 @@
 {
+  "type": "module",
   "dependencies": {
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@dcloudio/types": "*"
+    "@dcloudio/types": "*",
+    "@eslint/js": "^9.39.2",
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
+    "@typescript-eslint/parser": "^8.51.0",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "@vue/eslint-config-typescript": "^14.6.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-vue": "^10.6.2",
+    "globals": "^15.11.0",
+    "prettier": "^3.7.4",
+    "vue-eslint-parser": "^10.2.0"
+  },
+  "scripts": {
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "format": "prettier --write \"**/*.{vue,js,ts,json,css,scss,md}\"",
+    "format:check": "prettier --check \"**/*.{vue,js,ts,json,css,scss,md}\""
   }
 }
