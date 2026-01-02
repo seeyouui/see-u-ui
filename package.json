@@ -1,5 +1,8 @@
 {
-  "scripts": {
-    "build:h5": "cli publish --platform h5 --project see-u-ui"
+  "dependencies": {
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "*"
   }
 }
