@@ -1,21 +1,17 @@
 {
   "compilerOptions": {
-    /* 基础 */
     "target": "es2017",
     "module": "esnext",
-    "moduleResolution": "node",
-    /* 语言特性 */
+    "moduleResolution": "bundler",
     "lib": ["es2017", "dom"],
     "jsx": "preserve",
-    /* 类型 */
-    "types": ["@dcloudio/types", "vue"],
-    /* 模块解析 */
+    "types": ["@dcloudio/types", "vue", "vitest/globals"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./*"]
     },
-    /* TS 行为 */
     "strict": false,
     "skipLibCheck": true
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.vue", "tests/**/*", "vitest.config.ts"]
 }
