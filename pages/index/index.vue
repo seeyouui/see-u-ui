@@ -1,34 +1,36 @@
 <template>
-  <view class="content">
-    <view class="content-detail">
-      <view class="logo">
-        <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
+  <see-config>
+    <view class="content">
+      <view class="content-detail">
+        <view class="logo">
+          <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
+        </view>
+        <view class="detail-text">
+          <view class="title">SeeYouUI 1.0.13</view>
+          <view class="subtitle">一个基于 uni-app 的组件库</view>
+        </view>
       </view>
-      <view class="detail-text">
-        <view class="title">SeeYouUI 1.0.13</view>
-        <view class="subtitle">一个基于 uni-app 的组件库</view>
+      <view class="content-detail">
+        <text class="subtitle">
+          SeeYouUI 是一个基于 uni-app 的高质量组件库，使用 TypeScript 开发，提供丰富组件与工具函数，帮助你快速构建跨平台应用。
+        </text>
+      </view>
+      <view v-for="(item, index) in list" :key="index" class="list">
+        <view class="list-title">
+          <text>{{ item.title }}</text>
+        </view>
+        <view
+          v-for="(val, key) in item.componentsList"
+          :key="key"
+          class="list-item"
+          :style="key === 0 && 'border-top: 1px var(--see-border-four-color) solid'"
+          @tap="clickItem(val.url)"
+        >
+          <text>{{ val.title }}</text>
+        </view>
       </view>
     </view>
-    <view class="content-detail">
-      <text class="subtitle">
-        SeeYouUI 是一个基于 uni-app 的高质量组件库，使用 TypeScript 开发，提供丰富组件与工具函数，帮助你快速构建跨平台应用。
-      </text>
-    </view>
-    <view v-for="(item, index) in list" :key="index" class="list">
-      <view class="list-title">
-        <text>{{ item.title }}</text>
-      </view>
-      <view
-        v-for="(val, key) in item.componentsList"
-        :key="key"
-        class="list-item"
-        :style="key === 0 && 'border-top: 1px var(--see-border-four-color) solid'"
-        @tap="clickItem(val.url)"
-      >
-        <text>{{ val.title }}</text>
-      </view>
-    </view>
-  </view>
+  </see-config>
 </template>
 
 <script lang="ts" setup>

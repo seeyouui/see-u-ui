@@ -132,7 +132,7 @@ const props = withDefaults(
     phoneNumber?: string
     date?: string | number | Date
     dateFormat?: string
-    size: string | number
+    size?: string | number
     isCountUp?: boolean
     countUp?: {
       duration?: number

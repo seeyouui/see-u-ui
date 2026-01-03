@@ -8,6 +8,7 @@
   /* 5+App特有相关 */
   "app-plus": {
     "darkmode": true,
+    "themeLocation": "theme.json",
     "usingComponents": true,
     "nvueStyleCompiler": "uni-app",
     "compilerVersion": 3,
@@ -53,7 +54,7 @@
   "mp-weixin": {
     "darkmode": true,
     "themeLocation": "theme.json",
-    "appid": "",
+    "appid": "wx2795d09730f5f120",
     "setting": {
       "urlCheck": false
     },

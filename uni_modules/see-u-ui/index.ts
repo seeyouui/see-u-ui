@@ -7,6 +7,7 @@ import { SeeLink } from './components/see-link/index'
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
 import { formatDate, useDateFormat } from './utils/hooks/useDateFormat'
 import { formatTimeAgo, useTimeAgo } from './utils/hooks/useTimeAgo'
+import { useTheme } from './utils/hooks/useTheme'
 
 const components: DefineComponent[] = [SeeButton, SeeText, SeeLink] as unknown as DefineComponent[]
 const install = (app: App) => {
@@ -19,7 +20,7 @@ const install = (app: App) => {
   })
 }
 
-export { formatCurrency, useCurrencyFormat, formatTimeAgo, useDateFormat, formatDate, useTimeAgo }
+export { formatCurrency, useCurrencyFormat, formatTimeAgo, useDateFormat, formatDate, useTimeAgo, useTheme }
 export { SeeButton, SeeText, SeeLink }
 export default {
   install

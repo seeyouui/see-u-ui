@@ -1,59 +1,4 @@
 /* =========================================================
- * 1. SCSS 静态变量定义 (供 JS 或非 CSS 变量场景使用)
- * ========================================================= */
-// 文字颜色
-$see-main-color: #2e2f33;
-$see-content-color: #5a5c60;
-$see-tips-color: #8c8e93;
-$see-light-color: #c9ccd1;
-
-// 边框颜色
-$see-border-color: #aeb0b4;
-$see-border-two-color: #c3c5c8;
-$see-border-three-color: #d9dadc;
-$see-border-four-color: #eceff1;
-
-// 背景颜色
-$see-bg-light-color: #f6faff;
-$see-bg-dark-color: #1e222a;
-
-// 主色
-$see-primary: #3ca7ff;
-$see-primary-dark: #208ee8;
-$see-primary-disabled: #a8d8ff;
-$see-primary-light: #e9f6ff;
-
-// 警告
-$see-warning: #ffb645;
-$see-warning-dark: #f0a233;
-$see-warning-disabled: #ffd9a6;
-$see-warning-light: #fff6e8;
-
-// 成功
-$see-success: #37d497;
-$see-success-dark: #2bb881;
-$see-success-disabled: #b6efd9;
-$see-success-light: #f2fff9;
-
-// 错误
-$see-error: #ff6b6b;
-$see-error-dark: #e85b5b;
-$see-error-disabled: #ffbaba;
-$see-error-light: #fff2f2;
-
-// 默认
-$see-info: #8a8f99;
-$see-info-dark: #6e737c;
-$see-info-disabled: #d2d5d9;
-$see-info-light: #f5f6f7;
-
-// 背景文字颜色
-$see-text: #ffffff;
-$see-dark-text: #ffffff;
-$see-disabled-text: #f2f3f5;
-$see-light-text: #aeb0b4;
-
-/* =========================================================
  * 2. 定义浅色模式变量集 (Mixin) - NEW
  * ========================================================= */
 @mixin light-theme-vars {
@@ -188,7 +133,7 @@ page {
   /* 1. 让 html 根节点变黑 */
   @include dark-theme-vars;
 
-  /* 2. 关键：强制覆盖 page 的默认浅色设置 
+  /* 2. 关键：强制覆盖 page 的默认浅色设置
      意思是：当 .see-theme-dark 存在时，它下面的 page 标签也要用深色变量 */
   & page,
   & uni-page-body {

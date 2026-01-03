@@ -15,6 +15,9 @@ importers:
       '@dcloudio/types':
         specifier: '*'
         version: 3.4.28
+      '@dcloudio/uni-app':
+        specifier: '*'
+        version: 2.0.2-4080720251210002(@dcloudio/types@3.4.28)(@vue/composition-api@1.7.2(vue@3.5.26(typescript@5.9.3)))
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
@@ -129,6 +132,12 @@ packages:
 
   '@dcloudio/types@3.4.28':
     resolution: {integrity: sha512-uVIRp1VLBkrL0LaGLgIS/sT3bl1zzVTKZQbfqJEQcSAvBffRdirbSh5OvOHfA1WV5lmCAGfjhKsUQouNEVUQHg==}
+
+  '@dcloudio/uni-app@2.0.2-4080720251210002':
+    resolution: {integrity: sha512-FUw/bJJwBPl/scKBog21wusICrU9T4TFwyKKVbtNbWIO98IBzjRIin0mmwzhqHNL1kZO0LbwnoRe7LtusW8LQw==}
+    peerDependencies:
+      '@dcloudio/types': ^3.0.15
+      '@vue/composition-api': ^1.7.0
 
   '@esbuild/aix-ppc64@0.27.2':
     resolution: {integrity: sha512-GZMB+a0mOMZs4MpDbj8RJp4cw+w1WV5NYD6xzgvzUJ5Ek2jerwfO2eADyI6ExDSUED+1X8aMbegahsJi+8mgpw==}
@@ -731,6 +740,11 @@ packages:
 
   '@vue/compiler-ssr@3.5.26':
     resolution: {integrity: sha512-lZT9/Y0nSIRUPVvapFJEVDbEXruZh2IYHMk2zTtEgJSlP5gVOqeWXH54xDKAaFS4rTnDeDBQUYDtxKyoW9FwDw==}
+
+  '@vue/composition-api@1.7.2':
+    resolution: {integrity: sha512-M8jm9J/laYrYT02665HkZ5l2fWTK4dcVg3BsDHm/pfz+MjDYwX+9FUaZyGwEyXEDonQYRCo0H7aLgdklcIELjw==}
+    peerDependencies:
+      vue: '>= 2.5 < 2.7'
 
   '@vue/eslint-config-prettier@10.2.0':
     resolution: {integrity: sha512-GL3YBLwv/+b86yHcNNfPJxOTtVFJ4Mbc9UU3zR+KVoG7SwGTjPT+32fXamscNumElhcpXW3mT0DgzS9w32S7Bw==}
@@ -2009,6 +2023,11 @@ snapshots:
 
   '@dcloudio/types@3.4.28': {}
 
+  '@dcloudio/uni-app@2.0.2-4080720251210002(@dcloudio/types@3.4.28)(@vue/composition-api@1.7.2(vue@3.5.26(typescript@5.9.3)))':
+    dependencies:
+      '@dcloudio/types': 3.4.28
+      '@vue/composition-api': 1.7.2(vue@3.5.26(typescript@5.9.3))
+
   '@esbuild/aix-ppc64@0.27.2':
     optional: true
 
@@ -2548,6 +2567,10 @@ snapshots:
     dependencies:
       '@vue/compiler-dom': 3.5.26
       '@vue/shared': 3.5.26
+
+  '@vue/composition-api@1.7.2(vue@3.5.26(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.26(typescript@5.9.3)
 
   '@vue/eslint-config-prettier@10.2.0(@types/eslint@9.6.1)(eslint@9.39.2)(prettier@3.7.4)':
     dependencies:
