@@ -32,7 +32,7 @@ export default {
       // 匹配带或不带 emoji 的提交信息
       // 使用 .*? 来匹配任何字符（包括 emoji），然后匹配类型
       // eslint-disable-next-line no-misleading-character-class
-      headerPattern: /^.*?(\w+)(?:\((.*)\))?:\s*(?:[✨🐛✏️💄♻️⚡✅⏪📦👷🏹🚀]\s*)?(.+)$/u,
+      headerPattern: /^.*?(\w+)(?:\((.*)\))?:\s*(?:[✨🐛📝💅♻️⚡✅⏪📦👷🚀🔧]\s*)?(.+)$/u,
       headerCorrespondence: ['type', 'scope', 'subject']
     }
   }

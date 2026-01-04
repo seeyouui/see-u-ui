@@ -9,18 +9,18 @@ import { readFileSync, writeFileSync } from 'fs'
 
 // Emoji 映射表
 const emojiMap = {
-  chore: '🚀',
+  chore: '🔧',
   fix: '🐛',
   feat: '✨',
-  docs: '✏️',
-  style: '💄',
+  docs: '📝',
+  style: '💅',
   refactor: '♻️',
   perf: '⚡',
   test: '✅',
   revert: '⏪',
   build: '📦',
   ci: '👷',
-  release: '🏹'
+  release: '🚀'
 }
 
 // 获取提交信息文件路径
@@ -33,7 +33,7 @@ try {
 
   // 先检查整个提交信息开头是否有 emoji（非标准格式）
   // eslint-disable-next-line no-misleading-character-class
-  const startsWithEmoji = /^[✨🐛✏️💄♻️⚡✅⏪📦👷🏹🚀]/u.test(commitMsg)
+  const startsWithEmoji = /^[✨🐛📝💅♻️⚡✅⏪📦👷🚀🔧]/u.test(commitMsg)
 
   if (!startsWithEmoji) {
     // 匹配提交信息格式: type(scope): subject 或 type: subject
@@ -47,7 +47,7 @@ try {
       if (emoji) {
         // 检查 subject 开头是否已经有 emoji（避免重复添加）
         // eslint-disable-next-line no-misleading-character-class
-        const emojiPattern = /^[✨🐛✏️💄♻️⚡✅⏪📦👷🏹🚀]/u
+        const emojiPattern = /^[✨🐛📝💅♻️⚡✅⏪📦👷🚀🔧]/u
         const subjectHasEmoji = emojiPattern.test(subject.trim())
 
         if (!subjectHasEmoji) {
