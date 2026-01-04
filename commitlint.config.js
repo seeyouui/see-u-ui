@@ -15,7 +15,8 @@ export default {
         'chore', // 构建/工具相关
         'revert', // 回滚
         'build', // 构建系统
-        'ci' // CI 配置
+        'ci', // CI 配置
+        'release' // 发版提交
       ]
     ],
     'type-case': [2, 'always', 'lower-case'],
