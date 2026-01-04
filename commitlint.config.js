@@ -25,5 +25,15 @@ export default {
     'subject-empty': [2, 'never'],
     'subject-full-stop': [2, 'never', '.'],
     'header-max-length': [2, 'always', 100]
+  },
+  // 支持 emoji，解析格式：type(scope): emoji subject 或 type: emoji subject
+  parserPreset: {
+    parserOpts: {
+      // 匹配带或不带 emoji 的提交信息
+      // 使用 .*? 来匹配任何字符（包括 emoji），然后匹配类型
+      // eslint-disable-next-line no-misleading-character-class
+      headerPattern: /^.*?(\w+)(?:\((.*)\))?:\s*(?:[✨🐛✏️💄♻️⚡✅⏪📦👷🏹🚀]\s*)?(.+)$/u,
+      headerCorrespondence: ['type', 'scope', 'subject']
+    }
   }
 }

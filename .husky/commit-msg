@@ -1,2 +1,8 @@
-pnpm exec commitlint --edit $1
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
+# 自动添加 emoji 到提交信息
+node scripts/add-emoji-to-commit.js "$1"
+
+# 运行 commitlint 验证
+pnpm exec commitlint --edit "$1"
