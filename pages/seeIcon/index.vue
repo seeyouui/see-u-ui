@@ -1,13 +1,15 @@
 <template>
-  <view class="container">
-    <text class="title">基本使用</text>
-    <view class="content">
-      <view v-for="(item, index) in 6" :key="index" class="item">
-        <see-icon></see-icon>
-        <see-text :size="14" :text="item" type="primary"></see-text>
+  <see-config>
+    <view class="container">
+      <text class="title">基本使用</text>
+      <view class="content">
+        <view v-for="(item, index) in 6" :key="index" class="item">
+          <see-icon></see-icon>
+          <see-text :size="14" :text="item" type="primary"></see-text>
+        </view>
       </view>
     </view>
-  </view>
+  </see-config>
 </template>
 
 <script lang="ts" setup></script>

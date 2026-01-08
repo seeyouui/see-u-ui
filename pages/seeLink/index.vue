@@ -1,30 +1,32 @@
 <template>
-  <view class="container">
-    <text class="title">基本使用</text>
-    <view class="content">
-      <see-link text="这是SeeYouUI的官方文档" type="primary" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="自定义文字颜色" color="#52f7bd" href="https://www.baidu.com" />
+  <see-config>
+    <view class="container">
+      <text class="title">基本使用</text>
+      <view class="content">
+        <see-link text="这是SeeYouUI的官方文档" type="primary" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="自定义文字颜色" color="#52f7bd" href="https://www.baidu.com" />
+      </view>
+      <text class="title">设置主题</text>
+      <view class="content">
+        <see-link text="《静夜思》" type="" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="床前明月光，" type="primary" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="疑是地上霜。" type="error" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="举头望明月，" type="warning" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="低头思故乡。" type="success" href="https://www.baidu.com" />
+      </view>
+      <text class="title">下划线</text>
+      <view class="content">
+        <see-link text="来都来了, 给我点个Star吗？" is-line type="primary" href="https://www.baidu.com" />
+        <view class="gap-12"></view>
+        <see-link text="自定义下划线颜色" is-line line-color="#52f7bd" type="primary" href="https://www.baidu.com" />
+      </view>
     </view>
-    <text class="title">设置主题</text>
-    <view class="content">
-      <see-link text="《静夜思》" type="" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="床前明月光，" type="primary" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="疑是地上霜。" type="error" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="举头望明月，" type="warning" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="低头思故乡。" type="success" href="https://www.baidu.com" />
-    </view>
-    <text class="title">下划线</text>
-    <view class="content">
-      <see-link text="来都来了, 给我点个Star吗？" is-line type="primary" href="https://www.baidu.com" />
-      <view class="gap-12"></view>
-      <see-link text="自定义下划线颜色" is-line line-color="#52f7bd" type="primary" href="https://www.baidu.com" />
-    </view>
-  </view>
+  </see-config>
 </template>
 
 <script lang="ts" setup></script>

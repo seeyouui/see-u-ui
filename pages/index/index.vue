@@ -26,7 +26,7 @@
           :style="key === 0 && 'border-top: 1px var(--see-border-four-color) solid'"
           @tap="clickItem(val.url)"
         >
-          <text>{{ val.title }}</text>
+          <text class="list-item-text">{{ val.title }}</text>
         </view>
       </view>
     </view>
@@ -188,6 +188,7 @@ const clickItem = (url: string) => uni.navigateTo({ url })
 .title {
   font-size: 24px;
   font-weight: bold;
+  color: var(--see-main-color);
 }
 
 .logo {
@@ -202,7 +203,7 @@ const clickItem = (url: string) => uni.navigateTo({ url })
 
 .subtitle {
   font-size: 14px;
-  color: #999;
+  color: var(--see-tips-color);
 }
 
 .list {
@@ -221,5 +222,9 @@ const clickItem = (url: string) => uni.navigateTo({ url })
   padding: 12px 24px;
   box-sizing: border-box;
   border-bottom: 1px var(--see-border-four-color) solid;
+}
+
+.list-item-text {
+  color: var(--see-main-color);
 }
 </style>
