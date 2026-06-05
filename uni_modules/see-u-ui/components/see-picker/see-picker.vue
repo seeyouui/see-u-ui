@@ -93,6 +93,7 @@
  * @property {Boolean}                  isAsync          是否异步加载
  */
 import { ref, computed, watch, inject, nextTick, reactive } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { PickerOption, PickerColumn, PickerSize, FormContext, WheelState } from './type'
 
 defineOptions({ name: 'SeePicker' })
@@ -174,10 +175,18 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- 常量 ---------- */
 const ITEM_HEIGHT = 88 // 每个选项的高度 rpx
+/** 缓存窗口宽度，避免触摸事件中同步调用 getSystemInfoSync */
+let cachedWindowWidth = 375
+try {
+  const sysInfo = uni.getSystemInfoSync()
+  cachedWindowWidth = sysInfo.windowWidth || 375
+} catch (e) {
+  cachedWindowWidth = 375
+}
 
 /** ---------- refs ---------- */
 const isVisible = ref(false)
@@ -250,9 +259,7 @@ const displayText = computed(() => {
 })
 
 /** 每个选项的高度（px 用于计算） */
-const itemHeightPx = computed(() => {
-  return ITEM_HEIGHT
-})
+const itemHeightPx = ITEM_HEIGHT
 
 /** 滚轮容器高度 */
 const wheelHeight = computed(() => {
@@ -398,6 +405,7 @@ function initCascadeIndices(): void {
  * @title 初始化滚轮状态
  */
 function initWheelStates(): void {
+  const centerOffset = ((props.visibleItemCount - 1) / 2) * ITEM_HEIGHT
   selectedIndices.value.forEach((idx, colIndex) => {
     if (!wheelStates[colIndex]) {
       wheelStates[colIndex] = {
@@ -408,7 +416,7 @@ function initWheelStates(): void {
         touching: false
       }
     }
-    wheelStates[colIndex].offset = -idx * ITEM_HEIGHT
+    wheelStates[colIndex].offset = centerOffset - idx * ITEM_HEIGHT
   })
 }
 
@@ -436,8 +444,7 @@ function isOptionSelected(colIndex: number, optIndex: number): boolean {
  * @title 获取 rpx 对应的 px 值
  */
 function rpxToPx(rpx: number): number {
-  const systemInfo = uni.getSystemInfoSync()
-  return (rpx / 750) * systemInfo.windowWidth
+  return (rpx / 750) * cachedWindowWidth
 }
 
 /**
@@ -448,8 +455,9 @@ function handleTouchStart(event: TouchEvent, colIndex: number): void {
 
   const touch = event.touches[0]
   if (!wheelStates[colIndex]) {
+    const fallbackCenter = ((props.visibleItemCount - 1) / 2) * ITEM_HEIGHT
     wheelStates[colIndex] = {
-      offset: 0,
+      offset: fallbackCenter,
       startY: 0,
       startOffset: 0,
       startTime: 0,
@@ -476,15 +484,15 @@ function handleTouchMove(event: TouchEvent, colIndex: number): void {
   const touch = event.touches[0]
   const deltaY = touch.clientY - state.startY
   // 将 px 转换为 rpx
-  const systemInfo = uni.getSystemInfoSync()
-  const deltaRpx = (deltaY / systemInfo.windowWidth) * 750
+  const deltaRpx = (deltaY / cachedWindowWidth) * 750
   let newOffset = state.startOffset + deltaRpx
 
   // 边界限制（添加弹性效果）
   const column = displayColumns.value[colIndex]
   if (!column) return
-  const maxOffset = 0
-  const minOffset = -(column.length - 1) * ITEM_HEIGHT
+  const centerOffset = ((props.visibleItemCount - 1) / 2) * ITEM_HEIGHT
+  const maxOffset = centerOffset
+  const minOffset = centerOffset - (column.length - 1) * ITEM_HEIGHT
 
   if (newOffset > maxOffset) {
     newOffset = maxOffset + (newOffset - maxOffset) * 0.3
@@ -512,8 +520,7 @@ function handleTouchEnd(event: TouchEvent, colIndex: number): void {
   const duration = Date.now() - state.startTime
   const touch = event.changedTouches[0]
   const deltaY = touch.clientY - state.startY
-  const systemInfo = uni.getSystemInfoSync()
-  const deltaRpx = (deltaY / systemInfo.windowWidth) * 750
+  const deltaRpx = (deltaY / cachedWindowWidth) * 750
 
   // 惯性滚动
   let targetOffset = state.offset
@@ -524,13 +531,14 @@ function handleTouchEnd(event: TouchEvent, colIndex: number): void {
   }
 
   // 吸附到最近的选项
-  const maxOffset = 0
-  const minOffset = -(column.length - 1) * ITEM_HEIGHT
+  const centerOffset = ((props.visibleItemCount - 1) / 2) * ITEM_HEIGHT
+  const maxOffset = centerOffset
+  const minOffset = centerOffset - (column.length - 1) * ITEM_HEIGHT
   targetOffset = Math.max(minOffset, Math.min(maxOffset, targetOffset))
-  const snappedIndex = Math.round(-targetOffset / ITEM_HEIGHT)
+  const snappedIndex = Math.round((centerOffset - targetOffset) / ITEM_HEIGHT)
   const clampedIndex = Math.max(0, Math.min(column.length - 1, snappedIndex))
 
-  state.offset = -clampedIndex * ITEM_HEIGHT
+  state.offset = centerOffset - clampedIndex * ITEM_HEIGHT
 
   // 更新选中索引
   if (selectedIndices.value[colIndex] !== clampedIndex) {
@@ -576,8 +584,9 @@ function updateCascadeChildren(parentColIndex: number): void {
 
     // 初始化新列的滚轮状态
     const newColIndex = parentColIndex + 1
+    const centerOffset = ((props.visibleItemCount - 1) / 2) * ITEM_HEIGHT
     wheelStates[newColIndex] = {
-      offset: 0,
+      offset: centerOffset,
       startY: 0,
       startOffset: 0,
       startTime: 0,
@@ -680,6 +689,7 @@ function handleCancel(): void {
 /** ---------- watch ---------- */
 
 /** 监听 columns 变化 */
+// deep: false — 依赖外部通过引用替换 columns 数组来触发
 watch(
   () => props.columns,
   () => {
@@ -687,7 +697,7 @@ watch(
       initSelectedIndices()
     }
   },
-  { deep: true }
+  { deep: false }
 )
 
 /** 监听 modelValue 变化 */
@@ -697,8 +707,7 @@ watch(
     if (!isVisible.value) {
       initSelectedIndices()
     }
-  },
-  { deep: true }
+  }
 )
 
 /** 初始化 */
@@ -726,7 +735,7 @@ defineExpose({
   --picker-trigger-font-size-large: 32rpx;
   --picker-trigger-padding-h: 24rpx;
   --picker-trigger-border-radius: 8rpx;
-  --picker-popup-bg: #ffffff;
+  --picker-popup-bg: var(--see-bg-color);
   --picker-popup-radius: 24rpx 24rpx 0 0;
   --picker-toolbar-height: 96rpx;
   --picker-item-height: 88rpx;
@@ -969,15 +978,13 @@ defineExpose({
 /* ---------- 暗黑模式适配 ---------- */
 @media (prefers-color-scheme: dark) {
   .see-picker {
-    --picker-popup-bg: #1a1d24;
-    --picker-mask-top-bg: linear-gradient(to bottom, rgba(26, 29, 36, 0.95), rgba(26, 29, 36, 0.4));
-    --picker-mask-bottom-bg: linear-gradient(to top, rgba(26, 29, 36, 0.95), rgba(26, 29, 36, 0.4));
+    --picker-mask-top-bg: linear-gradient(to bottom, rgba(20, 23, 29, 0.95), rgba(20, 23, 29, 0.4));
+    --picker-mask-bottom-bg: linear-gradient(to top, rgba(20, 23, 29, 0.95), rgba(20, 23, 29, 0.4));
   }
 }
 
 .see-theme-dark .see-picker {
-  --picker-popup-bg: #1a1d24;
-  --picker-mask-top-bg: linear-gradient(to bottom, rgba(26, 29, 36, 0.95), rgba(26, 29, 36, 0.4));
-  --picker-mask-bottom-bg: linear-gradient(to top, rgba(26, 29, 36, 0.95), rgba(26, 29, 36, 0.4));
+  --picker-mask-top-bg: linear-gradient(to bottom, rgba(20, 23, 29, 0.95), rgba(20, 23, 29, 0.4));
+  --picker-mask-bottom-bg: linear-gradient(to top, rgba(20, 23, 29, 0.95), rgba(20, 23, 29, 0.4));
 }
 </style>

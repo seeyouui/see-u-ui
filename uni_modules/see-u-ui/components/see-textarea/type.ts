@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'vue'
+
 /** Textarea 组件尺寸 */
 export type TextareaSize = 'small' | 'default' | 'large'
 
@@ -33,7 +35,7 @@ export interface TextareaProps {
   /** 表单字段名 */
   name?: string
   /** 自定义输入框样式 */
-  inputStyle?: Record<string, any>
+  inputStyle?: CSSProperties
   /** 键盘右下角按钮文字 */
   confirmType?: ConfirmType
 }
@@ -58,12 +60,4 @@ export interface TextareaEmits {
   onLineChange: (lines: number) => void
 }
 
-/** Form 注入的上下文类型 */
-export interface FormContext {
-  /** 表单禁用状态 */
-  isDisabled?: boolean
-  /** 表单只读状态 */
-  isReadonly?: boolean
-  /** 表单尺寸 */
-  size?: TextareaSize
-}
+export type { FormContext } from '../../utils/shared/form-types'

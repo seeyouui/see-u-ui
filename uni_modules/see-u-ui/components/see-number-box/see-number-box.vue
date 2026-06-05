@@ -1,5 +1,5 @@
 <template>
-  <view class="see-number-box" :class="numberBoxClasses" :style="numberBoxStyle">
+  <view class="see-number-box" :class="numberBoxClasses">
     <!-- 减少按钮 -->
     <view
       class="see-number-box__minus"
@@ -64,6 +64,7 @@
  * @property {String}   name             表单字段名
  */
 import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { FormContext, NumberBoxSize } from './type'
 
 defineOptions({ name: 'SeeNumberBox' })
@@ -147,7 +148,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- refs ---------- */
 /** 输入框当前显示的文本 */
@@ -157,7 +158,7 @@ const isInputting = ref(false)
 
 /** 长按定时器 */
 let longPressTimer: ReturnType<typeof setTimeout> | null = null
-let longPressIntervalTimer: ReturnType<typeof setInterval> | null = null
+let longPressRepeatTimer: ReturnType<typeof setTimeout> | null = null
 let currentLongPressInterval = LONG_PRESS_INITIAL_INTERVAL
 /** 当前长按方向 */
 let longPressDirection: 'plus' | 'minus' | null = null
@@ -232,7 +233,7 @@ const numberBoxClasses = computed(() => {
   return classes.join(' ')
 })
 
-const numberBoxStyle = computed(() => ({}))
+
 
 const inputStyle = computed(() => ({
   width: `${props.inputWidth}rpx`
@@ -348,16 +349,16 @@ function clearLongPressTimers(): void {
     clearTimeout(longPressTimer)
     longPressTimer = null
   }
-  if (longPressIntervalTimer) {
-    clearInterval(longPressIntervalTimer)
-    longPressIntervalTimer = null
+  if (longPressRepeatTimer) {
+    clearTimeout(longPressRepeatTimer)
+    longPressRepeatTimer = null
   }
   longPressDirection = null
   currentLongPressInterval = LONG_PRESS_INITIAL_INTERVAL
 }
 
 /**
- * @title 开始长按重复执行
+ * @title 开始长按重复执行（使用递归 setTimeout 替代 setInterval 实现加速）
  */
 function startLongPressRepeat(direction: 'plus' | 'minus'): void {
   const action = direction === 'plus' ? doPlus : doMinus
@@ -368,21 +369,20 @@ function startLongPressRepeat(direction: 'plus' | 'minus'): void {
   // 立即执行一次
   action()
 
-  // 设置间隔执行
-  longPressIntervalTimer = setInterval(() => {
-    action()
-    // 加速：逐步缩短间隔
-    if (currentLongPressInterval > LONG_PRESS_MIN_INTERVAL) {
-      currentLongPressInterval = Math.max(LONG_PRESS_MIN_INTERVAL, currentLongPressInterval - LONG_PRESS_INTERVAL_STEP)
-      // 重建 interval 以应用新间隔
-      if (longPressIntervalTimer) {
-        clearInterval(longPressIntervalTimer)
-        longPressIntervalTimer = setInterval(() => {
-          action()
-        }, currentLongPressInterval)
+  // 使用递归 setTimeout 实现加速
+  function scheduleNext(): void {
+    longPressRepeatTimer = setTimeout(() => {
+      if (longPressDirection !== direction) return
+      action()
+      // 加速：逐步缩短间隔
+      if (currentLongPressInterval > LONG_PRESS_MIN_INTERVAL) {
+        currentLongPressInterval = Math.max(LONG_PRESS_MIN_INTERVAL, currentLongPressInterval - LONG_PRESS_INTERVAL_STEP)
       }
-    }
-  }, currentLongPressInterval)
+      scheduleNext()
+    }, currentLongPressInterval)
+  }
+
+  scheduleNext()
 }
 
 /**
@@ -426,6 +426,7 @@ function onTouchEnd(): void {
 
 /** ---- Mouse 事件（H5 端长按） ---- */
 function onPlusMouseDown(): void {
+  // #ifdef H5
   if (isPlusDisabled.value) return
   handleLongPressStart('plus')
 
@@ -434,9 +435,11 @@ function onPlusMouseDown(): void {
     document.removeEventListener('mouseup', onMouseUp)
   }
   document.addEventListener('mouseup', onMouseUp)
+  // #endif
 }
 
 function onMinusMouseDown(): void {
+  // #ifdef H5
   if (isMinusDisabled.value) return
   handleLongPressStart('minus')
 
@@ -445,10 +448,11 @@ function onMinusMouseDown(): void {
     document.removeEventListener('mouseup', onMouseUp)
   }
   document.addEventListener('mouseup', onMouseUp)
+  // #endif
 }
 
 /** ---- 输入框事件 ---- */
-function onInput(e: any): void {
+function onInput(e: { detail?: { value: string }, target?: { value: string } }): void {
   const value = e.detail?.value ?? e.target?.value ?? ''
   inputText.value = value
 

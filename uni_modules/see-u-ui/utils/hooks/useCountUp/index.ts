@@ -24,7 +24,7 @@ export function useCountUp(config: CountUpConfig = {}) {
 
   const currentValue = ref(0)
   const renderList = ref<RenderItem[]>([])
-  const countUpTimer = ref<any>(null)
+  const countUpTimer = ref<ReturnType<typeof setInterval> | null>(null)
 
   /**
    * 格式化数字字符串

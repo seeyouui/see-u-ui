@@ -81,9 +81,22 @@ const getStyle = computed(() => {
   return style
 })
 
+/** URL 协议白名单 */
+const ALLOWED_PROTOCOLS = ['http:', 'https:', 'tel:', 'mailto:']
+
 const onClick = () => {
   emit('onClick')
   if (props.href ?? '') {
+    // URL 协议白名单校验
+    try {
+      const url = new URL(props.href)
+      if (!ALLOWED_PROTOCOLS.includes(url.protocol)) {
+        console.warn(`[SeeLink] blocked protocol: ${url.protocol}`)
+        return
+      }
+    } catch {
+      // 非标准 URL（如相对路径），允许通过
+    }
     // #ifdef APP-PLUS
     plus.runtime.openURL(props.href)
     // #endif

@@ -84,7 +84,7 @@
     <!-- 上传按钮 -->
     <view v-if="isShowUpload" class="see-upload__add" :class="itemClasses" :style="itemStyle" @click="handleClickUpload">
       <slot>
-        <text class="see-upload__add-icon" :class="props.uploadIcon || 'see-upload-icon-plus'">
+        <text class="see-upload__add-icon" :class="safeUploadIcon">
           {{ props.uploadIcon ? '' : '+' }}
         </text>
         <text v-if="props.uploadText" class="see-upload__add-text">{{ props.uploadText }}</text>
@@ -124,7 +124,8 @@
  * @property {String}            uploadIcon          上传图标
  */
 /* eslint-disable no-unreachable */
-import { computed, inject } from 'vue'
+import { computed, inject, onBeforeUnmount } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { UploadFileItem, UploadAccept, UploadSize, ImageSizeType, ImageSourceType, FormContext } from './type'
 
 defineOptions({ name: 'SeeUpload' })
@@ -225,7 +226,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
 
@@ -257,6 +258,12 @@ const isShowUpload = computed(() => {
 const isShowDelete = computed(() => {
   if (mergedDisabled.value || mergedReadonly.value) return false
   return props.isDeletable
+})
+
+/** 安全的上传图标类名（防止 CSS 注入） */
+const safeUploadIcon = computed(() => {
+  if (!props.uploadIcon) return 'see-upload-icon-plus'
+  return props.uploadIcon.replace(/[^a-zA-Z0-9_\-\s]/g, '')
 })
 
 /** ---------- classes ---------- */
@@ -317,9 +324,22 @@ function getFileExtension(name: string): string {
 
 /** 检查文件大小 */
 function checkFileSize(file: UploadFileItem): boolean {
-  if (!props.maxSize || !file.size) return true
+  if (!props.maxSize) return true
+  if (file.size === undefined || file.size === null) {
+    console.warn('[see-upload] File size unknown, skipping size check')
+    return true
+  }
   const maxSizeBytes = props.maxSize * 1024 * 1024
   return file.size <= maxSizeBytes
+}
+
+/** 检查文件类型是否符合 accept 要求 */
+function matchesAccept(file: UploadFileItem): boolean {
+  if (!props.accept || props.accept === 'file') return true
+  if (props.accept === 'image') return file.type?.startsWith('image/') || /\.(jpg|jpeg|png|gif|bmp|webp|svg|ico|tiff|avif)$/i.test(file.name || '')
+  if (props.accept === 'video') return file.type?.startsWith('video/') || /\.(mp4|avi|mov|wmv|flv|mkv)$/i.test(file.name || '')
+  if (props.accept === 'media') return (file.type?.startsWith('image/') || file.type?.startsWith('video/')) || /\.(jpg|jpeg|png|gif|bmp|webp|svg|mp4|avi|mov)$/i.test(file.name || '')
+  return true
 }
 
 /** 更新文件列表并触发事件 */
@@ -469,7 +489,7 @@ async function chooseVideo(): Promise<UploadFileItem[]> {
  * @title 选择媒体文件（图片或视频）
  */
 async function chooseMedia(count: number): Promise<UploadFileItem[]> {
-  // #ifdef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK || H5
+  // #ifdef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK
   return new Promise((resolve, reject) => {
     ;(uni as any).chooseMedia({
       count,
@@ -511,7 +531,7 @@ async function chooseMedia(count: number): Promise<UploadFileItem[]> {
   })
   // #endif
 
-  // #ifndef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK || H5
+  // #ifndef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK
   // 不支持 chooseMedia 的平台降级为 chooseImage
   return chooseImage(count)
   // #endif
@@ -617,6 +637,12 @@ async function processFiles(selectedFiles: UploadFileItem[]) {
       continue
     }
 
+    // 文件类型校验
+    if (!matchesAccept(file)) {
+      emit('onError', new Error(`文件类型不符合要求`))
+      continue
+    }
+
     // beforeRead 校验
     if (props.beforeRead) {
       try {
@@ -636,18 +662,20 @@ async function processFiles(selectedFiles: UploadFileItem[]) {
   const newList = [...fileList.value, ...validFiles]
   updateFileList(newList)
 
-  // 对每个新文件执行上传
-  const startIndex = fileList.value.length
-  for (let i = 0; i < validFiles.length; i++) {
-    const fileIndex = startIndex + i
-    const file = validFiles[i]
+  // 对每个新文件执行上传 — 使用文件对象引用而非索引，避免 fileList 变化后索引过期
+  for (const file of validFiles) {
+    // 在当前列表中查找文件引用
+    const currentIndex = fileList.value.findIndex(
+      (f) => f === file || f.tempFilePath === file.tempFilePath || f.url === file.url
+    )
+    if (currentIndex === -1) continue
 
     // 执行上传
-    await performUpload(file, fileIndex)
+    await performUpload(file, currentIndex)
 
     // afterRead 回调
     if (props.afterRead) {
-      props.afterRead(fileList.value[fileIndex] || file)
+      props.afterRead(fileList.value[currentIndex] || file)
     }
   }
 }
@@ -700,12 +728,40 @@ function handlePreview(file: UploadFileItem, index: number) {
 function handleDelete(file: UploadFileItem, index: number) {
   if (!isShowDelete.value) return
 
+  // 释放 Object URL 避免内存泄漏
+  revokeObjectUrl(file)
+
   emit('onDelete', file)
 
   const newList = [...fileList.value]
   newList.splice(index, 1)
   updateFileList(newList)
 }
+
+/**
+ * @title 释放 Object URL
+ */
+function revokeObjectUrl(file: UploadFileItem) {
+  // #ifdef H5
+  if (file.url && file.url.startsWith('blob:')) {
+    try {
+      URL.revokeObjectURL(file.url)
+    } catch (_) {
+      // ignore
+    }
+  }
+  // #endif
+}
+
+/** ---------- lifecycle ---------- */
+onBeforeUnmount(() => {
+  // 组件卸载时释放所有 Object URL
+  // #ifdef H5
+  for (const file of fileList.value) {
+    revokeObjectUrl(file)
+  }
+  // #endif
+})
 
 /** ---------- expose ---------- */
 defineExpose({
@@ -806,7 +862,7 @@ defineExpose({
 
 /* ---------- 视频预览 ---------- */
 .see-upload__preview--video {
-  background-color: #000;
+  background-color: var(--see-bg-dark-color, #000);
 }
 
 .see-upload__video-placeholder {
@@ -815,12 +871,12 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1a1a1a;
+  background-color: var(--see-bg-dark-color, #1a1a1a);
 }
 
 .see-upload__video-icon {
   font-size: 48rpx;
-  color: #fff;
+  color: var(--see-text);
 }
 
 .see-upload__play-icon {
@@ -839,7 +895,7 @@ defineExpose({
 
 .see-upload__play-icon-text {
   font-size: 28rpx;
-  color: #fff;
+  color: var(--see-text);
   margin-left: 4rpx;
 }
 
@@ -894,7 +950,7 @@ defineExpose({
 
 .see-upload__mask-text {
   font-size: 20rpx;
-  color: #fff;
+  color: var(--see-text);
   text-align: center;
   padding: 0 8rpx;
   overflow: hidden;
@@ -912,7 +968,7 @@ defineExpose({
 
 .see-upload__loading-icon {
   font-size: 40rpx;
-  color: #fff;
+  color: var(--see-text);
   animation: upload-spin 1s linear infinite;
 }
 
@@ -944,7 +1000,7 @@ defineExpose({
 /* ---------- 错误图标 ---------- */
 .see-upload__error-icon {
   font-size: 36rpx;
-  color: #fff;
+  color: var(--see-text);
 }
 
 /* ---------- 删除按钮 ---------- */
@@ -968,7 +1024,7 @@ defineExpose({
 
 .see-upload__delete-icon-text {
   font-size: 20rpx;
-  color: #fff;
+  color: var(--see-text);
   line-height: 1;
 }
 

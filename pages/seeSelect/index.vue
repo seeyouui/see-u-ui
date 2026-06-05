@@ -4,13 +4,13 @@
       <text class="title">基础单选</text>
       <view class="content">
         <see-select v-model="singleValue" :options="basicOptions" placeholder="请选择城市" />
-        <text class="result-text">选中值：{{ singleValue || '无' }}</text>
+        <text class="info">选中值：{{ singleValue || '无' }}</text>
       </view>
 
       <text class="title">多选模式</text>
       <view class="content">
         <see-select v-model="multiValue" :options="basicOptions" is-multiple placeholder="请选择多个城市" />
-        <text class="result-text">选中值：{{ JSON.stringify(multiValue) }}</text>
+        <text class="info">选中值：{{ JSON.stringify(multiValue) }}</text>
       </view>
 
       <text class="title">多选 - 限制标签数</text>
@@ -134,24 +134,18 @@ const borderValue = ref('')
   .title {
     font-size: 18px;
     color: #999;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    display: block;
   }
-
   .content {
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
 
-  .result-text {
-    font-size: 14px;
-    color: #666;
-    padding: 8px 12px;
-    background-color: #f5f5f5;
-    border-radius: 6px;
-  }
+.info {
+  font-size: 12px;
+  color: #999;
 }
 </style>

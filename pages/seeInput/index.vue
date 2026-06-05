@@ -33,10 +33,10 @@
       <view class="content">
         <see-input v-model="slotValue" placeholder="自定义前后缀">
           <template #prefix>
-            <text style="font-size: 28rpx; color: #999; padding-right: 8rpx">https://</text>
+            <text class="slot-text">https://</text>
           </template>
           <template #suffix>
-            <text style="font-size: 28rpx; color: #999; padding-left: 8rpx">.com</text>
+            <text class="slot-text">.com</text>
           </template>
         </see-input>
       </view>
@@ -118,11 +118,16 @@ const bankFormatter = (value: string) => {
     color: #999;
   }
   .content {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
+
+.slot-text {
+  font-size: 14px;
+  color: #999;
 }
 </style>

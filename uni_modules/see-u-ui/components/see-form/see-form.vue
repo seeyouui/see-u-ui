@@ -79,51 +79,25 @@ const {
 
 /** ---------- 同步 props 到 formContext ---------- */
 watch(
-  () => props.labelPosition,
-  (val) => {
-    formContext.props.labelPosition = val
-  }
-)
-watch(
-  () => props.labelWidth,
-  (val) => {
-    formContext.props.labelWidth = val
-  }
-)
-watch(
-  () => props.isDisabled,
-  (val) => {
-    formContext.props.isDisabled = val
-  }
-)
-watch(
-  () => props.isReadonly,
-  (val) => {
-    formContext.props.isReadonly = val
-  }
-)
-watch(
-  () => props.isRequiredAsterisk,
-  (val) => {
-    formContext.props.isRequiredAsterisk = val
-  }
-)
-watch(
-  () => props.isShowMessage,
-  (val) => {
-    formContext.props.isShowMessage = val
-  }
-)
-watch(
-  () => props.isInline,
-  (val) => {
-    formContext.props.isInline = val
-  }
-)
-watch(
-  () => props.size,
-  (val) => {
-    formContext.props.size = val
+  () => [
+    props.labelPosition,
+    props.labelWidth,
+    props.isDisabled,
+    props.isReadonly,
+    props.isRequiredAsterisk,
+    props.isShowMessage,
+    props.isInline,
+    props.size
+  ],
+  ([labelPosition, labelWidth, isDisabled, isReadonly, isRequiredAsterisk, isShowMessage, isInline, size]) => {
+    formContext.props.labelPosition = labelPosition as LabelPosition
+    formContext.props.labelWidth = labelWidth as string | number
+    formContext.props.isDisabled = isDisabled as boolean
+    formContext.props.isReadonly = isReadonly as boolean
+    formContext.props.isRequiredAsterisk = isRequiredAsterisk as boolean
+    formContext.props.isShowMessage = isShowMessage as boolean
+    formContext.props.isInline = isInline as boolean
+    formContext.props.size = size as FormSize
   }
 )
 watch(

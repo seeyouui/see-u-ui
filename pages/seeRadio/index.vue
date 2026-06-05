@@ -135,15 +135,16 @@ const readonlyValue = ref('a')
     color: #999;
   }
   .content {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
-  .info {
-    font-size: 24rpx;
-    color: #999;
-  }
+}
+
+.info {
+  font-size: 12px;
+  color: #999;
 }
 </style>

@@ -80,79 +80,80 @@ const list = ref<listType>([
       { title: 'Keyboard 键盘', url: '/pages/seeKeyboard/index' }
     ]
   },
-  {
-    title: '布局组件',
-    componentsList: [
-      { title: 'Layout 布局', url: '/pages/todo/index' },
-      { title: 'Cell 单元格', url: '/pages/todo/index' },
-      { title: 'LoadingIcon 加载动画', url: '/pages/todo/index' },
-      { title: 'LoadingPage 加载页', url: '/pages/todo/index' },
-      { title: 'ScrollList 横向滚动列表', url: '/pages/todo/index' },
-      { title: 'Line 线条', url: '/pages/todo/index' },
-      { title: 'Card 卡片', url: '/pages/todo/index' },
-      { title: 'Overlay 遮罩层', url: '/pages/todo/index' },
-      { title: 'NoNetwork 无网络提示', url: '/pages/todo/index' },
-      { title: 'Grid 宫格布局', url: '/pages/todo/index' },
-      { title: 'Swiper 轮播图', url: '/pages/todo/index' },
-      { title: 'Skeleton 骨架屏', url: '/pages/todo/index' },
-      { title: 'Sticky 吸顶', url: '/pages/todo/index' },
-      { title: 'Waterfall 瀑布流', url: '/pages/todo/index' },
-      { title: 'Box 盒子', url: '/pages/todo/index' }
-    ]
-  },
-  {
-    title: '数据组件',
-    componentsList: [
-      { title: 'List 列表', url: '/pages/todo/index' },
-      { title: 'VirtualList 虚拟列表', url: '/pages/todo/index' },
-      { title: 'LineProgress 线形进度条', url: '/pages/todo/index' },
-      { title: 'Table 表格', url: '/pages/todo/index' },
-      { title: 'CountDown 倒计时', url: '/pages/todo/index' },
-      { title: 'CountTo 数字滚动', url: '/pages/todo/index' }
-    ]
-  },
-  {
-    title: '反馈组件',
-    componentsList: [
-      { title: 'Tooltip 长按提示', url: '/pages/todo/index' },
-      { title: 'Popover 弹窗提示', url: '/pages/todo/index' },
-      { title: 'ActionSheet 操作菜单', url: '/pages/todo/index' },
-      { title: 'Alert 警告提示', url: '/pages/todo/index' },
-      { title: 'Toast 消息提示', url: '/pages/todo/index' },
-      { title: 'NoticeBar 滚动通知', url: '/pages/todo/index' },
-      { title: 'Notify 消息提示', url: '/pages/todo/index' },
-      { title: 'SwipeAction 滑动单元格', url: '/pages/todo/index' },
-      { title: 'Collapse 折叠面板', url: '/pages/todo/index' },
-      { title: 'Popup 弹出层', url: '/pages/todo/index' },
-      { title: 'Modal 模态框', url: '/pages/todo/index' },
-      { title: 'Copy 复制', url: '/pages/todo/index' }
-    ]
-  },
-  {
-    title: '导航组件',
-    componentsList: [
-      { title: 'Dropdown 下拉菜单', url: '/pages/todo/index' },
-      { title: 'Tabbar 底部导航栏', url: '/pages/todo/index' },
-      { title: 'BackTop 返回顶部', url: '/pages/todo/index' },
-      { title: 'Navbar 自定义导航栏', url: '/pages/todo/index' },
-      { title: 'NavbarMini 迷你导航栏', url: '/pages/todo/index' },
-      { title: 'Tabs 标签', url: '/pages/todo/index' },
-      { title: 'Subsection 分段器', url: '/pages/todo/index' },
-      { title: 'IndexList 索引列表', url: '/pages/todo/index' },
-      { title: 'Steps 步骤条', url: '/pages/todo/index' },
-      { title: 'Empty 内容为空', url: '/pages/todo/index' },
-      { title: 'Pagination 分页器', url: '/pages/todo/index' },
-      { title: 'Tree 树形组件', url: '/pages/todo/index' },
-      { title: 'CityLocate 城市定位选择', url: '/pages/todo/index' }
-    ]
-  },
-  {
-    title: '内容解析',
-    componentsList: [
-      { title: 'Parse 富文本解析器', url: '/pages/todo/index' },
-      { title: 'Markdown 文本解析', url: '/pages/todo/index' }
-    ]
-  }
+  // 以下分类页面尚未开发，暂时注释
+  // {
+  //   title: '布局组件',
+  //   componentsList: [
+  //     { title: 'Layout 布局', url: '/pages/todo/index' },
+  //     { title: 'Cell 单元格', url: '/pages/todo/index' },
+  //     { title: 'LoadingIcon 加载动画', url: '/pages/todo/index' },
+  //     { title: 'LoadingPage 加载页', url: '/pages/todo/index' },
+  //     { title: 'ScrollList 横向滚动列表', url: '/pages/todo/index' },
+  //     { title: 'Line 线条', url: '/pages/todo/index' },
+  //     { title: 'Card 卡片', url: '/pages/todo/index' },
+  //     { title: 'Overlay 遮罩层', url: '/pages/todo/index' },
+  //     { title: 'NoNetwork 无网络提示', url: '/pages/todo/index' },
+  //     { title: 'Grid 宫格布局', url: '/pages/todo/index' },
+  //     { title: 'Swiper 轮播图', url: '/pages/todo/index' },
+  //     { title: 'Skeleton 骨架屏', url: '/pages/todo/index' },
+  //     { title: 'Sticky 吸顶', url: '/pages/todo/index' },
+  //     { title: 'Waterfall 瀑布流', url: '/pages/todo/index' },
+  //     { title: 'Box 盒子', url: '/pages/todo/index' }
+  //   ]
+  // },
+  // {
+  //   title: '数据组件',
+  //   componentsList: [
+  //     { title: 'List 列表', url: '/pages/todo/index' },
+  //     { title: 'VirtualList 虚拟列表', url: '/pages/todo/index' },
+  //     { title: 'LineProgress 线形进度条', url: '/pages/todo/index' },
+  //     { title: 'Table 表格', url: '/pages/todo/index' },
+  //     { title: 'CountDown 倒计时', url: '/pages/todo/index' },
+  //     { title: 'CountTo 数字滚动', url: '/pages/todo/index' }
+  //   ]
+  // },
+  // {
+  //   title: '反馈组件',
+  //   componentsList: [
+  //     { title: 'Tooltip 长按提示', url: '/pages/todo/index' },
+  //     { title: 'Popover 弹窗提示', url: '/pages/todo/index' },
+  //     { title: 'ActionSheet 操作菜单', url: '/pages/todo/index' },
+  //     { title: 'Alert 警告提示', url: '/pages/todo/index' },
+  //     { title: 'Toast 消息提示', url: '/pages/todo/index' },
+  //     { title: 'NoticeBar 滚动通知', url: '/pages/todo/index' },
+  //     { title: 'Notify 消息提示', url: '/pages/todo/index' },
+  //     { title: 'SwipeAction 滑动单元格', url: '/pages/todo/index' },
+  //     { title: 'Collapse 折叠面板', url: '/pages/todo/index' },
+  //     { title: 'Popup 弹出层', url: '/pages/todo/index' },
+  //     { title: 'Modal 模态框', url: '/pages/todo/index' },
+  //     { title: 'Copy 复制', url: '/pages/todo/index' }
+  //   ]
+  // },
+  // {
+  //   title: '导航组件',
+  //   componentsList: [
+  //     { title: 'Dropdown 下拉菜单', url: '/pages/todo/index' },
+  //     { title: 'Tabbar 底部导航栏', url: '/pages/todo/index' },
+  //     { title: 'BackTop 返回顶部', url: '/pages/todo/index' },
+  //     { title: 'Navbar 自定义导航栏', url: '/pages/todo/index' },
+  //     { title: 'NavbarMini 迷你导航栏', url: '/pages/todo/index' },
+  //     { title: 'Tabs 标签', url: '/pages/todo/index' },
+  //     { title: 'Subsection 分段器', url: '/pages/todo/index' },
+  //     { title: 'IndexList 索引列表', url: '/pages/todo/index' },
+  //     { title: 'Steps 步骤条', url: '/pages/todo/index' },
+  //     { title: 'Empty 内容为空', url: '/pages/todo/index' },
+  //     { title: 'Pagination 分页器', url: '/pages/todo/index' },
+  //     { title: 'Tree 树形组件', url: '/pages/todo/index' },
+  //     { title: 'CityLocate 城市定位选择', url: '/pages/todo/index' }
+  //   ]
+  // },
+  // {
+  //   title: '内容解析',
+  //   componentsList: [
+  //     { title: 'Parse 富文本解析器', url: '/pages/todo/index' },
+  //     { title: 'Markdown 文本解析', url: '/pages/todo/index' }
+  //   ]
+  // }
 ])
 
 const clickItem = (url: string) => uni.navigateTo({ url })

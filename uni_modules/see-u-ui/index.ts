@@ -1,10 +1,14 @@
-import type { App, DefineComponent } from 'vue'
+import type { App, Component } from 'vue'
 
 // 原有组件
 import { SeeButton } from './components/see-button/index'
 import { SeeText } from './components/see-text/index'
 import { SeeLink } from './components/see-link/index'
 import { SeeTag } from './components/see-tag/index'
+import { SeeBadge } from './components/see-badge/index'
+import { SeeIcon } from './components/see-icon/index'
+import { SeeImage } from './components/see-image/index'
+import { SeeConfig } from './components/see-config/index'
 
 // 表单体系组件
 import { SeeForm, SeeFormItem } from './components/see-form/index'
@@ -33,12 +37,16 @@ import { useTheme } from './utils/hooks/useTheme'
 import { useForm } from './utils/hooks/useForm'
 import { useField } from './utils/hooks/useField'
 
-const components: DefineComponent[] = [
+const components: Component[] = [
   // 原有组件
   SeeButton,
   SeeText,
   SeeLink,
   SeeTag,
+  SeeBadge,
+  SeeIcon,
+  SeeImage,
+  SeeConfig,
   // 表单体系
   SeeForm,
   SeeFormItem,
@@ -60,12 +68,13 @@ const components: DefineComponent[] = [
   SeeUpload,
   SeeCode,
   SeeKeyboard
-] as unknown as DefineComponent[]
+]
 
 const install = (app: App) => {
   components.forEach((component) => {
-    if (component.name) {
-      app.component(component.name, component)
+    const name = (component as { name?: string }).name
+    if (name) {
+      app.component(name, component)
     } else {
       console.warn('SeeYouUI: 组件缺少 name 属性，无法自动注册', component)
     }
@@ -88,6 +97,10 @@ export {
   SeeText,
   SeeLink,
   SeeTag,
+  SeeBadge,
+  SeeIcon,
+  SeeImage,
+  SeeConfig,
   // 表单体系
   SeeForm,
   SeeFormItem,
@@ -114,3 +127,10 @@ export {
 export default {
   install
 }
+
+// 类型导出
+export type { FormRule, FormInstance, FormItemInstance, ValidateResult, ValidateError } from './utils/shared/form-types'
+export type { CascaderOption } from './components/see-cascader/type'
+export type { SelectOption } from './components/see-select/type'
+export type { PickerOption, PickerColumn } from './components/see-picker/type'
+export type { UploadFileItem } from './components/see-upload/type'

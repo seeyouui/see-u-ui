@@ -16,6 +16,7 @@
 
   /* ---------- 背景颜色 ---------- */
   --see-bg-color: #ffffff; /* 你之前修改为白色了，保持不变 */
+  --see-bg-dark-color: #14171d;
 
   /* ---------- 主色 ---------- */
   --see-primary: #3ca7ff;
@@ -54,6 +55,9 @@
   --see-dark-text: #ffffff;
   --see-disabled-text: #f2f3f5;
   --see-light-text: #aeb0b4;
+
+  /* ---------- 交互元素表面 ---------- */
+  --see-surface-color: #ffffff;
 }
 
 /* =========================================================
@@ -74,6 +78,7 @@
 
   /* ---------- 背景颜色 ---------- */
   --see-bg-color: #14171d;
+  --see-bg-dark-color: #0a0c10;
 
   /* ---------- 主色 ---------- */
   --see-primary: #3ca7ff;
@@ -112,6 +117,9 @@
   --see-dark-text: #ffffff;
   --see-disabled-text: rgba(255, 255, 255, 0.4);
   --see-light-text: #8b9098;
+
+  /* ---------- 交互元素表面 ---------- */
+  --see-surface-color: #ffffff;
 }
 
 /* 4.1 默认状态 (Default) */

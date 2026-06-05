@@ -68,7 +68,7 @@
           @on-delete="onRandomDelete"
           @on-confirm="onRandomConfirm"
         />
-        <text class="tips">每次打开键盘数字排列随机，防止窥探</text>
+        <text class="info">每次打开键盘数字排列随机，防止窥探</text>
       </view>
 
       <text class="title">配合 Code 组件使用</text>
@@ -82,7 +82,7 @@
           @on-delete="onCodeDelete"
           @on-confirm="onCodeConfirm"
         />
-        <text class="tips">点击验证码框弹出数字键盘</text>
+        <text class="info">点击验证码框弹出数字键盘</text>
       </view>
 
       <text class="title">不显示 Toolbar</text>
@@ -229,24 +229,25 @@ const onNoConfirmDelete = () => {
   .content {
     margin-top: 12px;
     margin-bottom: 24px;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 12px;
   }
-  .input-box {
-    width: 100%;
-    padding: 12px 16px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-  }
-  .input-text {
-    font-size: 16px;
-    color: #333;
-  }
-  .tips {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #999;
-  }
+}
+
+.info {
+  font-size: 12px;
+  color: #999;
+}
+
+.input-box {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.input-text {
+  font-size: 16px;
+  color: #333;
 }
 </style>

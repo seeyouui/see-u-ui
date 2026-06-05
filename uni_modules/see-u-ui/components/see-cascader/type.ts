@@ -15,7 +15,10 @@ export interface CascaderOption {
   isLeaf?: boolean
   /** 子选项列表 */
   children?: CascaderOption[]
-  /** 额外数据（可存放任意字段） */
+  /**
+   * 额外数据（可存放任意字段）
+   * 注意：此索引签名允许传入自定义扩展字段，使用时请确保类型安全
+   */
   [key: string]: any
 }
 
@@ -64,15 +67,7 @@ export interface CascaderTab {
   isActive: boolean
 }
 
-/** Form 注入的上下文类型 */
-export interface FormContext {
-  /** 表单禁用状态 */
-  isDisabled?: boolean
-  /** 表单只读状态 */
-  isReadonly?: boolean
-  /** 表单尺寸 */
-  size?: CascaderSize
-}
+export type { FormContext } from '../../utils/shared/form-types'
 
 /** SeeCascader Props */
 export interface SeeCascaderProps {

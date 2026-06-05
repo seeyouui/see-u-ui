@@ -3,6 +3,8 @@
  * @description 输入框组件的类型声明
  */
 
+import type { CSSProperties } from 'vue'
+
 /** 输入框类型 */
 export type InputType = 'text' | 'number' | 'password' | 'digit' | 'tel' | 'idcard'
 
@@ -38,7 +40,7 @@ export interface SeeInputProps {
   /** 是否自动聚焦 */
   isFocus?: boolean
   /** 自定义输入框样式 */
-  inputStyle?: Record<string, any>
+  inputStyle?: CSSProperties
   /** 表单字段名 */
   name?: string
   /** 输入格式化函数 */
@@ -66,17 +68,9 @@ export interface SeeInputEmits {
   /** 键盘确认时触发 */
   onConfirm: (value: string | number) => void
   /** 键盘高度变化时触发 */
-  onKeyboardHeightChange: () => void
+  onKeyboardHeightChange: (height: number) => void
   /** v-model 更新 */
   'update:modelValue': (value: string | number) => void
 }
 
-/** Form 注入的上下文类型 */
-export interface FormContext {
-  /** 表单禁用状态 */
-  isDisabled?: boolean
-  /** 表单只读状态 */
-  isReadonly?: boolean
-  /** 表单尺寸 */
-  size?: InputSize
-}
+export type { FormContext } from '../../utils/shared/form-types'

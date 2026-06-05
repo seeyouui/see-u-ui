@@ -1,7 +1,7 @@
 import { computed, type ComputedRef, type MaybeRefOrGetter } from 'vue'
 
-function toValueCompat(v: any) {
-  return typeof v === 'function' ? v() : v
+function toValueCompat<T>(v: T | (() => T)): T {
+  return typeof v === 'function' ? (v as () => T)() : v
 }
 
 type NumberInput = MaybeRefOrGetter<number | string | null | undefined>

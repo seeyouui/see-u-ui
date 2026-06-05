@@ -140,19 +140,18 @@ const mergedIsRequired = computed(() => {
     return false
   }
   // 自动检测：检查该字段的规则中是否有 required
-  const fieldRules = getFieldRules()
-  return fieldRules.some((rule) => rule.required)
+  return fieldRules.value.some((rule) => rule.required)
 })
 
-/** 获取该字段的所有规则 */
-function getFieldRules(): FormRule[] {
+/** 获取该字段的所有规则（缓存） */
+const fieldRules = computed<FormRule[]>(() => {
   // 优先使用 FormItem 自身的规则
   if (props.rules) {
     return Array.isArray(props.rules) ? props.rules : [props.rules]
   }
   // 否则从 Form 获取
   return form?.getRules(props.field) || []
-}
+})
 
 /** 标签样式 */
 const labelStyle = computed(() => {

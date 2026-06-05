@@ -66,7 +66,7 @@
  * @tutorial https://www.seeuui.cn/components/button/
  *
  * @property {String}												title			标题
- * @property {"normal" | "large" | "small" | "mini"}				size			大小（默认normal）
+ * @property {"default" | "large" | "small" | "mini"}				size			大小（默认default）
  * @property {"info" | "primary" | "error" | "warning" | "success"}	type			按钮的预置样式，info，primary，error，warning，success (默认 'info' )
  * @property {Style}												color			按钮颜色(默认空，会覆盖type的颜色)
  * @property {Style}												textColor		标题颜色
@@ -97,7 +97,7 @@ const instance = getCurrentInstance()
 const props = withDefaults(
   defineProps<{
     title?: string
-    size?: 'normal' | 'large' | 'small' | 'mini'
+    size?: 'default' | 'large' | 'small' | 'mini'
     type?: 'info' | 'primary' | 'error' | 'warning' | 'success'
     color?: string
     textColor?: string
@@ -106,8 +106,8 @@ const props = withDefaults(
     maskTime?: number
     isHollow?: boolean
     rippleColor?: string
-    rippleStyle?: Record<string, any> | null
-    customStyle?: Record<string, any> | null
+    rippleStyle?: import('vue').CSSProperties | null
+    customStyle?: import('vue').CSSProperties | null
     hoverClass?: string | null
     border?: 1 | 0
     isDisabled?: boolean
@@ -115,7 +115,7 @@ const props = withDefaults(
   }>(),
   {
     title: '',
-    size: 'normal',
+    size: 'default',
     type: 'info',
     color: '',
     textColor: '',
@@ -174,7 +174,7 @@ const getHoverClass = computed(() => {
  *
  * @param {Event} e 触摸或点击事件对象
  */
-const onTouchstart = (e: any) => {
+const onTouchstart = (e: TouchEvent) => {
   active.value = false
   nextTick(() => activeWaves(e))
 }
@@ -212,9 +212,11 @@ const activeWaves = (e: TouchEvent) => {
     touchesY = e.detail.clientY
     // #endif
 
-    // #ifndef MP-BAIDU || MP-ALIPAY
+    // #ifndef MP-BAIDU
+    // #ifndef MP-ALIPAY
     touchesX = e.touches[0].clientX
     touchesY = e.touches[0].clientY
+    // #endif
     // #endif
 
     rippleTop.value = touchesY - data.top - data.finalWidth / 2
@@ -312,7 +314,7 @@ const getClientRect = () => {
 }
 
 /** ---------- size ---------- */
-.normal {
+.default {
   min-width: 180rpx;
   min-height: 41px;
 }

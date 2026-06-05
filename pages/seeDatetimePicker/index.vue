@@ -4,13 +4,13 @@
       <text class="title">日期选择</text>
       <view class="content">
         <see-datetime-picker v-model="dateValue" type="date" placeholder="请选择日期" toolbar-title="选择日期" @on-confirm="handleDateConfirm" />
-        <text class="result-text">选中值：{{ formatDate(dateValue) }}</text>
+        <text class="info">选中值：{{ formatDate(dateValue) }}</text>
       </view>
 
       <text class="title">时间选择</text>
       <view class="content">
         <see-datetime-picker v-model="timeValue" type="time" placeholder="请选择时间" toolbar-title="选择时间" @on-confirm="handleTimeConfirm" />
-        <text class="result-text">选中值：{{ formatDate(timeValue) }}</text>
+        <text class="info">选中值：{{ formatDate(timeValue) }}</text>
       </view>
 
       <text class="title">日期时间选择</text>
@@ -22,13 +22,13 @@
           toolbar-title="选择日期时间"
           @on-confirm="handleDatetimeConfirm"
         />
-        <text class="result-text">选中值：{{ formatDate(datetimeValue) }}</text>
+        <text class="info">选中值：{{ formatDate(datetimeValue) }}</text>
       </view>
 
       <text class="title">年月选择</text>
       <view class="content">
         <see-datetime-picker v-model="yearMonthValue" type="year-month" placeholder="请选择年月" toolbar-title="选择年月" />
-        <text class="result-text">选中值：{{ formatDate(yearMonthValue) }}</text>
+        <text class="info">选中值：{{ formatDate(yearMonthValue) }}</text>
       </view>
 
       <text class="title">月日选择</text>
@@ -46,13 +46,13 @@
           min-date="2024-01-01"
           max-date="2026-12-31"
         />
-        <text class="result-text">限制范围：2024-01-01 ~ 2026-12-31</text>
+        <text class="info">限制范围：2024-01-01 ~ 2026-12-31</text>
       </view>
 
       <text class="title">时间范围限制</text>
       <view class="content">
         <see-datetime-picker v-model="timeRangeValue" type="time" placeholder="8:00-18:00" toolbar-title="选择时间" :min-hour="8" :max-hour="18" />
-        <text class="result-text">限制范围：08:00 ~ 18:00</text>
+        <text class="info">限制范围：08:00 ~ 18:00</text>
       </view>
 
       <text class="title">显示秒</text>
@@ -143,24 +143,20 @@ const handleDatetimeConfirm = (value: Date) => {
   .title {
     font-size: 18px;
     color: #999;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    display: block;
   }
-
   .content {
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
 
-  .result-text {
-    font-size: 14px;
-    color: #666;
-    padding: 8px 12px;
-    background-color: #f5f5f5;
-    border-radius: 6px;
-  }
+.info {
+  font-size: 12px;
+  color: #999;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 </style>

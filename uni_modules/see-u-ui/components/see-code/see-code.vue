@@ -7,7 +7,7 @@
       :value="modelValue"
       :type="inputType"
       :maxlength="length"
-      :focus="autoFocus"
+      :focus="needFocus"
       :disabled="mergedDisabled"
       :adjust-position="true"
       @input="handleInput"
@@ -22,7 +22,6 @@
       :key="index"
       class="see-code__cell"
       :class="getCellClasses(index)"
-      :style="cellStyle"
       @click="handleCellClick(index)"
     >
       <!-- 遮罩圆点 -->
@@ -57,6 +56,7 @@
  * @property {Boolean}  isCursor    是否显示光标闪烁动画（默认 false）
  */
 import { computed, inject, nextTick, ref, watch } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { CodeSize, CodeType, FormContext } from './type'
 
 defineOptions({ name: 'SeeCode' })
@@ -120,11 +120,13 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- refs ---------- */
 const inputRef = ref<any>(null)
 const isFocused = ref(false)
+/** 非 H5 端通过切换此 ref 来重新触发 input 聚焦 */
+const needFocus = ref(props.isFocus)
 
 /** ---------- computed ---------- */
 /** 实际禁用状态（考虑 Form 联动） */
@@ -185,11 +187,6 @@ const codeStyle = computed(() => {
   }
 })
 
-/** 单元格样式 */
-const cellStyle = computed(() => {
-  return {}
-})
-
 /** ---------- methods ---------- */
 /**
  * @title 获取单元格样式类
@@ -227,7 +224,7 @@ function shouldShowCursor(index: number): boolean {
  * @title 处理输入事件
  * @description 截取到指定长度，更新 v-model，触发 onChange / onComplete
  */
-function handleInput(e: any) {
+function handleInput(e: { detail?: { value: string }, target?: { value: string } }) {
   if (mergedDisabled.value || mergedReadonly.value) return
 
   let value = String(e.detail?.value ?? e.target?.value ?? '')
@@ -254,7 +251,7 @@ function handleInput(e: any) {
  * @title 处理粘贴事件
  * @description 将粘贴内容截取到指定长度并更新
  */
-function handlePaste(e: any) {
+function handlePaste(e: { clipboardData?: { getData: (type: string) => string }, detail?: { value: string, text?: string } }) {
   if (mergedDisabled.value || mergedReadonly.value) return
 
   let pasted = (e.clipboardData?.getData('text') || '').trim()
@@ -317,20 +314,21 @@ function handleCellClick(index: number) {
  * @title 聚焦隐藏 input
  */
 function focusInput() {
+  if (mergedDisabled.value || mergedReadonly.value) return
+  isFocused.value = true
+  // #ifdef H5
   nextTick(() => {
-    // #ifdef H5
     const el = inputRef.value?.$el?.querySelector?.('input') || inputRef.value
     if (el?.focus) el.focus()
-    // #endif
-    // #ifndef H5
-    // 小程序端通过 focus 属性控制
-    // 需要先设置为 false 再设回 true 才能重新触发聚焦
-    isFocused.value = false
-    nextTick(() => {
-      isFocused.value = true
-    })
-    // #endif
   })
+  // #endif
+  // #ifndef H5
+  // 小程序端通过切换 needFocus 来重新触发聚焦
+  needFocus.value = false
+  nextTick(() => {
+    needFocus.value = true
+  })
+  // #endif
 }
 
 /** ---------- expose ---------- */

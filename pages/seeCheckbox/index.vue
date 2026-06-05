@@ -20,7 +20,7 @@
 
       <text class="title">全选 / 半选</text>
       <view class="content">
-        <see-checkbox v-model="isAllChecked" :is-indeterminate="isIndeterminate" @on-change="handleCheckAll">全选</see-checkbox>
+        <see-checkbox :model-value="isAllChecked" :is-indeterminate="isIndeterminate" @on-change="handleCheckAll">全选</see-checkbox>
         <view style="height: 8px" />
         <see-checkbox-group v-model="fruitValues">
           <see-checkbox label="apple">苹果</see-checkbox>
@@ -166,15 +166,16 @@ const disabledGroupValues = ref<string[]>(['a', 'c'])
     color: #999;
   }
   .content {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
-  .info {
-    font-size: 24rpx;
-    color: #999;
-  }
+}
+
+.info {
+  font-size: 12px;
+  color: #999;
 }
 </style>

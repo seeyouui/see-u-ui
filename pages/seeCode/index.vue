@@ -4,13 +4,13 @@
       <text class="title">基础用法（4位数字验证码）</text>
       <view class="content">
         <see-code v-model="code1" @on-complete="onComplete1" />
-        <text class="tips">当前值：{{ code1 }}</text>
+        <text class="info">当前值：{{ code1 }}</text>
       </view>
 
       <text class="title">6位验证码</text>
       <view class="content">
         <see-code v-model="code2" :length="6" @on-complete="onComplete2" />
-        <text class="tips">当前值：{{ code2 }}</text>
+        <text class="info">当前值：{{ code2 }}</text>
       </view>
 
       <text class="title">方框类型（box）</text>
@@ -31,19 +31,19 @@
       <text class="title">遮罩模式</text>
       <view class="content">
         <see-code v-model="code6" is-mask />
-        <text class="tips">输入内容将以圆点形式显示</text>
+        <text class="info">输入内容将以圆点形式显示</text>
       </view>
 
       <text class="title">光标动画</text>
       <view class="content">
         <see-code v-model="code7" is-cursor />
-        <text class="tips">聚焦时显示闪烁光标</text>
+        <text class="info">聚焦时显示闪烁光标</text>
       </view>
 
       <text class="title">自动聚焦</text>
       <view class="content">
         <see-code v-model="code8" :is-focus="true" />
-        <text class="tips">组件挂载后自动聚焦</text>
+        <text class="info">组件挂载后自动聚焦</text>
       </view>
 
       <text class="title">禁用状态</text>
@@ -59,27 +59,23 @@
       <text class="title">不同尺寸</text>
       <view class="content">
         <see-code v-model="code11" size="small" />
-        <text class="tips">小型 (small)</text>
-      </view>
-      <view class="content">
+        <text class="info">小型 (small)</text>
         <see-code v-model="code12" size="default" />
-        <text class="tips">默认 (default)</text>
-      </view>
-      <view class="content">
+        <text class="info">默认 (default)</text>
         <see-code v-model="code13" size="large" />
-        <text class="tips">大型 (large)</text>
+        <text class="info">大型 (large)</text>
       </view>
 
       <text class="title">自定义间距</text>
       <view class="content">
         <see-code v-model="code14" :gap="20" />
-        <text class="tips">间距 20rpx</text>
+        <text class="info">间距 20rpx</text>
       </view>
 
       <text class="title">字母键盘（text 类型）</text>
       <view class="content">
         <see-code v-model="code15" keyboard="text" :length="6" />
-        <text class="tips">调用文本键盘输入字母</text>
+        <text class="info">调用文本键盘输入字母</text>
       </view>
 
       <text class="title">组合用法：遮罩 + 光标 + 6位</text>
@@ -133,13 +129,14 @@ const onComplete2 = (value: string) => {
   .content {
     margin-top: 12px;
     margin-bottom: 24px;
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 12px;
   }
-  .tips {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #999;
-  }
+}
+
+.info {
+  font-size: 12px;
+  color: #999;
 }
 </style>

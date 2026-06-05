@@ -22,6 +22,7 @@
  * @property {String}                      name            表单字段名
  */
 import { computed, provide, reactive, toRef } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { CheckboxSize, CheckboxGroupContext, FormContext } from '../see-checkbox/type'
 import { inject } from 'vue'
 
@@ -74,7 +75,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- state ---------- */
 /** 已注册的子 Checkbox label 列表 */
@@ -161,11 +162,11 @@ const groupContext: CheckboxGroupContext = reactive({
   modelValue: toRef(props, 'modelValue'),
   isDisabled: mergedDisabled,
   isReadonly: mergedReadonly,
-  max: props.max,
-  min: props.min,
+  max: toRef(props, 'max'),
+  min: toRef(props, 'min'),
   size: mergedSize,
-  isBorder: props.isBorder,
-  checkedColor: props.checkedColor,
+  isBorder: toRef(props, 'isBorder'),
+  checkedColor: toRef(props, 'checkedColor'),
   register,
   unregister,
   toggle

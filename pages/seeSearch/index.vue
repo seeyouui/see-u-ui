@@ -4,7 +4,7 @@
       <text class="title">基础用法</text>
       <view class="content">
         <see-search v-model="val1" placeholder="请输入搜索内容" />
-        <text class="tip">当前值：{{ val1 }}</text>
+        <text class="info">当前值：{{ val1 }}</text>
       </view>
 
       <text class="title">圆角形状（默认）</text>
@@ -48,22 +48,19 @@
       </view>
 
       <text class="title">不同尺寸</text>
-      <view class="content-col">
+      <view class="content">
         <see-search v-model="val8" size="small" placeholder="小尺寸" />
-        <view class="gap" />
         <see-search v-model="val8" size="default" placeholder="默认尺寸" />
-        <view class="gap" />
         <see-search v-model="val8" size="large" placeholder="大尺寸" />
       </view>
 
       <text class="title">自定义插槽</text>
-      <view class="content-col">
+      <view class="content">
         <see-search v-model="val9" placeholder="左侧带文字">
           <template #left>
             <text class="slot-text">取消</text>
           </template>
         </see-search>
-        <view class="gap" />
         <see-search v-model="val9" placeholder="右侧带图标">
           <template #right>
             <text class="slot-text">筛选</text>
@@ -99,40 +96,23 @@ const val9 = ref('')
     font-size: 18px;
     color: #999;
   }
-
   .content {
-    margin-top: 6px;
-    margin-bottom: 24px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .content-col {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
 
-  .tip {
-    font-size: 14px;
-    color: #666;
-    margin-left: 12px;
-  }
+.info {
+  font-size: 12px;
+  color: #999;
+}
 
-  .gap {
-    height: 12px;
-  }
-
-  .slot-text {
-    font-size: 14px;
-    color: #007aff;
-    white-space: nowrap;
-  }
+.slot-text {
+  font-size: 14px;
+  color: #999;
+  white-space: nowrap;
 }
 </style>

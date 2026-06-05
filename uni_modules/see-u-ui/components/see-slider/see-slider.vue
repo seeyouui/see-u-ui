@@ -1,5 +1,5 @@
 <template>
-  <view class="see-slider" :class="sliderClasses" :style="sliderStyle">
+  <view class="see-slider" :class="sliderClasses">
     <!-- 值显示 - 范围模式左侧 / 单值模式 -->
     <text v-if="isShowValue" class="see-slider__value see-slider__value--start">
       {{ displayStartValue }}
@@ -89,7 +89,8 @@
  * @property {String}         size          尺寸（默认 'default'）
  * @property {String}         name          表单字段名
  */
-import { computed, getCurrentInstance, inject, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { FormContext, SliderSize } from './type'
 
 defineOptions({ name: 'SeeSlider' })
@@ -160,7 +161,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 const instance = getCurrentInstance()
 
 /** ---------- refs ---------- */
@@ -244,8 +245,6 @@ const sliderClasses = computed(() => {
   return classes.join(' ')
 })
 
-const sliderStyle = computed(() => ({}))
-
 const trackStyle = computed(() => {
   const style: Record<string, string> = {}
   if (props.isVertical) {
@@ -270,8 +269,8 @@ const fillStyle = computed(() => {
     style.backgroundColor = props.activeColor
   }
   if (props.isVertical) {
-    style.bottom = `${minPercent.value}%`
-    style.height = `${maxPercent.value - minPercent.value}%`
+    style['--fill-top'] = `${100 - maxPercent.value}%`
+    style['--fill-height'] = `${maxPercent.value - minPercent.value}%`
   } else {
     style.left = `${minPercent.value}%`
     style.width = `${maxPercent.value - minPercent.value}%`
@@ -301,7 +300,8 @@ function getThumbStyle(type: 'min' | 'max'): Record<string, string> {
   const percent = type === 'min' ? minPercent.value : maxPercent.value
   const style: Record<string, string> = {}
   if (props.isVertical) {
-    style.bottom = `${percent}%`
+    // 用 CSS 变量传递值，在 CSS 中用 var() 读取
+    style['--thumb-y'] = `${100 - percent}%`
   } else {
     style.left = `${percent}%`
   }
@@ -320,7 +320,7 @@ function getStepDotStyle(index: number): Record<string, string> {
   const percent = total > 0 ? (index / total) * 100 : 0
   const style: Record<string, string> = {}
   if (props.isVertical) {
-    style.bottom = `${percent}%`
+    style.top = `${100 - percent}%`
   } else {
     style.left = `${percent}%`
   }
@@ -364,20 +364,34 @@ function getTrackRect(): Promise<{ left: number; top: number; width: number; hei
 
 /** 根据触摸/鼠标坐标计算百分比 */
 function getPercentByPosition(clientX: number, clientY: number): number {
-  const rect = trackRect.value
-  let percent: number
+  const el = (trackRef.value as any)?.$el || trackRef.value as any
+  if (!el) return 0
+
+  const width = el.offsetWidth || el.clientWidth || 0
+  const height = el.offsetHeight || el.clientHeight || 0
+
+  // 用 offsetTop 遍历获取元素在页面中的绝对位置（不受 transform 影响）
+  let elementTop = 0
+  let elementLeft = 0
+  let node: any = el
+  while (node) {
+    elementTop += node.offsetTop || 0
+    elementLeft += node.offsetLeft || 0
+    node = node.offsetParent
+  }
+  // 减去页面滚动偏移，得到视口坐标
+  const viewportTop = elementTop - (window.pageYOffset || document.documentElement.scrollTop || 0)
+  const viewportLeft = elementLeft - (window.pageXOffset || document.documentElement.scrollLeft || 0)
 
   if (props.isVertical) {
-    if (rect.height <= 0) return 0
-    const offsetY = rect.top + rect.height - clientY
-    percent = (offsetY / rect.height) * 100
+    if (height <= 0) return 0
+    const offsetY = viewportTop + height - clientY
+    return Math.max(0, Math.min(100, (offsetY / height) * 100))
   } else {
-    if (rect.width <= 0) return 0
-    const offsetX = clientX - rect.left
-    percent = (offsetX / rect.width) * 100
+    if (width <= 0) return 0
+    const offsetX = clientX - viewportLeft
+    return Math.max(0, Math.min(100, (offsetX / width) * 100))
   }
-
-  return Math.max(0, Math.min(100, percent))
 }
 
 /** 判断触摸点更接近哪个滑块 */
@@ -411,19 +425,33 @@ function updateValue(clientX: number, clientY: number) {
   }
 }
 
+/** 同步获取轨道位置（从 ref 直接读取 DOM 元素） */
+function syncTrackRect(): boolean {
+  const el = (trackRef.value as any)?.$el || trackRef.value as any
+  if (!el) return false
+  const width = el.offsetWidth || el.clientWidth || 0
+  const height = el.offsetHeight || el.clientHeight || 0
+  if (width <= 0 && height <= 0) return false
+  if (typeof el.getBoundingClientRect === 'function') {
+    const rect = el.getBoundingClientRect()
+    trackRect.value = { left: rect.left, top: rect.top, width: width, height: height }
+  }
+  return width > 0 || height > 0
+}
+
 /** ---- Touch 事件处理 ---- */
-async function onTouchStart(e: TouchEvent) {
+function onTouchStart(e: TouchEvent) {
   if (mergedDisabled.value || mergedReadonly.value) return
   if (e.touches.length === 0) return
 
   const touch = e.touches[0]
-  trackRect.value = await getTrackRect()
+
+  isDragging.value = true
 
   // 判断最接近的滑块
   activeThumb.value = getClosestThumb(touch.clientX, touch.clientY)
-  isDragging.value = true
 
-  // 立即更新到触摸位置
+  // 立即更新到触摸位置（getPercentByPosition 内部会实时获取 rect）
   updateValue(touch.clientX, touch.clientY)
 
   emit('onDragStart')
@@ -445,27 +473,32 @@ function onTouchEnd() {
 }
 
 /** ---- Mouse 事件处理（H5 端） ---- */
-async function onMouseDown(e: MouseEvent) {
+function onMouseDown(e: MouseEvent) {
+  // #ifdef H5
   if (mergedDisabled.value || mergedReadonly.value) return
 
-  trackRect.value = await getTrackRect()
   activeThumb.value = getClosestThumb(e.clientX, e.clientY)
   isDragging.value = true
   isMouseDown.value = true
 
+  // getPercentByPosition 内部会实时获取 rect
   updateValue(e.clientX, e.clientY)
   emit('onDragStart')
 
   document.addEventListener('mousemove', onDocumentMouseMove)
   document.addEventListener('mouseup', onDocumentMouseUp)
+  // #endif
 }
 
 function onDocumentMouseMove(e: MouseEvent) {
+  // #ifdef H5
   if (!isDragging.value) return
   updateValue(e.clientX, e.clientY)
+  // #endif
 }
 
 function onDocumentMouseUp() {
+  // #ifdef H5
   if (!isDragging.value) return
 
   isDragging.value = false
@@ -474,6 +507,7 @@ function onDocumentMouseUp() {
 
   document.removeEventListener('mousemove', onDocumentMouseMove)
   document.removeEventListener('mouseup', onDocumentMouseUp)
+  // #endif
 }
 
 /** ---------- watch ---------- */
@@ -496,6 +530,13 @@ watch(
 )
 
 /** ---------- lifecycle ---------- */
+/** 组件挂载后预缓存轨道位置 */
+onMounted(() => {
+  nextTick(() => {
+    syncTrackRect()
+  })
+})
+
 onBeforeUnmount(() => {
   // #ifdef H5
   document.removeEventListener('mousemove', onDocumentMouseMove)
@@ -520,6 +561,7 @@ defineExpose({
   padding: 24rpx 0;
   user-select: none;
   position: relative;
+  width: 100%;
 
   /* ---------- 尺寸变体 ---------- */
   &--small {
@@ -577,6 +619,8 @@ defineExpose({
   &__track {
     position: relative;
     flex: 1;
+    min-width: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     touch-action: none;
@@ -618,7 +662,7 @@ defineExpose({
     width: 8rpx;
     height: 8rpx;
     border-radius: 50%;
-    background-color: var(--see-border-color-dark, #dcdfe6);
+    background-color: var(--see-border-three-color);
     transform: translate(-50%, -50%);
     top: 50%;
 
@@ -630,9 +674,10 @@ defineExpose({
   /* ---------- 滑块 ---------- */
   &__thumb {
     position: absolute;
-    top: 50%;
+    left: var(--thumb-left, 50%);
+    top: var(--thumb-y, 50%);
     transform: translate(-50%, -50%);
-    background-color: #ffffff;
+    background-color: var(--see-surface-color);
     border-radius: 50%;
     box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.12);
     z-index: 10;
@@ -668,8 +713,8 @@ defineExpose({
     bottom: calc(100% + 16rpx);
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--see-text-color, #303133);
-    color: #ffffff;
+    background-color: var(--see-main-color);
+    color: var(--see-text);
     border-radius: 8rpx;
     white-space: nowrap;
     pointer-events: none;
@@ -681,13 +726,13 @@ defineExpose({
       left: 50%;
       transform: translateX(-50%);
       border: 8rpx solid transparent;
-      border-top-color: var(--see-text-color, #303133);
+      border-top-color: var(--see-main-color);
     }
   }
 
   /* ---------- 值文本 ---------- */
   &__value {
-    color: var(--see-text-color, #303133);
+    color: var(--see-main-color);
     text-align: center;
     flex-shrink: 0;
 
@@ -729,19 +774,15 @@ defineExpose({
     .see-slider__fill {
       left: 50%;
       right: auto;
-      top: auto;
+      top: var(--fill-top, 0);
+      bottom: auto;
       width: 100%;
+      height: var(--fill-height, 100%);
       transform: translateX(-50%);
     }
 
     .see-slider__thumb {
-      left: 50% !important;
-      top: auto;
-      transform: translate(-50%, 50%);
-
-      &.is-dragging {
-        transform: translate(-50%, 50%) scale(1.2);
-      }
+      /* top 由 CSS 变量 --thumb-top 控制（base CSS 已设置） */
     }
 
     .see-slider__tooltip {
@@ -756,7 +797,7 @@ defineExpose({
         right: 100%;
         transform: translateY(-50%);
         border: 8rpx solid transparent;
-        border-right-color: var(--see-text-color, #303133);
+        border-right-color: var(--see-main-color);
         border-top-color: transparent;
       }
     }
@@ -778,7 +819,7 @@ defineExpose({
       cursor: not-allowed;
 
       &::after {
-        background-color: var(--see-border-color-dark, #dcdfe6);
+        background-color: var(--see-border-three-color);
       }
     }
 

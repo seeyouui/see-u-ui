@@ -250,14 +250,23 @@ const disabledForm = reactive({
     color: #999;
   }
   .content {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
-  }
-  .btn-row {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 12px;
-    margin-top: 16px;
   }
+}
+
+.info {
+  font-size: 12px;
+  color: #999;
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 8px;
 }
 </style>

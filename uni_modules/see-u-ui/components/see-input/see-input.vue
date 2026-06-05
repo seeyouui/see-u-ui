@@ -3,7 +3,7 @@
     <!-- 前缀插槽 / 图标 -->
     <view v-if="$slots.prefix || props.prefixIcon" class="see-input__prefix">
       <slot name="prefix">
-        <text v-if="props.prefixIcon" :class="props.prefixIcon" class="see-input__icon"></text>
+        <text v-if="props.prefixIcon" :class="safePrefixIcon" class="see-input__icon"></text>
       </slot>
     </view>
 
@@ -52,7 +52,7 @@
     <!-- 后缀插槽 / 图标 -->
     <view v-if="showSuffix" class="see-input__suffix">
       <slot name="suffix">
-        <text v-if="props.suffixIcon" :class="props.suffixIcon" class="see-input__icon"></text>
+        <text v-if="props.suffixIcon" :class="safeSuffixIcon" class="see-input__icon"></text>
       </slot>
     </view>
   </view>
@@ -86,6 +86,7 @@
  */
 import { ref, computed, watch, nextTick, inject, useSlots } from 'vue'
 import { useField } from '../../utils/hooks/useField'
+import { formKey } from '../../utils/shared/form-keys'
 import type { InputType, InputSize, FormContext } from './type'
 
 defineOptions({ name: 'SeeInput' })
@@ -120,7 +121,7 @@ const props = withDefaults(
     /** 是否自动聚焦 */
     isFocus?: boolean
     /** 自定义输入框样式 */
-    inputStyle?: Record<string, any>
+    inputStyle?: import('vue').CSSProperties
     /** 表单字段名 */
     name?: string
     /** 输入格式化函数 */
@@ -160,9 +161,9 @@ const emit = defineEmits<{
   /** 输入时触发 */
   (e: 'onInput', value: string | number): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: any): void
+  (e: 'onFocus', event: { detail: { value: string } }): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: any): void
+  (e: 'onBlur', event: { detail: { value: string } }): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 值变化时触发（失焦后） */
@@ -176,19 +177,17 @@ const emit = defineEmits<{
 }>()
 
 /** 注入 Form 上下文（用于获取 Form 级别的 size） */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
-/** ---------- Form 联动（useField，仅在提供 name 时启用） ---------- */
-const field = props.name
-  ? useField({
-      field: props.name,
-      getValue: () => props.modelValue,
-      trigger: 'blur',
-      onValueChange: (value: unknown) => {
-        // 由 useField 内部管理 change 校验触发
-      }
-    })
-  : null
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'blur',
+  onValueChange: (value: unknown) => {
+    // 由 useField 内部管理 change 校验触发
+  }
+})
 
 const validateStatus = field?.validateStatus ?? ref('')
 const validateMessage = field?.validateMessage ?? ref('')
@@ -281,6 +280,18 @@ const showSuffix = computed(() => {
   return !!props.suffixIcon || !!slots.suffix
 })
 
+/** 安全的前缀图标类名（防止 CSS 注入） */
+const safePrefixIcon = computed(() => {
+  if (!props.prefixIcon) return ''
+  return props.prefixIcon.replace(/[^a-zA-Z0-9_\-\s]/g, '')
+})
+
+/** 安全的后缀图标类名（防止 CSS 注入） */
+const safeSuffixIcon = computed(() => {
+  if (!props.suffixIcon) return ''
+  return props.suffixIcon.replace(/[^a-zA-Z0-9_\-\s]/g, '')
+})
+
 /** ---------- classes ---------- */
 
 /** 输入框 CSS 类 */
@@ -300,7 +311,7 @@ const inputClasses = computed(() => {
  * @title 处理输入事件
  * @description 处理用户输入，支持 formatter/parser 和 v-model 双向绑定
  */
-const handleInput = (event: any) => {
+const handleInput = (event: { detail: { value: string } }) => {
   let value: string | number = event.detail?.value ?? ''
 
   // parser: 将格式化后的内容解析回原始值
@@ -336,7 +347,7 @@ const handleInput = (event: any) => {
 /**
  * @title 处理聚焦事件
  */
-const handleFocus = (event: any) => {
+const handleFocus = (event: { detail: { value: string } }) => {
   focused.value = true
   emit('onFocus', event)
 }
@@ -345,7 +356,7 @@ const handleFocus = (event: any) => {
  * @title 处理失焦事件
  * @description 触发 onBlur、onChange，同步 useField 校验
  */
-const handleBlur = (event: any) => {
+const handleBlur = (event: { detail: { value: string } }) => {
   focused.value = false
   emit('onBlur', event)
   emit('onChange', props.modelValue)
@@ -358,7 +369,7 @@ const handleBlur = (event: any) => {
 /**
  * @title 处理键盘确认事件
  */
-const handleConfirm = (event: any) => {
+const handleConfirm = (event: { detail: { value: string } }) => {
   emit('onConfirm', props.modelValue)
 }
 
@@ -428,7 +439,7 @@ const doBlur = () => {
 /** ---------- watch ---------- */
 
 /** 初始化 formatter */
-if (props.formatter && props.modelValue) {
+if (props.formatter && props.modelValue != null && props.modelValue !== '') {
   formattedValue.value = props.formatter(String(props.modelValue))
 }
 

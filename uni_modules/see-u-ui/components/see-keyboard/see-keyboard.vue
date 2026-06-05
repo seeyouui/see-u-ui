@@ -204,6 +204,18 @@ const isUppercase = ref(false)
 
 /** ---------- computed ---------- */
 
+/** 缓存随机洗牌结果，仅在键盘打开时重新生成 */
+const randomDigits = ref<string[]>([])
+
+watch(
+  isVisible,
+  (val) => {
+    if (val && props.isRandom) {
+      randomDigits.value = getRandomDigits()
+    }
+  }
+)
+
 /** 实际键盘类型（idcard 兼容 card） */
 const actualType = computed<KeyboardType>(() => {
   return props.type === 'idcard' ? 'card' : props.type
@@ -234,7 +246,7 @@ const numberKeyLayout = computed<KeyboardKey[][]>(() => {
   let digits: string[]
 
   if (props.isRandom) {
-    digits = getRandomDigits()
+    digits = randomDigits.value.length > 0 ? randomDigits.value : getRandomDigits()
   } else {
     digits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
   }

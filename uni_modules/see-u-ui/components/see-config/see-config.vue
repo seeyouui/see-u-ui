@@ -18,7 +18,6 @@ import { ref } from 'vue'
 import { onShow, onUnload } from '@dcloudio/uni-app'
 
 onShow(() => {
-  console.log('config onShow')
   uni.$on('mp-theme-change', handleThemeChange)
   if (uni.getStorageSync('mp-theme')) {
     handleThemeChange({ theme: uni.getStorageSync('mp-theme') })

@@ -20,6 +20,7 @@
  * @property {String}                      name         表单字段名
  */
 import { computed, provide, inject } from 'vue'
+import { formKey, radioGroupKey } from '../../utils/shared/form-keys'
 import type { RadioGroupContext, FormContext } from '../see-radio/type'
 
 defineOptions({ name: 'SeeRadioGroup' })
@@ -65,7 +66,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
 /** 实际禁用状态（考虑 Form 联动） */
@@ -99,7 +100,7 @@ const updateValue = (label: string | number | boolean) => {
 }
 
 /** 向子组件提供上下文 */
-provide<RadioGroupContext>('RadioGroupKey', {
+provide(radioGroupKey, {
   get modelValue() {
     return props.modelValue
   },

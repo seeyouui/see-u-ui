@@ -3,6 +3,8 @@
  * @description 自定义键盘的类型声明
  */
 
+import type { CSSProperties } from 'vue'
+
 /** 键盘类型 */
 export type KeyboardType = 'number' | 'card' | 'idcard' | 'text'
 
@@ -45,7 +47,7 @@ export interface SeeKeyboardProps {
   /** 是否显示遮罩层 */
   isOverlay?: boolean
   /** 遮罩层自定义样式 */
-  overlayStyle?: Record<string, any>
+  overlayStyle?: CSSProperties
   /** 点击遮罩是否关闭 */
   isCloseOnClickOverlay?: boolean
   /** 是否适配底部安全区域 */

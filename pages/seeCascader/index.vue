@@ -201,24 +201,20 @@ const handleLazyConfirm = (value: (string | number)[]) => {
   .title {
     font-size: 18px;
     color: #999;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    display: block;
   }
-
   .content {
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
 
-  .result-text {
-    font-size: 14px;
-    color: #666;
-    padding: 8px 12px;
-    background-color: #f5f5f5;
-    border-radius: 6px;
-  }
+.result-text {
+  font-size: 14px;
+  color: #999;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 </style>

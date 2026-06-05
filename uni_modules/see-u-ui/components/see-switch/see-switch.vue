@@ -1,5 +1,5 @@
 <template>
-  <view class="see-switch" :class="switchClasses" :style="switchStyle" @click="handleClick">
+  <view class="see-switch" :class="switchClasses" @click="handleClick">
     <!-- 文字描述 - 未选中 -->
     <text v-if="inactiveText && !isRightText" class="see-switch__text see-switch__text--inactive" :class="{ 'see-switch__text--active': !isActive }">
       {{ inactiveText }}
@@ -16,7 +16,7 @@
         <slot name="inactive"></slot>
       </view>
       <!-- 圆点 -->
-      <view class="see-switch__dot" :style="dotStyle"></view>
+      <view class="see-switch__dot"></view>
     </view>
 
     <!-- 文字描述 - 选中 -->
@@ -50,6 +50,7 @@
  * @property {String}                      name            表单字段名
  */
 import { computed, inject } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { FormContext } from './type'
 
 defineOptions({ name: 'SeeSwitch' })
@@ -106,7 +107,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
 /** 当前是否处于激活状态 */
@@ -143,11 +144,6 @@ const switchClasses = computed(() => {
   return classes.join(' ')
 })
 
-/** 开关整体样式 */
-const switchStyle = computed(() => {
-  return {}
-})
-
 /** 核心开关样式 */
 const coreStyle = computed(() => {
   const style: Record<string, string> = {}
@@ -159,11 +155,6 @@ const coreStyle = computed(() => {
   }
 
   return style
-})
-
-/** 圆点样式 */
-const dotStyle = computed(() => {
-  return {}
 })
 
 /** ---------- methods ---------- */
@@ -278,7 +269,7 @@ defineExpose({
   &__dot {
     position: absolute;
     left: 4rpx;
-    background-color: #ffffff;
+    background-color: var(--see-surface-color);
     box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.15);
     transition: transform 0.3s ease;
   }

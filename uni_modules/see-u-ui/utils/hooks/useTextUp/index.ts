@@ -21,7 +21,7 @@ export function useTextUp(config: TextUpConfig = {}, emits?: TextUpEmits) {
 
   const displayText = ref('')
   const currentIndex = ref(0)
-  let textUpTimer: number | null = null
+  let textUpTimer: ReturnType<typeof setTimeout> | null = null
 
   /**
    * 开始打字动画
@@ -43,7 +43,7 @@ export function useTextUp(config: TextUpConfig = {}, emits?: TextUpEmits) {
           emits.onTyping(displayText.value)
         }
 
-        textUpTimer = setTimeout(type, defaultConfig.speed) as unknown as number
+        textUpTimer = setTimeout(type, defaultConfig.speed)
       } else {
         // 触发完成回调
         if (emits?.onComplete) {
@@ -114,7 +114,7 @@ export function useTextUp(config: TextUpConfig = {}, emits?: TextUpEmits) {
           emits.onTyping(displayText.value)
         }
 
-        textUpTimer = setTimeout(type, defaultConfig.speed) as unknown as number
+        textUpTimer = setTimeout(type, defaultConfig.speed)
       } else {
         if (emits?.onComplete) {
           emits.onComplete()

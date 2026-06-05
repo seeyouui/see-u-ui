@@ -132,6 +132,7 @@
  */
 import { ref, computed, inject, nextTick, onBeforeUnmount } from 'vue'
 import { useField } from '../../utils/hooks/useField'
+import { formKey } from '../../utils/shared/form-keys'
 import type { SelectOption, SelectSize, FormContext } from './type'
 
 defineOptions({ name: 'SeeSelect' })
@@ -177,7 +178,7 @@ const props = withDefaults(
     labelKey?: string
   }>(),
   {
-    modelValue: () => [],
+    modelValue: undefined,
     options: () => [],
     placeholder: '请选择',
     isDisabled: false,
@@ -215,19 +216,17 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
-/** ---------- Form 联动（useField，仅在提供 name 时启用） ---------- */
-const field = props.name
-  ? useField({
-      field: props.name,
-      getValue: () => props.modelValue,
-      trigger: 'change',
-      onValueChange: () => {
-        // 由 useField 内部管理 change 校验触发
-      }
-    })
-  : null
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'change',
+  onValueChange: () => {
+    // 由 useField 内部管理 change 校验触发
+  }
+})
 
 const validateStatus = field?.validateStatus ?? ref('')
 const validateMessage = field?.validateMessage ?? ref('')
@@ -244,6 +243,8 @@ const isDropdownVisible = ref(false)
 const searchQuery = ref('')
 /** 搜索防抖定时器 */
 let searchTimer: ReturnType<typeof setTimeout> | null = null
+/** 关闭动画定时器 */
+let closeTimer: ReturnType<typeof setTimeout> | null = null
 
 /** ---------- computed ---------- */
 
@@ -290,6 +291,15 @@ const flatOptions = computed<SelectOption[]>(() => {
   }
   walk(props.options)
   return result
+})
+
+/** 使用 Map 索引替代 find 线性搜索 */
+const flatOptionsMap = computed(() => {
+  const map = new Map<string | number, SelectOption>()
+  for (const opt of flatOptions.value) {
+    map.set(opt[vKey.value], opt)
+  }
+  return map
 })
 
 /** 根据搜索关键字过滤后的选项（含分组结构） */
@@ -347,7 +357,7 @@ const displayOptions = computed(() => {
 const selectedTags = computed(() => {
   if (!props.isMultiple) return []
   return selectedValues.value.map((val) => {
-    const opt = flatOptions.value.find((o) => o[vKey.value] === val)
+    const opt = flatOptionsMap.value.get(val)
     return opt ? { value: val, label: String(opt[lKey.value]) } : { value: val, label: String(val) }
   })
 })
@@ -373,7 +383,7 @@ const displayText = computed(() => {
   if (props.isMultiple) return ''
   if (selectedValues.value.length === 0) return ''
   const val = selectedValues.value[0]
-  const opt = flatOptions.value.find((o) => o[vKey.value] === val)
+  const opt = flatOptionsMap.value.get(val)
   return opt ? String(opt[lKey.value]) : String(val)
 })
 
@@ -419,6 +429,11 @@ function handleToggle(): void {
  * @title 打开下拉框
  */
 function handleOpen(): void {
+  // 如果正在关闭，取消关闭定时器
+  if (closeTimer) {
+    clearTimeout(closeTimer)
+    closeTimer = null
+  }
   isVisible.value = true
   emit('onVisibleChange', true)
   nextTick(() => {
@@ -436,11 +451,13 @@ function handleOpen(): void {
  * @title 关闭下拉框
  */
 function handleClose(): void {
+  if (closeTimer) clearTimeout(closeTimer)
   isDropdownVisible.value = false
   emit('onVisibleChange', false)
-  setTimeout(() => {
+  closeTimer = setTimeout(() => {
     isVisible.value = false
     searchQuery.value = ''
+    closeTimer = null
   }, 200)
 }
 
@@ -514,7 +531,7 @@ function handleClear(): void {
 /**
  * @title 处理搜索输入
  */
-function handleSearchInput(event: any): void {
+function handleSearchInput(event: { detail: { value: string } }): void {
   const query = event.detail?.value ?? ''
   searchQuery.value = query
   emit('onSearch', query)
@@ -547,6 +564,10 @@ onBeforeUnmount(() => {
   if (searchTimer) {
     clearTimeout(searchTimer)
     searchTimer = null
+  }
+  if (closeTimer) {
+    clearTimeout(closeTimer)
+    closeTimer = null
   }
 })
 
@@ -916,7 +937,7 @@ defineExpose({
 
 .see-select__checkbox-icon {
   font-size: 22rpx;
-  color: #ffffff;
+  color: var(--see-text);
   line-height: 1;
 }
 
@@ -974,7 +995,7 @@ defineExpose({
   }
 
   .see-select__search-input {
-    background-color: #1a1d24;
+    background-color: var(--see-bg-color);
   }
 }
 
@@ -983,6 +1004,6 @@ defineExpose({
 }
 
 .see-theme-dark .see-select__search-input {
-  background-color: #1a1d24;
+  background-color: var(--see-bg-color);
 }
 </style>

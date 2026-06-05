@@ -24,8 +24,9 @@
  * @property {String}                      checkedColor 选中时颜色
  * @property {String}                      name       表单字段名
  */
-import { computed, inject } from 'vue'
-import type { RadioGroupContext, FormContext } from './type'
+import { computed, inject, ref } from 'vue'
+import { formKey, radioGroupKey } from '../../utils/shared/form-keys'
+import type { RadioEmits, RadioGroupContext, FormContext } from './type'
 
 defineOptions({ name: 'SeeRadio' })
 
@@ -44,6 +45,8 @@ const props = withDefaults(
     checkedColor?: string
     /** 表单字段名 */
     name?: string
+    /** v-model 绑定值（独立使用时） */
+    modelValue?: string | number | boolean
   }>(),
   {
     label: '',
@@ -56,20 +59,23 @@ const props = withDefaults(
 )
 
 /** ---------- emits ---------- */
-const emit = defineEmits<{
-  /** 状态变化时触发 */
-  (e: 'onChange', value: string | number | boolean): void
+const emit = defineEmits<RadioEmits & {
+  /** v-model 更新 */
+  'update:modelValue': (value: string | number | boolean) => void
 }>()
 
 /** ---------- inject ---------- */
-const radioGroup = inject<RadioGroupContext | null>('RadioGroupKey', null)
-const formContext = inject<FormContext | null>('formKey', null)
+const radioGroup = inject(radioGroupKey, null)
+const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
+/** 本地选中状态（独立使用时） */
+const localChecked = ref(false)
+
 /** 当前是否选中 */
 const isChecked = computed(() => {
-  if (!radioGroup) return false
-  return radioGroup.modelValue === props.label
+  if (radioGroup) return radioGroup.modelValue === props.label
+  return props.modelValue !== undefined ? props.modelValue === props.label : localChecked.value
 })
 
 /** 实际禁用状态（考虑 Group 和 Form 联动） */
@@ -135,8 +141,11 @@ const handleClick = () => {
 
   if (radioGroup) {
     radioGroup.updateValue(props.label)
-    emit('onChange', props.label)
+  } else {
+    localChecked.value = true
+    emit('update:modelValue', props.label)
   }
+  emit('onChange', props.label)
 }
 </script>
 

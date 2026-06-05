@@ -24,7 +24,7 @@
       />
 
       <!-- 清除按钮 -->
-      <view v-if="isShowClear" class="see-textarea__clear" @tap.stop="handleClear">
+      <view v-if="isShowClear" class="see-textarea__clear" @click.stop="handleClear">
         <text class="see-textarea__clear-icon">&times;</text>
       </view>
     </view>
@@ -59,6 +59,8 @@
  * @property {'return' | 'send' | 'search' | 'next' | 'go'} confirmType 键盘右下角按钮文字（默认 'return'）
  */
 import { computed, inject, ref, watch } from 'vue'
+import { useField } from '../../utils/hooks/useField'
+import { formKey } from '../../utils/shared/form-keys'
 import type { ConfirmType, FormContext, TextareaSize } from './type'
 
 defineOptions({ name: 'SeeTextarea' })
@@ -93,7 +95,7 @@ const props = withDefaults(
     /** 表单字段名 */
     name?: string
     /** 自定义输入框样式 */
-    inputStyle?: Record<string, any>
+    inputStyle?: import('vue').CSSProperties
     /** 键盘右下角按钮文字 */
     confirmType?: ConfirmType
   }>(),
@@ -121,9 +123,9 @@ const emit = defineEmits<{
   /** 输入时触发 */
   (e: 'onInput', value: string): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: any): void
+  (e: 'onFocus', event: { detail: { value: string } }): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: any): void
+  (e: 'onBlur', event: { detail: { value: string } }): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 值变化时触发（失焦后） */
@@ -139,7 +141,22 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
+
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'blur',
+  onValueChange: (val: unknown) => {
+    emit('update:modelValue', val as string)
+  }
+})
+
+const validateStatus = field?.validateStatus ?? ref('')
+const validateMessage = field?.validateMessage ?? ref('')
+const fieldDisabled = field?.isDisabled ?? computed(() => false)
+const fieldReadonly = field?.isReadonly ?? computed(() => false)
 
 /** ---------- state ---------- */
 /** 内部维护的值，用于处理 v-model */
@@ -150,12 +167,12 @@ const isFocused = ref(false)
 /** ---------- computed ---------- */
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || fieldDisabled.value || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || fieldReadonly.value || false
 })
 
 /** 实际尺寸（考虑 Form 联动） */
@@ -206,7 +223,7 @@ const wrapperStyle = computed(() => {
 
 /** 输入框内部样式 */
 const innerStyle = computed(() => {
-  const style: Record<string, any> = {
+  const style: Record<string, string> = {
     ...props.inputStyle
   }
   if (!props.isAutoHeight && props.rows > 0) {
@@ -231,7 +248,7 @@ watch(
  * @title 处理输入事件
  * @description 处理 textarea 的输入事件，同步更新 v-model 并触发 onInput
  */
-const handleInput = (e: any) => {
+const handleInput = (e: { detail: { value: string } }) => {
   const value = e.detail?.value ?? ''
   innerValue.value = value
   emit('update:modelValue', value)
@@ -242,7 +259,7 @@ const handleInput = (e: any) => {
  * @title 处理聚焦事件
  * @description 触发 onFocus 事件并更新聚焦状态
  */
-const handleFocus = (e: any) => {
+const handleFocus = (e: { detail: { value: string } }) => {
   isFocused.value = true
   emit('onFocus', e)
 }
@@ -251,17 +268,18 @@ const handleFocus = (e: any) => {
  * @title 处理失焦事件
  * @description 触发 onBlur 和 onChange 事件并更新聚焦状态
  */
-const handleBlur = (e: any) => {
+const handleBlur = (e: { detail: { value: string } }) => {
   isFocused.value = false
   emit('onBlur', e)
   emit('onChange', innerValue.value)
+  field?.handleBlur()
 }
 
 /**
  * @title 处理键盘确认事件
  * @description 触发 onConfirm 事件
  */
-const handleConfirm = (e: any) => {
+const handleConfirm = (e: { detail: { value: string } }) => {
   emit('onConfirm', innerValue.value)
 }
 
@@ -269,7 +287,7 @@ const handleConfirm = (e: any) => {
  * @title 处理键盘高度变化
  * @description 触发 onKeyboardHeightChange 事件
  */
-const handleKeyboardHeightChange = (e: any) => {
+const handleKeyboardHeightChange = (e: { detail: { height: number } }) => {
   const height = e.detail?.height ?? 0
   emit('onKeyboardHeightChange', height)
 }
@@ -278,7 +296,7 @@ const handleKeyboardHeightChange = (e: any) => {
  * @title 处理行数变化
  * @description 触发 onLineChange 事件
  */
-const handleLineChange = (e: any) => {
+const handleLineChange = (e: { detail: { lineCount: number } }) => {
   const lines = e.detail?.lineCount ?? 0
   emit('onLineChange', lines)
 }
@@ -309,7 +327,11 @@ defineExpose({
   /** 是否禁用 */
   isDisabled: () => mergedDisabled.value,
   /** 是否聚焦 */
-  isFocused: () => isFocused.value
+  isFocused: () => isFocused.value,
+  /** 校验状态 */
+  validateStatus,
+  /** 校验信息 */
+  validateMessage
 })
 </script>
 

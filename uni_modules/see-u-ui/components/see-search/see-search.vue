@@ -70,6 +70,7 @@
  */
 import { ref, computed, nextTick, inject } from 'vue'
 import { useField } from '../../utils/hooks/useField'
+import { formKey } from '../../utils/shared/form-keys'
 import type { SearchShape, SearchSize, FormContext } from './type'
 
 defineOptions({ name: 'SeeSearch' })
@@ -128,9 +129,9 @@ const emit = defineEmits<{
   /** 值变化时触发 */
   (e: 'onChange', value: string): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: any): void
+  (e: 'onFocus', event: { detail: { value: string } }): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: any): void
+  (e: 'onBlur', event: { detail: { value: string } }): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 搜索时触发（键盘确认） */
@@ -142,19 +143,17 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
-/** ---------- Form 联动（useField，仅在提供 name 时启用） ---------- */
-const field = props.name
-  ? useField({
-      field: props.name,
-      getValue: () => props.modelValue,
-      trigger: 'blur',
-      onValueChange: (value: unknown) => {
-        // 由 useField 内部管理 change 校验触发
-      }
-    })
-  : null
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'blur',
+  onValueChange: (value: unknown) => {
+    // 由 useField 内部管理 change 校验触发
+  }
+})
 
 const fieldDisabled = field?.isDisabled ?? computed(() => false)
 const fieldReadonly = field?.isReadonly ?? computed(() => false)
@@ -223,7 +222,7 @@ const searchStyle = computed(() => {
 /**
  * @title 处理输入事件
  */
-const handleInput = (event: any) => {
+const handleInput = (event: { detail: { value: string } }) => {
   const value = event.detail?.value ?? ''
   emit('update:modelValue', value)
   emit('onInput', value)
@@ -232,7 +231,7 @@ const handleInput = (event: any) => {
 /**
  * @title 处理聚焦事件
  */
-const handleFocus = (event: any) => {
+const handleFocus = (event: { detail: { value: string } }) => {
   focused.value = true
   emit('onFocus', event)
 }
@@ -240,7 +239,7 @@ const handleFocus = (event: any) => {
 /**
  * @title 处理失焦事件
  */
-const handleBlur = (event: any) => {
+const handleBlur = (event: { detail: { value: string } }) => {
   focused.value = false
   emit('onBlur', event)
   emit('onChange', props.modelValue)

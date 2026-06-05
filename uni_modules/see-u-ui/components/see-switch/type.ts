@@ -35,12 +35,4 @@ export interface SwitchEmits {
   onClick: () => void
 }
 
-/** Form 注入的上下文类型 */
-export interface FormContext {
-  /** 表单禁用状态 */
-  isDisabled?: boolean
-  /** 表单只读状态 */
-  isReadonly?: boolean
-  /** 表单尺寸 */
-  size?: SwitchSize
-}
+export type { FormContext } from '../../utils/shared/form-types'

@@ -1,18 +1,19 @@
 <template>
-  <!-- 触发区域 -->
-  <view class="see-datetime-picker" :class="pickerClasses" @click="handleOpen">
-    <text v-if="displayText" class="see-datetime-picker__value" :class="{ 'see-datetime-picker__value--placeholder': !isSelected }">
-      {{ displayText }}
-    </text>
-    <text v-else class="see-datetime-picker__value see-datetime-picker__value--placeholder">
-      {{ props.placeholder }}
-    </text>
-    <text class="see-datetime-picker__arrow see-datetime-picker-icon-arrow"></text>
-  </view>
+  <view class="see-datetime-picker-wrapper">
+    <!-- 触发区域 -->
+    <view class="see-datetime-picker" :class="pickerClasses" @click="handleOpen">
+      <text v-if="displayText" class="see-datetime-picker__value" :class="{ 'see-datetime-picker__value--placeholder': !isSelected }">
+        {{ displayText }}
+      </text>
+      <text v-else class="see-datetime-picker__value see-datetime-picker__value--placeholder">
+        {{ props.placeholder }}
+      </text>
+      <text class="see-datetime-picker__arrow see-datetime-picker-icon-arrow"></text>
+    </view>
 
-  <!-- 弹出层 -->
-  <view v-if="isVisible" class="see-datetime-picker__overlay" @click="handleCancel">
-    <view class="see-datetime-picker__popup" :class="popupClasses" @click.stop>
+    <!-- 弹出层 -->
+    <view v-if="isVisible" class="see-datetime-picker__overlay" @click="handleCancel">
+      <view class="see-datetime-picker__popup" :class="popupClasses" @click.stop>
       <!-- 工具栏 -->
       <view v-if="props.isShowToolbar" class="see-datetime-picker__toolbar">
         <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--cancel" @click="handleCancel">
@@ -66,6 +67,7 @@
       </view>
     </view>
   </view>
+</view>
 </template>
 
 <script lang="ts" setup>
@@ -97,14 +99,14 @@
  * @property {String}                   name             表单字段名
  */
 import { ref, computed, inject, watch, nextTick } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { DatetimePickerType, DatetimePickerSize, ColumnType, ColumnOption, PickerColumn, FormContext } from './type'
 
 defineOptions({ name: 'SeeDatetimePicker' })
 
 /** ---------- constants ---------- */
-const ITEM_HEIGHT = 88 // rpx, 每个选项的高度
+const ITEM_HEIGHT_MAP: Record<string, number> = { small: 72, default: 88, large: 100 }
 const VISIBLE_COUNT = 5 // 可见选项数量
-const COLUMN_HEIGHT = ITEM_HEIGHT * VISIBLE_COUNT // 列的可视高度
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -190,7 +192,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- refs ----------**
  * isVisible: 弹出层是否可见
@@ -229,7 +231,7 @@ const pixelRatio = ref(2)
 
 try {
   const sysInfo = uni.getSystemInfoSync()
-  pixelRatio.value = sysInfo.pixelRatio || 2
+  pixelRatio.value = sysInfo.windowWidth ? (750 / sysInfo.windowWidth) : 2
 } catch (e) {
   pixelRatio.value = 2
 }
@@ -250,6 +252,9 @@ const mergedReadonly = computed(() => {
 const mergedSize = computed(() => {
   return props.size || formContext?.size || 'default'
 })
+
+/** 当前选项高度（rpx），根据 size 动态计算 */
+const itemHeight = computed(() => ITEM_HEIGHT_MAP[mergedSize.value] || 88)
 
 /** 解析后的最小日期 */
 const parsedMinDate = computed(() => {
@@ -587,8 +592,8 @@ function initColumnOffsets() {
     const selectedVal = selectedValues.value[column.type]
     const index = column.options.findIndex((opt) => opt.value === selectedVal)
     if (index <= 0) return 0
-    // 每个选项 ITEM_HEIGHT rpx，向上滚动为负值
-    return -index * ITEM_HEIGHT
+    // 每个选项 itemHeight rpx，向上滚动为负值
+    return -index * itemHeight.value
   })
 
   // 初始化触摸状态
@@ -621,7 +626,7 @@ function clampOffset(colIndex: number, offset: number): number {
   if (!column) return offset
 
   const maxOffset = 0
-  const minOffset = -(column.options.length - 1) * ITEM_HEIGHT
+  const minOffset = -(column.options.length - 1) * itemHeight.value
 
   return Math.max(minOffset, Math.min(maxOffset, offset))
 }
@@ -634,10 +639,10 @@ function snapToNearest(colIndex: number) {
   if (!column || column.options.length === 0) return
 
   const offset = columnOffsets.value[colIndex] || 0
-  const index = Math.round(-offset / ITEM_HEIGHT)
+  const index = Math.round(-offset / itemHeight.value)
   const clampedIndex = Math.max(0, Math.min(column.options.length - 1, index))
 
-  columnOffsets.value[colIndex] = -clampedIndex * ITEM_HEIGHT
+  columnOffsets.value[colIndex] = -clampedIndex * itemHeight.value
 
   // 更新选中值
   const selectedOption = column.options[clampedIndex]
@@ -852,7 +857,7 @@ defineExpose({
 
 <style lang="scss" scoped>
 /* ---------- CSS 变量（组件级覆盖） ---------- */
-.see-datetime-picker {
+.see-datetime-picker-wrapper {
   --picker-height-small: 56rpx;
   --picker-height-default: 72rpx;
   --picker-height-large: 88rpx;

@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 /**
  * 主题切换 Hook
@@ -122,16 +122,15 @@ export function useTheme() {
     // 初始化时应用主题
     if (themeMode.value === 'system') {
       const systemTheme = uni.getSystemInfoSync().theme
-
-      // console.log(uni.getSystemInfoSync())
-      // console.log(uni.getSystemInfoSync())
-      // console.log(uni.getSystemInfoSync())
-
       isSwitchChecked.value = systemTheme === 'dark'
       applyTheme(systemTheme === 'dark')
     } else {
       applyTheme(isSwitchChecked.value)
     }
+  })
+
+  onUnmounted(() => {
+    uni.offThemeChange(handleThemeChange)
   })
 
   return {

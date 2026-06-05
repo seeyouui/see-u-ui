@@ -14,7 +14,7 @@
       <text class="title">限制文件大小</text>
       <view class="content">
         <see-upload v-model="sizeLimitList" accept="image" :max-size="2" upload-text="限2MB" @on-oversize="handleOversize" />
-        <text class="tip-text">单个文件不超过 2MB</text>
+        <text class="info">单个文件不超过 2MB</text>
       </view>
 
       <text class="title">视频上传</text>
@@ -37,13 +37,13 @@
           @on-change="handleCustomChange"
           @on-error="handleUploadError"
         />
-        <text class="tip-text">使用自定义上传函数模拟上传</text>
+        <text class="info">使用自定义上传函数模拟上传</text>
       </view>
 
       <text class="title">上传前校验</text>
       <view class="content">
         <see-upload v-model="beforeReadList" accept="image" :before-read="beforeReadCheck" upload-text="校验后上传" />
-        <text class="tip-text">仅允许上传 JPG/PNG 格式</text>
+        <text class="info">仅允许上传 JPG/PNG 格式</text>
       </view>
 
       <text class="title">禁用状态</text>
@@ -64,15 +64,15 @@
       <text class="title">不同尺寸</text>
       <view class="content">
         <view class="size-row">
-          <text class="size-label">小尺寸</text>
+          <text class="info">小尺寸</text>
           <see-upload v-model="sizeList1" accept="image" size="small" upload-text="上传" />
         </view>
         <view class="size-row">
-          <text class="size-label">默认</text>
+          <text class="info">默认</text>
           <see-upload v-model="sizeList2" accept="image" size="default" upload-text="上传" />
         </view>
         <view class="size-row">
-          <text class="size-label">大尺寸</text>
+          <text class="info">大尺寸</text>
           <see-upload v-model="sizeList3" accept="image" size="large" upload-text="上传" />
         </view>
       </view>
@@ -156,34 +156,24 @@ const handleUploadError = (error: Error) => {
   .title {
     font-size: 18px;
     color: #999;
-    margin-top: 24px;
-    margin-bottom: 12px;
-    display: block;
   }
-
   .content {
+    margin-top: 12px;
     margin-bottom: 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+}
 
-  .tip-text {
-    font-size: 13px;
-    color: #999;
-    padding: 0 4px;
-  }
+.info {
+  font-size: 12px;
+  color: #999;
+}
 
-  .size-row {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-
-    .size-label {
-      font-size: 14px;
-      color: #666;
-    }
-  }
+.size-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

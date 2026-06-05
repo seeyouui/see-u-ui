@@ -4,7 +4,7 @@
       <text class="title">基础用法</text>
       <view class="content">
         <see-slider v-model="val1" />
-        <text class="tip">当前值：{{ val1 }}</text>
+        <text class="info">当前值：{{ val1 }}</text>
       </view>
 
       <text class="title">显示当前值</text>
@@ -15,7 +15,7 @@
       <text class="title">范围选择</text>
       <view class="content">
         <see-slider v-model="val3" is-range is-show-value />
-        <text class="tip">范围：[{{ val3[0] }}, {{ val3[1] }}]</text>
+        <text class="info">范围：[{{ val3[0] }}, {{ val3[1] }}]</text>
       </view>
 
       <text class="title">步长和刻度</text>
@@ -76,28 +76,22 @@ const val8 = ref(60)
     font-size: 18px;
     color: #999;
   }
-
   .content {
-    margin-top: 6px;
+    margin-top: 12px;
     margin-bottom: 24px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    flex-direction: column;
+    gap: 12px;
   }
+}
 
-  .vertical-box {
-    height: 300px;
-    align-items: flex-start;
-  }
+.vertical-box {
+  height: 300px;
+  align-items: flex-start;
+}
 
-  .tip {
-    font-size: 14px;
-    color: #666;
-    margin-left: 12px;
-    white-space: nowrap;
-  }
+.info {
+  font-size: 12px;
+  color: #999;
 }
 </style>

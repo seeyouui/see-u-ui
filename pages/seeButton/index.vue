@@ -27,7 +27,7 @@
       </view>
       <text class="title">按钮大小</text>
       <view class="content">
-        <see-button size="normal" title="默认大小" />
+        <see-button size="default" title="默认大小" />
         <see-button size="small" title="小型尺寸" />
         <see-button size="mini" title="最小尺寸" />
         <see-button size="large" title="超大尺寸" />
@@ -35,8 +35,8 @@
       <text class="title">水波动画</text>
       <view class="content">
         <see-button title="默认动画" is-ripple />
-        <see-button type="primary" size="normal" title="按钮颜色" is-ripple />
-        <see-button size="normal" title="动画颜色" is-ripple ripple-color="blue" />
+        <see-button type="primary" size="default" title="按钮颜色" is-ripple />
+        <see-button size="default" title="动画颜色" is-ripple ripple-color="blue" />
         <see-button size="large" title="动画时长(10000ms)" is-ripple :ripple-time="10000" ripple-color="red" :mask-time="20000" />
       </view>
       <text class="title">自定义</text>

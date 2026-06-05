@@ -23,7 +23,7 @@
  * @property {String}                                                   bgColor     自定义背景颜色
  * @property {String}                                                   textColor   自定义文字颜色
  * @property {String}                                                   borderColor 自定义边框颜色
- * @property {Boolean}                                                  disabled    是否禁用（默认 false）
+ * @property {Boolean}                                                  isDisabled  是否禁用（默认 false）
  * @property {Boolean}                                                  mark        是否标记样式（默认 false）
  * @property {Boolean}                                                  hit         是否显示边框（默认 false）
  */
@@ -41,7 +41,7 @@ interface TagProps {
   bgColor?: string
   textColor?: string
   borderColor?: string
-  disabled?: boolean
+  isDisabled?: boolean
   mark?: boolean
   hit?: boolean
 }
@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<TagProps>(), {
   bgColor: '',
   textColor: '',
   borderColor: '',
-  disabled: false,
+  isDisabled: false,
   mark: false,
   hit: false
 })
@@ -67,11 +67,24 @@ const emit = defineEmits<{
 }>()
 
 function hexToRgba(hex: string, alpha: number): string {
+  if (!hex.startsWith('#')) return hex
   const h = hex.replace('#', '')
-  const full = h.length === 3 ? h[0] + h[0] + h[1] + h[1] + h[2] + h[2] : h
-  const r = parseInt(full.substring(0, 2), 16)
-  const g = parseInt(full.substring(2, 4), 16)
-  const b = parseInt(full.substring(4, 6), 16)
+  let r: number, g: number, b: number
+  if (h.length === 8) {
+    r = parseInt(h.substring(0, 2), 16)
+    g = parseInt(h.substring(2, 4), 16)
+    b = parseInt(h.substring(4, 6), 16)
+  } else if (h.length === 6) {
+    r = parseInt(h.substring(0, 2), 16)
+    g = parseInt(h.substring(2, 4), 16)
+    b = parseInt(h.substring(4, 6), 16)
+  } else if (h.length === 3) {
+    r = parseInt(h[0] + h[0], 16)
+    g = parseInt(h[1] + h[1], 16)
+    b = parseInt(h[2] + h[2], 16)
+  } else {
+    return hex
+  }
   if (isNaN(r) || isNaN(g) || isNaN(b)) return hex
   return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
@@ -86,7 +99,7 @@ const tagClasses = computed(() => {
   if (props.mark) classes.push('is-mark')
   if (props.hit) classes.push('is-hit')
   if (props.closable) classes.push('is-closable')
-  if (props.disabled) classes.push('is-disabled')
+  if (props.isDisabled) classes.push('is-disabled')
   if (props.color || props.bgColor) classes.push('is-custom')
   return classes.join(' ')
 })
@@ -126,18 +139,18 @@ const tagStyle = computed(() => {
 })
 
 const handleClick = (event: Event) => {
-  if (props.disabled) return
+  if (props.isDisabled) return
   emit('onClick', event)
 }
 
 const handleClose = (event: Event) => {
-  if (props.disabled) return
+  if (props.isDisabled) return
   emit('onClose', event)
 }
 
 defineExpose({
   getType: () => props.type,
-  isDisabled: () => props.disabled
+  isDisabled: () => props.isDisabled
 })
 </script>
 

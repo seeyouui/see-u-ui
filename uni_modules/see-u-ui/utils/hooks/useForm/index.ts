@@ -35,8 +35,18 @@ export function useForm(options: UseFormOptions) {
   /** 子字段实例列表 */
   const fields = ref<FormItemInstance[]>([])
 
+  /** 深拷贝值（带错误保护） */
+  function deepCopy<T>(value: T): T {
+    try {
+      return JSON.parse(JSON.stringify(value))
+    } catch (e) {
+      console.warn('[SeeForm] Deep copy failed, returning reference.', e)
+      return value
+    }
+  }
+
   /** 保存原始数据（用于 reset） */
-  const initialValues = JSON.parse(JSON.stringify(toRaw(options.model)))
+  const initialValues = deepCopy(toRaw(options.model))
 
   /** 添加字段 */
   const addField = (field: FormItemInstance) => {
@@ -124,7 +134,7 @@ export function useForm(options: UseFormOptions) {
 
     fieldList.forEach((field) => {
       if (field in initialValues) {
-        options.model[field] = JSON.parse(JSON.stringify(initialValues[field]))
+        options.model[field] = deepCopy(initialValues[field])
       }
     })
 
@@ -144,10 +154,15 @@ export function useForm(options: UseFormOptions) {
     })
   }
 
+  /** 转义 CSS 选择器中的特殊字符，防止注入 */
+  function escapeCSSSelector(str: string): string {
+    return str.replace(/["\]\\]/g, '\\$&')
+  }
+
   /** 滚动到指定字段 */
   const scrollToField = (field: string) => {
     // #ifdef H5
-    const el = document.querySelector(`[data-field="${field}"]`)
+    const el = document.querySelector(`[data-field="${escapeCSSSelector(field)}"]`)
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
@@ -161,7 +176,7 @@ export function useForm(options: UseFormOptions) {
 
   /** 获取表单数据 */
   const getFieldsValue = (): Record<string, unknown> => {
-    return JSON.parse(JSON.stringify(toRaw(options.model)))
+    return deepCopy(toRaw(options.model))
   }
 
   /** 设置表单数据 */

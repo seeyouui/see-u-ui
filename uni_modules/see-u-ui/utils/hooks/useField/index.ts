@@ -26,6 +26,23 @@ export function useField(options: UseFieldOptions) {
   /** 注入 Form 上下文 */
   const form = inject(formKey, null)
 
+  /** 空字段名时跳过注册，返回空壳 */
+  if (!field) {
+    return {
+      validateStatus: ref<ValidateStatus>(''),
+      validateMessage: ref(''),
+      isValidating: ref(false),
+      isDisabled: computed(() => form?.props.isDisabled ?? false),
+      isReadonly: computed(() => form?.props.isReadonly ?? false),
+      isShowMessage: computed(() => form?.props.isShowMessage ?? true),
+      validate: async () => ({ valid: true, errors: [] } as ValidateResult),
+      resetField: () => {},
+      clearValidate: () => {},
+      handleChange: () => {},
+      handleBlur: () => {}
+    }
+  }
+
   /** 校验状态 */
   const validateStatus = ref<ValidateStatus>('')
 
@@ -34,6 +51,9 @@ export function useField(options: UseFieldOptions) {
 
   /** 是否正在校验 */
   const isValidating = ref(false)
+
+  /** 校验代次 token（防止竞态条件） */
+  let validateGeneration = 0
 
   /** 是否禁用 */
   const isDisabled = computed(() => form?.props.isDisabled ?? false)
@@ -76,11 +96,19 @@ export function useField(options: UseFieldOptions) {
       return { valid: true, errors: [] }
     }
 
+    // 使用 generation token 防止竞态条件
+    const gen = ++validateGeneration
+
     isValidating.value = true
     validateStatus.value = 'validating'
 
     try {
       const result = await runValidate(getValue(), filteredRules, field)
+
+      // 检查是否仍为当前代次，防止竞态条件
+      if (gen !== validateGeneration) {
+        return { valid: true, errors: [] }
+      }
 
       if (result.valid) {
         validateStatus.value = 'success'

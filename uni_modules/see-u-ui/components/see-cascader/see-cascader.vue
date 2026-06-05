@@ -9,7 +9,7 @@
     </view>
 
     <!-- 弹出面板 -->
-    <view v-if="isShowPanel" class="see-cascader__overlay" @click="onCancel">
+    <view v-if="visible" class="see-cascader__overlay" @click="onCancel">
       <view class="see-cascader__panel" @click.stop>
         <!-- Toolbar -->
         <view v-if="props.isShowToolbar" class="see-cascader__toolbar">
@@ -97,6 +97,7 @@
  * @property {Boolean}  isShowTab     是否显示标签页（默认 true）
  */
 import { ref, computed, watch, inject, nextTick } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { CascaderOption, CascaderNode, CascaderPanel, CascaderTab, CascaderSize, FormContext } from './type'
 
 defineOptions({ name: 'SeeCascader' })
@@ -178,7 +179,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('formKey', null)
+const formContext = inject(formKey, null)
 
 /** ---------- state ---------- */
 /** 面板是否可见 */
@@ -254,11 +255,6 @@ const displayText = computed(() => {
     }
   }
   return selectedTexts.length > 0 ? selectedTexts.join(' / ') : ''
-})
-
-/** 是否显示面板 */
-const isShowPanel = computed(() => {
-  return visible.value
 })
 
 /** ---------- classes ---------- */
@@ -471,7 +467,7 @@ async function loadChildren(node: CascaderNode): Promise<void> {
     // 加载失败，移除面板
     panels.value.splice(nextLevel)
     activeLevel.value = node.level
-    console.warn('[SeeCascader] lazyLoad error:', err)
+    console.warn('[SeeCascader] lazyLoad failed:', err instanceof Error ? err.message : 'Unknown error')
   }
 }
 
@@ -504,6 +500,7 @@ function onCancel(): void {
 /** ---------- watch ---------- */
 
 /** 监听 options 变化，重新初始化 */
+// deep: false — 依赖外部通过引用替换 options 数组来触发，避免深度遍历整个选项树
 watch(
   () => props.options,
   () => {
@@ -511,7 +508,7 @@ watch(
       initPanelsFromValue()
     }
   },
-  { deep: true }
+  { deep: false }
 )
 </script>
 
@@ -653,6 +650,8 @@ watch(
   flex-direction: column;
   overflow: hidden;
   animation: cascader-slide-up 0.3s ease;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 @keyframes cascader-slide-up {

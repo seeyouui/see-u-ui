@@ -46,9 +46,9 @@ export interface SeeSearchEmits {
   /** 值变化时触发 */
   onChange: (value: string) => void
   /** 聚焦时触发 */
-  onFocus: (event: any) => void
+  onFocus: (event: { detail: { value: string } }) => void
   /** 失焦时触发 */
-  onBlur: (event: any) => void
+  onBlur: (event: { detail: { value: string } }) => void
   /** 清除时触发 */
   onClear: () => void
   /** 搜索时触发（键盘确认） */
@@ -59,12 +59,4 @@ export interface SeeSearchEmits {
   'update:modelValue': (value: string) => void
 }
 
-/** Form 注入的上下文类型 */
-export interface FormContext {
-  /** 表单禁用状态 */
-  isDisabled?: boolean
-  /** 表单只读状态 */
-  isReadonly?: boolean
-  /** 表单尺寸 */
-  size?: SearchSize
-}
+export type { FormContext } from '../../utils/shared/form-types'

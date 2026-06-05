@@ -36,6 +36,7 @@
  * @property {String}   name         表单字段名
  */
 import { computed, inject } from 'vue'
+import { formKey } from '../../utils/shared/form-keys'
 import type { RateProps, FormContext } from './type'
 
 defineOptions({
@@ -66,7 +67,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject<FormContext | null>('FormContext', null)
+const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
 const mergedDisabled = computed(() => {
@@ -108,8 +109,8 @@ const getActiveIconStyle = (index: number) => {
 
   return {
     fontSize: props.size + 'px',
-    color: activeColor.value,
-    clipPath: `inset(0 ${100 - clipPercent}% 0 0)`
+    '--rate-active-color': activeColor.value,
+    '--clip-percent': clipPercent + '%'
   }
 }
 
@@ -182,9 +183,7 @@ const onTapHalf = (index: number, side: 'left' | 'right') => {
 
   &__icon {
     line-height: 1;
-    transition:
-      color 0.15s ease,
-      clip-path 0.15s ease;
+    transition: color 0.15s ease;
 
     &--void {
       position: absolute;
@@ -194,6 +193,10 @@ const onTapHalf = (index: number, side: 'left' | 'right') => {
 
     &--active {
       position: relative;
+      background: linear-gradient(to right, var(--rate-active-color, var(--see-primary)) var(--clip-percent, 100%), transparent var(--clip-percent, 100%));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 }
