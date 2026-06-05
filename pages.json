@@ -67,6 +67,125 @@
       }
     },
     {
+      "path": "pages/seeForm/index",
+      "style": {
+        "navigationBarTitleText": "Form 表单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeInput/index",
+      "style": {
+        "navigationBarTitleText": "Input 输入框",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeTextarea/index",
+      "style": {
+        "navigationBarTitleText": "Textarea 文本域",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCheckbox/index",
+      "style": {
+        "navigationBarTitleText": "Checkbox 复选框",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeRadio/index",
+      "style": {
+        "navigationBarTitleText": "Radio 单选框",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSwitch/index",
+      "style": {
+        "navigationBarTitleText": "Switch 开关",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeRate/index",
+      "style": {
+        "navigationBarTitleText": "Rate 评分",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSlider/index",
+      "style": {
+        "navigationBarTitleText": "Slider 滑动选择器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeNumberBox/index",
+      "style": {
+        "navigationBarTitleText": "NumberBox 步进器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSearch/index",
+      "style": {
+        "navigationBarTitleText": "Search 搜索",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSelect/index",
+      "style": {
+        "navigationBarTitleText": "Select 选择器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seePicker/index",
+      "style": {
+        "navigationBarTitleText": "Picker 选择器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCascader/index",
+      "style": {
+        "navigationBarTitleText": "Cascader 级联选择器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeDatetimePicker/index",
+      "style": {
+        "navigationBarTitleText": "DatetimePicker 日期选择器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeUpload/index",
+      "style": {
+        "navigationBarTitleText": "Upload 上传",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCode/index",
+      "style": {
+        "navigationBarTitleText": "Code 验证码",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeKeyboard/index",
+      "style": {
+        "navigationBarTitleText": "Keyboard 键盘",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/config/index",
       "style": {
         "navigationBarTitleText": "配置"

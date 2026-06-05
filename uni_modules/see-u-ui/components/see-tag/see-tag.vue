@@ -148,7 +148,11 @@ defineExpose({
   box-sizing: border-box;
   white-space: nowrap;
   border: 1px solid transparent;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
   line-height: 1;
   height: 56rpx;
   padding: 0 16rpx;
@@ -161,7 +165,10 @@ defineExpose({
     padding: 0 12rpx;
     font-size: 20rpx;
     border-radius: 6rpx;
-    .see-tag__close-icon { font-size: 20rpx; margin-left: 4rpx; }
+    .see-tag__close-icon {
+      font-size: 20rpx;
+      margin-left: 4rpx;
+    }
   }
 
   &--large {
@@ -169,16 +176,29 @@ defineExpose({
     padding: 0 24rpx;
     font-size: 28rpx;
     border-radius: 10rpx;
-    .see-tag__close-icon { font-size: 28rpx; margin-left: 8rpx; }
+    .see-tag__close-icon {
+      font-size: 28rpx;
+      margin-left: 8rpx;
+    }
   }
 
-  .see-tag__close-icon { font-size: 24rpx; margin-left: 6rpx; }
+  .see-tag__close-icon {
+    font-size: 24rpx;
+    margin-left: 6rpx;
+  }
 
-  &.is-round { border-radius: 999rpx; }
+  &.is-round {
+    border-radius: 999rpx;
+  }
 
-  &.is-mark { border-radius: 0 8rpx 8rpx 0; }
+  &.is-mark {
+    border-radius: 0 8rpx 8rpx 0;
+  }
 
-  &.is-disabled { opacity: 0.5; pointer-events: none; }
+  &.is-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
   &__content {
     display: inline-flex;
@@ -206,38 +226,52 @@ defineExpose({
     background-color: var(--see-info);
     color: var(--see-info-text);
     border-color: var(--see-info);
-    .see-tag__close-icon { color: var(--see-info-text); }
-    &.is-hit { border-color: var(--see-info-border); }
+    .see-tag__close-icon {
+      color: var(--see-info-text);
+    }
+    &.is-hit {
+      border-color: var(--see-info-border);
+    }
   }
   &--dark.see-tag--primary {
     background-color: var(--see-primary);
     color: var(--see-text);
     border-color: var(--see-primary);
-    .see-tag__close-icon { color: var(--see-text); }
+    .see-tag__close-icon {
+      color: var(--see-text);
+    }
   }
   &--dark.see-tag--success {
     background-color: var(--see-success);
     color: var(--see-text);
     border-color: var(--see-success);
-    .see-tag__close-icon { color: var(--see-text); }
+    .see-tag__close-icon {
+      color: var(--see-text);
+    }
   }
   &--dark.see-tag--warning {
     background-color: var(--see-warning);
     color: var(--see-text);
     border-color: var(--see-warning);
-    .see-tag__close-icon { color: var(--see-text); }
+    .see-tag__close-icon {
+      color: var(--see-text);
+    }
   }
   &--dark.see-tag--danger {
     background-color: var(--see-error);
     color: var(--see-text);
     border-color: var(--see-error);
-    .see-tag__close-icon { color: var(--see-text); }
+    .see-tag__close-icon {
+      color: var(--see-text);
+    }
   }
   &--dark.see-tag--info {
     background-color: var(--see-info-dark);
     color: var(--see-text);
     border-color: var(--see-info-dark);
-    .see-tag__close-icon { color: var(--see-text); }
+    .see-tag__close-icon {
+      color: var(--see-text);
+    }
   }
 
   /* ========== LIGHT EFFECT ========== */
@@ -245,43 +279,67 @@ defineExpose({
     background-color: var(--see-info-light);
     color: var(--see-info-text);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-info-text); }
-    &.is-hit { border-color: var(--see-border-four-color); }
+    .see-tag__close-icon {
+      color: var(--see-info-text);
+    }
+    &.is-hit {
+      border-color: var(--see-border-four-color);
+    }
   }
   &--light.see-tag--primary {
     background-color: var(--see-primary-light);
     color: var(--see-primary);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-primary); }
-    &.is-hit { border-color: var(--see-primary-disabled); }
+    .see-tag__close-icon {
+      color: var(--see-primary);
+    }
+    &.is-hit {
+      border-color: var(--see-primary-disabled);
+    }
   }
   &--light.see-tag--success {
     background-color: var(--see-success-light);
     color: var(--see-success);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-success); }
-    &.is-hit { border-color: var(--see-success-disabled); }
+    .see-tag__close-icon {
+      color: var(--see-success);
+    }
+    &.is-hit {
+      border-color: var(--see-success-disabled);
+    }
   }
   &--light.see-tag--warning {
     background-color: var(--see-warning-light);
     color: var(--see-warning);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-warning); }
-    &.is-hit { border-color: var(--see-warning-disabled); }
+    .see-tag__close-icon {
+      color: var(--see-warning);
+    }
+    &.is-hit {
+      border-color: var(--see-warning-disabled);
+    }
   }
   &--light.see-tag--danger {
     background-color: var(--see-error-light);
     color: var(--see-error);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-error); }
-    &.is-hit { border-color: var(--see-error-disabled); }
+    .see-tag__close-icon {
+      color: var(--see-error);
+    }
+    &.is-hit {
+      border-color: var(--see-error-disabled);
+    }
   }
   &--light.see-tag--info {
     background-color: var(--see-info-light);
     color: var(--see-info-dark);
     border-color: transparent;
-    .see-tag__close-icon { color: var(--see-info-dark); }
-    &.is-hit { border-color: var(--see-info-border); }
+    .see-tag__close-icon {
+      color: var(--see-info-dark);
+    }
+    &.is-hit {
+      border-color: var(--see-info-border);
+    }
   }
 
   /* ========== PLAIN EFFECT ========== */
@@ -289,37 +347,49 @@ defineExpose({
     background-color: transparent;
     color: var(--see-info-text);
     border-color: var(--see-border-four-color);
-    .see-tag__close-icon { color: var(--see-info-text); }
+    .see-tag__close-icon {
+      color: var(--see-info-text);
+    }
   }
   &--plain.see-tag--primary {
     background-color: transparent;
     color: var(--see-primary);
     border-color: var(--see-primary);
-    .see-tag__close-icon { color: var(--see-primary); }
+    .see-tag__close-icon {
+      color: var(--see-primary);
+    }
   }
   &--plain.see-tag--success {
     background-color: transparent;
     color: var(--see-success);
     border-color: var(--see-success);
-    .see-tag__close-icon { color: var(--see-success); }
+    .see-tag__close-icon {
+      color: var(--see-success);
+    }
   }
   &--plain.see-tag--warning {
     background-color: transparent;
     color: var(--see-warning);
     border-color: var(--see-warning);
-    .see-tag__close-icon { color: var(--see-warning); }
+    .see-tag__close-icon {
+      color: var(--see-warning);
+    }
   }
   &--plain.see-tag--danger {
     background-color: transparent;
     color: var(--see-error);
     border-color: var(--see-error);
-    .see-tag__close-icon { color: var(--see-error); }
+    .see-tag__close-icon {
+      color: var(--see-error);
+    }
   }
   &--plain.see-tag--info {
     background-color: transparent;
     color: var(--see-info-dark);
     border-color: var(--see-info-border);
-    .see-tag__close-icon { color: var(--see-info-dark); }
+    .see-tag__close-icon {
+      color: var(--see-info-dark);
+    }
   }
 
   /* ========== CUSTOM COLOR ========== */

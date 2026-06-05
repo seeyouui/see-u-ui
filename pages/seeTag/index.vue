@@ -44,13 +44,7 @@
 
       <text class="title">可关闭</text>
       <view class="content">
-        <see-tag
-          v-for="(tag, index) in dynamicTags"
-          :key="index"
-          :type="tag.type"
-          closable
-          @on-close="handleClose(index)"
-        >
+        <see-tag v-for="(tag, index) in dynamicTags" :key="index" :type="tag.type" closable @on-close="handleClose(index)">
           {{ tag.label }}
         </see-tag>
       </view>
@@ -124,14 +118,25 @@ const handleClick = () => {
 </script>
 
 <style lang="scss" scoped>
-.gap-12 { width: 100%; height: 12px; }
-.flex-sb { width: 100%; display: flex; justify-content: flex-start; margin-top: 12px; }
+.gap-12 {
+  width: 100%;
+  height: 12px;
+}
+.flex-sb {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 12px;
+}
 .container {
   width: 100vw;
   overflow: hidden;
   padding: 12px;
   box-sizing: border-box;
-  .title { font-size: 18px; color: #999; }
+  .title {
+    font-size: 18px;
+    color: #999;
+  }
   .content {
     margin-top: 6px;
     margin-bottom: 24px;

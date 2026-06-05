@@ -1,3 +1,27 @@
+## 1.1.0（2026-06-05）
+
+> > - <Badge type="tip" text="新增" /> Form 表单组件（支持 validate/reset/clearValidate/scrollToField）
+> > - <Badge type="tip" text="新增" /> FormItem 表单项组件（支持 label/校验状态/错误信息展示）
+> > - <Badge type="tip" text="新增" /> Input 输入框组件（支持 clearable/password/formatter/prefix/suffix/count）
+> > - <Badge type="tip" text="新增" /> Textarea 文本域组件（支持 autoHeight/wordLimit/clearable）
+> > - <Badge type="tip" text="新增" /> Checkbox 复选框组件（支持 Group/全选半选/min/max 限制）
+> > - <Badge type="tip" text="新增" /> Radio 单选框组件（支持 Group/行内排列/边框模式）
+> > - <Badge type="tip" text="新增" /> Switch 开关选择器组件（支持自定义值/颜色/文字描述）
+> > - <Badge type="tip" text="新增" /> Rate 评分组件（支持半星/自定义图标/清除评分）
+> > - <Badge type="tip" text="新增" /> Slider 滑动选择器组件（支持范围选择/垂直模式/步长刻度）
+> > - <Badge type="tip" text="新增" /> NumberBox 步进器组件（支持步长/小数位数/长按连续增减）
+> > - <Badge type="tip" text="新增" /> Search 搜索组件（支持圆角方形/操作按钮/自定义插槽）
+> > - <Badge type="tip" text="新增" /> Select 选择器组件（支持单选多选/搜索过滤/远程搜索/分组）
+> > - <Badge type="tip" text="新增" /> Picker 选择器组件（支持单列/多列/联动模式）
+> > - <Badge type="tip" text="新增" /> Cascader 级联选择器组件（支持无限级/懒加载）
+> > - <Badge type="tip" text="新增" /> DatetimePicker 日期选择器组件（支持 date/time/datetime/year-month/month-day）
+> > - <Badge type="tip" text="新增" /> Upload 上传组件（支持图片/视频/文件/多选/压缩/自定义上传）
+> > - <Badge type="tip" text="新增" /> Code 验证码输入框组件（支持自动聚焦/粘贴/遮罩/光标动画）
+> > - <Badge type="tip" text="新增" /> Keyboard 键盘组件（支持数字/身份证/完整键盘/安全键盘）
+> > - <Badge type="tip" text="新增" /> useForm Hook（表单管理）
+> > - <Badge type="tip" text="新增" /> useField Hook（字段管理）
+> > - <Badge type="tip" text="新增" /> 表单验证引擎（支持同步/异步校验、内置规则、自定义校验器）
+
 ## 1.0.13（2025-12-14）
 
 > > - <Badge type="info" text="修改" /> 部分组件中的 JsDoc

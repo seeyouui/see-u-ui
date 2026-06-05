@@ -1,0 +1,46 @@
+/** Switch 组件尺寸 */
+export type SwitchSize = 'small' | 'default' | 'large'
+
+/** Switch 组件 Props */
+export interface SwitchProps {
+  /** 绑定值 */
+  modelValue?: boolean | string | number
+  /** 是否禁用 */
+  isDisabled?: boolean
+  /** 是否只读 */
+  isReadonly?: boolean
+  /** 尺寸 */
+  size?: SwitchSize
+  /** 选中时背景色 */
+  activeColor?: string
+  /** 未选中时背景色 */
+  inactiveColor?: string
+  /** 选中时的值 */
+  activeValue?: boolean | string | number
+  /** 未选中时的值 */
+  inactiveValue?: boolean | string | number
+  /** 选中时的文字描述 */
+  activeText?: string
+  /** 未选中时的文字描述 */
+  inactiveText?: string
+  /** 表单字段名 */
+  name?: string
+}
+
+/** Switch 组件事件 */
+export interface SwitchEmits {
+  /** 状态变化时触发 */
+  onChange: (value: boolean | string | number) => void
+  /** 点击时触发 */
+  onClick: () => void
+}
+
+/** Form 注入的上下文类型 */
+export interface FormContext {
+  /** 表单禁用状态 */
+  isDisabled?: boolean
+  /** 表单只读状态 */
+  isReadonly?: boolean
+  /** 表单尺寸 */
+  size?: SwitchSize
+}
