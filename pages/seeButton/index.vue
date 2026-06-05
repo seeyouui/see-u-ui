@@ -3,27 +3,27 @@
     <view class="container">
       <text class="title">按钮类型</text>
       <view class="content">
-        <see-button title="默认按钮" />
-        <see-button title="主要按钮" type="primary" />
-        <see-button title="失败按钮" type="error" />
-        <see-button title="警告按钮" type="warning" />
-        <see-button title="成功按钮" type="success" />
+        <see-button size="small" title="默认按钮" />
+        <see-button size="small" title="主要按钮" type="primary" />
+        <see-button size="small" title="失败按钮" type="error" />
+        <see-button size="small" title="警告按钮" type="warning" />
+        <see-button size="small" title="成功按钮" type="success" />
       </view>
       <text class="title">镂空按钮</text>
       <view class="content">
-        <see-button is-hollow title="默认按钮" />
-        <see-button is-hollow title="主要按钮" type="primary" />
-        <see-button is-hollow title="失败按钮" type="error" />
-        <see-button is-hollow title="警告按钮" type="warning" />
-        <see-button is-hollow title="成功按钮" type="success" />
+        <see-button size="small" is-hollow title="默认按钮" />
+        <see-button size="small" is-hollow title="主要按钮" type="primary" />
+        <see-button size="small" is-hollow title="失败按钮" type="error" />
+        <see-button size="small" is-hollow title="警告按钮" type="warning" />
+        <see-button size="small" is-hollow title="成功按钮" type="success" />
       </view>
       <text class="title">禁用按钮</text>
       <view class="content">
-        <see-button is-disabled title="默认按钮" />
-        <see-button is-disabled title="主要按钮" type="primary" />
-        <see-button is-disabled title="失败按钮" type="error" />
-        <see-button is-disabled title="警告按钮" type="warning" />
-        <see-button is-disabled title="成功按钮" type="success" />
+        <see-button size="small" is-disabled title="默认按钮" />
+        <see-button size="small" is-disabled title="主要按钮" type="primary" />
+        <see-button size="small" is-disabled title="失败按钮" type="error" />
+        <see-button size="small" is-disabled title="警告按钮" type="warning" />
+        <see-button size="small" is-disabled title="成功按钮" type="success" />
       </view>
       <text class="title">按钮大小</text>
       <view class="content">
