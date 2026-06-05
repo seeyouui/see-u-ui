@@ -60,6 +60,13 @@
       }
     },
     {
+      "path": "pages/seeTag/index",
+      "style": {
+        "navigationBarTitleText": "Tag 标签",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/config/index",
       "style": {
         "navigationBarTitleText": "配置"
