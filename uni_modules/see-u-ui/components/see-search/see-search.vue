@@ -68,10 +68,10 @@
  * @property {String}           bgColor            搜索框背景色
  * @property {String}           name               表单字段名
  */
-import { ref, computed, nextTick, inject } from 'vue'
+import { ref, computed, nextTick, onBeforeUnmount, inject } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
-import type { SearchShape, SearchSize, FormContext } from './type'
+import type { SearchShape, SearchSize, SeeSearchExpose } from './type'
 
 defineOptions({ name: 'SeeSearch' })
 
@@ -129,9 +129,9 @@ const emit = defineEmits<{
   /** 值变化时触发 */
   (e: 'onChange', value: string): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: { detail: { value: string } }): void
+  (e: 'onFocus', event: { detail?: { value?: string } }): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: { detail: { value: string } }): void
+  (e: 'onBlur', event: { detail?: { value?: string } }): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 搜索时触发（键盘确认） */
@@ -150,7 +150,7 @@ const field = useField({
   field: props.name || '',
   getValue: () => props.modelValue,
   trigger: 'blur',
-  onValueChange: (value: unknown) => {
+  onValueChange: () => {
     // 由 useField 内部管理 change 校验触发
   }
 })
@@ -159,11 +159,14 @@ const fieldDisabled = field?.isDisabled ?? computed(() => false)
 const fieldReadonly = field?.isReadonly ?? computed(() => false)
 
 /** ---------- refs ---------- */
-const inputRef = ref<any>(null)
+/** 输入框实例（uni-app Input 组件类型） */
+const inputRef = ref<{ $el?: Element; focus?: () => void; blur?: () => void } | null>(null)
 /** 是否聚焦 */
 const focused = ref(false)
 /** 控制 focus 属性的响应式标记（用于手动聚焦） */
 const needFocus = ref(props.isFocus)
+/** 聚焦定时器（用于 doFocus 跨平台方案的清理） */
+let focusTimer: ReturnType<typeof setTimeout> | null = null
 
 /** ---------- computed ---------- */
 
@@ -179,13 +182,13 @@ const mergedReadonly = computed(() => {
 
 /** 实际尺寸（组件自身 + Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 是否显示清除按钮 */
 const isShowClear = computed(() => {
   if (!props.isClearable || mergedDisabled.value || mergedReadonly.value) return false
-  return props.modelValue.length > 0 && focused.value
+  return props.modelValue.length > 0
 })
 
 /** ---------- classes ---------- */
@@ -222,7 +225,7 @@ const searchStyle = computed(() => {
 /**
  * @title 处理输入事件
  */
-const handleInput = (event: { detail: { value: string } }) => {
+const handleInput = (event: { detail?: { value?: string } }) => {
   const value = event.detail?.value ?? ''
   emit('update:modelValue', value)
   emit('onInput', value)
@@ -231,7 +234,7 @@ const handleInput = (event: { detail: { value: string } }) => {
 /**
  * @title 处理聚焦事件
  */
-const handleFocus = (event: { detail: { value: string } }) => {
+const handleFocus = (event: { detail?: { value?: string } }) => {
   focused.value = true
   emit('onFocus', event)
 }
@@ -239,7 +242,7 @@ const handleFocus = (event: { detail: { value: string } }) => {
 /**
  * @title 处理失焦事件
  */
-const handleBlur = (event: { detail: { value: string } }) => {
+const handleBlur = (event: { detail?: { value?: string } }) => {
   focused.value = false
   emit('onBlur', event)
   emit('onChange', props.modelValue)
@@ -260,11 +263,10 @@ const handleSearch = () => {
  * @title 处理取消事件
  */
 const handleCancel = () => {
-  const emptyVal = ''
-  emit('update:modelValue', emptyVal)
-  emit('onInput', emptyVal)
+  emit('update:modelValue', '')
+  emit('onInput', '')
   emit('onClear')
-  emit('onChange', emptyVal)
+  emit('onChange', '')
   emit('onCancel')
 }
 
@@ -272,11 +274,10 @@ const handleCancel = () => {
  * @title 清除输入内容
  */
 const handleClear = () => {
-  const emptyVal = ''
-  emit('update:modelValue', emptyVal)
-  emit('onInput', emptyVal)
+  emit('update:modelValue', '')
+  emit('onInput', '')
   emit('onClear')
-  emit('onChange', emptyVal)
+  emit('onChange', '')
 
   // 清除后重新聚焦
   nextTick(() => {
@@ -286,14 +287,22 @@ const handleClear = () => {
 
 /**
  * @title 手动聚焦（跨平台兼容）
+ * @description 通过切换 focus 属性实现跨平台聚焦，
+ *              需要先设 false 再设 true，再重置 false 以允许后续重复聚焦
  */
 const doFocus = () => {
+  // 清理可能存在的上一次聚焦定时器
+  if (focusTimer !== null) {
+    clearTimeout(focusTimer)
+    focusTimer = null
+  }
   needFocus.value = false
   nextTick(() => {
     needFocus.value = true
-    nextTick(() => {
+    focusTimer = setTimeout(() => {
       needFocus.value = false
-    })
+      focusTimer = null
+    }, 100)
   })
 }
 
@@ -303,13 +312,25 @@ const doFocus = () => {
 const doBlur = () => {
   // #ifdef H5
   try {
-    const el = inputRef.value?.$el?.querySelector?.('input')
+    const el = inputRef.value?.$el?.querySelector?.('input') as HTMLInputElement | null
     if (el) el.blur()
-  } catch (_) {
+  } catch {
     // ignore
   }
   // #endif
+
+  // #ifdef MP-WEIXIN
+  // 微信小程序暂不支持主动失焦 API
+  // #endif
 }
+
+/** ---------- lifecycle ---------- */
+onBeforeUnmount(() => {
+  if (focusTimer !== null) {
+    clearTimeout(focusTimer)
+    focusTimer = null
+  }
+})
 
 /** ---------- expose ---------- */
 defineExpose({
@@ -317,7 +338,7 @@ defineExpose({
   focus: doFocus,
   /** 失焦 */
   blur: doBlur
-})
+} satisfies SeeSearchExpose)
 </script>
 
 <style lang="scss" scoped>

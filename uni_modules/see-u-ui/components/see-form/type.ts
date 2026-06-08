@@ -15,6 +15,8 @@ export type {
   FormItemContext
 } from '../../utils/shared/form-types'
 
+import type { FormRule } from '../../utils/shared/form-types'
+
 /** 表单标签位置 */
 export type LabelPosition = 'left' | 'right' | 'top'
 
@@ -26,7 +28,7 @@ export interface SeeFormProps {
   /** 表单数据对象（必填） */
   model: Record<string, unknown>
   /** 校验规则 */
-  rules?: Record<string, import('../../utils/shared/form-types').FormRule | import('../../utils/shared/form-types').FormRule[]>
+  rules?: Record<string, FormRule | FormRule[]>
   /** 标签位置 */
   labelPosition?: LabelPosition
   /** 标签宽度 */
@@ -60,7 +62,7 @@ export interface SeeFormItemProps {
   /** 是否只读 */
   isReadonly?: boolean
   /** 该字段的校验规则（覆盖 Form 级别） */
-  rules?: import('../../utils/shared/form-types').FormRule | import('../../utils/shared/form-types').FormRule[]
+  rules?: FormRule | FormRule[]
   /** 是否显示错误信息 */
   isShowMessage?: boolean
   /** 是否必填（覆盖自动检测） */

@@ -98,7 +98,7 @@
  */
 import { ref, computed, watch, inject, nextTick } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { CascaderOption, CascaderNode, CascaderPanel, CascaderTab, CascaderSize, FormContext } from './type'
+import type { CascaderOption, CascaderNode, CascaderPanel, CascaderTab, CascaderSize } from './type'
 
 defineOptions({ name: 'SeeCascader' })
 
@@ -199,17 +199,17 @@ const cKey = computed(() => props.childrenKey || 'children')
 
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸（考虑 Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 实际边框状态 */

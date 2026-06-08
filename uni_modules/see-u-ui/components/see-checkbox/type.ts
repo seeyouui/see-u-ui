@@ -27,6 +27,8 @@ export interface CheckboxProps {
 
 /** Checkbox 事件 */
 export interface CheckboxEmits {
+  /** v-model 更新 */
+  'update:modelValue': (value: boolean) => void
   /** 状态变化时触发 */
   onChange: (value: boolean) => void
 }

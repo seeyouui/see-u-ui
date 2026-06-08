@@ -63,9 +63,9 @@
  * @property {Boolean}  isAsync          是否异步模式（外部控制值）
  * @property {String}   name             表单字段名
  */
-import { computed, inject, nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, ref, watch } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { FormContext, NumberBoxSize } from './type'
+import type { NumberBoxSize } from './type'
 
 defineOptions({ name: 'SeeNumberBox' })
 
@@ -159,24 +159,28 @@ const isInputting = ref(false)
 /** 长按定时器 */
 let longPressTimer: ReturnType<typeof setTimeout> | null = null
 let longPressRepeatTimer: ReturnType<typeof setTimeout> | null = null
+/** 长按结束延迟重置定时器 */
+let longPressEndTimer: ReturnType<typeof setTimeout> | null = null
 let currentLongPressInterval = LONG_PRESS_INITIAL_INTERVAL
 /** 当前长按方向 */
 let longPressDirection: 'plus' | 'minus' | null = null
+/** 活跃的 document mouseup 监听器（用于卸载时清理） */
+let activeMouseUpHandler: (() => void) | null = null
 
 /** ---------- computed ---------- */
 /** 实际禁用状态 */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props.isDisabled || false
 })
 
 /** 实际只读状态 */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props.isReadonly || false
 })
 
 /** 实际尺寸 */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props.size || 'default'
 })
 
 /** 输入框是否禁用 */
@@ -232,8 +236,6 @@ const numberBoxClasses = computed(() => {
   if (mergedReadonly.value) classes.push('is-readonly')
   return classes.join(' ')
 })
-
-
 
 const inputStyle = computed(() => ({
   width: `${props.inputWidth}rpx`
@@ -353,6 +355,10 @@ function clearLongPressTimers(): void {
     clearTimeout(longPressRepeatTimer)
     longPressRepeatTimer = null
   }
+  if (longPressEndTimer) {
+    clearTimeout(longPressEndTimer)
+    longPressEndTimer = null
+  }
   longPressDirection = null
   currentLongPressInterval = LONG_PRESS_INITIAL_INTERVAL
 }
@@ -404,8 +410,9 @@ function handleLongPressStart(direction: 'plus' | 'minus'): void {
 function handleLongPressEnd(): void {
   clearLongPressTimers()
   // 延迟重置长按标记，确保后续 click 事件已被拦截
-  setTimeout(() => {
+  longPressEndTimer = setTimeout(() => {
     wasLongPress.value = false
+    longPressEndTimer = null
   }, 50)
 }
 
@@ -429,12 +436,7 @@ function onPlusMouseDown(): void {
   // #ifdef H5
   if (isPlusDisabled.value) return
   handleLongPressStart('plus')
-
-  const onMouseUp = () => {
-    handleLongPressEnd()
-    document.removeEventListener('mouseup', onMouseUp)
-  }
-  document.addEventListener('mouseup', onMouseUp)
+  attachMouseUpHandler()
   // #endif
 }
 
@@ -442,18 +444,35 @@ function onMinusMouseDown(): void {
   // #ifdef H5
   if (isMinusDisabled.value) return
   handleLongPressStart('minus')
+  attachMouseUpHandler()
+  // #endif
+}
 
-  const onMouseUp = () => {
+/** 统一注册 document mouseup 监听器，确保不泄漏 */
+function attachMouseUpHandler(): void {
+  // #ifdef H5
+  detachMouseUpHandler()
+  activeMouseUpHandler = () => {
     handleLongPressEnd()
-    document.removeEventListener('mouseup', onMouseUp)
+    detachMouseUpHandler()
   }
-  document.addEventListener('mouseup', onMouseUp)
+  document.addEventListener('mouseup', activeMouseUpHandler)
+  // #endif
+}
+
+/** 移除 document mouseup 监听器 */
+function detachMouseUpHandler(): void {
+  // #ifdef H5
+  if (activeMouseUpHandler) {
+    document.removeEventListener('mouseup', activeMouseUpHandler)
+    activeMouseUpHandler = null
+  }
   // #endif
 }
 
 /** ---- 输入框事件 ---- */
-function onInput(e: { detail?: { value: string }, target?: { value: string } }): void {
-  const value = e.detail?.value ?? e.target?.value ?? ''
+function onInput(e: { detail?: { value?: string }; target?: EventTarget | null }): void {
+  const value = (e.detail?.value ?? (e.target as HTMLInputElement)?.value ?? '') as string
   inputText.value = value
 
   // 空字符串或负号（正在输入负数）不做处理
@@ -494,11 +513,6 @@ function onBlur(): void {
         emit('update:modelValue', numValue)
         emit('onChange', numValue)
       }
-
-      if (numValue >= props.max || numValue <= props.min) {
-        // 如果失焦后值在边界，可以静默 clamp，不需要触发 overlimit
-        // 因为用户手动输入时已经在 input 事件中做过范围检查
-      }
     }
   }
 
@@ -522,6 +536,7 @@ watch(
 /** ---------- lifecycle ---------- */
 onBeforeUnmount(() => {
   clearLongPressTimers()
+  detachMouseUpHandler()
 })
 
 /** ---------- expose ---------- */

@@ -54,4 +54,14 @@ export interface SeeCodeEmits {
   'update:modelValue': (value: string) => void
 }
 
+/** SeeCode 组件实例暴露的方法 */
+export interface SeeCodeInstance {
+  /** 聚焦输入框 */
+  focus: () => void
+  /** 获取当前值 */
+  getValue: () => string
+  /** 是否禁用 */
+  isDisabled: () => boolean
+}
+
 export type { FormContext } from '../../utils/shared/form-types'

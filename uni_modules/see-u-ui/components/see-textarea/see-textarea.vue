@@ -30,7 +30,7 @@
     </view>
 
     <!-- 底部栏：字数统计 -->
-    <view v-if="isShowWordLimit && maxlength > 0" class="see-textarea__footer">
+    <view v-if="isShowWordLimit" class="see-textarea__footer">
       <text class="see-textarea__word-count" :class="{ 'is-over': isOverLimit }">{{ currentLength }}/{{ maxlength }}</text>
     </view>
   </view>
@@ -61,7 +61,7 @@
 import { computed, inject, ref, watch } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
-import type { ConfirmType, FormContext, TextareaSize } from './type'
+import type { ConfirmType, FormContext, TextareaSize, TextareaInputEvent, TextareaKeyboardEvent, TextareaLineChangeEvent } from './type'
 
 defineOptions({ name: 'SeeTextarea' })
 
@@ -123,9 +123,9 @@ const emit = defineEmits<{
   /** 输入时触发 */
   (e: 'onInput', value: string): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: { detail: { value: string } }): void
+  (e: 'onFocus', event: TextareaInputEvent): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: { detail: { value: string } }): void
+  (e: 'onBlur', event: TextareaInputEvent): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 值变化时触发（失焦后） */
@@ -141,7 +141,7 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
 
 /** ---------- Form 联动（useField） ---------- */
 const field = useField({
@@ -159,6 +159,9 @@ const fieldDisabled = field?.isDisabled ?? computed(() => false)
 const fieldReadonly = field?.isReadonly ?? computed(() => false)
 
 /** ---------- state ---------- */
+/** 每行基准高度（px），用于计算 min-height / height */
+const ROW_LINE_HEIGHT = 24
+
 /** 内部维护的值，用于处理 v-model */
 const innerValue = ref(props.modelValue)
 /** 是否聚焦 */
@@ -177,7 +180,7 @@ const mergedReadonly = computed(() => {
 
 /** 实际尺寸（考虑 Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 当前输入长度 */
@@ -195,10 +198,18 @@ const isShowClear = computed(() => {
   return props.isClearable && !mergedDisabled.value && !mergedReadonly.value && innerValue.value.length > 0
 })
 
-/** placeholder 样式字符串 */
-const placeholderStyleStr = computed(() => {
-  return 'color: var(--see-tips-color);'
+/** 是否显示字数统计（组件级别） */
+const isShowWordLimit = computed(() => {
+  return props.isShowWordLimit && props.maxlength > 0
 })
+
+/** 是否处于校验错误状态 */
+const isError = computed(() => {
+  return validateStatus.value === 'error'
+})
+
+/** placeholder 样式字符串（静态值，避免不必要的响应式开销） */
+const placeholderStyleStr = 'color: var(--see-tips-color);'
 
 /** ---------- classes ---------- */
 /** 组件样式类 */
@@ -209,6 +220,7 @@ const textareaClasses = computed(() => {
   if (isFocused.value) classes.push('is-focused')
   if (props.isBorder) classes.push('is-border')
   if (isOverLimit.value) classes.push('is-over-limit')
+  if (isError.value) classes.push('is-error')
   return classes.join(' ')
 })
 
@@ -216,31 +228,32 @@ const textareaClasses = computed(() => {
 const wrapperStyle = computed(() => {
   const style: Record<string, string> = {}
   if (!props.isAutoHeight && props.rows > 0) {
-    style.minHeight = `${props.rows * 24}px`
+    style.minHeight = `${props.rows * ROW_LINE_HEIGHT}px`
   }
   return style
 })
 
 /** 输入框内部样式 */
-const innerStyle = computed(() => {
-  const style: Record<string, string> = {
+const innerStyle = computed<Record<string, string | number>>(() => {
+  const style: Record<string, string | number> = {
     ...props.inputStyle
   }
   if (!props.isAutoHeight && props.rows > 0) {
-    style.height = `${props.rows * 24}px`
+    style.height = `${props.rows * ROW_LINE_HEIGHT}px`
   }
   return style
 })
 
 /** ---------- watch ---------- */
-/** 监听外部 modelValue 变化 */
+/** 监听外部 modelValue 变化（immediate 确保初始化时同步） */
 watch(
   () => props.modelValue,
   (newVal) => {
     if (newVal !== innerValue.value) {
       innerValue.value = newVal
     }
-  }
+  },
+  { immediate: true }
 )
 
 /** ---------- events ---------- */
@@ -248,7 +261,7 @@ watch(
  * @title 处理输入事件
  * @description 处理 textarea 的输入事件，同步更新 v-model 并触发 onInput
  */
-const handleInput = (e: { detail: { value: string } }) => {
+const handleInput = (e: TextareaInputEvent) => {
   const value = e.detail?.value ?? ''
   innerValue.value = value
   emit('update:modelValue', value)
@@ -259,7 +272,7 @@ const handleInput = (e: { detail: { value: string } }) => {
  * @title 处理聚焦事件
  * @description 触发 onFocus 事件并更新聚焦状态
  */
-const handleFocus = (e: { detail: { value: string } }) => {
+const handleFocus = (e: TextareaInputEvent) => {
   isFocused.value = true
   emit('onFocus', e)
 }
@@ -268,18 +281,19 @@ const handleFocus = (e: { detail: { value: string } }) => {
  * @title 处理失焦事件
  * @description 触发 onBlur 和 onChange 事件并更新聚焦状态
  */
-const handleBlur = (e: { detail: { value: string } }) => {
+const handleBlur = (e: TextareaInputEvent) => {
   isFocused.value = false
   emit('onBlur', e)
   emit('onChange', innerValue.value)
   field?.handleBlur()
+  field?.handleChange(innerValue.value)
 }
 
 /**
  * @title 处理键盘确认事件
  * @description 触发 onConfirm 事件
  */
-const handleConfirm = (e: { detail: { value: string } }) => {
+const handleConfirm = (_e: TextareaInputEvent) => {
   emit('onConfirm', innerValue.value)
 }
 
@@ -287,7 +301,7 @@ const handleConfirm = (e: { detail: { value: string } }) => {
  * @title 处理键盘高度变化
  * @description 触发 onKeyboardHeightChange 事件
  */
-const handleKeyboardHeightChange = (e: { detail: { height: number } }) => {
+const handleKeyboardHeightChange = (e: TextareaKeyboardEvent) => {
   const height = e.detail?.height ?? 0
   emit('onKeyboardHeightChange', height)
 }
@@ -296,7 +310,7 @@ const handleKeyboardHeightChange = (e: { detail: { height: number } }) => {
  * @title 处理行数变化
  * @description 触发 onLineChange 事件
  */
-const handleLineChange = (e: { detail: { lineCount: number } }) => {
+const handleLineChange = (e: TextareaLineChangeEvent) => {
   const lines = e.detail?.lineCount ?? 0
   emit('onLineChange', lines)
 }
@@ -337,18 +351,35 @@ defineExpose({
 
 <style lang="scss" scoped>
 .see-textarea {
+  /* ---------- 组件级 CSS 变量 ---------- */
+  --textarea-font-size-small: 24rpx;
+  --textarea-font-size-default: 28rpx;
+  --textarea-font-size-large: 32rpx;
+  --textarea-clear-size: 40rpx;
+  --textarea-border-radius-small: 8rpx;
+  --textarea-border-radius-default: 12rpx;
+  --textarea-border-radius-large: 16rpx;
+  --textarea-padding-h-small: 16rpx;
+  --textarea-padding-v-small: 12rpx;
+  --textarea-padding-h-default: 24rpx;
+  --textarea-padding-v-default: 20rpx;
+  --textarea-padding-h-large: 32rpx;
+  --textarea-padding-v-large: 24rpx;
+}
+
+.see-textarea {
   position: relative;
   width: 100%;
 
   /* ---------- 尺寸变体 ---------- */
   &--small {
     .see-textarea__wrapper {
-      padding: 12rpx 16rpx;
-      border-radius: 8rpx;
+      padding: var(--textarea-padding-v-small) var(--textarea-padding-h-small);
+      border-radius: var(--textarea-border-radius-small);
     }
 
     .see-textarea__inner {
-      font-size: 24rpx;
+      font-size: var(--textarea-font-size-small);
       line-height: 1.5;
     }
 
@@ -363,12 +394,12 @@ defineExpose({
 
   &--default {
     .see-textarea__wrapper {
-      padding: 20rpx 24rpx;
-      border-radius: 12rpx;
+      padding: var(--textarea-padding-v-default) var(--textarea-padding-h-default);
+      border-radius: var(--textarea-border-radius-default);
     }
 
     .see-textarea__inner {
-      font-size: 28rpx;
+      font-size: var(--textarea-font-size-default);
       line-height: 1.5;
     }
 
@@ -383,12 +414,12 @@ defineExpose({
 
   &--large {
     .see-textarea__wrapper {
-      padding: 24rpx 32rpx;
-      border-radius: 16rpx;
+      padding: var(--textarea-padding-v-large) var(--textarea-padding-h-large);
+      border-radius: var(--textarea-border-radius-large);
     }
 
     .see-textarea__inner {
-      font-size: 32rpx;
+      font-size: var(--textarea-font-size-large);
       line-height: 1.5;
     }
 
@@ -427,6 +458,12 @@ defineExpose({
     box-shadow: 0 0 0 2rpx var(--see-primary-light);
   }
 
+  /* ---------- 错误状态 ---------- */
+  &.is-error.is-border &__wrapper {
+    border-color: var(--see-error);
+    box-shadow: 0 0 0 2rpx var(--see-error-light);
+  }
+
   /* ---------- 输入框 ---------- */
   &__inner {
     flex: 1;
@@ -440,6 +477,7 @@ defineExpose({
     outline: none;
     resize: none;
     box-sizing: border-box;
+    caret-color: var(--see-primary);
 
     /* 隐藏 uni-app 原生 textarea 的边框（小程序端） */
     /* #ifdef MP */

@@ -18,6 +18,9 @@ export interface SelectOption {
 /** 选择器尺寸 */
 export type SelectSize = 'small' | 'default' | 'large'
 
+/** 渲染用选项（含分组标记的联合类型） */
+export type DisplayOption = SelectOption | (SelectOption & { isGroup: boolean })
+
 /** SeeSelect Props */
 export interface SeeSelectProps {
   /** 绑定值（v-model） */

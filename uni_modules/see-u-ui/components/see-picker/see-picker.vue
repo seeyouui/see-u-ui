@@ -92,7 +92,7 @@
  * @property {Number}                   visibleItemCount 可见选项数（默认 5）
  * @property {Boolean}                  isAsync          是否异步加载
  */
-import { ref, computed, watch, inject, nextTick, reactive } from 'vue'
+import { ref, computed, watch, inject, nextTick, reactive, onBeforeUnmount } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
 import type { PickerOption, PickerColumn, PickerSize, FormContext, WheelState } from './type'
 
@@ -103,8 +103,8 @@ const props = withDefaults(
   defineProps<{
     /** 绑定值（v-model） */
     modelValue?: string | number | (string | number)[]
-    /** 选项数据 */
-    columns?: PickerColumn[]
+    /** 选项数据（单列传 PickerOption[]，多列传 PickerOption[][]） */
+    columns?: PickerColumn[] | PickerOption[]
     /** 占位符 */
     placeholder?: string
     /** 是否禁用 */
@@ -175,22 +175,31 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
 
 /** ---------- 常量 ---------- */
 const ITEM_HEIGHT = 88 // 每个选项的高度 rpx
+const POPUP_OPEN_DELAY = 30 // 弹出层打开延迟 ms
+const POPUP_CLOSE_DURATION = 300 // 弹出层关闭过渡时长 ms（需与 CSS transition 保持一致）
+const ELASTICITY_FACTOR = 0.3 // 边界弹性阻尼系数
+const SWIPE_THRESHOLD_RPX = 30 // 快速滑动判定阈值 rpx
+const INERTIA_DURATION = 150 // 惯性滚动时长 ms
+const DEFAULT_WINDOW_WIDTH = 375 // 默认窗口宽度 fallback
 /** 缓存窗口宽度，避免触摸事件中同步调用 getSystemInfoSync */
-let cachedWindowWidth = 375
+let cachedWindowWidth = DEFAULT_WINDOW_WIDTH
 try {
   const sysInfo = uni.getSystemInfoSync()
-  cachedWindowWidth = sysInfo.windowWidth || 375
-} catch (e) {
-  cachedWindowWidth = 375
+  cachedWindowWidth = sysInfo.windowWidth || DEFAULT_WINDOW_WIDTH
+} catch {
+  cachedWindowWidth = DEFAULT_WINDOW_WIDTH
 }
 
 /** ---------- refs ---------- */
 const isVisible = ref(false)
 const isPopupVisible = ref(false)
+/** 活跃的 setTimeout ID 列表，用于 onBeforeUnmount 清理 */
+let openTimer: ReturnType<typeof setTimeout> | null = null
+let closeTimer: ReturnType<typeof setTimeout> | null = null
 /** 每列选中的索引 */
 const selectedIndices = ref<number[]>([])
 /** 每列滚轮状态 */
@@ -202,17 +211,17 @@ const currentCascadeColumns = ref<PickerColumn[]>([])
 
 /** 实际禁用状态 */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态 */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸 */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 当前显示的列数据 */
@@ -220,8 +229,10 @@ const displayColumns = computed<PickerColumn[]>(() => {
   if (props.isCascade) {
     return currentCascadeColumns.value
   }
-  // 单列模式：将数据包装为二维数组
-  if (props.columns.length > 0 && !Array.isArray(props.columns[0])) {
+  if (props.columns.length === 0) return []
+  // 判断是否为单列模式：首元素是对象（PickerOption）而非数组
+  const first = props.columns[0]
+  if (first && typeof first === 'object' && !Array.isArray(first)) {
     return [props.columns as PickerColumn]
   }
   return props.columns as PickerColumn[]
@@ -257,9 +268,6 @@ const displayText = computed(() => {
     .filter(Boolean)
     .join(' / ')
 })
-
-/** 每个选项的高度（px 用于计算） */
-const itemHeightPx = ITEM_HEIGHT
 
 /** 滚轮容器高度 */
 const wheelHeight = computed(() => {
@@ -318,7 +326,7 @@ const triggerClasses = computed(() => {
  */
 function getCascadeDisplayText(): string {
   const texts: string[] = []
-  let columns = props.columns
+  let columns: PickerOption[] = props.columns as PickerOption[]
 
   for (let i = 0; i < selectedIndices.value.length; i++) {
     const idx = selectedIndices.value[i]
@@ -371,7 +379,7 @@ function initCascadeIndices(): void {
   const values = Array.isArray(props.modelValue) ? props.modelValue : props.modelValue !== '' && props.modelValue != null ? [props.modelValue] : []
 
   const indices: number[] = []
-  let columns = props.columns
+  let columns: PickerOption[] = props.columns as PickerOption[]
   const cascadeColumns: PickerColumn[] = [columns]
 
   for (let i = 0; i < values.length; i++) {
@@ -443,6 +451,7 @@ function isOptionSelected(colIndex: number, optIndex: number): boolean {
 /**
  * @title 获取 rpx 对应的 px 值
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function rpxToPx(rpx: number): number {
   return (rpx / 750) * cachedWindowWidth
 }
@@ -495,9 +504,9 @@ function handleTouchMove(event: TouchEvent, colIndex: number): void {
   const minOffset = centerOffset - (column.length - 1) * ITEM_HEIGHT
 
   if (newOffset > maxOffset) {
-    newOffset = maxOffset + (newOffset - maxOffset) * 0.3
+    newOffset = maxOffset + (newOffset - maxOffset) * ELASTICITY_FACTOR
   } else if (newOffset < minOffset) {
-    newOffset = minOffset + (newOffset - minOffset) * 0.3
+    newOffset = minOffset + (newOffset - minOffset) * ELASTICITY_FACTOR
   }
 
   state.offset = newOffset
@@ -524,10 +533,10 @@ function handleTouchEnd(event: TouchEvent, colIndex: number): void {
 
   // 惯性滚动
   let targetOffset = state.offset
-  if (duration < 300 && Math.abs(deltaRpx) > 30) {
+  if (duration < POPUP_CLOSE_DURATION && Math.abs(deltaRpx) > SWIPE_THRESHOLD_RPX) {
     // 快速滑动，添加惯性
     const velocity = deltaRpx / duration
-    targetOffset = state.offset + velocity * 150
+    targetOffset = state.offset + velocity * INERTIA_DURATION
   }
 
   // 吸附到最近的选项
@@ -650,9 +659,9 @@ function handleOpen(): void {
   if (mergedDisabled.value || mergedReadonly.value) return
   isVisible.value = true
   nextTick(() => {
-    setTimeout(() => {
+    openTimer = setTimeout(() => {
       isPopupVisible.value = true
-    }, 30)
+    }, POPUP_OPEN_DELAY)
   })
 }
 
@@ -661,9 +670,9 @@ function handleOpen(): void {
  */
 function handleClose(): void {
   isPopupVisible.value = false
-  setTimeout(() => {
+  closeTimer = setTimeout(() => {
     isVisible.value = false
-  }, 300)
+  }, POPUP_CLOSE_DURATION)
 }
 
 /**
@@ -685,6 +694,18 @@ function handleCancel(): void {
   emit('onCancel')
   handleClose()
 }
+
+/** ---------- lifecycle ---------- */
+onBeforeUnmount(() => {
+  if (openTimer !== null) {
+    clearTimeout(openTimer)
+    openTimer = null
+  }
+  if (closeTimer !== null) {
+    clearTimeout(closeTimer)
+    closeTimer = null
+  }
+})
 
 /** ---------- watch ---------- */
 

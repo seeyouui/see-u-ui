@@ -1,6 +1,14 @@
 /** Slider 组件尺寸 */
 export type SliderSize = 'small' | 'default' | 'large'
 
+/** 轨道位置信息 */
+export interface TrackRect {
+  left: number
+  top: number
+  width: number
+  height: number
+}
+
 /** Slider 组件 Props */
 export interface SliderProps {
   /** 绑定值（v-model，支持范围选择时为 [min, max]） */

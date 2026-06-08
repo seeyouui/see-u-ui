@@ -17,13 +17,7 @@
     />
 
     <!-- 显示的格子 -->
-    <view
-      v-for="(_, index) in length"
-      :key="index"
-      class="see-code__cell"
-      :class="getCellClasses(index)"
-      @click="handleCellClick(index)"
-    >
+    <view v-for="(_, index) in length" :key="index" class="see-code__cell" :class="getCellClasses(index)" @click="handleCellClick(index)">
       <!-- 遮罩圆点 -->
       <view v-if="isMask && chars[index]" class="see-code__dot"></view>
       <!-- 文字 -->
@@ -55,9 +49,9 @@
  * @property {String}   keyboard    键盘类型（默认 'number'）
  * @property {Boolean}  isCursor    是否显示光标闪烁动画（默认 false）
  */
-import { computed, inject, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, ref } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { CodeSize, CodeType, FormContext } from './type'
+import type { CodeKeyboard, CodeSize, CodeType, FormContext, SeeCodeInstance } from './type'
 
 defineOptions({ name: 'SeeCode' })
 
@@ -85,7 +79,7 @@ const props = withDefaults(
     /** 表单字段名 */
     name?: string
     /** 键盘类型 */
-    keyboard?: 'number' | 'text'
+    keyboard?: CodeKeyboard
     /** 是否显示光标闪烁动画 */
     isCursor?: boolean
   }>(),
@@ -120,10 +114,10 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
 
 /** ---------- refs ---------- */
-const inputRef = ref<any>(null)
+const inputRef = ref<Record<string, unknown> | null>(null)
 const isFocused = ref(false)
 /** 非 H5 端通过切换此 ref 来重新触发 input 聚焦 */
 const needFocus = ref(props.isFocus)
@@ -131,27 +125,22 @@ const needFocus = ref(props.isFocus)
 /** ---------- computed ---------- */
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸（优先本地 > Form > default） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** input 的 type 属性 */
 const inputType = computed(() => {
   return props.keyboard === 'number' ? 'number' : 'text'
-})
-
-/** 自动聚焦（仅在组件挂载时生效） */
-const autoFocus = computed(() => {
-  return props.isFocus && !mergedDisabled.value && !mergedReadonly.value
 })
 
 /** 当前值的字符数组 */
@@ -224,7 +213,7 @@ function shouldShowCursor(index: number): boolean {
  * @title 处理输入事件
  * @description 截取到指定长度，更新 v-model，触发 onChange / onComplete
  */
-function handleInput(e: { detail?: { value: string }, target?: { value: string } }) {
+function handleInput(e: { detail?: { value: string }; target?: { value: string } }) {
   if (mergedDisabled.value || mergedReadonly.value) return
 
   let value = String(e.detail?.value ?? e.target?.value ?? '')
@@ -251,7 +240,7 @@ function handleInput(e: { detail?: { value: string }, target?: { value: string }
  * @title 处理粘贴事件
  * @description 将粘贴内容截取到指定长度并更新
  */
-function handlePaste(e: { clipboardData?: { getData: (type: string) => string }, detail?: { value: string, text?: string } }) {
+function handlePaste(e: { clipboardData?: { getData: (type: string) => string }; detail?: { value: string; text?: string } }) {
   if (mergedDisabled.value || mergedReadonly.value) return
 
   let pasted = (e.clipboardData?.getData('text') || '').trim()
@@ -305,7 +294,7 @@ function handleContainerClick() {
  * @title 点击单元格时聚焦 input
  * @param index 单元格索引
  */
-function handleCellClick(index: number) {
+function handleCellClick(_index: number) {
   if (mergedDisabled.value || mergedReadonly.value) return
   focusInput()
 }
@@ -318,8 +307,11 @@ function focusInput() {
   isFocused.value = true
   // #ifdef H5
   nextTick(() => {
-    const el = inputRef.value?.$el?.querySelector?.('input') || inputRef.value
-    if (el?.focus) el.focus()
+    const el =
+      (inputRef.value?.$el?.querySelector?.('input') as HTMLInputElement | undefined) || (inputRef.value as unknown as HTMLInputElement | null)
+    if (el && typeof el.focus === 'function') {
+      el.focus()
+    }
   })
   // #endif
   // #ifndef H5
@@ -331,6 +323,12 @@ function focusInput() {
   // #endif
 }
 
+/** ---------- cleanup ---------- */
+/** 组件卸载时重置聚焦状态，防止内存泄漏 */
+onBeforeUnmount(() => {
+  isFocused.value = false
+})
+
 /** ---------- expose ---------- */
 defineExpose({
   /** 聚焦输入框 */
@@ -339,7 +337,7 @@ defineExpose({
   getValue: () => props.modelValue || '',
   /** 是否禁用 */
   isDisabled: () => mergedDisabled.value
-})
+} satisfies SeeCodeInstance)
 </script>
 
 <style lang="scss" scoped>

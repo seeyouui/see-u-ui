@@ -63,9 +63,9 @@ export interface SeeDatetimePickerProps {
   /** 是否显示秒 */
   isShowSeconds?: boolean
   /** 自定义格式化函数 */
-  formatter?: (type: string, value: string) => string
+  formatter?: (type: ColumnType, value: string) => string
   /** 自定义过滤函数 */
-  filter?: (type: string, values: string[]) => string[]
+  filter?: (type: ColumnType, values: string[]) => string[]
   /** 尺寸 */
   size?: DatetimePickerSize
   /** 是否显示边框 */

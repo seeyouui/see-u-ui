@@ -3,13 +3,27 @@
  * @description 输入框组件的类型声明
  */
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, Ref } from 'vue'
+import type { FormContext, ValidateStatus } from '../../utils/shared/form-types'
+
+export type { FormContext, ValidateStatus }
 
 /** 输入框类型 */
 export type InputType = 'text' | 'number' | 'password' | 'digit' | 'tel' | 'idcard'
 
 /** 输入框尺寸 */
 export type InputSize = 'small' | 'default' | 'large'
+
+/** uni-app input 事件回调的 detail 结构 */
+export interface InputEventDetail {
+  /** 当前输入值 */
+  value: string
+}
+
+/** uni-app input 事件回调（跨平台统一结构） */
+export interface InputEvent {
+  detail: InputEventDetail
+}
 
 /** SeeInput Props */
 export interface SeeInputProps {
@@ -58,9 +72,9 @@ export interface SeeInputEmits {
   /** 输入时触发 */
   onInput: (value: string | number) => void
   /** 聚焦时触发 */
-  onFocus: (event: FocusEvent) => void
+  onFocus: (event: InputEvent) => void
   /** 失焦时触发 */
-  onBlur: (event: FocusEvent) => void
+  onBlur: (event: InputEvent) => void
   /** 清除时触发 */
   onClear: () => void
   /** 值变化时触发（失焦后） */
@@ -73,4 +87,14 @@ export interface SeeInputEmits {
   'update:modelValue': (value: string | number) => void
 }
 
-export type { FormContext } from '../../utils/shared/form-types'
+/** SeeInput 实例暴露的方法 */
+export interface SeeInputExpose {
+  /** 聚焦 */
+  focus: () => void
+  /** 失焦 */
+  blur: () => void
+  /** 校验状态 */
+  validateStatus: Ref<ValidateStatus>
+  /** 校验信息 */
+  validateMessage: Ref<string>
+}

@@ -3,9 +3,8 @@
  * @description 表单组件统一导出
  */
 import SeeForm from './see-form.vue'
-import SeeFormItem from '../see-form-item/see-form-item.vue'
 
-export { SeeForm, SeeFormItem }
+export { SeeForm }
 
 export default SeeForm
 

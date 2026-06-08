@@ -11,7 +11,8 @@ import { SeeImage } from './components/see-image/index'
 import { SeeConfig } from './components/see-config/index'
 
 // 表单体系组件
-import { SeeForm, SeeFormItem } from './components/see-form/index'
+import { SeeForm } from './components/see-form/index'
+import { SeeFormItem } from './components/see-form-item/index'
 import { SeeInput } from './components/see-input/index'
 import { SeeTextarea } from './components/see-textarea/index'
 import { SeeCheckbox, SeeCheckboxGroup } from './components/see-checkbox/index'

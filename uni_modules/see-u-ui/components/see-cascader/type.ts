@@ -19,7 +19,7 @@ export interface CascaderOption {
    * 额外数据（可存放任意字段）
    * 注意：此索引签名允许传入自定义扩展字段，使用时请确保类型安全
    */
-  [key: string]: any
+  [key: string]: unknown
 }
 
 /** 级联选择器尺寸 */

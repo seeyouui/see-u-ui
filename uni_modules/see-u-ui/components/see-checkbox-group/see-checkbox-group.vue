@@ -21,10 +21,9 @@
  * @property {String}                      checkedColor    选中时颜色
  * @property {String}                      name            表单字段名
  */
-import { computed, provide, reactive, toRef } from 'vue'
-import { formKey } from '../../utils/shared/form-keys'
-import type { CheckboxSize, CheckboxGroupContext, FormContext } from '../see-checkbox/type'
-import { inject } from 'vue'
+import { computed, inject, provide, reactive, toRef } from 'vue'
+import { formKey, checkboxGroupKey } from '../../utils/shared/form-keys'
+import type { CheckboxSize, CheckboxGroupContext } from '../see-checkbox/type'
 
 defineOptions({ name: 'SeeCheckboxGroup' })
 
@@ -172,7 +171,7 @@ const groupContext: CheckboxGroupContext = reactive({
   toggle
 })
 
-provide('checkboxGroupKey', groupContext)
+provide(checkboxGroupKey, groupContext)
 
 /** ---------- expose ---------- */
 defineExpose({

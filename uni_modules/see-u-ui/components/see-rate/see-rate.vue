@@ -6,7 +6,7 @@
       <!-- 右半星 / 整星 -->
       <view class="see-rate__half see-rate__half--right" @click="onTapHalf(index, 'right')"></view>
       <!-- 背景图标（未选中） -->
-      <text class="see-rate__icon see-rate__icon--void" :style="{ fontSize: size + 'px', color: voidColor || 'var(--see-border-three-color)' }">
+      <text class="see-rate__icon see-rate__icon--void" :style="{ fontSize: size + 'px', color: mergedVoidColor }">
         {{ voidIcon }}
       </text>
       <!-- 前景图标（选中）- 通过 clip 控制显示比例 -->
@@ -37,7 +37,7 @@
  */
 import { computed, inject } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { RateProps, FormContext } from './type'
+import type { RateProps } from './type'
 
 defineOptions({
   name: 'SeeRate'
@@ -71,15 +71,19 @@ const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 const activeColor = computed(() => {
   return props.color || 'var(--see-primary)'
+})
+
+const mergedVoidColor = computed(() => {
+  return props.voidColor || 'var(--see-border-three-color)'
 })
 
 const rateStyle = computed(() => ({
@@ -92,26 +96,34 @@ const itemStyle = computed(() => ({
 }))
 
 /**
- * @title 获取选中图标样式
+ * @title 获取选中图标样式（缓存计算）
  * @description 根据当前星星索引计算前景图标的裁剪比例，实现半星效果
  */
+const activeIconStyles = computed(() => {
+  const styles: Record<string, Record<string, string>> = {}
+  for (let i = 1; i <= props.count; i++) {
+    const diff = props.modelValue - (i - 1)
+
+    let clipPercent: number
+    if (diff >= 1) {
+      clipPercent = 100
+    } else if (diff > 0) {
+      clipPercent = props.allowHalf ? 50 : 100
+    } else {
+      clipPercent = 0
+    }
+
+    styles[i] = {
+      fontSize: props.size + 'px',
+      '--rate-active-color': activeColor.value,
+      '--clip-percent': clipPercent + '%'
+    }
+  }
+  return styles
+})
+
 const getActiveIconStyle = (index: number) => {
-  const diff = props.modelValue - (index - 1)
-
-  let clipPercent: number
-  if (diff >= 1) {
-    clipPercent = 100
-  } else if (diff > 0) {
-    clipPercent = props.allowHalf ? 50 : 100
-  } else {
-    clipPercent = 0
-  }
-
-  return {
-    fontSize: props.size + 'px',
-    '--rate-active-color': activeColor.value,
-    '--clip-percent': clipPercent + '%'
-  }
+  return activeIconStyles.value[index] || {}
 }
 
 /** ---------- methods ---------- */
@@ -139,6 +151,16 @@ const onTapHalf = (index: number, side: 'left' | 'right') => {
   emit('update:modelValue', newValue)
   emit('onChange', newValue)
 }
+
+/** ---------- expose ---------- */
+defineExpose({
+  /** 当前值 */
+  currentValue: () => props.modelValue,
+  /** 是否禁用 */
+  isDisabled: () => mergedDisabled.value,
+  /** 是否只读 */
+  isReadonly: () => mergedReadonly.value
+})
 </script>
 
 <style lang="scss" scoped>
@@ -173,6 +195,7 @@ const onTapHalf = (index: number, side: 'left' | 'right') => {
     &--left {
       left: 0;
       width: 50%;
+      z-index: 2;
     }
 
     &--right {
@@ -193,7 +216,11 @@ const onTapHalf = (index: number, side: 'left' | 'right') => {
 
     &--active {
       position: relative;
-      background: linear-gradient(to right, var(--rate-active-color, var(--see-primary)) var(--clip-percent, 100%), transparent var(--clip-percent, 100%));
+      background: linear-gradient(
+        to right,
+        var(--rate-active-color, var(--see-primary)) var(--clip-percent, 100%),
+        transparent var(--clip-percent, 100%)
+      );
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;

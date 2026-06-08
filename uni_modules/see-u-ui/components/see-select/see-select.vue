@@ -37,7 +37,7 @@
     </view>
 
     <!-- 遮罩层（点击关闭） -->
-    <view v-if="isVisible" class="see-select__overlay" @click="handleClose"></view>
+    <view v-if="isVisible" class="see-select__overlay" @click="handleClose" @touchstart.stop.prevent="handleClose"></view>
 
     <!-- 下拉框 -->
     <view v-if="isVisible" class="see-select__dropdown" :class="{ 'is-visible': isDropdownVisible }">
@@ -130,12 +130,21 @@
  * @property {String}                   valueKey         选项值的键名（默认 'value'）
  * @property {String}                   labelKey         选项标签的键名（默认 'label'）
  */
-import { ref, computed, inject, nextTick, onBeforeUnmount } from 'vue'
+import { ref, computed, inject, nextTick, onBeforeUnmount, watch } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
-import type { SelectOption, SelectSize, FormContext } from './type'
+import type { SelectOption, SelectSize, DisplayOption } from './type'
+import type { ValidateStatus } from '../../utils/shared/form-types'
 
 defineOptions({ name: 'SeeSelect' })
+
+/** ---------- 常量 ---------- */
+/** 下拉框动画延迟（ms） */
+const DROPDOWN_ANIM_DELAY = 30
+/** 下拉框关闭动画时长（ms） */
+const DROPDOWN_CLOSE_DURATION = 200
+/** 远程搜索防抖延迟（ms） */
+const REMOTE_DEBOUNCE_DELAY = 300
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -228,13 +237,14 @@ const field = useField({
   }
 })
 
-const validateStatus = field?.validateStatus ?? ref('')
+const validateStatus = field?.validateStatus ?? ref<ValidateStatus>('')
 const validateMessage = field?.validateMessage ?? ref('')
 const fieldDisabled = field?.isDisabled ?? computed(() => false)
 const fieldReadonly = field?.isReadonly ?? computed(() => false)
 
 /** ---------- refs ---------- */
-const searchInputRef = ref<any>(null)
+/** 搜索输入框引用（uni-app input 组件实例） */
+const searchInputRef = ref<Record<string, unknown> | null>(null)
 /** 下拉框是否可见 */
 const isVisible = ref(false)
 /** 下拉框动画状态 */
@@ -264,9 +274,18 @@ const mergedReadonly = computed(() => {
   return props.isReadonly || fieldReadonly.value
 })
 
+/** ---------- watch ---------- */
+
+/** 禁用/只读状态变化时自动关闭下拉框 */
+watch([mergedDisabled, mergedReadonly], ([disabled, readonly]) => {
+  if ((disabled || readonly) && isVisible.value) {
+    handleClose()
+  }
+})
+
 /** 实际尺寸（组件自身 + Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 当前选中的值数组 */
@@ -336,8 +355,8 @@ const filteredOptions = computed<SelectOption[]>(() => {
 })
 
 /** 用于渲染的扁平列表（含分组标题） */
-const displayOptions = computed(() => {
-  const result: (SelectOption & { isGroup?: boolean })[] = []
+const displayOptions = computed<DisplayOption[]>(() => {
+  const result: DisplayOption[] = []
 
   for (const opt of filteredOptions.value) {
     if (opt.children && opt.children.length > 0) {
@@ -443,7 +462,7 @@ function handleOpen(): void {
       if (props.isFilterable) {
         focusSearchInput()
       }
-    }, 30)
+    }, DROPDOWN_ANIM_DELAY)
   })
 }
 
@@ -458,7 +477,7 @@ function handleClose(): void {
     isVisible.value = false
     searchQuery.value = ''
     closeTimer = null
-  }, 200)
+  }, DROPDOWN_CLOSE_DURATION)
 }
 
 /**
@@ -468,10 +487,10 @@ function focusSearchInput(): void {
   // #ifdef H5
   nextTick(() => {
     try {
-      const el = searchInputRef.value?.$el?.querySelector?.('input')
+      const el = (searchInputRef.value as unknown as { $el?: HTMLElement })?.$el?.querySelector?.('input') as HTMLInputElement | null
       if (el) el.focus()
-    } catch (_) {
-      // ignore
+    } catch {
+      // ignore: 某些平台不支持 DOM 查询
     }
   })
   // #endif
@@ -521,7 +540,7 @@ function handleRemoveTag(value: string | number): void {
  */
 function handleClear(): void {
   if (mergedDisabled.value || mergedReadonly.value) return
-  const emptyValue = props.isMultiple ? [] : ''
+  const emptyValue: string | number | (string | number)[] = props.isMultiple ? [] : ''
   emit('update:modelValue', emptyValue)
   emit('onChange', emptyValue)
   emit('onClear')
@@ -534,14 +553,16 @@ function handleClear(): void {
 function handleSearchInput(event: { detail: { value: string } }): void {
   const query = event.detail?.value ?? ''
   searchQuery.value = query
-  emit('onSearch', query)
 
   // 远程搜索防抖
   if (props.isRemote && props.remoteMethod) {
     if (searchTimer) clearTimeout(searchTimer)
     searchTimer = setTimeout(() => {
-      props.remoteMethod!(query)
-    }, 300)
+      emit('onSearch', query)
+      props.remoteMethod?.(query)
+    }, REMOTE_DEBOUNCE_DELAY)
+  } else {
+    emit('onSearch', query)
   }
 }
 

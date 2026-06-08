@@ -13,9 +13,14 @@ export interface PickerOption {
   disabled?: boolean
   /** 子选项（联动模式） */
   children?: PickerOption[]
+  /**
+   * 额外数据（可存放任意字段）
+   * 注意：此索引签名允许传入自定义扩展字段，使用时请确保类型安全
+   */
+  [key: string]: unknown
 }
 
-/** 选择器列数据 */
+/** 选择器列数据（单列为 PickerOption[]，多列为 PickerOption[][]） */
 export type PickerColumn = PickerOption[]
 
 /** 选择器尺寸 */
@@ -25,8 +30,8 @@ export type PickerSize = 'small' | 'default' | 'large'
 export interface SeePickerProps {
   /** 绑定值（v-model） */
   modelValue?: string | number | (string | number)[]
-  /** 选项数据 */
-  columns?: PickerColumn[]
+  /** 选项数据（单列传 PickerOption[]，多列传 PickerOption[][]） */
+  columns?: PickerColumn[] | PickerOption[]
   /** 占位符 */
   placeholder?: string
   /** 是否禁用 */

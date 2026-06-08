@@ -84,10 +84,10 @@
  * @property {Boolean}          isShowPassword      是否显示密码切换按钮
  * @property {String}           autocomplete        自动完成（H5）
  */
-import { ref, computed, watch, nextTick, inject, useSlots } from 'vue'
+import { ref, computed, watch, nextTick, inject, useSlots, onBeforeUnmount } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
-import type { InputType, InputSize, FormContext } from './type'
+import type { InputType, InputSize, InputEvent, FormContext } from './type'
 
 defineOptions({ name: 'SeeInput' })
 
@@ -161,9 +161,9 @@ const emit = defineEmits<{
   /** 输入时触发 */
   (e: 'onInput', value: string | number): void
   /** 聚焦时触发 */
-  (e: 'onFocus', event: { detail: { value: string } }): void
+  (e: 'onFocus', event: InputEvent): void
   /** 失焦时触发 */
-  (e: 'onBlur', event: { detail: { value: string } }): void
+  (e: 'onBlur', event: InputEvent): void
   /** 清除时触发 */
   (e: 'onClear'): void
   /** 值变化时触发（失焦后） */
@@ -171,20 +171,20 @@ const emit = defineEmits<{
   /** 键盘确认时触发 */
   (e: 'onConfirm', value: string | number): void
   /** 键盘高度变化时触发 */
-  (e: 'onKeyboardHeightChange'): void
+  (e: 'onKeyboardHeightChange', height: number): void
   /** v-model 更新 */
   (e: 'update:modelValue', value: string | number): void
 }>()
 
 /** 注入 Form 上下文（用于获取 Form 级别的 size） */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
 
 /** ---------- Form 联动（useField） ---------- */
 const field = useField({
   field: props.name || '',
   getValue: () => props.modelValue,
   trigger: 'blur',
-  onValueChange: (value: unknown) => {
+  onValueChange: (_value: unknown) => {
     // 由 useField 内部管理 change 校验触发
   }
 })
@@ -198,7 +198,8 @@ const fieldReadonly = field?.isReadonly ?? computed(() => false)
 const slots = useSlots()
 
 /** ---------- refs ---------- */
-const inputRef = ref<any>(null)
+/** uni-app input 组件实例引用 */
+const inputRef = ref<Record<string, unknown> | null>(null)
 /** 是否聚焦 */
 const focused = ref(false)
 /** 密码是否可见 */
@@ -222,7 +223,7 @@ const mergedReadonly = computed(() => {
 
 /** 实际尺寸（组件自身 + Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 显示的值 */
@@ -311,7 +312,7 @@ const inputClasses = computed(() => {
  * @title 处理输入事件
  * @description 处理用户输入，支持 formatter/parser 和 v-model 双向绑定
  */
-const handleInput = (event: { detail: { value: string } }) => {
+const handleInput = (event: InputEvent) => {
   let value: string | number = event.detail?.value ?? ''
 
   // parser: 将格式化后的内容解析回原始值
@@ -347,7 +348,7 @@ const handleInput = (event: { detail: { value: string } }) => {
 /**
  * @title 处理聚焦事件
  */
-const handleFocus = (event: { detail: { value: string } }) => {
+const handleFocus = (event: InputEvent) => {
   focused.value = true
   emit('onFocus', event)
 }
@@ -356,7 +357,7 @@ const handleFocus = (event: { detail: { value: string } }) => {
  * @title 处理失焦事件
  * @description 触发 onBlur、onChange，同步 useField 校验
  */
-const handleBlur = (event: { detail: { value: string } }) => {
+const handleBlur = (event: InputEvent) => {
   focused.value = false
   emit('onBlur', event)
   emit('onChange', props.modelValue)
@@ -369,26 +370,26 @@ const handleBlur = (event: { detail: { value: string } }) => {
 /**
  * @title 处理键盘确认事件
  */
-const handleConfirm = (event: { detail: { value: string } }) => {
+const handleConfirm = (_event: InputEvent) => {
   emit('onConfirm', props.modelValue)
 }
 
 /**
  * @title 处理键盘高度变化
+ * @description 转发键盘高度变化事件，供父组件处理页面偏移
  */
-const handleKeyboardHeightChange = () => {
-  emit('onKeyboardHeightChange')
+const handleKeyboardHeightChange = (event: { detail: { height: number } }) => {
+  emit('onKeyboardHeightChange', event?.detail?.height)
 }
 
 /**
  * @title 清除输入内容
  */
 const handleClear = () => {
-  const emptyVal: string | number = ''
-  emit('update:modelValue', emptyVal)
-  emit('onInput', emptyVal)
+  emit('update:modelValue', '')
+  emit('onInput', '')
   emit('onClear')
-  emit('onChange', emptyVal)
+  emit('onChange', '')
 
   if (props.formatter) {
     formattedValue.value = ''
@@ -407,33 +408,47 @@ const togglePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value
 }
 
+/** 聚焦重置定时器 ID（用于组件卸载时清理） */
+let focusResetTimer: ReturnType<typeof setTimeout> | null = null
+
 /**
  * @title 手动聚焦（跨平台兼容）
- * @description 通过控制 focus 属性实现聚焦
+ * @description 通过控制 focus 属性实现聚焦，使用单次 nextTick 避免竞态
  */
 const doFocus = () => {
+  if (focusResetTimer !== null) {
+    clearTimeout(focusResetTimer)
+    focusResetTimer = null
+  }
   needFocus.value = false
   nextTick(() => {
     needFocus.value = true
-    // 重置，避免后续 modelValue 变化导致重复聚焦
-    nextTick(() => {
+    // 下一帧重置标记，避免后续 modelValue 变化导致重复聚焦
+    focusResetTimer = setTimeout(() => {
       needFocus.value = false
-    })
+      focusResetTimer = null
+    }, 100)
   })
 }
 
 /**
  * @title 手动失焦（跨平台兼容）
+ * @description 优先使用 uni.hideKeyboard() 关闭键盘，H5 平台回退到 DOM blur
  */
 const doBlur = () => {
   // #ifdef H5
   try {
-    const el = inputRef.value?.$el?.querySelector?.('input')
-    if (el) el.blur()
-  } catch (_) {
-    // ignore
+    const el = (inputRef.value as unknown as { $el?: HTMLElement })?.$el?.querySelector?.('input')
+    if (el instanceof HTMLInputElement) {
+      el.blur()
+      return
+    }
+  } catch {
+    // ignore - fall through to uni API
   }
   // #endif
+  // 使用 uni-app 跨平台 API 关闭键盘
+  uni.hideKeyboard()
 }
 
 /** ---------- watch ---------- */
@@ -452,6 +467,16 @@ watch(
     }
   }
 )
+
+/** ---------- lifecycle ---------- */
+
+/** 组件卸载时清理定时器 */
+onBeforeUnmount(() => {
+  if (focusResetTimer !== null) {
+    clearTimeout(focusResetTimer)
+    focusResetTimer = null
+  }
+})
 
 /** ---------- expose ---------- */
 defineExpose({

@@ -14,52 +14,53 @@
     <!-- 弹出层 -->
     <view v-if="isVisible" class="see-datetime-picker__overlay" @click="handleCancel">
       <view class="see-datetime-picker__popup" :class="popupClasses" @click.stop>
-      <!-- 工具栏 -->
-      <view v-if="props.isShowToolbar" class="see-datetime-picker__toolbar">
-        <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--cancel" @click="handleCancel">
-          {{ props.cancelText }}
-        </text>
-        <text class="see-datetime-picker__toolbar-title">
-          {{ props.toolbarTitle }}
-        </text>
-        <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--confirm" @click="handleConfirm">
-          {{ props.confirmText }}
-        </text>
-      </view>
+        <!-- 工具栏 -->
+        <view v-if="props.isShowToolbar" class="see-datetime-picker__toolbar">
+          <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--cancel" @click="handleCancel">
+            {{ props.cancelText }}
+          </text>
+          <text class="see-datetime-picker__toolbar-title">
+            {{ props.toolbarTitle }}
+          </text>
+          <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--confirm" @click="handleConfirm">
+            {{ props.confirmText }}
+          </text>
+        </view>
 
-      <!-- 选择器主体 -->
-      <view class="see-datetime-picker__body">
-        <!-- 列容器 -->
-        <view class="see-datetime-picker__columns">
-          <!-- 遮罩层（上） -->
-          <view class="see-datetime-picker__mask see-datetime-picker__mask--top"></view>
-          <!-- 选中指示器 -->
-          <view class="see-datetime-picker__indicator"></view>
-          <!-- 遮罩层（下） -->
-          <view class="see-datetime-picker__mask see-datetime-picker__mask--bottom"></view>
+        <!-- 选择器主体 -->
+        <view class="see-datetime-picker__body">
+          <!-- 列容器 -->
+          <view class="see-datetime-picker__columns">
+            <!-- 遮罩层（上） -->
+            <view class="see-datetime-picker__mask see-datetime-picker__mask--top"></view>
+            <!-- 选中指示器 -->
+            <view class="see-datetime-picker__indicator"></view>
+            <!-- 遮罩层（下） -->
+            <view class="see-datetime-picker__mask see-datetime-picker__mask--bottom"></view>
 
-          <!-- 各列 -->
-          <view
-            v-for="(column, colIndex) in displayColumns"
-            :key="column.type"
-            class="see-datetime-picker__column"
-            :data-col-index="colIndex"
-            @touchstart="onTouchStart($event, colIndex)"
-            @touchmove.prevent="onTouchMove($event, colIndex)"
-            @touchend="onTouchEnd($event, colIndex)"
-          >
-            <view class="see-datetime-picker__column-inner" :style="getColumnStyle(colIndex)">
-              <view
-                v-for="option in column.options"
-                :key="option.value"
-                class="see-datetime-picker__item"
-                :class="{
-                  'see-datetime-picker__item--selected': option.value === selectedValues[column.type]
-                }"
-              >
-                <text class="see-datetime-picker__item-text">
-                  {{ formatOption(column.type, option.text) }}
-                </text>
+            <!-- 各列 -->
+            <view
+              v-for="(column, colIndex) in displayColumns"
+              :key="column.type"
+              class="see-datetime-picker__column"
+              :data-col-index="colIndex"
+              @touchstart="onTouchStart($event, colIndex)"
+              @touchmove.prevent="onTouchMove($event, colIndex)"
+              @touchend="onTouchEnd($event, colIndex)"
+            >
+              <view class="see-datetime-picker__column-inner" :style="getColumnStyle(colIndex)">
+                <view
+                  v-for="option in column.options"
+                  :key="option.value"
+                  class="see-datetime-picker__item"
+                  :class="{
+                    'see-datetime-picker__item--selected': option.value === selectedValues[column.type]
+                  }"
+                >
+                  <text class="see-datetime-picker__item-text">
+                    {{ formatOption(column.type, option.text) }}
+                  </text>
+                </view>
               </view>
             </view>
           </view>
@@ -67,7 +68,6 @@
       </view>
     </view>
   </view>
-</view>
 </template>
 
 <script lang="ts" setup>
@@ -98,15 +98,15 @@
  * @property {Boolean}                  isBorder         是否显示边框（默认 true）
  * @property {String}                   name             表单字段名
  */
-import { ref, computed, inject, watch, nextTick } from 'vue'
+import { ref, computed, inject, watch, nextTick, onBeforeUnmount } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
+import { useField } from '../../utils/hooks/useField'
 import type { DatetimePickerType, DatetimePickerSize, ColumnType, ColumnOption, PickerColumn, FormContext } from './type'
 
 defineOptions({ name: 'SeeDatetimePicker' })
 
 /** ---------- constants ---------- */
 const ITEM_HEIGHT_MAP: Record<string, number> = { small: 72, default: 88, large: 100 }
-const VISIBLE_COUNT = 5 // 可见选项数量
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -144,9 +144,9 @@ const props = withDefaults(
     /** 是否显示秒 */
     isShowSeconds?: boolean
     /** 自定义格式化函数 */
-    formatter?: (type: string, value: string) => string
+    formatter?: (type: ColumnType, value: string) => string
     /** 自定义过滤函数 */
-    filter?: (type: string, values: string[]) => string[]
+    filter?: (type: ColumnType, values: string[]) => string[]
     /** 尺寸 */
     size?: DatetimePickerSize
     /** 是否显示边框 */
@@ -192,7 +192,17 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
+
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'change',
+  onValueChange: () => {
+    // 由 useField 内部管理 change 校验触发
+  }
+})
 
 /** ---------- refs ----------**
  * isVisible: 弹出层是否可见
@@ -231,8 +241,8 @@ const pixelRatio = ref(2)
 
 try {
   const sysInfo = uni.getSystemInfoSync()
-  pixelRatio.value = sysInfo.windowWidth ? (750 / sysInfo.windowWidth) : 2
-} catch (e) {
+  pixelRatio.value = sysInfo.windowWidth ? 750 / sysInfo.windowWidth : 2
+} catch {
   pixelRatio.value = 2
 }
 
@@ -240,17 +250,17 @@ try {
 
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || field.isDisabled.value || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || field.isReadonly.value || false
 })
 
 /** 实际尺寸（考虑 Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 当前选项高度（rpx），根据 size 动态计算 */
@@ -503,7 +513,7 @@ function generateSecondOptions(): ColumnOption[] {
 /**
  * @title 格式化选项显示
  */
-function formatOption(type: string, value: string): string {
+function formatOption(type: ColumnType, value: string): string {
   if (props.formatter) {
     return props.formatter(type, value)
   }
@@ -788,6 +798,7 @@ function handleConfirm() {
   emit('update:modelValue', date)
   emit('onChange', date)
   emit('onConfirm', date)
+  field.handleChange(date)
   isVisible.value = false
 }
 
@@ -844,6 +855,13 @@ watch(
   }
 )
 
+/** ---------- lifecycle ---------- */
+
+/** 组件卸载时清理 */
+onBeforeUnmount(() => {
+  field.resetField()
+})
+
 /** ---------- expose ---------- */
 defineExpose({
   /** 打开选择器 */
@@ -851,7 +869,17 @@ defineExpose({
   /** 关闭选择器 */
   close: handleCancel,
   /** 是否打开中 */
-  isVisible: () => isVisible.value
+  isVisible: () => isVisible.value,
+  /** 校验状态 */
+  validateStatus: field.validateStatus,
+  /** 校验信息 */
+  validateMessage: field.validateMessage,
+  /** 校验该字段 */
+  validate: field.validate,
+  /** 重置该字段 */
+  resetField: field.resetField,
+  /** 清除校验状态 */
+  clearValidate: field.clearValidate
 })
 </script>
 
@@ -954,7 +982,7 @@ defineExpose({
   right: 0;
   bottom: 0;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--see-mask-color, rgba(0, 0, 0, 0.5));
   display: flex;
   align-items: flex-end;
   justify-content: center;

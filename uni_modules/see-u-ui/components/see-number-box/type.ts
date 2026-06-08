@@ -35,6 +35,8 @@ export interface NumberBoxProps {
 
 /** NumberBox 组件事件 */
 export interface NumberBoxEmits {
+  /** v-model 更新 */
+  'update:modelValue': (value: number) => void
   /** 值变化时触发 */
   onChange: (value: number) => void
   /** 超出限制时触发 */

@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unreachable -->
 <template>
   <view class="see-upload" :class="uploadClasses">
     <!-- 文件列表 -->
@@ -123,10 +122,9 @@
  * @property {String}            uploadText          上传按钮文字
  * @property {String}            uploadIcon          上传图标
  */
-/* eslint-disable no-unreachable */
 import { computed, inject, onBeforeUnmount } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { UploadFileItem, UploadAccept, UploadSize, ImageSizeType, ImageSourceType, FormContext } from './type'
+import type { UploadFileItem, UploadAccept, UploadSize, ImageSizeType, ImageSourceType } from './type'
 
 defineOptions({ name: 'SeeUpload' })
 
@@ -232,17 +230,17 @@ const formContext = inject(formKey, null)
 
 /** 实际禁用状态 */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态 */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸 */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 文件列表 */
@@ -293,9 +291,15 @@ const itemStyle = computed(() => {
 
 /** ---------- utils ---------- */
 
+/** 生成唯一 ID */
+let fileIdCounter = 0
+function generateFileId(): string {
+  return `see-upload-${Date.now()}-${++fileIdCounter}`
+}
+
 /** 获取文件唯一 key */
 function getFileKey(file: UploadFileItem, index: number): string {
-  return file.url || file.tempFilePath || `file_${index}`
+  return file.id || file.url || file.tempFilePath || `file_${index}`
 }
 
 /** 是否为图片文件 */
@@ -317,6 +321,7 @@ function isVideoFile(file: UploadFileItem): boolean {
 }
 
 /** 获取文件扩展名 */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFileExtension(name: string): string {
   const parts = name.split('.')
   return parts.length > 1 ? parts.pop()! : ''
@@ -338,7 +343,10 @@ function matchesAccept(file: UploadFileItem): boolean {
   if (!props.accept || props.accept === 'file') return true
   if (props.accept === 'image') return file.type?.startsWith('image/') || /\.(jpg|jpeg|png|gif|bmp|webp|svg|ico|tiff|avif)$/i.test(file.name || '')
   if (props.accept === 'video') return file.type?.startsWith('video/') || /\.(mp4|avi|mov|wmv|flv|mkv)$/i.test(file.name || '')
-  if (props.accept === 'media') return (file.type?.startsWith('image/') || file.type?.startsWith('video/')) || /\.(jpg|jpeg|png|gif|bmp|webp|svg|mp4|avi|mov)$/i.test(file.name || '')
+  if (props.accept === 'media')
+    return (
+      file.type?.startsWith('image/') || file.type?.startsWith('video/') || /\.(jpg|jpeg|png|gif|bmp|webp|svg|mp4|avi|mov)$/i.test(file.name || '')
+    )
   return true
 }
 
@@ -369,14 +377,15 @@ async function compressImage(tempFilePath: string): Promise<string> {
   return tempFilePath
   // #endif
 
+  /* eslint-disable no-unreachable */
   // #ifndef H5
   try {
-    const result = await new Promise<any>((resolve, reject) => {
+    const result = await new Promise<{ tempFilePath: string }>((resolve, reject) => {
       uni.compressImage({
         src: tempFilePath,
         quality: props.compressQuality,
-        success: resolve,
-        fail: reject
+        success: (res) => resolve(res as { tempFilePath: string }),
+        fail: (err) => reject(err)
       })
     })
     return result.tempFilePath
@@ -384,6 +393,7 @@ async function compressImage(tempFilePath: string): Promise<string> {
     return tempFilePath
   }
   // #endif
+  /* eslint-enable no-unreachable */
 }
 
 /** ---------- 核心方法 ---------- */
@@ -430,6 +440,7 @@ async function chooseImage(count: number): Promise<UploadFileItem[]> {
           }
 
           files.push({
+            id: generateFileId(),
             url: finalPath,
             tempFilePath: finalPath,
             size: tempFile?.size,
@@ -464,6 +475,7 @@ async function chooseVideo(): Promise<UploadFileItem[]> {
       camera: props.isCamera ? 'front' : 'back',
       success: (res) => {
         const file: UploadFileItem = {
+          id: generateFileId(),
           url: res.tempFilePath,
           tempFilePath: res.tempFilePath,
           size: res.size,
@@ -490,14 +502,36 @@ async function chooseVideo(): Promise<UploadFileItem[]> {
  */
 async function chooseMedia(count: number): Promise<UploadFileItem[]> {
   // #ifdef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK
+  interface ChooseMediaTempFile {
+    tempFilePath: string
+    size: number
+    fileType: string
+    thumbTempFilePath?: string
+  }
+  interface ChooseMediaSuccessResult {
+    tempFiles: ChooseMediaTempFile[]
+  }
+  interface ChooseMediaOptions {
+    count: number
+    mediaType: string[]
+    sourceType: ('album' | 'camera')[]
+    sizeType: ('original' | 'compressed')[]
+    camera: 'front' | 'back'
+    success: (res: ChooseMediaSuccessResult) => void
+    fail: (err: { errMsg?: string }) => void
+  }
   return new Promise((resolve, reject) => {
-    ;(uni as any).chooseMedia({
+    ;(
+      uni as unknown as {
+        chooseMedia: (options: ChooseMediaOptions) => void
+      }
+    ).chooseMedia({
       count,
       mediaType: ['image', 'video'],
       sourceType: getSourceType(),
       sizeType: props.sizeType,
       camera: props.isCamera ? 'front' : 'back',
-      success: async (res: any) => {
+      success: async (res: ChooseMediaSuccessResult) => {
         const files: UploadFileItem[] = []
         for (const item of res.tempFiles || []) {
           let finalPath = item.tempFilePath
@@ -509,6 +543,7 @@ async function chooseMedia(count: number): Promise<UploadFileItem[]> {
           }
 
           files.push({
+            id: generateFileId(),
             url: finalPath,
             tempFilePath: finalPath,
             size: item.size,
@@ -520,7 +555,7 @@ async function chooseMedia(count: number): Promise<UploadFileItem[]> {
         }
         resolve(files)
       },
-      fail: (err: any) => {
+      fail: (err: { errMsg?: string }) => {
         if (err.errMsg?.includes('cancel')) {
           resolve([])
         } else {
@@ -531,10 +566,12 @@ async function chooseMedia(count: number): Promise<UploadFileItem[]> {
   })
   // #endif
 
+  /* eslint-disable no-unreachable */
   // #ifndef MP-WEIXIN || MP-ALIPAY || MP-TOUTIAO || MP-LARK
   // 不支持 chooseMedia 的平台降级为 chooseImage
   return chooseImage(count)
   // #endif
+  /* eslint-enable no-unreachable */
 }
 
 /**
@@ -550,9 +587,16 @@ function chooseFileByInput(): Promise<UploadFileItem[]> {
     input.style.display = 'none'
     document.body.appendChild(input)
 
+    const cleanup = () => {
+      if (input.parentNode) {
+        document.body.removeChild(input)
+      }
+    }
+
     input.onchange = () => {
       const files = Array.from(input.files || [])
       const result: UploadFileItem[] = files.map((file) => ({
+        id: generateFileId(),
         url: URL.createObjectURL(file),
         name: file.name,
         size: file.size,
@@ -560,23 +604,20 @@ function chooseFileByInput(): Promise<UploadFileItem[]> {
         file,
         status: 'done' as const
       }))
-      document.body.removeChild(input)
+      cleanup()
       resolve(result)
-    }
-
-    input.oncancel = () => {
-      document.body.removeChild(input)
-      resolve([])
     }
 
     input.click()
   })
   // #endif
 
+  /* eslint-disable no-unreachable */
   // #ifndef H5
   // 非 H5 端降级为 chooseImage
   return chooseImage(props.isMultiple ? props.maxCount - fileList.value.length : 1)
   // #endif
+  /* eslint-enable no-unreachable */
 }
 
 /** 获取 uni chooseImage/chooseVideo 的 sourceType */
@@ -658,24 +699,22 @@ async function processFiles(selectedFiles: UploadFileItem[]) {
 
   if (validFiles.length === 0) return
 
-  // 合并到文件列表
+  // 合并到文件列表，记录新增文件的起始索引
+  const startIndex = fileList.value.length
   const newList = [...fileList.value, ...validFiles]
   updateFileList(newList)
 
-  // 对每个新文件执行上传 — 使用文件对象引用而非索引，避免 fileList 变化后索引过期
-  for (const file of validFiles) {
-    // 在当前列表中查找文件引用
-    const currentIndex = fileList.value.findIndex(
-      (f) => f === file || f.tempFilePath === file.tempFilePath || f.url === file.url
-    )
-    if (currentIndex === -1) continue
+  // 对每个新文件执行上传，使用计算好的索引 + 偏移量定位
+  for (let i = 0; i < validFiles.length; i++) {
+    const file = validFiles[i]
+    const currentIndex = startIndex + i
 
     // 执行上传
     await performUpload(file, currentIndex)
 
     // afterRead 回调
     if (props.afterRead) {
-      props.afterRead(fileList.value[currentIndex] || file)
+      props.afterRead(newList[currentIndex] || file)
     }
   }
 }
@@ -704,19 +743,17 @@ async function handleClickUpload() {
 /**
  * @title 预览文件
  */
-function handlePreview(file: UploadFileItem, index: number) {
+function handlePreview(file: UploadFileItem, _index: number) {
   if (!props.isPreview) return
   emit('onPreview', file)
 
   // 图片预览
-  if (props.isPreviewImage && isImageFile(file)) {
-    const urls = fileList.value.filter((f) => isImageFile(f)).map((f) => f.url)
-
-    const current = file.url
+  if (props.isPreviewImage && isImageFile(file) && file.url) {
+    const urls = fileList.value.filter((f) => isImageFile(f) && f.url).map((f) => f.url as string)
 
     uni.previewImage({
       urls,
-      current,
+      current: file.url,
       showmenu: true
     })
   }
@@ -746,7 +783,7 @@ function revokeObjectUrl(file: UploadFileItem) {
   if (file.url && file.url.startsWith('blob:')) {
     try {
       URL.revokeObjectURL(file.url)
-    } catch (_) {
+    } catch {
       // ignore
     }
   }
@@ -789,9 +826,10 @@ defineExpose({
     const list = [...fileList.value]
     if (list[index]) {
       const file = list[index]
+      revokeObjectUrl(file)
+      emit('onDelete', file)
       list.splice(index, 1)
       updateFileList(list)
-      emit('onDelete', file)
     }
   }
 })

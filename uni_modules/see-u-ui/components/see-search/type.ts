@@ -3,6 +3,12 @@
  * @description 搜索框组件的类型声明
  */
 
+/** uni-app 输入框聚焦/失焦事件 */
+export interface InputFocusBlurEvent {
+  detail?: { value?: string }
+  target?: EventTarget | null
+}
+
 /** 搜索框形状 */
 export type SearchShape = 'round' | 'square'
 
@@ -46,9 +52,9 @@ export interface SeeSearchEmits {
   /** 值变化时触发 */
   onChange: (value: string) => void
   /** 聚焦时触发 */
-  onFocus: (event: { detail: { value: string } }) => void
+  onFocus: (event: InputFocusBlurEvent) => void
   /** 失焦时触发 */
-  onBlur: (event: { detail: { value: string } }) => void
+  onBlur: (event: InputFocusBlurEvent) => void
   /** 清除时触发 */
   onClear: () => void
   /** 搜索时触发（键盘确认） */
@@ -57,6 +63,14 @@ export interface SeeSearchEmits {
   onCancel: () => void
   /** v-model 更新 */
   'update:modelValue': (value: string) => void
+}
+
+/** SeeSearch 暴露方法 */
+export interface SeeSearchExpose {
+  /** 手动聚焦 */
+  focus: () => void
+  /** 手动失焦 */
+  blur: () => void
 }
 
 export type { FormContext } from '../../utils/shared/form-types'

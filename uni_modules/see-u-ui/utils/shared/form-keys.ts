@@ -5,6 +5,7 @@
 import type { InjectionKey } from 'vue'
 import type { FormContext, FormItemContext } from './form-types'
 import type { RadioGroupContext } from '../../components/see-radio/type'
+import type { CheckboxGroupContext } from '../../components/see-checkbox/type'
 
 /** Form 父组件注入键 */
 export const formKey: InjectionKey<FormContext> = Symbol('SeeForm')
@@ -14,3 +15,6 @@ export const formItemKey: InjectionKey<FormItemContext> = Symbol('SeeFormItem')
 
 /** RadioGroup 注入键 */
 export const radioGroupKey: InjectionKey<RadioGroupContext> = Symbol('SeeRadioGroup')
+
+/** CheckboxGroup 注入键 */
+export const checkboxGroupKey: InjectionKey<CheckboxGroupContext> = Symbol('SeeCheckboxGroup')

@@ -91,7 +91,7 @@
  */
 import { computed, getCurrentInstance, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { FormContext, SliderSize } from './type'
+import type { FormContext, SliderSize, TrackRect } from './type'
 
 defineOptions({ name: 'SeeSlider' })
 
@@ -161,30 +161,30 @@ const emit = defineEmits<{
 }>()
 
 /** ---------- inject ---------- */
-const formContext = inject(formKey, null)
+const formContext = inject<FormContext | null>(formKey, null)
 const instance = getCurrentInstance()
 
 /** ---------- refs ---------- */
-const trackRef = ref<any>(null)
+const trackRef = ref<Record<string, unknown> | null>(null)
 const isDragging = ref(false)
 const activeThumb = ref<'min' | 'max'>('max')
-const trackRect = ref({ left: 0, top: 0, width: 0, height: 0 })
+const trackRect = ref<TrackRect>({ left: 0, top: 0, width: 0, height: 0 })
 const isMouseDown = ref(false)
 
 /** ---------- computed ---------- */
 /** 实际禁用状态 */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态 */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸 */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 值范围 */
@@ -337,8 +337,8 @@ function percentToValue(percent: number): number {
   return clampNumber(rawValue)
 }
 
-/** 获取轨道元素位置信息 */
-function getTrackRect(): Promise<{ left: number; top: number; width: number; height: number }> {
+/** 获取轨道元素位置信息（跨平台） */
+function getTrackRect(): Promise<TrackRect> {
   return new Promise((resolve) => {
     let query = uni.createSelectorQuery()
     // #ifdef MP-WEIXIN || MP-ALIPAY || MP-BAIDU || MP-TOUTIAO || MP-QQ || MP-KUAISHOU || MP-JD || MP-360 || MP-LARK
@@ -346,13 +346,13 @@ function getTrackRect(): Promise<{ left: number; top: number; width: number; hei
     // #endif
     query
       .select('.see-slider__track')
-      .boundingClientRect((rect: any) => {
+      .boundingClientRect((rect: { left?: number; top?: number; width?: number; height?: number } | null) => {
         if (rect) {
           resolve({
-            left: rect.left,
-            top: rect.top,
-            width: rect.width,
-            height: rect.height
+            left: rect.left || 0,
+            top: rect.top || 0,
+            width: rect.width || 0,
+            height: rect.height || 0
           })
         } else {
           resolve({ left: 0, top: 0, width: 0, height: 0 })
@@ -362,34 +362,17 @@ function getTrackRect(): Promise<{ left: number; top: number; width: number; hei
   })
 }
 
-/** 根据触摸/鼠标坐标计算百分比 */
+/** 根据触摸/鼠标坐标计算百分比（跨平台，依赖缓存的 trackRect） */
 function getPercentByPosition(clientX: number, clientY: number): number {
-  const el = (trackRef.value as any)?.$el || trackRef.value as any
-  if (!el) return 0
-
-  const width = el.offsetWidth || el.clientWidth || 0
-  const height = el.offsetHeight || el.clientHeight || 0
-
-  // 用 offsetTop 遍历获取元素在页面中的绝对位置（不受 transform 影响）
-  let elementTop = 0
-  let elementLeft = 0
-  let node: any = el
-  while (node) {
-    elementTop += node.offsetTop || 0
-    elementLeft += node.offsetLeft || 0
-    node = node.offsetParent
-  }
-  // 减去页面滚动偏移，得到视口坐标
-  const viewportTop = elementTop - (window.pageYOffset || document.documentElement.scrollTop || 0)
-  const viewportLeft = elementLeft - (window.pageXOffset || document.documentElement.scrollLeft || 0)
+  const { left, top, width, height } = trackRect.value
 
   if (props.isVertical) {
     if (height <= 0) return 0
-    const offsetY = viewportTop + height - clientY
+    const offsetY = top + height - clientY
     return Math.max(0, Math.min(100, (offsetY / height) * 100))
   } else {
     if (width <= 0) return 0
-    const offsetX = clientX - viewportLeft
+    const offsetX = clientX - left
     return Math.max(0, Math.min(100, (offsetX / width) * 100))
   }
 }
@@ -425,33 +408,30 @@ function updateValue(clientX: number, clientY: number) {
   }
 }
 
-/** 同步获取轨道位置（从 ref 直接读取 DOM 元素） */
-function syncTrackRect(): boolean {
-  const el = (trackRef.value as any)?.$el || trackRef.value as any
-  if (!el) return false
-  const width = el.offsetWidth || el.clientWidth || 0
-  const height = el.offsetHeight || el.clientHeight || 0
+/** 异步获取轨道位置（跨平台，使用 uni API） */
+async function syncTrackRect(): Promise<boolean> {
+  const rect = await getTrackRect()
+  const { width, height } = rect
   if (width <= 0 && height <= 0) return false
-  if (typeof el.getBoundingClientRect === 'function') {
-    const rect = el.getBoundingClientRect()
-    trackRect.value = { left: rect.left, top: rect.top, width: width, height: height }
-  }
-  return width > 0 || height > 0
+  trackRect.value = rect
+  return true
 }
 
 /** ---- Touch 事件处理 ---- */
-function onTouchStart(e: TouchEvent) {
+async function onTouchStart(e: TouchEvent) {
   if (mergedDisabled.value || mergedReadonly.value) return
   if (e.touches.length === 0) return
 
   const touch = e.touches[0]
+
+  // 先刷新轨道位置，确保坐标计算准确
+  await syncTrackRect()
 
   isDragging.value = true
 
   // 判断最接近的滑块
   activeThumb.value = getClosestThumb(touch.clientX, touch.clientY)
 
-  // 立即更新到触摸位置（getPercentByPosition 内部会实时获取 rect）
   updateValue(touch.clientX, touch.clientY)
 
   emit('onDragStart')
@@ -473,15 +453,16 @@ function onTouchEnd() {
 }
 
 /** ---- Mouse 事件处理（H5 端） ---- */
-function onMouseDown(e: MouseEvent) {
+async function onMouseDown(e: MouseEvent) {
   // #ifdef H5
   if (mergedDisabled.value || mergedReadonly.value) return
+
+  await syncTrackRect()
 
   activeThumb.value = getClosestThumb(e.clientX, e.clientY)
   isDragging.value = true
   isMouseDown.value = true
 
-  // getPercentByPosition 内部会实时获取 rect
   updateValue(e.clientX, e.clientY)
   emit('onDragStart')
 
@@ -533,7 +514,9 @@ watch(
 /** 组件挂载后预缓存轨道位置 */
 onMounted(() => {
   nextTick(() => {
-    syncTrackRect()
+    syncTrackRect().catch(() => {
+      // 轨道未就绪时忽略，会在触摸时重新获取
+    })
   })
 })
 

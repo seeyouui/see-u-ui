@@ -19,12 +19,16 @@ export interface RadioProps {
   checkedColor?: string
   /** 表单字段名 */
   name?: string
+  /** v-model 绑定值（独立使用时） */
+  modelValue?: string | number | boolean
 }
 
 /** Radio 事件 */
 export interface RadioEmits {
   /** 状态变化时触发 */
   onChange: (value: string | number | boolean) => void
+  /** v-model 更新 */
+  'update:modelValue': (value: string | number | boolean) => void
 }
 
 /** RadioGroup 组件 Props */

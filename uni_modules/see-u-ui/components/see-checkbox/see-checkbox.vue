@@ -1,5 +1,5 @@
 <template>
-  <view class="see-checkbox" :class="checkboxClasses" :style="checkboxStyle" @click="handleClick">
+  <view class="see-checkbox" :class="checkboxClasses" @click="handleClick">
     <!-- 复选框图标 -->
     <view class="see-checkbox__icon" :style="iconStyle">
       <!-- 半选状态 -->
@@ -35,8 +35,8 @@
  * @property {String}                      name            表单字段名
  */
 import { computed, inject, onBeforeUnmount, onMounted } from 'vue'
-import { formKey } from '../../utils/shared/form-keys'
-import type { CheckboxSize, CheckboxEmits, CheckboxGroupContext, FormContext } from './type'
+import { formKey, checkboxGroupKey } from '../../utils/shared/form-keys'
+import type { CheckboxSize } from './type'
 
 defineOptions({ name: 'SeeCheckbox' })
 
@@ -73,13 +73,15 @@ const props = withDefaults(
 )
 
 /** ---------- emits ---------- */
-const emit = defineEmits<CheckboxEmits & {
+const emit = defineEmits<{
   /** v-model 更新 */
-  'update:modelValue': (value: boolean) => void
+  (e: 'update:modelValue', value: boolean): void
+  /** 状态变化时触发 */
+  (e: 'onChange', value: boolean): void
 }>()
 
 /** ---------- inject ---------- */
-const checkboxGroup = inject<CheckboxGroupContext | null>('checkboxGroupKey', null)
+const checkboxGroup = inject(checkboxGroupKey, null)
 const formContext = inject(formKey, null)
 
 /** ---------- computed ---------- */
@@ -96,17 +98,17 @@ const isChecked = computed(() => {
 
 /** 实际禁用状态（考虑 Group 和 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || checkboxGroup?.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || checkboxGroup?.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Group 和 Form 联动） */
 const mergedReadonly = computed(() => {
-  return checkboxGroup?.isReadonly || formContext?.isReadonly || false
+  return checkboxGroup?.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸（考虑 Group 和 Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || checkboxGroup?.size || formContext?.size || 'default'
+  return props.size || checkboxGroup?.size || formContext?.props?.size || 'default'
 })
 
 /** 实际边框状态（考虑 Group 联动） */
@@ -148,18 +150,17 @@ const checkboxClasses = computed(() => {
   return classes.join(' ')
 })
 
-/** 复选框整体样式 */
-const checkboxStyle = computed(() => {
-  return {}
-})
-
 /** 图标样式 */
 const iconStyle = computed(() => {
   const style: Record<string, string> = {}
 
-  if (isChecked.value && mergedCheckedColor.value) {
-    style.backgroundColor = mergedCheckedColor.value
-    style.borderColor = mergedCheckedColor.value
+  if (mergedCheckedColor.value) {
+    if (isChecked.value) {
+      style.backgroundColor = mergedCheckedColor.value
+      style.borderColor = mergedCheckedColor.value
+    } else if (props.isIndeterminate) {
+      style.borderColor = mergedCheckedColor.value
+    }
   }
 
   return style
@@ -209,6 +210,7 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   gap: 16rpx;
+  -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
   transition: opacity 0.2s ease;

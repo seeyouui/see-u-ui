@@ -33,6 +33,16 @@ export interface SwitchEmits {
   onChange: (value: boolean | string | number) => void
   /** 点击时触发 */
   onClick: () => void
+  /** v-model 更新 */
+  'update:modelValue': (value: boolean | string | number) => void
+}
+
+/** Switch 组件暴露的实例方法 */
+export interface SeeSwitchInstance {
+  /** 是否激活 */
+  isActive: () => boolean
+  /** 是否禁用 */
+  isDisabled: () => boolean
 }
 
 export type { FormContext } from '../../utils/shared/form-types'

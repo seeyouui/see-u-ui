@@ -10,12 +10,18 @@
  * @description 用于数据收集、校验和提交，由 FormItem 组成表单项
  * @tutorial https://www.seeuui.cn/components/form/
  */
-import { computed, watch } from 'vue'
+import { computed, watch, onBeforeUnmount } from 'vue'
 import { useForm } from '../../utils/hooks/useForm'
 import type { FormRule, FormInstance, ValidateResult } from '../../utils/shared/form-types'
 import type { LabelPosition, FormSize } from './type'
 
 defineOptions({ name: 'SeeForm' })
+
+/** ---------- emits ---------- */
+const emit = defineEmits<{
+  /** 全表单校验完成后触发 */
+  (e: 'validate', result: ValidateResult): void
+}>()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -63,6 +69,7 @@ const {
   scrollToField: hookScrollToField,
   getFieldsValue: hookGetFieldsValue,
   setFieldsValue: hookSetFieldsValue,
+  fields,
   formContext
 } = useForm({
   model: props.model,
@@ -79,26 +86,59 @@ const {
 
 /** ---------- 同步 props 到 formContext ---------- */
 watch(
-  () => [
-    props.labelPosition,
-    props.labelWidth,
-    props.isDisabled,
-    props.isReadonly,
-    props.isRequiredAsterisk,
-    props.isShowMessage,
-    props.isInline,
-    props.size
-  ],
-  ([labelPosition, labelWidth, isDisabled, isReadonly, isRequiredAsterisk, isShowMessage, isInline, size]) => {
-    formContext.props.labelPosition = labelPosition as LabelPosition
-    formContext.props.labelWidth = labelWidth as string | number
-    formContext.props.isDisabled = isDisabled as boolean
-    formContext.props.isReadonly = isReadonly as boolean
-    formContext.props.isRequiredAsterisk = isRequiredAsterisk as boolean
-    formContext.props.isShowMessage = isShowMessage as boolean
-    formContext.props.isInline = isInline as boolean
-    formContext.props.size = size as FormSize
+  () => props.labelPosition,
+  (val) => {
+    formContext.props.labelPosition = val
   }
+)
+watch(
+  () => props.labelWidth,
+  (val) => {
+    formContext.props.labelWidth = val
+  }
+)
+watch(
+  () => props.isDisabled,
+  (val) => {
+    formContext.props.isDisabled = val
+  }
+)
+watch(
+  () => props.isReadonly,
+  (val) => {
+    formContext.props.isReadonly = val
+  }
+)
+watch(
+  () => props.isRequiredAsterisk,
+  (val) => {
+    formContext.props.isRequiredAsterisk = val
+  }
+)
+watch(
+  () => props.isShowMessage,
+  (val) => {
+    formContext.props.isShowMessage = val
+  }
+)
+watch(
+  () => props.isInline,
+  (val) => {
+    formContext.props.isInline = val
+  }
+)
+watch(
+  () => props.size,
+  (val) => {
+    formContext.props.size = val
+  }
+)
+watch(
+  () => props.model,
+  (val) => {
+    formContext.model = val
+  },
+  { deep: true }
 )
 watch(
   () => props.rules,
@@ -107,6 +147,11 @@ watch(
   },
   { deep: true }
 )
+
+/** ---------- 组件卸载时清理字段列表 ---------- */
+onBeforeUnmount(() => {
+  fields.value = []
+})
 
 /** ---------- computed ---------- */
 
@@ -126,8 +171,7 @@ const formClasses = computed(() => {
  */
 const validate = async (): Promise<ValidateResult> => {
   const result = await hookValidate()
-  // 触发每个字段的校验回调
-  // 注意：fields 在 hook 内部管理，这里通过 result 获取信息
+  emit('validate', result)
   return result
 }
 
@@ -135,24 +179,24 @@ const validate = async (): Promise<ValidateResult> => {
  * @title 校验指定字段
  * @description 校验指定的一个或多个字段
  */
-const validateField = async (fields: string | string[]): Promise<ValidateResult> => {
-  return await hookValidateField(fields)
+const validateField = async (targetFields: string | string[]): Promise<ValidateResult> => {
+  return await hookValidateField(targetFields)
 }
 
 /**
  * @title 重置表单
  * @description 重置指定字段（或全部字段）的值和校验状态
  */
-const resetFields = (fields?: string | string[]) => {
-  hookResetFields(fields)
+const resetFields = (targetFields?: string | string[]) => {
+  hookResetFields(targetFields)
 }
 
 /**
  * @title 清除校验状态
  * @description 清除指定字段（或全部字段）的校验状态
  */
-const clearValidate = (fields?: string | string[]) => {
-  hookClearValidate(fields)
+const clearValidate = (targetFields?: string | string[]) => {
+  hookClearValidate(targetFields)
 }
 
 /**

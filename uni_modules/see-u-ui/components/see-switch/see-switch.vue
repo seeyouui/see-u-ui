@@ -1,7 +1,7 @@
 <template>
   <view class="see-switch" :class="switchClasses" @click="handleClick">
     <!-- 文字描述 - 未选中 -->
-    <text v-if="inactiveText && !isRightText" class="see-switch__text see-switch__text--inactive" :class="{ 'see-switch__text--active': !isActive }">
+    <text v-if="inactiveText && !isRightText" class="see-switch__text" :class="{ 'see-switch__text--active': !isActive }">
       {{ inactiveText }}
     </text>
 
@@ -20,7 +20,7 @@
     </view>
 
     <!-- 文字描述 - 选中 -->
-    <text v-if="activeText && !isRightText" class="see-switch__text see-switch__text--active" :class="{ 'see-switch__text--active': isActive }">
+    <text v-if="activeText && !isRightText" class="see-switch__text" :class="{ 'see-switch__text--active': isActive }">
       {{ activeText }}
     </text>
 
@@ -51,7 +51,7 @@
  */
 import { computed, inject } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
-import type { FormContext } from './type'
+import type { SeeSwitchInstance } from './type'
 
 defineOptions({ name: 'SeeSwitch' })
 
@@ -117,17 +117,17 @@ const isActive = computed(() => {
 
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */
 const mergedReadonly = computed(() => {
-  return props.isReadonly || formContext?.isReadonly || false
+  return props.isReadonly || formContext?.props?.isReadonly || false
 })
 
 /** 实际尺寸（考虑 Form 联动） */
 const mergedSize = computed(() => {
-  return props.size || formContext?.size || 'default'
+  return props.size || formContext?.props?.size || 'default'
 })
 
 /** 是否使用右侧文字布局 */
@@ -173,7 +173,7 @@ const handleClick = () => {
 }
 
 /** ---------- expose ---------- */
-defineExpose({
+defineExpose<SeeSwitchInstance>({
   /** 是否激活 */
   isActive: () => isActive.value,
   /** 是否禁用 */
@@ -278,6 +278,7 @@ defineExpose({
   &__text {
     color: var(--see-content-color);
     white-space: nowrap;
+    transition: color 0.3s ease;
 
     &--active {
       color: var(--see-main-color);
@@ -304,10 +305,6 @@ defineExpose({
   &.is-active {
     .see-switch__core {
       background-color: var(--see-primary);
-    }
-
-    .see-switch__text--inactive {
-      color: var(--see-content-color);
     }
   }
 

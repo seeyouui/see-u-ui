@@ -32,6 +32,8 @@ export interface RateProps {
 export interface RateEmits {
   /** 分值变化时触发 */
   onChange: (value: number) => void
+  /** v-model 更新 */
+  'update:modelValue': (value: number) => void
 }
 
 export type { FormContext } from '../../utils/shared/form-types'

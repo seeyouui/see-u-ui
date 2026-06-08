@@ -5,8 +5,10 @@
 
 /** 上传文件项 */
 export interface UploadFileItem {
+  /** 唯一标识 */
+  id?: string
   /** 文件 URL */
-  url: string
+  url?: string
   /** 文件名 */
   name?: string
   /** 文件大小（字节） */

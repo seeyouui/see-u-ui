@@ -24,9 +24,9 @@
  * @property {String}                      checkedColor 选中时颜色
  * @property {String}                      name       表单字段名
  */
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { formKey, radioGroupKey } from '../../utils/shared/form-keys'
-import type { RadioEmits, RadioGroupContext, FormContext } from './type'
+import type { RadioEmits } from './type'
 
 defineOptions({ name: 'SeeRadio' })
 
@@ -54,15 +54,13 @@ const props = withDefaults(
     size: 'default',
     isBorder: false,
     checkedColor: '',
-    name: ''
+    name: '',
+    modelValue: ''
   }
 )
 
 /** ---------- emits ---------- */
-const emit = defineEmits<RadioEmits & {
-  /** v-model 更新 */
-  'update:modelValue': (value: string | number | boolean) => void
-}>()
+const emit = defineEmits<RadioEmits>()
 
 /** ---------- inject ---------- */
 const radioGroup = inject(radioGroupKey, null)
@@ -80,7 +78,7 @@ const isChecked = computed(() => {
 
 /** 实际禁用状态（考虑 Group 和 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || radioGroup?.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || radioGroup?.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Group 和 Form 联动） */
@@ -90,7 +88,7 @@ const mergedReadonly = computed(() => {
 
 /** 实际尺寸（优先 Group > 本地 > Form > default） */
 const mergedSize = computed(() => {
-  return radioGroup?.size || props.size || formContext?.size || 'default'
+  return radioGroup?.size || props.size || formContext?.props?.size || 'default'
 })
 
 /** 实际是否显示边框（优先 Group > 本地） */
@@ -130,6 +128,20 @@ const innerStyle = computed(() => {
   }
   return {}
 })
+
+/** ---------- watch ---------- */
+/**
+ * 当外部 modelValue 变化时，同步 localChecked
+ * 避免独立使用时，外部重置绑定值后 localChecked 仍为旧值
+ */
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val !== undefined) {
+      localChecked.value = val === props.label
+    }
+  }
+)
 
 /** ---------- methods ---------- */
 /**

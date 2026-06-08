@@ -71,3 +71,18 @@ export interface SeeKeyboardEmits {
   /** v-model 更新 */
   'update:modelValue': (value: boolean) => void
 }
+
+/** 键盘常量配置 */
+export interface KeyboardConstants {
+  /** 动画过渡时长（ms） */
+  ANIMATION_DURATION: number
+  /** 长按触发延迟（ms） */
+  LONG_PRESS_DELAY: number
+  /** 长按重复间隔（ms） */
+  LONG_PRESS_INTERVAL: number
+}
+
+/** 键盘常量默认值 */
+export const KEYBOARD_ANIMATION_DURATION = 300
+export const KEYBOARD_LONG_PRESS_DELAY = 500
+export const KEYBOARD_LONG_PRESS_INTERVAL = 100

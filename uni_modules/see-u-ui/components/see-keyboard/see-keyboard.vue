@@ -44,7 +44,7 @@
       </template>
 
       <!-- 文本键盘 (text) -->
-      <template v-if="props.type === 'text'">
+      <template v-else-if="props.type === 'text'">
         <!-- 字母模式 -->
         <template v-if="textMode === 'letter'">
           <view v-for="(row, rowIndex) in letterKeyLayout" :key="'letter-row-' + rowIndex" class="see-keyboard__row">
@@ -125,8 +125,10 @@
  * @property {Boolean}  isSafeArea              是否适配底部安全区域（默认 true）
  * @property {String}   title                   toolbar 标题
  */
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, readonly, onBeforeUnmount } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { KeyboardType, KeyboardKey, KeyType, TextKeyboardMode } from './type'
+import { KEYBOARD_ANIMATION_DURATION, KEYBOARD_LONG_PRESS_DELAY, KEYBOARD_LONG_PRESS_INTERVAL } from './type'
 
 defineOptions({ name: 'SeeKeyboard' })
 
@@ -150,7 +152,7 @@ const props = withDefaults(
     /** 是否显示遮罩层 */
     isOverlay?: boolean
     /** 遮罩层自定义样式 */
-    overlayStyle?: Record<string, any>
+    overlayStyle?: CSSProperties
     /** 点击遮罩是否关闭 */
     isCloseOnClickOverlay?: boolean
     /** 是否适配底部安全区域 */
@@ -197,6 +199,8 @@ const isVisible = ref(false)
 const isAnimating = ref(false)
 /** 长按删除定时器 */
 let deleteTimer: ReturnType<typeof setInterval> | null = null
+/** 动画完成定时器 */
+let animationTimer: ReturnType<typeof setTimeout> | null = null
 /** 文本键盘当前模式 */
 const textMode = ref<TextKeyboardMode>('letter')
 /** 是否大写 */
@@ -207,14 +211,11 @@ const isUppercase = ref(false)
 /** 缓存随机洗牌结果，仅在键盘打开时重新生成 */
 const randomDigits = ref<string[]>([])
 
-watch(
-  isVisible,
-  (val) => {
-    if (val && props.isRandom) {
-      randomDigits.value = getRandomDigits()
-    }
+watch(isVisible, (val) => {
+  if (val && props.isRandom) {
+    randomDigits.value = getRandomDigits()
   }
-)
+})
 
 /** 实际键盘类型（idcard 兼容 card） */
 const actualType = computed<KeyboardType>(() => {
@@ -270,9 +271,12 @@ const numberKeyLayout = computed<KeyboardKey[][]>(() => {
   ]
   const row4: KeyboardKey[] = [
     { label: specialKey, value: specialKey, type: 'key' },
-    { label: digits[9], value: digits[9], type: 'key' },
-    { label: '删除', value: 'delete', type: 'delete' }
+    { label: digits[9], value: digits[9], type: 'key' }
   ]
+
+  if (props.isShowDelete) {
+    row4.push({ label: '删除', value: 'delete', type: 'delete' })
+  }
 
   return [row1, row2, row3, row4]
 })
@@ -308,13 +312,16 @@ const letterKeyLayout = computed<KeyboardKey[][]>(() => {
   })
 
   const row3: KeyboardKey[] = [
-    { label: isUppercase.value ? '⇧' : '⇧', value: 'shift', type: 'shift', width: 1.5 },
+    { label: '⇧', value: 'shift', type: 'shift', width: 1.5 },
     ...LETTER_ROWS[2].map((ch) => {
       const display = isUppercase.value ? ch.toUpperCase() : ch
       return { label: display, value: display, type: 'key' as KeyType }
-    }),
-    { label: '⌫', value: 'delete', type: 'delete', width: 1.5 }
+    })
   ]
+
+  if (props.isShowDelete) {
+    row3.push({ label: '⌫', value: 'delete', type: 'delete', width: 1.5 })
+  }
 
   const row4: KeyboardKey[] = [
     { label: '123', value: 'toggle-number', type: 'toggle', width: 1.5 },
@@ -342,9 +349,12 @@ const numberSymbolKeyLayout = computed<KeyboardKey[][]>(() => {
     { label: '?', value: '?', type: 'key' },
     { label: '!', value: '!', type: 'key' },
     { label: "'", value: "'", type: 'key' },
-    { label: '"', value: '"', type: 'key' },
-    { label: '⌫', value: 'delete', type: 'delete', width: 1.5 }
+    { label: '"', value: '"', type: 'key' }
   ]
+
+  if (props.isShowDelete) {
+    row3.push({ label: '⌫', value: 'delete', type: 'delete', width: 1.5 })
+  }
 
   const row4: KeyboardKey[] = [
     { label: 'ABC', value: 'toggle-letter', type: 'toggle', width: 1.5 },
@@ -372,9 +382,12 @@ const symbolKeyLayout = computed<KeyboardKey[][]>(() => {
     { label: '?', value: '?', type: 'key' },
     { label: '!', value: '!', type: 'key' },
     { label: "'", value: "'", type: 'key' },
-    { label: '"', value: '"', type: 'key' },
-    { label: '⌫', value: 'delete', type: 'delete', width: 1.5 }
+    { label: '"', value: '"', type: 'key' }
   ]
+
+  if (props.isShowDelete) {
+    row3.push({ label: '⌫', value: 'delete', type: 'delete', width: 1.5 })
+  }
 
   const row4: KeyboardKey[] = [
     { label: 'ABC', value: 'toggle-letter', type: 'toggle', width: 1.5 },
@@ -480,9 +493,11 @@ function open() {
   // 重置文本键盘状态
   textMode.value = 'letter'
   isUppercase.value = false
-  setTimeout(() => {
+  clearAnimationTimer()
+  animationTimer = setTimeout(() => {
     isAnimating.value = false
-  }, 300)
+    animationTimer = null
+  }, KEYBOARD_ANIMATION_DURATION)
 }
 
 /**
@@ -495,9 +510,11 @@ function close() {
   emit('update:modelValue', false)
   emit('onClose')
   clearDeleteTimer()
-  setTimeout(() => {
+  clearAnimationTimer()
+  animationTimer = setTimeout(() => {
     isAnimating.value = false
-  }, 300)
+    animationTimer = null
+  }, KEYBOARD_ANIMATION_DURATION)
 }
 
 /**
@@ -506,12 +523,12 @@ function close() {
 function handleDeleteTouchStart(_event: TouchEvent, key: KeyboardKey) {
   if (key.type !== 'delete') return
   clearDeleteTimer()
-  // 延迟 500ms 后开始连续删除
+  // 延迟后开始连续删除
   deleteTimer = setTimeout(() => {
     deleteTimer = setInterval(() => {
       emit('onDelete')
-    }, 100)
-  }, 500)
+    }, KEYBOARD_LONG_PRESS_INTERVAL)
+  }, KEYBOARD_LONG_PRESS_DELAY)
 }
 
 /**
@@ -529,6 +546,16 @@ function clearDeleteTimer() {
     clearTimeout(deleteTimer)
     clearInterval(deleteTimer)
     deleteTimer = null
+  }
+}
+
+/**
+ * @title 清除动画完成定时器
+ */
+function clearAnimationTimer() {
+  if (animationTimer !== null) {
+    clearTimeout(animationTimer)
+    animationTimer = null
   }
 }
 
@@ -550,6 +577,7 @@ watch(
 /** 组件卸载前清理定时器 */
 onBeforeUnmount(() => {
   clearDeleteTimer()
+  clearAnimationTimer()
 })
 
 /** ---------- expose ---------- */
@@ -558,8 +586,8 @@ defineExpose({
   open,
   /** 关闭键盘 */
   close,
-  /** 是否显示中 */
-  isVisible: () => isVisible.value
+  /** 是否显示中（只读） */
+  isVisible: readonly(isVisible)
 })
 </script>
 
