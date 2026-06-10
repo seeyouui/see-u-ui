@@ -30,6 +30,23 @@ import { SeeUpload } from './components/see-upload/index'
 import { SeeCode } from './components/see-code/index'
 import { SeeKeyboard } from './components/see-keyboard/index'
 
+// 布局组件
+import { SeeBox } from './components/see-box/index'
+import { SeeLine } from './components/see-line/index'
+import { SeeOverlay } from './components/see-overlay/index'
+import { SeeNoNetwork } from './components/see-no-network/index'
+import { SeeLayout, SeeLayoutItem } from './components/see-layout/index'
+import { SeeCell } from './components/see-cell/index'
+import { SeeCard } from './components/see-card/index'
+import { SeeGrid, SeeGridItem } from './components/see-grid/index'
+import { SeeSticky } from './components/see-sticky/index'
+import { SeeLoadingIcon } from './components/see-loading-icon/index'
+import { SeeLoadingPage } from './components/see-loading-page/index'
+import { SeeSkeleton } from './components/see-skeleton/index'
+import { SeeSwiper } from './components/see-swiper/index'
+import { SeeScrollList } from './components/see-scroll-list/index'
+import { SeeWaterfall } from './components/see-waterfall/index'
+
 // 工具 Hooks
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
 import { formatDate, useDateFormat } from './utils/hooks/useDateFormat'
@@ -68,7 +85,25 @@ const components: Component[] = [
   SeeDatetimePicker,
   SeeUpload,
   SeeCode,
-  SeeKeyboard
+  SeeKeyboard,
+  // 布局组件
+  SeeBox,
+  SeeLine,
+  SeeOverlay,
+  SeeNoNetwork,
+  SeeLayout,
+  SeeLayoutItem,
+  SeeCell,
+  SeeCard,
+  SeeGrid,
+  SeeGridItem,
+  SeeSticky,
+  SeeLoadingIcon,
+  SeeLoadingPage,
+  SeeSkeleton,
+  SeeSwiper,
+  SeeScrollList,
+  SeeWaterfall
 ]
 
 const install = (app: App) => {
@@ -122,7 +157,25 @@ export {
   SeeDatetimePicker,
   SeeUpload,
   SeeCode,
-  SeeKeyboard
+  SeeKeyboard,
+  // 布局组件
+  SeeBox,
+  SeeLine,
+  SeeOverlay,
+  SeeNoNetwork,
+  SeeLayout,
+  SeeLayoutItem,
+  SeeCell,
+  SeeCard,
+  SeeGrid,
+  SeeGridItem,
+  SeeSticky,
+  SeeLoadingIcon,
+  SeeLoadingPage,
+  SeeSkeleton,
+  SeeSwiper,
+  SeeScrollList,
+  SeeWaterfall
 }
 
 export default {

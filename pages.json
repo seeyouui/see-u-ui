@@ -2,6 +2,8 @@
   "easycom": {
     "autoscan": true,
     "custom": {
+      "^see-layout-item$": "@/uni_modules/see-u-ui/components/see-layout/see-layout-item.vue",
+      "^see-grid-item$": "@/uni_modules/see-u-ui/components/see-grid/see-grid-item.vue",
       "^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
     }
   },
@@ -183,6 +185,96 @@
       "style": {
         "navigationBarTitleText": "Keyboard 键盘",
         "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeLayout/index",
+      "style": {
+        "navigationBarTitleText": "Layout 布局"
+      }
+    },
+    {
+      "path": "pages/seeCell/index",
+      "style": {
+        "navigationBarTitleText": "Cell 单元格"
+      }
+    },
+    {
+      "path": "pages/seeLoadingIcon/index",
+      "style": {
+        "navigationBarTitleText": "LoadingIcon 加载动画"
+      }
+    },
+    {
+      "path": "pages/seeLoadingPage/index",
+      "style": {
+        "navigationBarTitleText": "LoadingPage 加载页"
+      }
+    },
+    {
+      "path": "pages/seeScrollList/index",
+      "style": {
+        "navigationBarTitleText": "ScrollList 横向滚动列表"
+      }
+    },
+    {
+      "path": "pages/seeLine/index",
+      "style": {
+        "navigationBarTitleText": "Line 线条"
+      }
+    },
+    {
+      "path": "pages/seeCard/index",
+      "style": {
+        "navigationBarTitleText": "Card 卡片"
+      }
+    },
+    {
+      "path": "pages/seeOverlay/index",
+      "style": {
+        "navigationBarTitleText": "Overlay 遮罩层"
+      }
+    },
+    {
+      "path": "pages/seeNoNetwork/index",
+      "style": {
+        "navigationBarTitleText": "NoNetwork 无网络提示"
+      }
+    },
+    {
+      "path": "pages/seeGrid/index",
+      "style": {
+        "navigationBarTitleText": "Grid 宫格布局"
+      }
+    },
+    {
+      "path": "pages/seeSwiper/index",
+      "style": {
+        "navigationBarTitleText": "Swiper 轮播图"
+      }
+    },
+    {
+      "path": "pages/seeSkeleton/index",
+      "style": {
+        "navigationBarTitleText": "Skeleton 骨架屏"
+      }
+    },
+    {
+      "path": "pages/seeSticky/index",
+      "style": {
+        "navigationBarTitleText": "Sticky 吸顶"
+      }
+    },
+    {
+      "path": "pages/seeWaterfall/index",
+      "style": {
+        "navigationBarTitleText": "Waterfall 瀑布流"
+      }
+    },
+    {
+      "path": "pages/seeBox/index",
+      "style": {
+        "navigationBarTitleText": "Box 盒子"
       }
     },
     {

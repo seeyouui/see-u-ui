@@ -80,27 +80,27 @@ const list = ref<listType>([
       { title: 'Keyboard 键盘', url: '/pages/seeKeyboard/index' }
     ]
   },
+  {
+    title: '布局组件',
+    componentsList: [
+      { title: 'Layout 布局', url: '/pages/seeLayout/index' },
+      { title: 'Cell 单元格', url: '/pages/seeCell/index' },
+      { title: 'LoadingIcon 加载动画', url: '/pages/seeLoadingIcon/index' },
+      { title: 'LoadingPage 加载页', url: '/pages/seeLoadingPage/index' },
+      { title: 'ScrollList 横向滚动列表', url: '/pages/seeScrollList/index' },
+      { title: 'Line 线条', url: '/pages/seeLine/index' },
+      { title: 'Card 卡片', url: '/pages/seeCard/index' },
+      { title: 'Overlay 遮罩层', url: '/pages/seeOverlay/index' },
+      { title: 'NoNetwork 无网络提示', url: '/pages/seeNoNetwork/index' },
+      { title: 'Grid 宫格布局', url: '/pages/seeGrid/index' },
+      { title: 'Swiper 轮播图', url: '/pages/seeSwiper/index' },
+      { title: 'Skeleton 骨架屏', url: '/pages/seeSkeleton/index' },
+      { title: 'Sticky 吸顶', url: '/pages/seeSticky/index' },
+      { title: 'Waterfall 瀑布流', url: '/pages/seeWaterfall/index' },
+      { title: 'Box 盒子', url: '/pages/seeBox/index' }
+    ]
+  }
   // 以下分类页面尚未开发，暂时注释
-  // {
-  //   title: '布局组件',
-  //   componentsList: [
-  //     { title: 'Layout 布局', url: '/pages/todo/index' },
-  //     { title: 'Cell 单元格', url: '/pages/todo/index' },
-  //     { title: 'LoadingIcon 加载动画', url: '/pages/todo/index' },
-  //     { title: 'LoadingPage 加载页', url: '/pages/todo/index' },
-  //     { title: 'ScrollList 横向滚动列表', url: '/pages/todo/index' },
-  //     { title: 'Line 线条', url: '/pages/todo/index' },
-  //     { title: 'Card 卡片', url: '/pages/todo/index' },
-  //     { title: 'Overlay 遮罩层', url: '/pages/todo/index' },
-  //     { title: 'NoNetwork 无网络提示', url: '/pages/todo/index' },
-  //     { title: 'Grid 宫格布局', url: '/pages/todo/index' },
-  //     { title: 'Swiper 轮播图', url: '/pages/todo/index' },
-  //     { title: 'Skeleton 骨架屏', url: '/pages/todo/index' },
-  //     { title: 'Sticky 吸顶', url: '/pages/todo/index' },
-  //     { title: 'Waterfall 瀑布流', url: '/pages/todo/index' },
-  //     { title: 'Box 盒子', url: '/pages/todo/index' }
-  //   ]
-  // },
   // {
   //   title: '数据组件',
   //   componentsList: [

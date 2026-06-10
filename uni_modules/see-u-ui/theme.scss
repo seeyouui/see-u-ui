@@ -58,6 +58,23 @@
 
   /* ---------- 交互元素表面 ---------- */
   --see-surface-color: #ffffff;
+
+  /* ---------- 组件特定变量 ---------- */
+  /* 轮播图 */
+  --see-swiper-title-bg: rgba(0, 0, 0, 0.5);
+  --see-swiper-title-color: #ffffff;
+  --see-swiper-indicator-bg: rgba(0, 0, 0, 0.3);
+  --see-swiper-indicator-color: #ffffff;
+
+  /* 阴影 */
+  --see-shadow-small: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --see-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --see-shadow-large: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --see-card-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  --see-card-shadow-hover: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+
+  /* 遮罩层 */
+  --see-overlay-bg: rgba(0, 0, 0, 0.6);
 }
 
 /* =========================================================
@@ -120,6 +137,23 @@
 
   /* ---------- 交互元素表面 ---------- */
   --see-surface-color: #ffffff;
+
+  /* ---------- 组件特定变量 ---------- */
+  /* 轮播图 */
+  --see-swiper-title-bg: rgba(0, 0, 0, 0.7);
+  --see-swiper-title-color: #ffffff;
+  --see-swiper-indicator-bg: rgba(0, 0, 0, 0.5);
+  --see-swiper-indicator-color: #ffffff;
+
+  /* 阴影 */
+  --see-shadow-small: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --see-shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --see-shadow-large: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --see-card-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  --see-card-shadow-hover: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+
+  /* 遮罩层 */
+  --see-overlay-bg: rgba(0, 0, 0, 0.6);
 }
 
 /* 4.1 默认状态 (Default) */

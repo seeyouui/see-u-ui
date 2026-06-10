@@ -566,6 +566,18 @@ vi.stubGlobal('uni', {
     return Promise.resolve(result)
   }),
 
+  // 网络状态
+  getNetworkType: vi.fn().mockImplementation((options: UniApiOptions) => {
+    return handleUniApiCallbacks(options, { networkType: 'wifi', isConnected: true })
+  }),
+
+  onNetworkStatusChange: vi.fn().mockImplementation((callback: (res: { isConnected: boolean; networkType: string }) => void) => {
+    // 默认模拟在线状态
+    if (callback) {
+      callback({ isConnected: true, networkType: 'wifi' })
+    }
+  }),
+
   // 页面监听
   onPageScroll: vi.fn(),
   onWindowResize: vi.fn()
