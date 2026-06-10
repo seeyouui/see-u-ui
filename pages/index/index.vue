@@ -6,7 +6,7 @@
           <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
         </view>
         <view class="detail-text">
-          <view class="title">SeeYouUI 1.0.13</view>
+          <view class="title">SeeYouUI 1.2.0</view>
           <view class="subtitle">一个基于 uni-app 的组件库</view>
         </view>
       </view>
