@@ -99,19 +99,19 @@ const list = ref<listType>([
       { title: 'Waterfall 瀑布流', url: '/pages/seeWaterfall/index' },
       { title: 'Box 盒子', url: '/pages/seeBox/index' }
     ]
+  },
+  {
+    title: '数据组件',
+    componentsList: [
+      { title: 'List 列表', url: '/pages/seeList/index' },
+      { title: 'VirtualList 虚拟列表', url: '/pages/seeVirtualList/index' },
+      { title: 'LineProgress 线形进度条', url: '/pages/seeLineProgress/index' },
+      { title: 'Table 表格', url: '/pages/seeTable/index' },
+      { title: 'CountDown 倒计时', url: '/pages/seeCountDown/index' },
+      { title: 'CountTo 数字滚动', url: '/pages/seeCountTo/index' }
+    ]
   }
   // 以下分类页面尚未开发，暂时注释
-  // {
-  //   title: '数据组件',
-  //   componentsList: [
-  //     { title: 'List 列表', url: '/pages/todo/index' },
-  //     { title: 'VirtualList 虚拟列表', url: '/pages/todo/index' },
-  //     { title: 'LineProgress 线形进度条', url: '/pages/todo/index' },
-  //     { title: 'Table 表格', url: '/pages/todo/index' },
-  //     { title: 'CountDown 倒计时', url: '/pages/todo/index' },
-  //     { title: 'CountTo 数字滚动', url: '/pages/todo/index' }
-  //   ]
-  // },
   // {
   //   title: '反馈组件',
   //   componentsList: [

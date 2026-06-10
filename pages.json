@@ -278,6 +278,42 @@
       }
     },
     {
+      "path": "pages/seeLineProgress/index",
+      "style": {
+        "navigationBarTitleText": "LineProgress 线形进度条"
+      }
+    },
+    {
+      "path": "pages/seeCountDown/index",
+      "style": {
+        "navigationBarTitleText": "CountDown 倒计时"
+      }
+    },
+    {
+      "path": "pages/seeCountTo/index",
+      "style": {
+        "navigationBarTitleText": "CountTo 数字滚动"
+      }
+    },
+    {
+      "path": "pages/seeList/index",
+      "style": {
+        "navigationBarTitleText": "List 列表"
+      }
+    },
+    {
+      "path": "pages/seeVirtualList/index",
+      "style": {
+        "navigationBarTitleText": "VirtualList 虚拟列表"
+      }
+    },
+    {
+      "path": "pages/seeTable/index",
+      "style": {
+        "navigationBarTitleText": "Table 表格"
+      }
+    },
+    {
       "path": "pages/config/index",
       "style": {
         "navigationBarTitleText": "配置"

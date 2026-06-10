@@ -47,6 +47,14 @@ import { SeeSwiper } from './components/see-swiper/index'
 import { SeeScrollList } from './components/see-scroll-list/index'
 import { SeeWaterfall } from './components/see-waterfall/index'
 
+// 数据组件
+import { SeeLineProgress } from './components/see-line-progress/index'
+import { SeeCountDown } from './components/see-count-down/index'
+import { SeeCountTo } from './components/see-count-to/index'
+import { SeeList } from './components/see-list/index'
+import { SeeVirtualList } from './components/see-virtual-list/index'
+import { SeeTable } from './components/see-table/index'
+
 // 工具 Hooks
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
 import { formatDate, useDateFormat } from './utils/hooks/useDateFormat'
@@ -54,6 +62,9 @@ import { formatTimeAgo, useTimeAgo } from './utils/hooks/useTimeAgo'
 import { useTheme } from './utils/hooks/useTheme'
 import { useForm } from './utils/hooks/useForm'
 import { useField } from './utils/hooks/useField'
+import { formatCountdown, parseCountdownTime, useCountdown } from './utils/hooks/useCountdown'
+import { easeOutExpo, formatCountToValue, useCountTo } from './utils/hooks/useCountTo'
+import { useVirtualWindow } from './utils/hooks/useVirtualWindow'
 
 const components: Component[] = [
   // 原有组件
@@ -103,7 +114,14 @@ const components: Component[] = [
   SeeSkeleton,
   SeeSwiper,
   SeeScrollList,
-  SeeWaterfall
+  SeeWaterfall,
+  // 数据组件
+  SeeLineProgress,
+  SeeCountDown,
+  SeeCountTo,
+  SeeList,
+  SeeVirtualList,
+  SeeTable
 ]
 
 const install = (app: App) => {
@@ -128,6 +146,13 @@ export {
   useTheme,
   useForm,
   useField,
+  useCountdown,
+  parseCountdownTime,
+  formatCountdown,
+  useCountTo,
+  easeOutExpo,
+  formatCountToValue,
+  useVirtualWindow,
   // 原有组件
   SeeButton,
   SeeText,
@@ -175,7 +200,14 @@ export {
   SeeSkeleton,
   SeeSwiper,
   SeeScrollList,
-  SeeWaterfall
+  SeeWaterfall,
+  // 数据组件
+  SeeLineProgress,
+  SeeCountDown,
+  SeeCountTo,
+  SeeList,
+  SeeVirtualList,
+  SeeTable
 }
 
 export default {
@@ -188,3 +220,26 @@ export type { CascaderOption } from './components/see-cascader/type'
 export type { SelectOption } from './components/see-select/type'
 export type { PickerOption, PickerColumn } from './components/see-picker/type'
 export type { UploadFileItem } from './components/see-upload/type'
+export type { SeeLineProgressProps, SeeLineProgressStatus } from './components/see-line-progress/type'
+export type { SeeCountDownProps, SeeCountDownTimeData } from './components/see-count-down/type'
+export type { SeeCountToProps } from './components/see-count-to/type'
+export type { SeeListProps, SeeListItemScope, SeeListGroupScope } from './components/see-list/type'
+export type {
+  SeeVirtualListProps,
+  SeeVirtualListItemScope,
+  SeeVirtualListRangeChange,
+  SeeVirtualListScrollEvent
+} from './components/see-virtual-list/type'
+export type {
+  SeeTableColumn,
+  SeeTablePagination,
+  SeeTableProps,
+  SeeTableCellScope,
+  SeeTableHeaderScope,
+  SeeTableSortChange,
+  SeeTableRangeChange,
+  SeeTablePageChange
+} from './components/see-table/type'
+export type { CountdownTimeData, UseCountdownOptions } from './utils/hooks/useCountdown'
+export type { CountToFormatOptions, UseCountToOptions } from './utils/hooks/useCountTo'
+export type { VirtualWindowRange, UseVirtualWindowOptions } from './utils/hooks/useVirtualWindow'
