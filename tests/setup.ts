@@ -127,12 +127,9 @@ const createSelectorQueryMock = () => {
   let boundingClientRectCallback: ((rect: any) => void) | null = null
   let scrollOffsetCallback: ((rect: any) => void) | null = null
   let fieldsCallback: ((rect: any) => void) | null = null
-  let fieldsOptions: any = null
-  let currentScope: any = null
 
   const mockQuery: any = {
-    in: vi.fn((scope) => {
-      currentScope = scope
+    in: vi.fn(() => {
       return mockQuery
     }),
 
@@ -165,7 +162,6 @@ const createSelectorQueryMock = () => {
     }),
 
     fields: vi.fn((fields, callback) => {
-      fieldsOptions = fields
       fieldsCallback = callback
       return mockQuery
     }),
@@ -264,17 +260,12 @@ const createSelectorQueryMock = () => {
  * 创建 IntersectionObserver Mock
  */
 const createIntersectionObserverMock = () => {
-  let relativeToOptions: any = null
-  let relativeToViewportOptions: any = null
-
   const mockObserver: any = {
-    relativeTo: vi.fn((selector, margins) => {
-      relativeToOptions = { selector, margins }
+    relativeTo: vi.fn((_selector, _margins) => {
       return mockObserver
     }),
 
-    relativeToViewport: vi.fn((margins) => {
-      relativeToViewportOptions = margins
+    relativeToViewport: vi.fn((_margins) => {
       return mockObserver
     }),
 
@@ -580,8 +571,52 @@ vi.stubGlobal('uni', {
 
   // 页面监听
   onPageScroll: vi.fn(),
-  onWindowResize: vi.fn()
+  onWindowResize: vi.fn(),
+
+  // 剪贴板
+  setClipboardData: vi.fn().mockImplementation((options: UniApiOptions & { data?: string }) => {
+    return handleUniApiCallbacks(options, { errMsg: 'setClipboardData:ok' })
+  }),
+  getClipboardData: vi.fn().mockImplementation((options: UniApiOptions) => {
+    return handleUniApiCallbacks(options, { data: '', errMsg: 'getClipboardData:ok' })
+  }),
+
+  // 事件总线（用于 swipe-action close-others 等）
+  $emit: vi.fn(),
+  $on: vi.fn(),
+  $off: vi.fn(),
+  $once: vi.fn()
 })
+
+// ==================== H5/浏览器 API 补充 mock ====================
+// navigator.clipboard
+if (!('clipboard' in globalThis.navigator)) {
+  Object.defineProperty(globalThis.navigator, 'clipboard', {
+    value: {
+      writeText: vi.fn().mockResolvedValue(undefined),
+      readText: vi.fn().mockResolvedValue('')
+    },
+    writable: true,
+    configurable: true
+  })
+}
+// isSecureContext（默认 true，复制走 Clipboard API；测试时可临时改 false 走 fallback）
+if (!('isSecureContext' in globalThis)) {
+  Object.defineProperty(globalThis, 'isSecureContext', {
+    value: true,
+    writable: true,
+    configurable: true
+  })
+}
+// document.execCommand fallback（jsdom 没有）
+if (typeof document !== 'undefined' && !document.execCommand) {
+  document.execCommand = vi.fn().mockReturnValue(true)
+}
+// requestAnimationFrame
+if (!globalThis.requestAnimationFrame) {
+  globalThis.requestAnimationFrame = (cb: (timestamp: number) => void) => setTimeout(() => cb(0), 16) as unknown as number
+  globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id as unknown as ReturnType<typeof setTimeout>)
+}
 
 // ==================== Vue Test Utils 配置 ====================
 const uniComponents = {

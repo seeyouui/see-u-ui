@@ -110,25 +110,24 @@ const list = ref<listType>([
       { title: 'CountDown 倒计时', url: '/pages/seeCountDown/index' },
       { title: 'CountTo 数字滚动', url: '/pages/seeCountTo/index' }
     ]
+  },
+  {
+    title: '反馈组件',
+    componentsList: [
+      { title: 'Popup 弹出层', url: '/pages/seePopup/index' },
+      { title: 'Toast 消息提示', url: '/pages/seeToast/index' },
+      { title: 'Notify 顶部通知', url: '/pages/seeNotify/index' },
+      { title: 'Modal 模态框', url: '/pages/seeModal/index' },
+      { title: 'ActionSheet 操作菜单', url: '/pages/seeActionSheet/index' },
+      { title: 'Tooltip 长按提示', url: '/pages/seeTooltip/index' },
+      { title: 'Popover 气泡提示', url: '/pages/seePopover/index' },
+      { title: 'Alert 警告提示', url: '/pages/seeAlert/index' },
+      { title: 'NoticeBar 滚动通知', url: '/pages/seeNoticeBar/index' },
+      { title: 'Collapse 折叠面板', url: '/pages/seeCollapse/index' },
+      { title: 'SwipeAction 滑动单元格', url: '/pages/seeSwipeAction/index' },
+      { title: 'Copy 复制功能', url: '/pages/seeCopy/index' }
+    ]
   }
-  // 以下分类页面尚未开发，暂时注释
-  // {
-  //   title: '反馈组件',
-  //   componentsList: [
-  //     { title: 'Tooltip 长按提示', url: '/pages/todo/index' },
-  //     { title: 'Popover 弹窗提示', url: '/pages/todo/index' },
-  //     { title: 'ActionSheet 操作菜单', url: '/pages/todo/index' },
-  //     { title: 'Alert 警告提示', url: '/pages/todo/index' },
-  //     { title: 'Toast 消息提示', url: '/pages/todo/index' },
-  //     { title: 'NoticeBar 滚动通知', url: '/pages/todo/index' },
-  //     { title: 'Notify 消息提示', url: '/pages/todo/index' },
-  //     { title: 'SwipeAction 滑动单元格', url: '/pages/todo/index' },
-  //     { title: 'Collapse 折叠面板', url: '/pages/todo/index' },
-  //     { title: 'Popup 弹出层', url: '/pages/todo/index' },
-  //     { title: 'Modal 模态框', url: '/pages/todo/index' },
-  //     { title: 'Copy 复制', url: '/pages/todo/index' }
-  //   ]
-  // },
   // {
   //   title: '导航组件',
   //   componentsList: [

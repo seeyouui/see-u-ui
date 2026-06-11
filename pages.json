@@ -4,6 +4,7 @@
     "custom": {
       "^see-layout-item$": "@/uni_modules/see-u-ui/components/see-layout/see-layout-item.vue",
       "^see-grid-item$": "@/uni_modules/see-u-ui/components/see-grid/see-grid-item.vue",
+      "^see-collapse-item$": "@/uni_modules/see-u-ui/components/see-collapse/see-collapse-item.vue",
       "^see-(.*)": "@/uni_modules/see-u-ui/components/see-$1/see-$1.vue"
     }
   },
@@ -317,6 +318,90 @@
       "path": "pages/config/index",
       "style": {
         "navigationBarTitleText": "配置"
+      }
+    },
+    {
+      "path": "pages/seePopup/index",
+      "style": {
+        "navigationBarTitleText": "Popup 弹出层",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeToast/index",
+      "style": {
+        "navigationBarTitleText": "Toast 消息提示",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeNotify/index",
+      "style": {
+        "navigationBarTitleText": "Notify 顶部通知",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeModal/index",
+      "style": {
+        "navigationBarTitleText": "Modal 模态框",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeActionSheet/index",
+      "style": {
+        "navigationBarTitleText": "ActionSheet 操作菜单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeTooltip/index",
+      "style": {
+        "navigationBarTitleText": "Tooltip 长按提示",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seePopover/index",
+      "style": {
+        "navigationBarTitleText": "Popover 气泡提示",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeAlert/index",
+      "style": {
+        "navigationBarTitleText": "Alert 警告提示",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeNoticeBar/index",
+      "style": {
+        "navigationBarTitleText": "NoticeBar 滚动通知",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCollapse/index",
+      "style": {
+        "navigationBarTitleText": "Collapse 折叠面板",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSwipeAction/index",
+      "style": {
+        "navigationBarTitleText": "SwipeAction 滑动单元格",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCopy/index",
+      "style": {
+        "navigationBarTitleText": "Copy 复制功能",
+        "enablePullDownRefresh": false
       }
     }
   ],

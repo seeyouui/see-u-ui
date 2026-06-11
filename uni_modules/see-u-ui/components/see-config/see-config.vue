@@ -13,6 +13,8 @@
 </template>
 
 <script lang="ts" setup>
+defineOptions({ name: 'SeeConfig' })
+
 // #ifdef MP
 import { ref } from 'vue'
 import { onShow, onUnload } from '@dcloudio/uni-app'

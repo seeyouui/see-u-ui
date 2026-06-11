@@ -51,13 +51,13 @@
   --see-info-light: #f2f3f5;
 
   /* ---------- 背景文字 ---------- */
-  --see-text: #ffffff;
+  --see-text: #2e2f33;
   --see-dark-text: #ffffff;
   --see-disabled-text: #f2f3f5;
   --see-light-text: #aeb0b4;
 
   /* ---------- 交互元素表面 ---------- */
-  --see-surface-color: #ffffff;
+  --see-surface-color: #fafbfc;
 
   /* ---------- 组件特定变量 ---------- */
   /* 轮播图 */
@@ -75,6 +75,15 @@
 
   /* 遮罩层 */
   --see-overlay-bg: rgba(0, 0, 0, 0.6);
+
+  /* ---------- 反馈组件通用变量 ---------- */
+  --see-popup-radius: 32rpx;
+  --see-popup-header-height: 88rpx;
+  --see-toast-bg: rgba(0, 0, 0, 0.75);
+  --see-toast-radius: 12rpx;
+  --see-tooltip-bg: rgba(0, 0, 0, 0.8);
+  --see-modal-radius: 16rpx;
+  --see-notify-height: 88rpx;
 }
 
 /* =========================================================
@@ -136,7 +145,7 @@
   --see-light-text: #8b9098;
 
   /* ---------- 交互元素表面 ---------- */
-  --see-surface-color: #ffffff;
+  --see-surface-color: #1f2328;
 
   /* ---------- 组件特定变量 ---------- */
   /* 轮播图 */
@@ -154,6 +163,15 @@
 
   /* 遮罩层 */
   --see-overlay-bg: rgba(0, 0, 0, 0.6);
+
+  /* ---------- 反馈组件通用变量 ---------- */
+  --see-popup-radius: 32rpx;
+  --see-popup-header-height: 88rpx;
+  --see-toast-bg: rgba(60, 60, 67, 0.9);
+  --see-toast-radius: 12rpx;
+  --see-tooltip-bg: rgba(60, 60, 67, 0.9);
+  --see-modal-radius: 16rpx;
+  --see-notify-height: 88rpx;
 }
 
 /* 4.1 默认状态 (Default) */

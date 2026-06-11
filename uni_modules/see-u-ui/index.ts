@@ -55,6 +55,20 @@ import { SeeList } from './components/see-list/index'
 import { SeeVirtualList } from './components/see-virtual-list/index'
 import { SeeTable } from './components/see-table/index'
 
+// 反馈组件
+import { SeePopup } from './components/see-popup/index'
+import { SeeToast, toast } from './components/see-toast/index'
+import { SeeNotify, notify } from './components/see-notify/index'
+import { SeeModal, modal } from './components/see-modal/index'
+import { SeeActionSheet } from './components/see-action-sheet/index'
+import { SeeTooltip } from './components/see-tooltip/index'
+import { SeePopover } from './components/see-popover/index'
+import { SeeAlert } from './components/see-alert/index'
+import { SeeNoticeBar } from './components/see-notice-bar/index'
+import { SeeCollapse, SeeCollapseItem } from './components/see-collapse/index'
+import { SeeSwipeAction } from './components/see-swipe-action/index'
+import { SeeCopy, copy as seeCopy } from './components/see-copy/index'
+
 // 工具 Hooks
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
 import { formatDate, useDateFormat } from './utils/hooks/useDateFormat'
@@ -65,6 +79,17 @@ import { useField } from './utils/hooks/useField'
 import { formatCountdown, parseCountdownTime, useCountdown } from './utils/hooks/useCountdown'
 import { easeOutExpo, formatCountToValue, useCountTo } from './utils/hooks/useCountTo'
 import { useVirtualWindow } from './utils/hooks/useVirtualWindow'
+
+// 反馈组件公共 Hooks
+import { useZIndex } from './utils/hooks/useZIndex'
+import { useLockScroll, resetLockScroll } from './utils/hooks/useLockScroll'
+import { useTransition } from './utils/hooks/useTransition'
+import { useOverlay } from './utils/hooks/useOverlay'
+import { usePopup } from './utils/hooks/usePopup'
+import { useTeleport } from './utils/hooks/useTeleport'
+import { useGesture } from './utils/hooks/useGesture'
+import { usePopoverPosition } from './utils/hooks/usePopoverPosition'
+import { useCopy } from './utils/hooks/useCopy'
 
 const components: Component[] = [
   // 原有组件
@@ -121,7 +146,21 @@ const components: Component[] = [
   SeeCountTo,
   SeeList,
   SeeVirtualList,
-  SeeTable
+  SeeTable,
+  // 反馈组件
+  SeePopup,
+  SeeToast,
+  SeeNotify,
+  SeeModal,
+  SeeActionSheet,
+  SeeTooltip,
+  SeePopover,
+  SeeAlert,
+  SeeNoticeBar,
+  SeeCollapse,
+  SeeCollapseItem,
+  SeeSwipeAction,
+  SeeCopy
 ]
 
 const install = (app: App) => {
@@ -153,6 +192,17 @@ export {
   easeOutExpo,
   formatCountToValue,
   useVirtualWindow,
+  // 反馈组件公共 Hooks
+  useZIndex,
+  useLockScroll,
+  resetLockScroll,
+  useTransition,
+  useOverlay,
+  usePopup,
+  useTeleport,
+  useGesture,
+  usePopoverPosition,
+  useCopy,
   // 原有组件
   SeeButton,
   SeeText,
@@ -207,7 +257,25 @@ export {
   SeeCountTo,
   SeeList,
   SeeVirtualList,
-  SeeTable
+  SeeTable,
+  // 反馈组件
+  SeePopup,
+  SeeToast,
+  toast,
+  SeeNotify,
+  notify,
+  SeeModal,
+  modal,
+  SeeActionSheet,
+  SeeTooltip,
+  SeePopover,
+  SeeAlert,
+  SeeNoticeBar,
+  SeeCollapse,
+  SeeCollapseItem,
+  SeeSwipeAction,
+  SeeCopy,
+  seeCopy
 }
 
 export default {
@@ -243,3 +311,22 @@ export type {
 export type { CountdownTimeData, UseCountdownOptions } from './utils/hooks/useCountdown'
 export type { CountToFormatOptions, UseCountToOptions } from './utils/hooks/useCountTo'
 export type { VirtualWindowRange, UseVirtualWindowOptions } from './utils/hooks/useVirtualWindow'
+export type { UseTransitionOptions, TransitionState } from './utils/hooks/useTransition'
+export type { UseOverlayOptions } from './utils/hooks/useOverlay'
+export type { UsePopupOptions } from './utils/hooks/usePopup'
+export type { UseTeleportOptions } from './utils/hooks/useTeleport'
+export type { UseGestureOptions, SwipeDirection, GestureDirection } from './utils/hooks/useGesture'
+export type { UsePopoverPositionOptions, PopoverPosition, Rect } from './utils/hooks/usePopoverPosition'
+export type { UseCopyOptions } from './utils/hooks/useCopy'
+export type { SeePopupProps, SeePopupEmits, PopupPosition } from './components/see-popup/type'
+export type { SeeToastProps, SeeToastEmits, ToastOptions, ToastType, ToastPosition } from './components/see-toast/type'
+export type { SeeNotifyProps, SeeNotifyEmits, NotifyOptions, NotifyType } from './components/see-notify/type'
+export type { SeeModalProps, SeeModalEmits, ModalOptions, ModalConfirmType } from './components/see-modal/type'
+export type { SeeActionSheetProps, SeeActionSheetEmits, ActionSheetAction } from './components/see-action-sheet/type'
+export type { SeeTooltipProps, SeeTooltipEmits, TooltipPosition, TooltipTrigger, TooltipEffect } from './components/see-tooltip/type'
+export type { SeePopoverProps, SeePopoverEmits, PopoverPosition as SeePopoverPosition, PopoverTrigger } from './components/see-popover/type'
+export type { SeeAlertProps, SeeAlertEmits, AlertType, AlertEffect } from './components/see-alert/type'
+export type { SeeNoticeBarProps, SeeNoticeBarEmits, NoticeBarType } from './components/see-notice-bar/type'
+export type { SeeCollapseProps, SeeCollapseEmits, SeeCollapseItemProps, SeeCollapseItemEmits } from './components/see-collapse/type'
+export type { SeeSwipeActionProps, SeeSwipeActionEmits, SwipeActionItem, SwipeActionStyle } from './components/see-swipe-action/type'
+export type { SeeCopyProps, SeeCopyEmits, CopyOptions } from './components/see-copy/type'
