@@ -84,6 +84,77 @@
   --see-tooltip-bg: rgba(0, 0, 0, 0.8);
   --see-modal-radius: 16rpx;
   --see-notify-height: 88rpx;
+
+  /* ---------- 导航组件通用 ---------- */
+  --see-navbar-height: 88rpx;
+  --see-navbar-bg: var(--see-bg-color);
+  --see-navbar-title-color: var(--see-main-color);
+  --see-navbar-border-color: var(--see-border-four-color);
+  --see-navbar-mini-height: 64rpx;
+  --see-tabbar-height: 100rpx;
+  --see-tabbar-bg: var(--see-bg-color);
+  --see-tabbar-active-color: var(--see-primary);
+  --see-tabbar-inactive-color: var(--see-tips-color);
+  --see-tabbar-center-btn-size: 112rpx;
+  --see-tabbar-center-btn-bg: var(--see-primary);
+  --see-tabbar-center-btn-shadow: 0 4rpx 16rpx rgba(60, 167, 255, 0.35);
+  --see-backtop-size: 80rpx;
+  --see-backtop-bg: var(--see-bg-color);
+  --see-backtop-shadow: var(--see-shadow-medium);
+  --see-backtop-icon-color: var(--see-primary);
+  --see-tabs-height: 88rpx;
+  --see-tabs-active-color: var(--see-primary);
+  --see-tabs-inactive-color: var(--see-tips-color);
+  --see-tabs-bg: var(--see-bg-color);
+  --see-tabs-line-color: var(--see-primary);
+  --see-tabs-line-height: 4rpx;
+  --see-tabs-line-width: 40rpx;
+  --see-tabs-border-color: var(--see-border-four-color);
+  --see-subsection-height: 56rpx;
+  --see-subsection-bg: var(--see-border-four-color);
+  --see-subsection-active-bg: var(--see-primary);
+  --see-subsection-active-color: #ffffff;
+  --see-subsection-inactive-color: var(--see-main-color);
+  --see-dropdown-menu-height: 88rpx;
+  --see-dropdown-menu-bg: var(--see-bg-color);
+  --see-dropdown-panel-bg: var(--see-bg-color);
+  --see-dropdown-panel-max-height: 560rpx;
+  --see-dropdown-option-height: 88rpx;
+  --see-dropdown-active-color: var(--see-primary);
+  --see-dropdown-border-color: var(--see-border-four-color);
+  --see-pagination-height: 80rpx;
+  --see-pagination-button-size: 72rpx;
+  --see-pagination-active-bg: var(--see-primary);
+  --see-pagination-active-color: #ffffff;
+  --see-pagination-button-bg: var(--see-info);
+  --see-pagination-disabled-color: var(--see-light-color);
+  --see-steps-icon-size: 44rpx;
+  --see-steps-line-color: var(--see-border-four-color);
+  --see-steps-active-color: var(--see-primary);
+  --see-steps-finish-color: var(--see-success);
+  --see-steps-error-color: var(--see-error);
+  --see-steps-wait-color: var(--see-tips-color);
+  --see-steps-description-color: var(--see-tips-color);
+  --see-index-list-nav-width: 40rpx;
+  --see-index-list-nav-font-size: 22rpx;
+  --see-index-list-nav-color: var(--see-primary);
+  --see-index-list-header-height: 56rpx;
+  --see-index-list-header-bg: var(--see-border-four-color);
+  --see-index-list-item-height: 88rpx;
+  --see-tree-indent: 36rpx;
+  --see-tree-node-height: 88rpx;
+  --see-tree-connector-color: var(--see-border-three-color);
+  --see-tree-hover-bg: var(--see-info-light);
+  --see-tree-active-color: var(--see-primary);
+  --see-tree-search-height: 72rpx;
+  --see-city-locate-search-height: 80rpx;
+  --see-city-locate-hot-city-gap: 16rpx;
+  --see-city-locate-history-height: 72rpx;
+  --see-empty-image-size: 320rpx;
+  --see-empty-title-color: var(--see-main-color);
+  --see-empty-description-color: var(--see-tips-color);
+  --see-empty-action-bg: var(--see-primary);
+  --see-empty-action-color: #ffffff;
 }
 
 /* =========================================================
@@ -172,6 +243,15 @@
   --see-tooltip-bg: rgba(60, 60, 67, 0.9);
   --see-modal-radius: 16rpx;
   --see-notify-height: 88rpx;
+
+  /* ---------- 导航组件通用 ---------- */
+  --see-tabbar-center-btn-shadow: 0 4rpx 16rpx rgba(60, 167, 255, 0.25);
+  --see-backtop-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
+  --see-subsection-active-color: #ffffff;
+  --see-pagination-active-color: #ffffff;
+  --see-dropdown-panel-bg: var(--see-surface-color);
+  --see-tree-connector-color: var(--see-border-color);
+  --see-tree-hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* 4.1 默认状态 (Default) */

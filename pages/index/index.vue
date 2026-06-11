@@ -6,7 +6,7 @@
           <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
         </view>
         <view class="detail-text">
-          <view class="title">SeeYouUI 1.2.0</view>
+          <view class="title">SeeYouUI 1.3.0</view>
           <view class="subtitle">一个基于 uni-app 的组件库</view>
         </view>
       </view>
@@ -127,25 +127,25 @@ const list = ref<listType>([
       { title: 'SwipeAction 滑动单元格', url: '/pages/seeSwipeAction/index' },
       { title: 'Copy 复制功能', url: '/pages/seeCopy/index' }
     ]
+  },
+  {
+    title: '导航组件',
+    componentsList: [
+      { title: 'Navbar 自定义导航栏', url: '/pages/seeNavbar/index' },
+      { title: 'NavbarMini 迷你导航栏', url: '/pages/seeNavbarMini/index' },
+      { title: 'Tabbar 底部导航栏', url: '/pages/seeTabbar/index' },
+      { title: 'BackTop 返回顶部', url: '/pages/seeBackTop/index' },
+      { title: 'Tabs 标签页', url: '/pages/seeTabs/index' },
+      { title: 'Subsection 分段器', url: '/pages/seeSubsection/index' },
+      { title: 'Dropdown 下拉菜单', url: '/pages/seeDropdown/index' },
+      { title: 'Pagination 分页器', url: '/pages/seePagination/index' },
+      { title: 'Steps 步骤条', url: '/pages/seeSteps/index' },
+      { title: 'IndexList 索引列表', url: '/pages/seeIndexList/index' },
+      { title: 'Tree 树形组件', url: '/pages/seeTree/index' },
+      { title: 'CityLocate 城市定位选择', url: '/pages/seeCityLocate/index' },
+      { title: 'Empty 空状态', url: '/pages/seeEmpty/index' }
+    ]
   }
-  // {
-  //   title: '导航组件',
-  //   componentsList: [
-  //     { title: 'Dropdown 下拉菜单', url: '/pages/todo/index' },
-  //     { title: 'Tabbar 底部导航栏', url: '/pages/todo/index' },
-  //     { title: 'BackTop 返回顶部', url: '/pages/todo/index' },
-  //     { title: 'Navbar 自定义导航栏', url: '/pages/todo/index' },
-  //     { title: 'NavbarMini 迷你导航栏', url: '/pages/todo/index' },
-  //     { title: 'Tabs 标签', url: '/pages/todo/index' },
-  //     { title: 'Subsection 分段器', url: '/pages/todo/index' },
-  //     { title: 'IndexList 索引列表', url: '/pages/todo/index' },
-  //     { title: 'Steps 步骤条', url: '/pages/todo/index' },
-  //     { title: 'Empty 内容为空', url: '/pages/todo/index' },
-  //     { title: 'Pagination 分页器', url: '/pages/todo/index' },
-  //     { title: 'Tree 树形组件', url: '/pages/todo/index' },
-  //     { title: 'CityLocate 城市定位选择', url: '/pages/todo/index' }
-  //   ]
-  // },
   // {
   //   title: '内容解析',
   //   componentsList: [

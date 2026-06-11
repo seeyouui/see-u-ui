@@ -403,6 +403,97 @@
         "navigationBarTitleText": "Copy 复制功能",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/seeNavbar/index",
+      "style": {
+        "navigationBarTitleText": "Navbar 导航栏",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeNavbarMini/index",
+      "style": {
+        "navigationBarTitleText": "NavbarMini 迷你导航栏",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeTabbar/index",
+      "style": {
+        "navigationBarTitleText": "Tabbar 底部导航栏",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeBackTop/index",
+      "style": {
+        "navigationBarTitleText": "BackTop 返回顶部",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeTabs/index",
+      "style": {
+        "navigationBarTitleText": "Tabs 标签页",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSubsection/index",
+      "style": {
+        "navigationBarTitleText": "Subsection 分段器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeDropdown/index",
+      "style": {
+        "navigationBarTitleText": "Dropdown 下拉菜单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seePagination/index",
+      "style": {
+        "navigationBarTitleText": "Pagination 分页器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeSteps/index",
+      "style": {
+        "navigationBarTitleText": "Steps 步骤条",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeIndexList/index",
+      "style": {
+        "navigationBarTitleText": "IndexList 索引列表",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeTree/index",
+      "style": {
+        "navigationBarTitleText": "Tree 树形组件",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCityLocate/index",
+      "style": {
+        "navigationBarTitleText": "CityLocate 城市定位",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeEmpty/index",
+      "style": {
+        "navigationBarTitleText": "Empty 空状态",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {
