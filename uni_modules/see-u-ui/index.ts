@@ -68,6 +68,8 @@ import { SeeNoticeBar } from './components/see-notice-bar/index'
 import { SeeCollapse, SeeCollapseItem } from './components/see-collapse/index'
 import { SeeSwipeAction } from './components/see-swipe-action/index'
 import { SeeCopy, copy as seeCopy } from './components/see-copy/index'
+import { SeeParse } from './components/see-parse/index'
+import { SeeMarkdown } from './components/see-markdown/index'
 
 // 工具 Hooks
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
@@ -160,7 +162,10 @@ const components: Component[] = [
   SeeCollapse,
   SeeCollapseItem,
   SeeSwipeAction,
-  SeeCopy
+  SeeCopy,
+  // 内容解析
+  SeeParse,
+  SeeMarkdown
 ]
 
 const install = (app: App) => {
@@ -275,7 +280,10 @@ export {
   SeeCollapseItem,
   SeeSwipeAction,
   SeeCopy,
-  seeCopy
+  seeCopy,
+  // 内容解析
+  SeeParse,
+  SeeMarkdown
 }
 
 export default {
@@ -330,3 +338,13 @@ export type { SeeNoticeBarProps, SeeNoticeBarEmits, NoticeBarType } from './comp
 export type { SeeCollapseProps, SeeCollapseEmits, SeeCollapseItemProps, SeeCollapseItemEmits } from './components/see-collapse/type'
 export type { SeeSwipeActionProps, SeeSwipeActionEmits, SwipeActionItem, SwipeActionStyle } from './components/see-swipe-action/type'
 export type { SeeCopyProps, SeeCopyEmits, CopyOptions } from './components/see-copy/type'
+export type {
+  SeeParseProps,
+  SeeParseEmits,
+  SeeParseNode,
+  SeeParseNodeAttrs,
+  SeeParseTextNode,
+  SeeParseElementNode,
+  UseHtmlParserOptions
+} from './components/see-parse/type'
+export type { SeeMarkdownProps, SeeMarkdownEmits, MarkdownParserOptions } from './components/see-markdown/type'

@@ -6,7 +6,7 @@
           <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
         </view>
         <view class="detail-text">
-          <view class="title">SeeYouUI 1.3.0</view>
+          <view class="title">SeeYouUI 1.3.1</view>
           <view class="subtitle">一个基于 uni-app 的组件库</view>
         </view>
       </view>
@@ -145,14 +145,14 @@ const list = ref<listType>([
       { title: 'CityLocate 城市定位选择', url: '/pages/seeCityLocate/index' },
       { title: 'Empty 空状态', url: '/pages/seeEmpty/index' }
     ]
+  },
+  {
+    title: '内容解析',
+    componentsList: [
+      { title: 'Parse 富文本解析器', url: '/pages/seeParse/index' },
+      { title: 'Markdown 文本解析', url: '/pages/seeMarkdown/index' }
+    ]
   }
-  // {
-  //   title: '内容解析',
-  //   componentsList: [
-  //     { title: 'Parse 富文本解析器', url: '/pages/todo/index' },
-  //     { title: 'Markdown 文本解析', url: '/pages/todo/index' }
-  //   ]
-  // }
 ])
 
 const clickItem = (url: string) => uni.navigateTo({ url })

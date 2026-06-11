@@ -1,3 +1,10 @@
+## 1.3.1（2026-06-11）
+
+> > - <Badge type="tip" text="新增" /> Parse 富文本解析器组件（跨平台 HTML 富文本解析与渲染，内置 XSS 安全过滤/图片预览/链接拦截/tagStyle 注入；H5 使用 v-html 直接渲染，App/小程序使用 rich-text + parsed nodes）
+> > - <Badge type="tip" text="新增" /> Markdown 文本解析组件（零依赖 GFM 子集纯字符串解析器：标题/强调/链接/图片/代码块/列表/任务列表/引用/水平线/表格/自动链接/反斜杠转义，内部委托 see-parse 渲染并复用其 XSS 过滤、图片预览、链接拦截能力）
+> > - <Badge type="tip" text="新增" /> useHtmlParser 工具 Hook（导出 parseHtml / stripHtml / sanitizeHtml / extractImgSrc 四个纯函数）
+> > - <Badge type="tip" text="新增" /> useMarkdownParser 工具 Hook（导出 markdownToHtml / stripMarkdown / extractMarkdownImages 三个纯函数）
+
 ## 1.1.0（2026-06-05）
 
 > > - <Badge type="tip" text="新增" /> Form 表单组件（支持 validate/reset/clearValidate/scrollToField）
@@ -42,7 +49,3 @@
 ## 1.0.12
 
 测试 GitHub Action 自动拉取最新 npm 包
-
-## 1.0.13（2025-12-14）
-
-新增了SeeIcon组件

@@ -35,7 +35,7 @@ export function useField(options: UseFieldOptions) {
       isDisabled: computed(() => form?.props.isDisabled ?? false),
       isReadonly: computed(() => form?.props.isReadonly ?? false),
       isShowMessage: computed(() => form?.props.isShowMessage ?? true),
-      validate: async () => ({ valid: true, errors: [] } as ValidateResult),
+      validate: async () => ({ valid: true, errors: [] }) as ValidateResult,
       resetField: () => {},
       clearValidate: () => {},
       handleChange: () => {},

@@ -405,6 +405,20 @@
       }
     },
     {
+      "path": "pages/seeParse/index",
+      "style": {
+        "navigationBarTitleText": "Parse 富文本解析器",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeMarkdown/index",
+      "style": {
+        "navigationBarTitleText": "Markdown 文本解析",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/seeNavbar/index",
       "style": {
         "navigationBarTitleText": "Navbar 导航栏",
