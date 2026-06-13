@@ -18,7 +18,7 @@
         class="see-search__input"
         :value="props.modelValue"
         type="text"
-        :placeholder="props.placeholder"
+        :placeholder="resolvedPlaceholder"
         :disabled="mergedDisabled || mergedReadonly"
         :focus="needFocus"
         confirm-type="search"
@@ -38,7 +38,7 @@
 
     <!-- 右侧操作按钮 -->
     <view v-if="props.isShowAction" class="see-search__action" @click.stop="handleCancel">
-      <text class="see-search__action-text">{{ props.actionText }}</text>
+      <text class="see-search__action-text">{{ resolvedActionText }}</text>
     </view>
 
     <!-- 右侧插槽 -->
@@ -69,11 +69,14 @@
  * @property {String}           name               表单字段名
  */
 import { ref, computed, nextTick, onBeforeUnmount, inject } from 'vue'
+import { useI18n } from '../../locale'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
 import type { SearchShape, SearchSize, SeeSearchExpose } from './type'
 
 defineOptions({ name: 'SeeSearch' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -107,12 +110,12 @@ const props = withDefaults(
   }>(),
   {
     modelValue: '',
-    placeholder: '搜索',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isClearable: true,
     isShowAction: false,
-    actionText: '取消',
+    actionText: '',
     isFocus: false,
     shape: 'round',
     size: 'default',
@@ -169,6 +172,10 @@ const needFocus = ref(props.isFocus)
 let focusTimer: ReturnType<typeof setTimeout> | null = null
 
 /** ---------- computed ---------- */
+
+/** 翻译回退 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('search.placeholder'))
+const resolvedActionText = computed(() => props.actionText || t('search.cancel'))
 
 /** 实际禁用状态（组件自身 + Form 联动） */
 const mergedDisabled = computed(() => {

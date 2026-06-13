@@ -2,12 +2,12 @@
   <view class="see-image-wrapper" :style="{ ...props.customStyle }">
     <!-- 加载中状态 -->
     <view v-if="loading" class="see-image-loading">
-      <text class="loading-text">{{ props.loadingText }}</text>
+      <text class="loading-text">{{ props.loadingText || t('image.loading') }}</text>
     </view>
 
     <!-- 错误状态 -->
     <view v-if="error && !props.showErrorImage" class="see-image-error">
-      <text class="error-text">{{ props.errorText }}</text>
+      <text class="error-text">{{ props.errorText || t('image.error') }}</text>
     </view>
 
     <!-- 图片容器 -->
@@ -58,7 +58,7 @@
     </view>
 
     <!-- 预览模式提示 -->
-    <text v-if="props.previewMode" class="preview-tip">{{ props.previewTip }}</text>
+    <text v-if="props.previewMode" class="preview-tip">{{ props.previewTip || t('image.previewTip') }}</text>
   </view>
 </template>
 
@@ -90,6 +90,7 @@
  * @example
  */
 import { ref, computed } from 'vue'
+import { useI18n } from '../../locale'
 
 defineOptions({
   name: 'SeeImage'
@@ -143,13 +144,13 @@ const props = withDefaults(
     maskColor: '#000',
     maskOpacity: 0.3,
     fadeInDuration: 300,
-    loadingText: '加载中...',
+    loadingText: '',
     showErrorImage: false,
     errorImage: '',
-    errorText: '图片加载失败',
+    errorText: '',
     showMenuByLongpress: true,
     customStyle: null,
-    previewTip: '点击图片预览'
+    previewTip: ''
   }
 )
 
@@ -160,6 +161,9 @@ const emit = defineEmits<{
   (e: 'onClick'): void
   (e: 'onLongpress'): void
 }>()
+
+/** ---------- i18n ---------- */
+const { t } = useI18n()
 
 /** ---------- state ---------- */
 const loading = ref(true)

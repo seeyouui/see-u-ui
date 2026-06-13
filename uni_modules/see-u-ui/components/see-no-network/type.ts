@@ -8,13 +8,11 @@ export interface SeeNoNetworkProps {
    */
   show?: boolean
   /**
-   * 提示文案
-   * @default '网络异常，请检查网络连接'
+   * 提示文案（默认来自 i18n: noNetwork.title）
    */
   text?: string
   /**
-   * 重试按钮文案
-   * @default '重新连接'
+   * 重试按钮文案（默认来自 i18n: noNetwork.retry）
    */
   retryText?: string
   /**

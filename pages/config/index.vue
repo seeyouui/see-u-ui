@@ -3,62 +3,63 @@
     <view class="container">
       <view class="uni-list">
         <view class="uni-list-cell">
-          <view class="uni-list-cell-left">全局暗黑模式</view>
+          <view class="uni-list-cell-left">{{ t('config.theme') }}</view>
         </view>
         <view class="uni-list-detail">
-          <text>支持浅色模式/暗黑模式切换，可随系统主题或通过 API 手动控制（支持 H5 / APP / 小程序）。</text>
+          <text>{{ t('config.themeDesc') }}</text>
         </view>
         <view class="theme-buttons">
           <view class="theme-button" :class="{ active: themeMode === 'light' }" @click="setLightMode">
-            <text>浅色</text>
+            <text>{{ t('config.themeLight') }}</text>
           </view>
           <view class="theme-button" :class="{ active: themeMode === 'dark' }" @click="setDarkMode">
-            <text>暗黑</text>
+            <text>{{ t('config.themeDark') }}</text>
           </view>
           <view class="theme-button" :class="{ active: themeMode === 'system' }" @click="setFollowSystem">
-            <text>跟随系统</text>
+            <text>{{ t('config.themeSystem') }}</text>
           </view>
         </view>
       </view>
       <view class="uni-list">
         <view class="uni-list-cell">
-          <view class="uni-list-cell-left">国际化配置</view>
+          <view class="uni-list-cell-left">{{ t('config.i18n') }}</view>
+        </view>
+        <view class="uni-list-detail">
+          <text>{{ t('config.i18nDesc') }}</text>
+        </view>
+        <view class="theme-buttons">
+          <view class="theme-button" :class="{ active: locale === 'zh-CN' }" @click="setLocale('zh-CN')">
+            <text>{{ t('config.demo.chinese') }}</text>
+          </view>
+          <view class="theme-button" :class="{ active: locale === 'en' }" @click="setLocale('en')">
+            <text>English</text>
+          </view>
+        </view>
+      </view>
+      <view class="uni-list">
+        <view class="uni-list-cell">
+          <view class="uni-list-cell-left">{{ t('config.customTheme') }}</view>
           <view class="uni-list-cell-db">
             <picker disabled>
               <view class="uni-input">
-                <text>中国</text>
+                <text>{{ t('config.customThemeDefault') }}</text>
               </view>
             </picker>
           </view>
         </view>
         <view class="uni-list-detail">
-          <text>配置组件库的国际化语言环境，支持多语言切换。</text>
+          <text>{{ t('config.customThemeDesc') }}</text>
         </view>
       </view>
       <view class="uni-list">
         <view class="uni-list-cell">
-          <view class="uni-list-cell-left">自定义主题</view>
-          <view class="uni-list-cell-db">
-            <picker disabled>
-              <view class="uni-input">
-                <text>默认主题</text>
-              </view>
-            </picker>
-          </view>
-        </view>
-        <view class="uni-list-detail">
-          <text>支持通过配置文件自定义主题样式。</text>
-        </view>
-      </view>
-      <view class="uni-list">
-        <view class="uni-list-cell">
-          <view class="uni-list-cell-left">全局骨架屏</view>
+          <view class="uni-list-cell-left">{{ t('config.skeleton') }}</view>
           <view class="uni-list-cell-db">
             <switch disabled :checked="false" />
           </view>
         </view>
         <view class="uni-list-detail">
-          <text>统一的全局骨架屏方案，优化页面加载过程中的视觉反馈。</text>
+          <text>{{ t('config.skeletonDesc') }}</text>
         </view>
       </view>
     </view>
@@ -66,10 +67,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useTheme } from '@/uni_modules/see-u-ui'
+import { useTheme, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 
 // 暗黑模式切换
 const { themeMode, setLightMode, setDarkMode, setFollowSystem } = useTheme()
+
+// 国际化切换
+const { t, locale, setLocale } = useI18n()
+useNavbarI18n('navbar.config')
 </script>
 
 <style lang="scss" scoped>

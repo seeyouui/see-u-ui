@@ -1,0 +1,57 @@
+/**
+ * SeeEmpty 空状态组件翻译 key
+ */
+export default {
+  'zh-CN': {
+    'empty.default': '暂无数据',
+    'empty.network': '网络不给力',
+    'empty.search': '没有找到相关内容',
+    'empty.error': '页面出错',
+    'empty.notFound': '页面不存在',
+    'empty.searchDesc': '请尝试修改搜索条件',
+    'empty.networkDesc': '请检查网络连接后重试',
+    'empty.errorDesc': '请稍后重试',
+    'empty.notFoundDesc': '您访问的页面不存在',
+    'empty.demo.default': '1. 默认类型',
+    'empty.demo.search': '2. 搜索无结果',
+    'empty.demo.network': '3. 网络异常',
+    'empty.demo.error': '4. 页面出错',
+    'empty.demo.notFound': '5. 404 页面不存在',
+    'empty.demo.custom': '6. 自定义标题和描述',
+    'empty.demo.retry': '重试',
+    'empty.demo.refresh': '刷新',
+    'empty.demo.goHome': '返回首页',
+    'empty.demo.retrying': '重试中...',
+    'empty.demo.refreshing': '刷新中...',
+    'empty.demo.goingHome': '返回首页',
+    'empty.demo.customTitle': '购物车是空的',
+    'empty.demo.customDesc': '快去挑选心仪的商品吧',
+    'empty.demo.shop': '去逛逛'
+  },
+  en: {
+    'empty.default': 'No Data',
+    'empty.network': 'Network Error',
+    'empty.search': 'No Results Found',
+    'empty.error': 'Page Error',
+    'empty.notFound': 'Page Not Found',
+    'empty.searchDesc': 'Please try modifying your search',
+    'empty.networkDesc': 'Please check your connection and retry',
+    'empty.errorDesc': 'Please try again later',
+    'empty.notFoundDesc': 'The page you visited does not exist',
+    'empty.demo.default': '1. Default Type',
+    'empty.demo.search': '2. No Search Results',
+    'empty.demo.network': '3. Network Error',
+    'empty.demo.error': '4. Page Error',
+    'empty.demo.notFound': '5. 404 Page Not Found',
+    'empty.demo.custom': '6. Custom Title & Description',
+    'empty.demo.retry': 'Retry',
+    'empty.demo.refresh': 'Refresh',
+    'empty.demo.goHome': 'Go Home',
+    'empty.demo.retrying': 'Retrying...',
+    'empty.demo.refreshing': 'Refreshing...',
+    'empty.demo.goingHome': 'Going Home',
+    'empty.demo.customTitle': 'Your cart is empty',
+    'empty.demo.customDesc': 'Go find something you love',
+    'empty.demo.shop': 'Shop Now'
+  }
+}

@@ -24,9 +24,12 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useI18n } from '../../locale'
 import type { EmptyType, SeeEmptyProps, SeeEmptyEmits } from './type'
 
 defineOptions({ name: 'SeeEmpty' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeEmptyProps>(), {
@@ -43,13 +46,31 @@ const props = withDefaults(defineProps<SeeEmptyProps>(), {
 const emit = defineEmits<SeeEmptyEmits>()
 
 /** ---------- computed ---------- */
-const typeDefaults: Record<EmptyType, { icon: string; title: string; description: string }> = {
-  default: { icon: '📭', title: '暂无数据', description: '' },
-  search: { icon: '🔍', title: '未找到相关内容', description: '请尝试修改搜索条件' },
-  network: { icon: '📡', title: '网络异常', description: '请检查网络连接后重试' },
-  error: { icon: '⚠️', title: '页面出错', description: '请稍后重试' },
-  '404': { icon: '🗺️', title: '页面不存在', description: '您访问的页面不存在' },
-  custom: { icon: '', title: '', description: '' }
+const typeDefaults: Record<EmptyType, { icon: string }> = {
+  default: { icon: '📭' },
+  search: { icon: '🔍' },
+  network: { icon: '📡' },
+  error: { icon: '⚠️' },
+  '404': { icon: '🗺️' },
+  custom: { icon: '' }
+}
+
+const typeTitleMap: Record<EmptyType, string> = {
+  default: t('empty.default'),
+  search: t('empty.search'),
+  network: t('empty.network'),
+  error: t('empty.error'),
+  '404': t('empty.notFound'),
+  custom: ''
+}
+
+const typeDescMap: Record<EmptyType, string> = {
+  default: '',
+  search: t('empty.searchDesc'),
+  network: t('empty.networkDesc'),
+  error: t('empty.errorDesc'),
+  '404': t('empty.notFoundDesc'),
+  custom: ''
 }
 
 const iconEmoji = computed(() => {
@@ -61,12 +82,12 @@ const iconEmoji = computed(() => {
 const displayTitle = computed(() => {
   if (props.title) return props.title
   if (props.type === 'custom') return ''
-  return typeDefaults[props.type]?.title || typeDefaults.default.title
+  return typeTitleMap[props.type] || typeTitleMap.default
 })
 
 const displayDescription = computed(() => {
   if (props.description) return props.description
-  return typeDefaults[props.type]?.description || ''
+  return typeDescMap[props.type] || ''
 })
 
 const imageStyle = computed(() => {

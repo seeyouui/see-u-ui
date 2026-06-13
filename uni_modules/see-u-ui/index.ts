@@ -1,5 +1,9 @@
 import type { App, Component } from 'vue'
 
+// 国际化
+import { createI18n, useI18n, t as i18nT } from './locale'
+import type { CreateI18nOptions, I18nInstance, I18nUseReturn, LocaleMessages } from './locale/type'
+
 // 原有组件
 import { SeeButton } from './components/see-button/index'
 import { SeeText } from './components/see-text/index'
@@ -26,6 +30,7 @@ import { SeeSelect } from './components/see-select/index'
 import { SeePicker } from './components/see-picker/index'
 import { SeeCascader } from './components/see-cascader/index'
 import { SeeDatetimePicker } from './components/see-datetime-picker/index'
+import { SeeCalendar } from './components/see-calendar/index'
 import { SeeUpload } from './components/see-upload/index'
 import { SeeCode } from './components/see-code/index'
 import { SeeKeyboard } from './components/see-keyboard/index'
@@ -71,6 +76,11 @@ import { SeeCopy, copy as seeCopy } from './components/see-copy/index'
 import { SeeParse } from './components/see-parse/index'
 import { SeeMarkdown } from './components/see-markdown/index'
 
+// 业务组件
+import { SeeWatermark } from './components/see-watermark/index'
+import { SeeCoupon } from './components/see-coupon/index'
+import { SeeScratchCard } from './components/see-scratch-card/index'
+
 // 工具 Hooks
 import { formatCurrency, useCurrencyFormat } from './utils/hooks/useCurrencyFormat'
 import { formatDate, useDateFormat } from './utils/hooks/useDateFormat'
@@ -91,6 +101,7 @@ import { usePopup } from './utils/hooks/usePopup'
 import { useTeleport } from './utils/hooks/useTeleport'
 import { useGesture } from './utils/hooks/useGesture'
 import { usePopoverPosition } from './utils/hooks/usePopoverPosition'
+import { useNavbarI18n } from './utils/hooks/useNavbarI18n'
 import { useCopy } from './utils/hooks/useCopy'
 
 const components: Component[] = [
@@ -121,6 +132,7 @@ const components: Component[] = [
   SeePicker,
   SeeCascader,
   SeeDatetimePicker,
+  SeeCalendar,
   SeeUpload,
   SeeCode,
   SeeKeyboard,
@@ -165,10 +177,18 @@ const components: Component[] = [
   SeeCopy,
   // 内容解析
   SeeParse,
-  SeeMarkdown
+  SeeMarkdown,
+  // 业务组件
+  SeeWatermark,
+  SeeCoupon,
+  SeeScratchCard
 ]
 
-const install = (app: App) => {
+export interface SeeYouUIOptions {
+  i18n?: I18nInstance
+}
+
+const install = (app: App, options?: SeeYouUIOptions) => {
   components.forEach((component) => {
     const name = (component as { name?: string }).name
     if (name) {
@@ -177,9 +197,18 @@ const install = (app: App) => {
       console.warn('SeeYouUI: 组件缺少 name 属性，无法自动注册', component)
     }
   })
+
+  // 安装 i18n 实例（如果用户传入了自定义 i18n）
+  if (options?.i18n) {
+    options.i18n.install(app)
+  }
 }
 
 export {
+  // 国际化
+  createI18n,
+  useI18n,
+  i18nT as t,
   // 工具 Hooks
   formatCurrency,
   useCurrencyFormat,
@@ -207,6 +236,7 @@ export {
   useTeleport,
   useGesture,
   usePopoverPosition,
+  useNavbarI18n,
   useCopy,
   // 原有组件
   SeeButton,
@@ -235,6 +265,7 @@ export {
   SeePicker,
   SeeCascader,
   SeeDatetimePicker,
+  SeeCalendar,
   SeeUpload,
   SeeCode,
   SeeKeyboard,
@@ -283,7 +314,11 @@ export {
   seeCopy,
   // 内容解析
   SeeParse,
-  SeeMarkdown
+  SeeMarkdown,
+  // 业务组件
+  SeeWatermark,
+  SeeCoupon,
+  SeeScratchCard
 }
 
 export default {
@@ -291,6 +326,7 @@ export default {
 }
 
 // 类型导出
+export type { CreateI18nOptions, I18nInstance, I18nUseReturn, LocaleMessages }
 export type { FormRule, FormInstance, FormItemInstance, ValidateResult, ValidateError } from './utils/shared/form-types'
 export type { CascaderOption } from './components/see-cascader/type'
 export type { SelectOption } from './components/see-select/type'
@@ -348,3 +384,6 @@ export type {
   UseHtmlParserOptions
 } from './components/see-parse/type'
 export type { SeeMarkdownProps, SeeMarkdownEmits, MarkdownParserOptions } from './components/see-markdown/type'
+export type { SeeWatermarkProps, SeeWatermarkEmits } from './components/see-watermark/type'
+export type { SeeCouponProps, SeeCouponEmits, CouponStatus, CouponType } from './components/see-coupon/type'
+export type { SeeScratchCardProps, SeeScratchCardEmits } from './components/see-scratch-card/type'

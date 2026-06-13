@@ -17,7 +17,7 @@
           <text v-if="props.title" class="see-keyboard__title">{{ props.title }}</text>
           <view class="see-keyboard__toolbar-spacer"></view>
           <view v-if="props.isShowConfirm" class="see-keyboard__confirm-btn" @click="handleConfirm">
-            <text class="see-keyboard__confirm-text">{{ props.confirmText }}</text>
+            <text class="see-keyboard__confirm-text">{{ resolvedConfirmText }}</text>
           </view>
         </view>
       </slot>
@@ -127,10 +127,13 @@
  */
 import { ref, computed, watch, readonly, onBeforeUnmount } from 'vue'
 import type { CSSProperties } from 'vue'
+import { useI18n } from '../../locale'
 import type { KeyboardType, KeyboardKey, KeyType, TextKeyboardMode } from './type'
 import { KEYBOARD_ANIMATION_DURATION, KEYBOARD_LONG_PRESS_DELAY, KEYBOARD_LONG_PRESS_INTERVAL } from './type'
 
 defineOptions({ name: 'SeeKeyboard' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -164,7 +167,7 @@ const props = withDefaults(
     modelValue: false,
     type: 'number',
     isShowToolbar: true,
-    confirmText: '完成',
+    confirmText: '',
     isShowConfirm: true,
     isShowDelete: true,
     isRandom: false,
@@ -207,6 +210,9 @@ const textMode = ref<TextKeyboardMode>('letter')
 const isUppercase = ref(false)
 
 /** ---------- computed ---------- */
+
+/** 翻译回退 */
+const resolvedConfirmText = computed(() => props.confirmText || t('keyboard.done'))
 
 /** 缓存随机洗牌结果，仅在键盘打开时重新生成 */
 const randomDigits = ref<string[]>([])
@@ -275,7 +281,7 @@ const numberKeyLayout = computed<KeyboardKey[][]>(() => {
   ]
 
   if (props.isShowDelete) {
-    row4.push({ label: '删除', value: 'delete', type: 'delete' })
+    row4.push({ label: t('keyboard.delete'), value: 'delete', type: 'delete' })
   }
 
   return [row1, row2, row3, row4]
@@ -326,12 +332,12 @@ const letterKeyLayout = computed<KeyboardKey[][]>(() => {
   const row4: KeyboardKey[] = [
     { label: '123', value: 'toggle-number', type: 'toggle', width: 1.5 },
     { label: ',', value: ',', type: 'key' },
-    { label: '空格', value: ' ', type: 'space', width: 4 },
+    { label: t('keyboard.space'), value: ' ', type: 'space', width: 4 },
     { label: '.', value: '.', type: 'key' }
   ]
 
   if (props.isShowConfirm) {
-    row4.push({ label: props.confirmText, value: 'confirm', type: 'confirm', width: 1.5 })
+    row4.push({ label: resolvedConfirmText.value, value: 'confirm', type: 'confirm', width: 1.5 })
   }
 
   return [row1, row2, row3, row4]
@@ -359,12 +365,12 @@ const numberSymbolKeyLayout = computed<KeyboardKey[][]>(() => {
   const row4: KeyboardKey[] = [
     { label: 'ABC', value: 'toggle-letter', type: 'toggle', width: 1.5 },
     { label: '%', value: '%', type: 'key' },
-    { label: '空格', value: ' ', type: 'space', width: 4 },
+    { label: t('keyboard.space'), value: ' ', type: 'space', width: 4 },
     { label: '_', value: '_', type: 'key' }
   ]
 
   if (props.isShowConfirm) {
-    row4.push({ label: props.confirmText, value: 'confirm', type: 'confirm', width: 1.5 })
+    row4.push({ label: resolvedConfirmText.value, value: 'confirm', type: 'confirm', width: 1.5 })
   }
 
   return [row1, row2, row3, row4]
@@ -392,12 +398,12 @@ const symbolKeyLayout = computed<KeyboardKey[][]>(() => {
   const row4: KeyboardKey[] = [
     { label: 'ABC', value: 'toggle-letter', type: 'toggle', width: 1.5 },
     { label: '%', value: '%', type: 'key' },
-    { label: '空格', value: ' ', type: 'space', width: 4 },
+    { label: t('keyboard.space'), value: ' ', type: 'space', width: 4 },
     { label: '_', value: '_', type: 'key' }
   ]
 
   if (props.isShowConfirm) {
-    row4.push({ label: props.confirmText, value: 'confirm', type: 'confirm', width: 1.5 })
+    row4.push({ label: resolvedConfirmText.value, value: 'confirm', type: 'confirm', width: 1.5 })
   }
 
   return [row1, row2, row3, row4]

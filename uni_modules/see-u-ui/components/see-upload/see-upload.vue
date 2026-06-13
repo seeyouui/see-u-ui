@@ -20,7 +20,7 @@
           <!-- 上传失败遮罩 -->
           <view v-if="file.status === 'error'" class="see-upload__mask see-upload__mask--error">
             <text class="see-upload__error-icon">&#9888;</text>
-            <text class="see-upload__mask-text">{{ file.message || '上传失败' }}</text>
+            <text class="see-upload__mask-text">{{ file.message || t('upload.fail') }}</text>
           </view>
         </view>
 
@@ -44,7 +44,7 @@
           </view>
           <view v-if="file.status === 'error'" class="see-upload__mask see-upload__mask--error">
             <text class="see-upload__error-icon">&#9888;</text>
-            <text class="see-upload__mask-text">{{ file.message || '上传失败' }}</text>
+            <text class="see-upload__mask-text">{{ file.message || t('upload.fail') }}</text>
           </view>
         </view>
 
@@ -52,7 +52,7 @@
         <view v-else class="see-upload__preview see-upload__preview--file">
           <view class="see-upload__file-info">
             <text class="see-upload__file-icon">&#128196;</text>
-            <text class="see-upload__file-name">{{ file.name || '文件' }}</text>
+            <text class="see-upload__file-name">{{ file.name || t('upload.file') }}</text>
           </view>
           <!-- 上传中/失败遮罩 -->
           <view v-if="file.status === 'uploading'" class="see-upload__mask">
@@ -65,7 +65,7 @@
           </view>
           <view v-if="file.status === 'error'" class="see-upload__mask see-upload__mask--error">
             <text class="see-upload__error-icon">&#9888;</text>
-            <text class="see-upload__mask-text">{{ file.message || '上传失败' }}</text>
+            <text class="see-upload__mask-text">{{ file.message || t('upload.fail') }}</text>
           </view>
         </view>
       </slot>
@@ -124,9 +124,12 @@
  */
 import { computed, inject, onBeforeUnmount } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
+import { useI18n } from '../../locale'
 import type { UploadFileItem, UploadAccept, UploadSize, ImageSizeType, ImageSourceType } from './type'
 
 defineOptions({ name: 'SeeUpload' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -658,7 +661,7 @@ async function performUpload(file: UploadFileItem, index: number): Promise<void>
     const error = err instanceof Error ? err : new Error(String(err))
     updateFileStatus(index, {
       status: 'error',
-      message: error.message || '上传失败'
+      message: error.message || t('upload.fail')
     })
     emit('onError', error)
   }

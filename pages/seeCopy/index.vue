@@ -1,71 +1,74 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('copy.demo.basic') }}</text>
     <view class="demo-content">
-      <see-copy text="这是要复制的文字">
-        <see-button title="点击复制" type="primary" />
+      <see-copy :text="t('copy.demo.copyText')">
+        <see-button :title="t('copy.demo.copyBtn')" type="primary" />
       </see-copy>
     </view>
 
-    <text class="title">复制订单号</text>
+    <text class="title">{{ t('copy.demo.orderNo') }}</text>
     <view class="demo-content">
       <view class="copy-row">
-        <text class="copy-label">订单号：</text>
-        <see-copy text="2024010100001">
-          <text class="copy-value">2024010100001</text>
+        <text class="copy-label">{{ t('copy.demo.orderLabel') }}</text>
+        <see-copy :text="t('copy.demo.orderValue')">
+          <text class="copy-value">{{ t('copy.demo.orderValue') }}</text>
         </see-copy>
       </view>
     </view>
 
-    <text class="title">复制邀请码</text>
+    <text class="title">{{ t('copy.demo.inviteCode') }}</text>
     <view class="demo-content">
       <view class="copy-row">
-        <text class="copy-label">邀请码：</text>
-        <see-copy text="ABC123" toast-message="邀请码已复制">
-          <text class="copy-value copy-value--highlight">ABC123</text>
+        <text class="copy-label">{{ t('copy.demo.inviteLabel') }}</text>
+        <see-copy :text="t('copy.demo.inviteValue')" :toast-message="t('copy.demo.inviteToast')">
+          <text class="copy-value copy-value--highlight">{{ t('copy.demo.inviteValue') }}</text>
         </see-copy>
       </view>
     </view>
 
-    <text class="title">自定义提示文字</text>
+    <text class="title">{{ t('copy.demo.customTip') }}</text>
     <view class="demo-content">
-      <see-copy text="自定义提示" toast-message="复制成功，请粘贴使用">
-        <see-button title="自定义提示" type="primary" />
+      <see-copy :text="t('copy.demo.customTip')" :toast-message="t('copy.demo.customToastMsg')">
+        <see-button :title="t('copy.demo.customBtn')" type="primary" />
       </see-copy>
     </view>
 
-    <text class="title">不显示 Toast</text>
+    <text class="title">{{ t('copy.demo.noToast') }}</text>
     <view class="demo-content">
-      <see-copy text="静默复制" :is-show-toast="false" @on-success="onSuccess">
-        <see-button title="静默复制" type="primary" />
+      <see-copy :text="t('copy.demo.silentText')" :is-show-toast="false" @on-success="onSuccess">
+        <see-button :title="t('copy.demo.silentBtn')" type="primary" />
       </see-copy>
     </view>
 
-    <text class="title">禁用状态</text>
+    <text class="title">{{ t('copy.demo.disabled') }}</text>
     <view class="demo-content">
-      <see-copy text="不会复制" is-disabled>
-        <see-button title="禁用复制" type="info" />
+      <see-copy :text="t('copy.demo.disabledText')" is-disabled>
+        <see-button :title="t('copy.demo.disabledBtn')" type="info" />
       </see-copy>
     </view>
 
-    <text class="title">命令式调用</text>
+    <text class="title">{{ t('copy.demo.imperative') }}</text>
     <view class="demo-content">
-      <see-button title="命令式复制" type="primary" @click="handleCopy" />
+      <see-button :title="t('copy.demo.imperativeBtn')" type="primary" @click="handleCopy" />
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
-import { toast, seeCopy } from '@/uni_modules/see-u-ui'
+import { toast, seeCopy, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCopy')
 
 const onSuccess = () => {
-  toast.success('已复制到剪贴板')
+  toast.success(t('copy.demo.clipboardSuccess'))
 }
 
 const handleCopy = async () => {
-  const success = await seeCopy.copy('命令式复制的内容')
+  const success = await seeCopy.copy(t('copy.demo.imperativeText'))
   if (success) {
-    toast.success('复制成功')
+    toast.success(t('copy.demo.copySuccess'))
   }
 }
 </script>

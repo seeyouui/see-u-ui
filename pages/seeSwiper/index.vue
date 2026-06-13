@@ -2,34 +2,34 @@
   <see-config>
     <view class="demo-page">
       <view class="demo-section">
-        <view class="demo-title">基础用法</view>
+        <view class="demo-title">{{ t('swiper.demo.basic') }}</view>
         <see-swiper :list="basicList" @on-click="onItemClick" @on-change="onChange" />
       </view>
 
       <view class="demo-section">
-        <view class="demo-title">自定义高度</view>
+        <view class="demo-title">{{ t('swiper.demo.customHeight') }}</view>
         <see-swiper :list="basicList" height="400rpx" />
       </view>
 
       <view class="demo-section">
-        <view class="demo-title">数字指示器</view>
+        <view class="demo-title">{{ t('swiper.demo.digitalIndicator') }}</view>
         <see-swiper :list="basicList" indicator-type="digital" />
       </view>
 
       <view class="demo-section">
-        <view class="demo-title">无指示器</view>
+        <view class="demo-title">{{ t('swiper.demo.noIndicator') }}</view>
         <see-swiper :list="basicList" indicator-type="none" />
       </view>
 
       <view class="demo-section">
-        <view class="demo-title">自定义内容插槽</view>
+        <view class="demo-title">{{ t('swiper.demo.customSlot') }}</view>
         <see-swiper :list="basicList" height="400rpx">
           <template #item="{ item, index }">
             <view class="custom-slide">
               <image v-if="item.image" :src="item.image" class="custom-slide__image" mode="aspectFill" />
               <view class="custom-slide__overlay">
                 <text class="custom-slide__title">{{ item.title }}</text>
-                <text class="custom-slide__index">第 {{ index + 1 }} 页</text>
+                <text class="custom-slide__index">{{ t('swiper.demo.page', { n: index + 1 }) }}</text>
               </view>
             </view>
           </template>
@@ -37,12 +37,12 @@
       </view>
 
       <view class="demo-section">
-        <view class="demo-title">v-model 双向绑定</view>
+        <view class="demo-title">{{ t('swiper.demo.vmodel') }}</view>
         <see-swiper v-model:current="currentSlide" :list="basicList" />
         <view class="demo-controls">
-          <see-button size="small" type="primary" is-ripple @click="prevSlide">上一页</see-button>
-          <text class="demo-page-info">当前: {{ currentSlide + 1 }} / {{ basicList.length }}</text>
-          <see-button size="small" type="primary" is-ripple @click="nextSlide">下一页</see-button>
+          <see-button size="small" type="primary" is-ripple @click="prevSlide">{{ t('swiper.demo.prev') }}</see-button>
+          <text class="demo-page-info">{{ t('swiper.demo.current') }}{{ currentSlide + 1 }} / {{ basicList.length }}</text>
+          <see-button size="small" type="primary" is-ripple @click="nextSlide">{{ t('swiper.demo.next') }}</see-button>
         </view>
       </view>
     </view>
@@ -51,24 +51,27 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSwiper')
 
-const basicList = [
+const basicList = ref([
   {
     image: 'https://cdn.uviewui.com/uview/swiper/swiper1.png',
-    title: '轮播图标题一',
+    title: t('swiper.demo.title1'),
     url: '/pages/index/index'
   },
   {
     image: 'https://cdn.uviewui.com/uview/swiper/swiper2.png',
-    title: '轮播图标题二',
+    title: t('swiper.demo.title2'),
     url: '/pages/index/index'
   },
   {
     image: 'https://cdn.uviewui.com/uview/swiper/swiper3.png',
-    title: '轮播图标题三',
+    title: t('swiper.demo.title3'),
     url: '/pages/index/index'
   }
-]
+])
 
 const currentSlide = ref(0)
 
@@ -87,7 +90,7 @@ const prevSlide = () => {
 }
 
 const nextSlide = () => {
-  if (currentSlide.value < basicList.length - 1) {
+  if (currentSlide.value < basicList.value.length - 1) {
     currentSlide.value++
   }
 }

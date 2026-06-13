@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeVirtualList')
 
 const virtualListRef = ref<{
   scrollToIndex: (index: number, animated?: boolean) => void
@@ -11,8 +14,8 @@ const virtualListRef = ref<{
 const baseData = ref(
   Array.from({ length: 100 }, (_, i) => ({
     id: i + 1,
-    title: `列表项 #${i + 1}`,
-    desc: `这是第 ${i + 1} 条数据的描述信息`
+    title: t('virtualList.demo.item', { index: i + 1 }),
+    desc: t('virtualList.demo.desc', { index: i + 1 })
   }))
 )
 
@@ -50,7 +53,7 @@ const handleRangeChange = (range: { start: number; end: number; visibleStart: nu
   <see-config>
     <view class="page">
       <!-- 基础用法 -->
-      <text class="title">基础用法（100 条数据）</text>
+      <text class="title">{{ t('virtualList.demo.basic') }}</text>
       <view class="demo-card">
         <see-virtual-list :list="baseData" :item-height="88" :height="500" key-field="id" :buffer="3" @on-range-change="handleRangeChange">
           <template #item="{ item, index }">
@@ -66,7 +69,7 @@ const handleRangeChange = (range: { start: number; end: number; visibleStart: nu
       </view>
 
       <!-- 大数据场景 -->
-      <text class="title">大数据场景（10000 条）</text>
+      <text class="title">{{ t('virtualList.demo.bigData') }}</text>
       <view class="demo-card demo-card--large">
         <see-virtual-list
           ref="virtualListRef"
@@ -85,32 +88,32 @@ const handleRangeChange = (range: { start: number; end: number; visibleStart: nu
           </template>
           <template #footer>
             <view class="virtual-footer">
-              <text class="virtual-footer__text">共 {{ bigData.length }} 条数据，仅渲染可视区域节点</text>
+              <text class="virtual-footer__text">{{ t('virtualList.demo.footerText', { count: bigData.length }) }}</text>
             </view>
           </template>
         </see-virtual-list>
       </view>
 
       <!-- 方法控制 -->
-      <text class="title">方法控制</text>
+      <text class="title">{{ t('virtualList.demo.methods') }}</text>
       <view class="demo-card demo-card--actions">
         <view class="action-row">
-          <text class="action-label">跳转到索引：</text>
-          <input v-model="targetIndex" class="action-input" type="number" placeholder="输入索引" />
-          <button size="mini" type="primary" @tap="handleScrollToIndex">跳转</button>
+          <text class="action-label">{{ t('virtualList.demo.jumpLabel') }}</text>
+          <input v-model="targetIndex" class="action-input" type="number" :placeholder="t('virtualList.demo.placeholder')" />
+          <button size="mini" type="primary" @tap="handleScrollToIndex">{{ t('virtualList.demo.goto') }}</button>
         </view>
         <view class="action-row">
-          <button size="mini" @tap="handleScrollToTop">回到顶部</button>
-          <button size="mini" @tap="handleReset">重置</button>
+          <button size="mini" @tap="handleScrollToTop">{{ t('virtualList.demo.toTop') }}</button>
+          <button size="mini" @tap="handleReset">{{ t('virtualList.demo.reset') }}</button>
         </view>
       </view>
 
       <!-- 空状态 -->
-      <text class="title">空状态</text>
+      <text class="title">{{ t('virtualList.demo.empty') }}</text>
       <view class="demo-card">
         <see-virtual-list :list="[]" :item-height="44" :height="200">
           <template #empty>
-            <text class="custom-empty">这里空空如也～</text>
+            <text class="custom-empty">{{ t('virtualList.demo.emptyText') }}</text>
           </template>
         </see-virtual-list>
       </view>

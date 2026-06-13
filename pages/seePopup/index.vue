@@ -1,81 +1,81 @@
 <template>
   <see-config>
-    <text class="title">基础用法 - 底部弹出</text>
+    <text class="title">{{ t('popup.demo.basic') }}</text>
     <view class="demo-content">
-      <see-button title="底部弹出" type="primary" is-ripple @click="show1 = true" />
+      <see-button :title="t('popup.demo.bottom')" type="primary" is-ripple @click="show1 = true" />
       <see-popup v-model:show="show1">
         <view class="popup-content">
-          <text class="popup-text">底部弹出内容</text>
+          <text class="popup-text">{{ t('popup.demo.bottomContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">顶部弹出</text>
+    <text class="title">{{ t('popup.demo.top') }}</text>
     <view class="demo-content">
-      <see-button title="顶部弹出" type="primary" is-ripple @click="show2 = true" />
+      <see-button :title="t('popup.demo.top')" type="primary" is-ripple @click="show2 = true" />
       <see-popup v-model:show="show2" position="top">
         <view class="popup-content">
-          <text class="popup-text">顶部弹出内容</text>
+          <text class="popup-text">{{ t('popup.demo.topContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">左侧弹出</text>
+    <text class="title">{{ t('popup.demo.left') }}</text>
     <view class="demo-content">
-      <see-button title="左侧弹出" type="primary" is-ripple @click="show3 = true" />
+      <see-button :title="t('popup.demo.left')" type="primary" is-ripple @click="show3 = true" />
       <see-popup v-model:show="show3" position="left">
         <view class="popup-content popup-content--side">
-          <text class="popup-text">左侧弹出内容</text>
+          <text class="popup-text">{{ t('popup.demo.leftContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">右侧弹出</text>
+    <text class="title">{{ t('popup.demo.right') }}</text>
     <view class="demo-content">
-      <see-button title="右侧弹出" type="primary" is-ripple @click="show4 = true" />
+      <see-button :title="t('popup.demo.right')" type="primary" is-ripple @click="show4 = true" />
       <see-popup v-model:show="show4" position="right">
         <view class="popup-content popup-content--side">
-          <text class="popup-text">右侧弹出内容</text>
+          <text class="popup-text">{{ t('popup.demo.rightContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">居中弹出</text>
+    <text class="title">{{ t('popup.demo.center') }}</text>
     <view class="demo-content">
-      <see-button title="居中弹出" type="primary" is-ripple @click="show5 = true" />
+      <see-button :title="t('popup.demo.center')" type="primary" is-ripple @click="show5 = true" />
       <see-popup v-model:show="show5" position="center">
         <view class="popup-content popup-content--center">
-          <text class="popup-text">居中弹出内容</text>
+          <text class="popup-text">{{ t('popup.demo.centerContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">带标题栏</text>
+    <text class="title">{{ t('popup.demo.titleBar') }}</text>
     <view class="demo-content">
-      <see-button title="带标题栏" type="primary" is-ripple @click="show6 = true" />
-      <see-popup v-model:show="show6" title="标题" is-show-header>
+      <see-button :title="t('popup.demo.titleBar')" type="primary" is-ripple @click="show6 = true" />
+      <see-popup v-model:show="show6" :title="t('popup.demo.title')" is-show-header>
         <view class="popup-content">
-          <text class="popup-text">带标题栏的弹出层</text>
+          <text class="popup-text">{{ t('popup.demo.titleContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">带关闭按钮</text>
+    <text class="title">{{ t('popup.demo.closeBtn') }}</text>
     <view class="demo-content">
-      <see-button title="带关闭按钮" type="primary" is-ripple @click="show7 = true" />
+      <see-button :title="t('popup.demo.closeBtn')" type="primary" is-ripple @click="show7 = true" />
       <see-popup v-model:show="show7" is-show-close-btn>
         <view class="popup-content">
-          <text class="popup-text">带关闭按钮的弹出层</text>
+          <text class="popup-text">{{ t('popup.demo.closeContent') }}</text>
         </view>
       </see-popup>
     </view>
 
-    <text class="title">无遮罩</text>
+    <text class="title">{{ t('popup.demo.noOverlay') }}</text>
     <view class="demo-content">
-      <see-button title="无遮罩" type="primary" is-ripple @click="show8 = true" />
+      <see-button :title="t('popup.demo.noOverlay')" type="primary" is-ripple @click="show8 = true" />
       <see-popup v-model:show="show8" :is-overlay="false">
         <view class="popup-content">
-          <text class="popup-text">无遮罩的弹出层</text>
+          <text class="popup-text">{{ t('popup.demo.noOverlayContent') }}</text>
         </view>
       </see-popup>
     </view>
@@ -84,6 +84,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seePopup')
 
 const show1 = ref(false)
 const show2 = ref(false)

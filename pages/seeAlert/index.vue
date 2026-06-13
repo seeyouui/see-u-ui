@@ -1,65 +1,81 @@
 <template>
   <see-config>
-    <text class="title">四种类型</text>
+    <text class="title">{{ t('alert.demo.types') }}</text>
     <view class="demo-content">
-      <see-alert type="success" title="成功" content="操作成功完成" />
+      <see-alert type="success" :title="t('alert.demo.success')" :content="t('alert.demo.successContent')" />
       <view class="gap" />
-      <see-alert type="error" title="错误" content="操作执行失败" />
+      <see-alert type="error" :title="t('alert.demo.error')" :content="t('alert.demo.errorContent')" />
       <view class="gap" />
-      <see-alert type="warning" title="警告" content="请注意数据安全" />
+      <see-alert type="warning" :title="t('alert.demo.warning')" :content="t('alert.demo.warningContent')" />
       <view class="gap" />
-      <see-alert type="info" title="信息" content="这是一条信息提示" />
+      <see-alert type="info" :title="t('alert.demo.info')" :content="t('alert.demo.infoContent')" />
     </view>
 
-    <text class="title">浅色效果（默认）</text>
+    <text class="title">{{ t('alert.demo.light') }}</text>
     <view class="demo-content">
-      <see-alert type="success" title="成功" content="浅色效果" effect="light" />
+      <see-alert type="success" :title="t('alert.demo.success')" :content="t('alert.demo.lightContent')" effect="light" />
     </view>
 
-    <text class="title">深色效果</text>
+    <text class="title">{{ t('alert.demo.dark') }}</text>
     <view class="demo-content">
-      <see-alert type="success" title="成功" content="深色效果" effect="dark" />
+      <see-alert type="success" :title="t('alert.demo.success')" :content="t('alert.demo.darkContent')" effect="dark" />
       <view class="gap" />
-      <see-alert type="error" title="错误" content="深色效果" effect="dark" />
+      <see-alert type="error" :title="t('alert.demo.error')" :content="t('alert.demo.darkContent')" effect="dark" />
     </view>
 
-    <text class="title">边框效果</text>
+    <text class="title">{{ t('alert.demo.border') }}</text>
     <view class="demo-content">
-      <see-alert type="success" title="成功" content="边框效果" effect="border" />
+      <see-alert type="success" :title="t('alert.demo.success')" :content="t('alert.demo.borderContent')" effect="border" />
       <view class="gap" />
-      <see-alert type="warning" title="警告" content="边框效果" effect="border" />
+      <see-alert type="warning" :title="t('alert.demo.warning')" :content="t('alert.demo.borderContent')" effect="border" />
     </view>
 
-    <text class="title">可关闭</text>
+    <text class="title">{{ t('alert.demo.closable') }}</text>
     <view class="demo-content">
-      <see-alert v-if="show1" type="info" title="可关闭" content="点击右侧关闭按钮" is-closable @on-close="show1 = false" />
+      <see-alert
+        v-if="show1"
+        type="info"
+        :title="t('alert.demo.closableTitle')"
+        :content="t('alert.demo.closableContent')"
+        is-closable
+        @on-close="show1 = false"
+      />
     </view>
 
-    <text class="title">无标题</text>
+    <text class="title">{{ t('alert.demo.noTitle') }}</text>
     <view class="demo-content">
-      <see-alert type="success" content="这是一条没有标题的提示" />
+      <see-alert type="success" :content="t('alert.demo.noTitleContent')" />
     </view>
 
-    <text class="title">无图标</text>
+    <text class="title">{{ t('alert.demo.noIcon') }}</text>
     <view class="demo-content">
-      <see-alert type="info" title="无图标" content="不显示左侧图标" :is-show-icon="false" />
+      <see-alert type="info" :title="t('alert.demo.noIconTitle')" :content="t('alert.demo.noIconContent')" :is-show-icon="false" />
     </view>
 
-    <text class="title">带操作文字</text>
+    <text class="title">{{ t('alert.demo.action') }}</text>
     <view class="demo-content">
-      <see-alert type="info" title="提示" content="查看更多详情" action-text="查看详情" @on-action="onAction" />
+      <see-alert
+        type="info"
+        :title="t('alert.demo.actionTitle')"
+        :content="t('alert.demo.actionContent')"
+        :action-text="t('alert.demo.actionText')"
+        @on-action="onAction"
+      />
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { toast } from '@/uni_modules/see-u-ui'
+import { toast, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeAlert')
 
 const show1 = ref(true)
 
 const onAction = () => {
-  toast.info('点击了查看详情')
+  toast.info(t('alert.demo.actionToast'))
 }
 </script>
 

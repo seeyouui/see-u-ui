@@ -18,7 +18,7 @@ describe('SeeVirtualList', () => {
     const wrapper = mount(SeeVirtualList, {
       props: { list: [], itemHeight: 44, height: 400 }
     })
-    expect(wrapper.text()).toContain('暂无数据')
+    expect(wrapper.text()).toContain('No data')
   })
 
   it('renders custom empty slot', () => {

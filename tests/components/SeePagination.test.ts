@@ -148,7 +148,7 @@ describe('SeePagination', () => {
     const wrapper = mount(SeePagination, {
       props: { modelValue: 1, total: 100, isShowTotal: true }
     })
-    expect(wrapper.text()).toContain('共 100 条')
+    expect(wrapper.text()).toContain('100 items')
   })
 
   // ========== 自定义文字 ==========

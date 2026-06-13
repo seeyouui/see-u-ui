@@ -2,34 +2,34 @@
   <view class="see-city-locate">
     <!-- 搜索框 -->
     <view v-if="isShowSearch" class="see-city-locate__search">
-      <input class="see-city-locate__search-input" type="text" :placeholder="searchPlaceholder" :value="searchQuery" @input="handleSearch" />
+      <input class="see-city-locate__search-input" type="text" :placeholder="displaySearchPlaceholder" :value="searchQuery" @input="handleSearch" />
     </view>
 
     <!-- 定位区域 -->
     <view v-if="isShowLocation" class="see-city-locate__location">
-      <text class="see-city-locate__location-label">当前城市</text>
+      <text class="see-city-locate__location-label">{{ t('cityLocate.currentCity') }}</text>
       <view class="see-city-locate__location-city" @tap="handleLocate">
-        <text class="see-city-locate__location-text">{{ locatedCity ? locatedCity.name : locateText }}</text>
+        <text class="see-city-locate__location-text">{{ locatedCity ? getCityName(locatedCity) : displayLocateText }}</text>
       </view>
     </view>
 
     <!-- 热门城市 -->
     <view v-if="hotCitiesData.length > 0" class="see-city-locate__hot">
-      <text class="see-city-locate__section-title">热门城市</text>
+      <text class="see-city-locate__section-title">{{ t('cityLocate.hotCities') }}</text>
       <view class="see-city-locate__hot-grid">
         <view v-for="city in hotCitiesData" :key="city.id" class="see-city-locate__hot-item" @tap="handleSelect(city)">
-          <text class="see-city-locate__hot-text">{{ city.name }}</text>
+          <text class="see-city-locate__hot-text">{{ getCityName(city) }}</text>
         </view>
       </view>
     </view>
 
     <!-- 最近访问 -->
     <view v-if="isShowHistory && historyCities.length > 0" class="see-city-locate__history">
-      <text class="see-city-locate__section-title">最近访问</text>
+      <text class="see-city-locate__section-title">{{ t('cityLocate.recent') }}</text>
       <scroll-view class="see-city-locate__history-scroll" scroll-x>
         <view class="see-city-locate__history-list">
           <view v-for="city in historyCities" :key="city.id" class="see-city-locate__history-item" @tap="handleSelect(city)">
-            <text class="see-city-locate__history-text">{{ city.name }}</text>
+            <text class="see-city-locate__history-text">{{ getCityName(city) }}</text>
           </view>
         </view>
       </scroll-view>
@@ -43,7 +43,7 @@
             <text class="see-city-locate__group-letter">{{ group[0] }}</text>
           </view>
           <view v-for="city in group[1]" :key="city.id" class="see-city-locate__city-item" @tap="handleSelect(city)">
-            <text class="see-city-locate__city-name">{{ city.name }}</text>
+            <text class="see-city-locate__city-name">{{ getCityName(city) }}</text>
           </view>
         </view>
       </scroll-view>
@@ -60,10 +60,24 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from '../../locale'
 import type { CityInfo, SeeCityLocateProps, SeeCityLocateEmits } from './type'
 import { builtinCities, defaultHotCities, groupCitiesByLetter, searchCities } from './city-data'
 
 defineOptions({ name: 'SeeCityLocate' })
+
+const { t, getLocale } = useI18n()
+
+/**
+ * 根据当前语言返回城市显示名
+ * 英文环境下优先使用 nameEn，中文环境使用 name
+ */
+const getCityName = (city: CityInfo): string => {
+  if (getLocale() === 'en' && city.nameEn) {
+    return city.nameEn
+  }
+  return city.name
+}
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeCityLocateProps>(), {
@@ -75,12 +89,16 @@ const props = withDefaults(defineProps<SeeCityLocateProps>(), {
   isShowHistory: true,
   isInternational: false,
   maxHistory: 10,
-  searchPlaceholder: '搜索城市',
-  locateText: '定位中...'
+  searchPlaceholder: '',
+  locateText: ''
 })
 
 /** ---------- emits ---------- */
 const emit = defineEmits<SeeCityLocateEmits>()
+
+/** ---------- computed ---------- */
+const displaySearchPlaceholder = computed(() => props.searchPlaceholder || t('cityLocate.searchPlaceholder'))
+const displayLocateText = computed(() => props.locateText || t('cityLocate.locating'))
 
 /** ---------- state ---------- */
 const searchQuery = ref('')
@@ -142,18 +160,18 @@ const handleLocate = () => {
         locatedCity.value = matched
         emit('onLocate', matched)
       } else {
-        emit('onLocateError', '未找到匹配城市')
+        emit('onLocateError', t('cityLocate.noMatchCity'))
       }
     },
     fail: (err) => {
-      const msg = err?.errMsg || '定位失败'
+      const msg = err?.errMsg || t('cityLocate.demo.locateError', { error: '' })
       // 识别权限拒绝场景，引导用户去设置中开启
       if (/deny|denied|disable|auth/i.test(msg)) {
         // #ifdef MP-WEIXIN || MP-ALIPAY || MP-BAIDU || MP-TOUTIAO || MP-QQ
         uni.showModal({
-          title: '定位权限未开启',
-          content: '请在设置中允许使用位置信息后重试',
-          confirmText: '去设置',
+          title: t('cityLocate.locationPermissionTitle'),
+          content: t('cityLocate.locationPermissionContent'),
+          confirmText: t('cityLocate.goToSettings'),
           success: (modalRes) => {
             if (modalRes.confirm) {
               uni.openSetting?.({})
@@ -161,7 +179,7 @@ const handleLocate = () => {
           }
         })
         // #endif
-        emit('onLocateError', '定位权限未开启')
+        emit('onLocateError', t('cityLocate.locationPermissionTitle'))
       } else {
         emit('onLocateError', msg)
       }

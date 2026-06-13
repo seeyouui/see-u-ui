@@ -31,9 +31,9 @@
           `border-${props.type}-${props.border ?? 1}`
         ]"
         :hover-class="getHoverClass"
-        :disabled="props.isDisabled"
+        :disabled="props.isDisabled || props.loading"
       >
-        <text :style="{ color: props.textColor }" class="title">{{ props.title }}</text>
+        <text :style="{ color: props.textColor }" class="title">{{ displayText }}</text>
         <slot></slot>
       </button>
       <view
@@ -66,6 +66,8 @@
  * @tutorial https://www.seeuui.cn/components/button/
  *
  * @property {String}												title			标题
+ * @property {Boolean}												loading			是否加载中状态（默认false）
+ * @property {String}												loadingText		加载中文案（默认跟随语言）
  * @property {"default" | "large" | "small" | "mini"}				size			大小（默认default）
  * @property {"info" | "primary" | "error" | "warning" | "success"}	type			按钮的预置样式，info，primary，error，warning，success (默认 'info' )
  * @property {Style}												color			按钮颜色(默认空，会覆盖type的颜色)
@@ -84,6 +86,7 @@
  * @example
  */
 import { ref, computed, nextTick, getCurrentInstance } from 'vue'
+import { useI18n } from '../../locale'
 import type { TouchEvent, ClientRectData, RippleItem } from './type'
 
 defineOptions({
@@ -97,6 +100,8 @@ const instance = getCurrentInstance()
 const props = withDefaults(
   defineProps<{
     title?: string
+    loading?: boolean
+    loadingText?: string
     size?: 'default' | 'large' | 'small' | 'mini'
     type?: 'info' | 'primary' | 'error' | 'warning' | 'success'
     color?: string
@@ -115,6 +120,8 @@ const props = withDefaults(
   }>(),
   {
     title: '',
+    loading: false,
+    loadingText: '',
     size: 'default',
     type: 'info',
     color: '',
@@ -145,6 +152,17 @@ const rippleLeft = ref(0)
 const active = ref(false)
 const field = ref<any>({})
 const seeButtonId = 'seeButton_' + globalId
+
+/** i18n */
+const { t } = useI18n()
+
+/** 按钮显示文本（loading 时显示加载文案） */
+const displayText = computed(() => {
+  if (props.loading) {
+    return props.loadingText || t('button.loading')
+  }
+  return props.title
+})
 
 /** 水波动画队列 */
 let rippleUniqueId = 0

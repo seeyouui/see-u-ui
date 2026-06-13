@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import type { SeeTableColumn } from '@/uni_modules/see-u-ui/components/see-table/type'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeTable')
+
+// 角色数组（用于生成的数据）
+const genRoles = [t('table.data.frontendDev'), t('table.data.backendDev'), t('table.data.pm'), t('table.data.designer'), t('table.data.tester')]
 
 // ========== 基础数据 ==========
 interface User {
@@ -13,115 +19,165 @@ interface User {
 }
 
 const baseData = ref<User[]>([
-  { id: 1, name: '张三', age: 28, email: 'zhangsan@example.com', role: '前端开发', status: '在职' },
-  { id: 2, name: '李四', age: 32, email: 'lisi@example.com', role: '后端开发', status: '在职' },
-  { id: 3, name: '王五', age: 25, email: 'wangwu@example.com', role: '产品经理', status: '在职' },
-  { id: 4, name: '赵六', age: 30, email: 'zhaoliu@example.com', role: 'UI 设计师', status: '离职' },
-  { id: 5, name: '钱七', age: 27, email: 'qianqi@example.com', role: '测试工程师', status: '在职' }
+  {
+    id: 1,
+    name: t('table.data.zhangsan'),
+    age: 28,
+    email: 'zhangsan@example.com',
+    role: t('table.data.frontendDev'),
+    status: t('table.column.statusActive')
+  },
+  { id: 2, name: t('table.data.lisi'), age: 32, email: 'lisi@example.com', role: t('table.data.backendDev'), status: t('table.column.statusActive') },
+  { id: 3, name: t('table.data.wangwu'), age: 25, email: 'wangwu@example.com', role: t('table.data.pm'), status: t('table.column.statusActive') },
+  {
+    id: 4,
+    name: t('table.data.zhaoliu'),
+    age: 30,
+    email: 'zhaoliu@example.com',
+    role: t('table.data.uiDesigner'),
+    status: t('table.column.statusInactive')
+  },
+  {
+    id: 5,
+    name: t('table.data.qianqi'),
+    age: 27,
+    email: 'qianqi@example.com',
+    role: t('table.data.testEngineer'),
+    status: t('table.column.statusActive')
+  }
 ])
 
 const baseColumns: SeeTableColumn<User>[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'status', title: '状态', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center' }
 ]
 
 // ========== 横向滚动数据 ==========
 const scrollColumns: SeeTableColumn<User>[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 300 },
-  { key: 'role', title: '职位', width: 200 },
-  { key: 'status', title: '状态', width: 120, align: 'center' },
-  { key: 'remark', title: '备注信息（横向滚动演示）', width: 350 }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 300 },
+  { key: 'role', title: t('table.column.position'), width: 200 },
+  { key: 'status', title: t('table.column.status'), width: 120, align: 'center' },
+  { key: 'remark', title: t('table.column.remark'), width: 350 }
 ]
 
 const scrollData = ref([
   {
     id: 1,
-    name: '张三',
+    name: t('table.data.zhangsan'),
     age: 28,
     email: 'zhangsan@example.com',
-    role: '前端开发',
-    status: '在职',
-    remark: '这是一段很长的备注信息，用于演示表格横向滚动效果'
+    role: t('table.data.frontendDev'),
+    status: t('table.column.statusActive'),
+    remark: t('table.data.remarkScroll1')
   },
-  { id: 2, name: '李四', age: 32, email: 'lisi@example.com', role: '后端开发', status: '在职', remark: '横向滚动可以让表格展示更多列数据' },
-  { id: 3, name: '王五', age: 25, email: 'wangwu@example.com', role: '产品经理', status: '在职', remark: '当列总宽度超过容器时自动启用横向滚动' }
+  {
+    id: 2,
+    name: t('table.data.lisi'),
+    age: 32,
+    email: 'lisi@example.com',
+    role: t('table.data.backendDev'),
+    status: t('table.column.statusActive'),
+    remark: t('table.data.remarkScroll2')
+  },
+  {
+    id: 3,
+    name: t('table.data.wangwu'),
+    age: 25,
+    email: 'wangwu@example.com',
+    role: t('table.data.pm'),
+    status: t('table.column.statusActive'),
+    remark: t('table.data.remarkScroll3')
+  }
 ])
 
 // ========== 边框与斑马纹 ==========
 const borderColumns: SeeTableColumn[] = [
-  { key: 'name', title: '水果名称', width: 150 },
-  { key: 'price', title: '单价（元/斤）', width: 150, align: 'right' },
-  { key: 'origin', title: '产地', width: 150 },
-  { key: 'stock', title: '库存（吨）', width: 120, align: 'right' }
+  { key: 'name', title: t('table.column.fruitName'), width: 150 },
+  { key: 'price', title: t('table.column.priceUnit'), width: 150, align: 'right' },
+  { key: 'origin', title: t('table.column.origin'), width: 150 },
+  { key: 'stock', title: t('table.column.stock'), width: 120, align: 'right' }
 ]
 
 const borderData = ref([
-  { name: '苹果', price: '6.50', origin: '山东烟台', stock: 120 },
-  { name: '香蕉', price: '3.80', origin: '广东湛江', stock: 85 },
-  { name: '橙子', price: '5.20', origin: '江西赣州', stock: 200 },
-  { name: '葡萄', price: '12.00', origin: '新疆吐鲁番', stock: 60 },
-  { name: '草莓', price: '25.00', origin: '辽宁丹东', stock: 30 }
+  { name: t('table.data.apple'), price: '6.50', origin: t('table.data.yantai'), stock: 120 },
+  { name: t('table.data.banana'), price: '3.80', origin: t('table.data.zhanjiang'), stock: 85 },
+  { name: t('table.data.orange'), price: '5.20', origin: t('table.data.ganzhou'), stock: 200 },
+  { name: t('table.data.grape'), price: '12.00', origin: t('table.data.turpan'), stock: 60 },
+  { name: t('table.data.strawberry'), price: '25.00', origin: t('table.data.dandong'), stock: 30 }
 ])
 
 // ========== 尺寸变型 ==========
 const sizeColumns: SeeTableColumn[] = [
-  { key: 'name', title: '名称', width: 120 },
-  { key: 'value', title: '值', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.label'), width: 120 },
+  { key: 'value', title: t('table.column.value'), width: 100, align: 'center' }
 ]
 
 const sizeData = ref([
-  { name: '参数 A', value: 100 },
-  { name: '参数 B', value: 200 },
-  { name: '参数 C', value: 300 }
+  { name: t('table.data.paramA'), value: 100 },
+  { name: t('table.data.paramB'), value: 200 },
+  { name: t('table.data.paramC'), value: 300 }
 ])
 
 // ========== Formatter ==========
 const formatterColumns: SeeTableColumn<User>[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 100, align: 'center', formatter: (_row, _col, _idx) => `${_row.age} 岁` },
-  { key: 'status', title: '状态', width: 100, align: 'center', formatter: (row) => (row.status === '在职' ? '✅ 在职' : '❌ 离职') }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  {
+    key: 'age',
+    title: t('table.column.age'),
+    width: 100,
+    align: 'center',
+    formatter: (_row, _col, _idx) => `${_row.age} ${t('table.column.ageUnit')}`
+  },
+  {
+    key: 'status',
+    title: t('table.column.status'),
+    width: 100,
+    align: 'center',
+    formatter: (row) =>
+      row.status === t('table.column.statusActive') ? `✅ ${t('table.column.statusActive')}` : `❌ ${t('table.column.statusInactive')}`
+  }
 ]
 
 // ========== 自定义插槽 ==========
 const slotColumns: SeeTableColumn[] = [
-  { key: 'name', title: '商品名称', width: 150 },
-  { key: 'price', title: '价格', width: 120, align: 'right' },
-  { key: 'action', title: '操作', width: 200, align: 'center' }
+  { key: 'name', title: t('table.column.productName'), width: 150 },
+  { key: 'price', title: t('table.column.price'), width: 120, align: 'right' },
+  { key: 'action', title: t('table.column.action'), width: 200, align: 'center' }
 ]
 
 const slotData = ref([
-  { name: 'SeeUI 组件库', price: '免费', id: 1 },
-  { name: '高级模板', price: '¥99', id: 2 },
-  { name: '定制服务', price: '面议', id: 3 }
+  { name: t('table.data.seeuiLib'), price: t('table.data.free'), id: 1 },
+  { name: t('table.data.premiumTemplate'), price: t('table.data.price99'), id: 2 },
+  { name: t('table.data.customService'), price: t('table.data.negotiable'), id: 3 }
 ])
 
 // ========== 固定高度（纵向滚动） ==========
 const scrollYData = ref(
   Array.from({ length: 50 }, (_, i) => ({
     id: i + 1,
-    name: `用户 ${i + 1}`,
+    name: t('table.column.userLabel', { index: i + 1 }),
     age: 20 + (i % 30),
     email: `user${i + 1}@example.com`,
-    role: ['前端开发', '后端开发', '产品经理', '设计师', '测试'][i % 5],
-    status: i % 4 === 3 ? '离职' : '在职'
+    role: genRoles[i % 5],
+    status: i % 4 === 3 ? t('table.column.statusInactive') : t('table.column.statusActive')
   }))
 )
 
 const scrollYColumns: SeeTableColumn[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'status', title: '状态', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center' }
 ]
 
 // ========== 状态演示 ==========
@@ -144,28 +200,49 @@ const toggleError = () => {
 const lastEvent = ref('')
 
 const handleRowClick = (row: unknown, index: number) => {
-  lastEvent.value = `点击了第 ${index + 1} 行：${(row as User).name}`
+  lastEvent.value = t('table.event.rowClick', { index: index + 1, name: (row as User).name })
 }
 
 const handleCellClick = (_row: unknown, column: SeeTableColumn, rowIndex: number) => {
-  lastEvent.value = `点击了第 ${rowIndex + 1} 行的 "${column.title}" 列`
+  lastEvent.value = t('table.event.cellClick', { rowIndex: rowIndex + 1, column: column.title })
 }
 
 // ========== Phase 4: 排序 ==========
 const sortColumns: SeeTableColumn<User>[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center', sortable: true },
-  { key: 'name', title: '姓名', width: 120, sortable: true },
-  { key: 'age', title: '年龄', width: 100, align: 'center', sortable: true },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 }
+  { key: 'name', title: t('table.column.name'), width: 120, sortable: true },
+  { key: 'age', title: t('table.column.age'), width: 100, align: 'center', sortable: true },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 }
 ]
 
 const sortData = ref<User[]>([
-  { id: 1, name: '张三', age: 28, email: 'zhangsan@example.com', role: '前端开发', status: '在职' },
-  { id: 2, name: '李四', age: 32, email: 'lisi@example.com', role: '后端开发', status: '在职' },
-  { id: 3, name: '王五', age: 25, email: 'wangwu@example.com', role: '产品经理', status: '在职' },
-  { id: 4, name: '赵六', age: 30, email: 'zhaoliu@example.com', role: 'UI 设计师', status: '离职' },
-  { id: 5, name: '钱七', age: 27, email: 'qianqi@example.com', role: '测试工程师', status: '在职' }
+  {
+    id: 1,
+    name: t('table.data.zhangsan'),
+    age: 28,
+    email: 'zhangsan@example.com',
+    role: t('table.data.frontendDev'),
+    status: t('table.column.statusActive')
+  },
+  { id: 2, name: t('table.data.lisi'), age: 32, email: 'lisi@example.com', role: t('table.data.backendDev'), status: t('table.column.statusActive') },
+  { id: 3, name: t('table.data.wangwu'), age: 25, email: 'wangwu@example.com', role: t('table.data.pm'), status: t('table.column.statusActive') },
+  {
+    id: 4,
+    name: t('table.data.zhaoliu'),
+    age: 30,
+    email: 'zhaoliu@example.com',
+    role: t('table.data.uiDesigner'),
+    status: t('table.column.statusInactive')
+  },
+  {
+    id: 5,
+    name: t('table.data.qianqi'),
+    age: 27,
+    email: 'qianqi@example.com',
+    role: t('table.data.testEngineer'),
+    status: t('table.column.statusActive')
+  }
 ])
 
 const currentSortKey = ref('')
@@ -174,7 +251,8 @@ const currentSortOrder = ref<'asc' | 'desc' | ''>('')
 const handleSortChange = (data: { key: string; order: string; column: SeeTableColumn }) => {
   currentSortKey.value = data.key
   currentSortOrder.value = data.order as 'asc' | 'desc' | ''
-  lastEvent.value = `排序：${data.column.title} ${data.order === 'asc' ? '升序' : data.order === 'desc' ? '降序' : '取消'}`
+  const orderLabel = data.order === 'asc' ? t('table.event.sortAsc') : data.order === 'desc' ? t('table.event.sortDesc') : t('table.event.sortCancel')
+  lastEvent.value = t('table.event.sort', { column: data.column.title, order: orderLabel })
 }
 
 // ========== Phase 4: 选择 ==========
@@ -184,7 +262,7 @@ const selectedRows = ref<User[]>([])
 const handleSelectionChange = (keys: Array<string | number>, rows: unknown[]) => {
   selectedKeys.value = keys as number[]
   selectedRows.value = rows as User[]
-  lastEvent.value = `选中了 ${keys.length} 行`
+  lastEvent.value = t('table.event.selection', { count: keys.length })
 }
 
 // ========== Phase 4: 展开行 ==========
@@ -205,88 +283,88 @@ interface TreeNode {
 const treeData = ref<TreeNode[]>([
   {
     id: 1,
-    name: '技术部',
+    name: t('table.data.techDept'),
     count: 120,
     children: [
       {
         id: 11,
-        name: '前端组',
+        name: t('table.data.frontendGroup'),
         count: 35,
         children: [
-          { id: 111, name: 'React 小组', count: 15 },
-          { id: 112, name: 'Vue 小组', count: 20 }
+          { id: 111, name: t('table.data.reactGroup'), count: 15 },
+          { id: 112, name: t('table.data.vueGroup'), count: 20 }
         ]
       },
-      { id: 12, name: '后端组', count: 45 },
-      { id: 13, name: '测试组', count: 20 },
-      { id: 14, name: '运维组', count: 20 }
+      { id: 12, name: t('table.data.backendGroup'), count: 45 },
+      { id: 13, name: t('table.data.testGroup'), count: 20 },
+      { id: 14, name: t('table.data.opsGroup'), count: 20 }
     ]
   },
   {
     id: 2,
-    name: '产品部',
+    name: t('table.data.productDept'),
     count: 50,
     children: [
-      { id: 21, name: '产品策划', count: 30 },
-      { id: 22, name: '产品设计', count: 20 }
+      { id: 21, name: t('table.data.productPlanning'), count: 30 },
+      { id: 22, name: t('table.data.productDesign'), count: 20 }
     ]
   },
   {
     id: 3,
-    name: '市场部',
+    name: t('table.data.marketDept'),
     count: 80
   }
 ])
 
 const treeColumns: SeeTableColumn<TreeNode>[] = [
-  { key: 'name', title: '部门名称', width: 250 },
-  { key: 'count', title: '人数', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.deptName'), width: 250 },
+  { key: 'count', title: t('table.column.memberCount'), width: 100, align: 'center' }
 ]
 
 // ========== Phase 4: 分页 ==========
 const paginationData = ref(
   Array.from({ length: 88 }, (_, i) => ({
     id: i + 1,
-    name: `用户 ${i + 1}`,
+    name: t('table.column.userLabel', { index: i + 1 }),
     age: 20 + (i % 30),
     email: `user${i + 1}@example.com`,
-    role: ['前端开发', '后端开发', '产品经理', '设计师', '测试'][i % 5],
-    status: i % 4 === 3 ? '离职' : '在职'
+    role: genRoles[i % 5],
+    status: i % 4 === 3 ? t('table.column.statusInactive') : t('table.column.statusActive')
   }))
 )
 
 const paginationColumns: SeeTableColumn[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'status', title: '状态', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center' }
 ]
 
 const handlePageChange = (data: { current: number; pageSize: number }) => {
-  lastEvent.value = `切换到第 ${data.current} 页，每页 ${data.pageSize} 条`
+  lastEvent.value = t('table.event.pageChange', { current: data.current, pageSize: data.pageSize })
 }
 
 // ========== Phase 4: 组合场景 ==========
 const comboColumns: SeeTableColumn<User>[] = [
   { key: '__sel__', title: '', type: 'selection', width: 50 },
   { key: 'id', title: 'ID', width: 80, align: 'center', sortable: true },
-  { key: 'name', title: '姓名', width: 120, sortable: true },
-  { key: 'age', title: '年龄', width: 100, align: 'center', sortable: true },
-  { key: 'email', title: '邮箱', width: 240, ellipsis: true },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'status', title: '状态', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.name'), width: 120, sortable: true },
+  { key: 'age', title: t('table.column.age'), width: 100, align: 'center', sortable: true },
+  { key: 'email', title: t('table.column.email'), width: 240, ellipsis: true },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center' }
 ]
 
 const comboData = ref(
   Array.from({ length: 30 }, (_, i) => ({
     id: i + 1,
-    name: `用户 ${i + 1}`,
+    name: t('table.column.userLabel', { index: i + 1 }),
     age: 20 + (i % 30),
     email: `user${i + 1}@example.com`,
-    role: ['前端开发', '后端开发', '产品经理', '设计师', '测试'][i % 5],
-    status: i % 4 === 3 ? '离职' : '在职'
+    role: genRoles[i % 5],
+    status: i % 4 === 3 ? t('table.column.statusInactive') : t('table.column.statusActive')
   }))
 )
 
@@ -300,46 +378,46 @@ const handleComboSelectionChange = (keys: Array<string | number>) => {
 const virtualData = ref(
   Array.from({ length: 1000 }, (_, i) => ({
     id: i + 1,
-    name: `用户 ${i + 1}`,
+    name: t('table.column.userLabel', { index: i + 1 }),
     age: 20 + (i % 30),
     email: `user${i + 1}@example.com`,
-    role: ['前端开发', '后端开发', '产品经理', '设计师', '测试'][i % 5],
-    status: i % 4 === 3 ? '离职' : '在职'
+    role: genRoles[i % 5],
+    status: i % 4 === 3 ? t('table.column.statusInactive') : t('table.column.statusActive')
   }))
 )
 
 const virtualColumns: SeeTableColumn[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center' },
-  { key: 'name', title: '姓名', width: 120 },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'status', title: '状态', width: 100, align: 'center' }
+  { key: 'name', title: t('table.column.name'), width: 120 },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center' }
 ]
 
 // ========== Phase 5: 固定列 ==========
 const fixedColumnData = ref(
   Array.from({ length: 20 }, (_, i) => ({
     id: i + 1,
-    name: `用户 ${i + 1}`,
+    name: t('table.column.userLabel', { index: i + 1 }),
     age: 20 + (i % 30),
     email: `user${i + 1}@example.com`,
-    role: ['前端开发', '后端开发', '产品经理', '设计师', '测试'][i % 5],
-    status: i % 4 === 3 ? '离职' : '在职',
-    address: `北京市海淀区中关村大街 ${100 + i} 号`,
+    role: genRoles[i % 5],
+    status: i % 4 === 3 ? t('table.column.statusInactive') : t('table.column.statusActive'),
+    address: t('table.data.addressFormat', { num: 100 + i }),
     phone: `138${String(i + 1000).padStart(8, '0')}`
   }))
 )
 
 const fixedColumns: SeeTableColumn[] = [
   { key: 'id', title: 'ID', width: 80, align: 'center', fixed: 'left' },
-  { key: 'name', title: '姓名', width: 120, fixed: 'left' },
-  { key: 'age', title: '年龄', width: 80, align: 'center' },
-  { key: 'email', title: '邮箱', width: 240 },
-  { key: 'role', title: '职位', width: 150 },
-  { key: 'address', title: '地址', width: 300 },
-  { key: 'phone', title: '电话', width: 160 },
-  { key: 'status', title: '状态', width: 100, align: 'center', fixed: 'right' }
+  { key: 'name', title: t('table.column.name'), width: 120, fixed: 'left' },
+  { key: 'age', title: t('table.column.age'), width: 80, align: 'center' },
+  { key: 'email', title: t('table.column.email'), width: 240 },
+  { key: 'role', title: t('table.column.position'), width: 150 },
+  { key: 'address', title: t('table.column.address'), width: 300 },
+  { key: 'phone', title: t('table.column.phone'), width: 160 },
+  { key: 'status', title: t('table.column.status'), width: 100, align: 'center', fixed: 'right' }
 ]
 
 // ========== Phase 5: 虚拟列 ==========
@@ -355,7 +433,7 @@ const virtualXData = ref(
 
 const virtualXColumns: SeeTableColumn[] = Array.from({ length: 30 }, (_, i) => ({
   key: `col${i + 1}`,
-  title: `列 ${i + 1}`,
+  title: t('table.column.col', { index: i + 1 }),
   width: 120,
   align: 'center' as const
 }))
@@ -366,7 +444,7 @@ function generateTreeData(depth: number, count: number, prefix: string): any[] {
   return Array.from({ length: count }, (_, i) => {
     const node: any = {
       id: `${prefix}${i + 1}`,
-      name: `${prefix}节点 ${i + 1}`,
+      name: t('table.column.nodeLabel', { prefix, index: i + 1 }),
       count: Math.floor(Math.random() * 100)
     }
     if (depth > 1) {
@@ -390,48 +468,48 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
   <see-config>
     <view class="page">
       <!-- 基础用法 -->
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('table.demo.basic') }}</text>
       <view class="demo-card">
         <see-table :data="baseData" :columns="baseColumns" row-key="id" />
       </view>
 
       <!-- 边框 + 斑马纹 -->
-      <text class="title">边框 + 斑马纹</text>
+      <text class="title">{{ t('table.demo.borderStripe') }}</text>
       <view class="demo-card">
         <see-table :data="borderData" :columns="borderColumns" border stripe />
       </view>
 
       <!-- 尺寸变体 -->
-      <text class="title">尺寸变体（small / medium / large）</text>
+      <text class="title">{{ t('table.demo.size') }}</text>
       <view class="demo-card">
-        <text class="sub-title">Small</text>
+        <text class="sub-title">{{ t('table.demo.small') }}</text>
         <see-table :data="sizeData" :columns="sizeColumns" size="small" border />
-        <text class="sub-title">Medium（默认）</text>
+        <text class="sub-title">{{ t('table.demo.medium') }}</text>
         <see-table :data="sizeData" :columns="sizeColumns" size="medium" border />
-        <text class="sub-title">Large</text>
+        <text class="sub-title">{{ t('table.demo.large') }}</text>
         <see-table :data="sizeData" :columns="sizeColumns" size="large" border />
       </view>
 
       <!-- 横向滚动 -->
-      <text class="title">横向滚动</text>
+      <text class="title">{{ t('table.demo.scrollX') }}</text>
       <view class="demo-card">
         <see-table :data="scrollData" :columns="scrollColumns" row-key="id" border />
       </view>
 
       <!-- 纵向滚动 -->
-      <text class="title">固定高度纵向滚动（50 条数据）</text>
+      <text class="title">{{ t('table.demo.scrollY') }}</text>
       <view class="demo-card">
         <see-table :data="scrollYData" :columns="scrollYColumns" row-key="id" height="400" border stripe />
       </view>
 
       <!-- Formatter -->
-      <text class="title">自定义格式化（formatter）</text>
+      <text class="title">{{ t('table.demo.formatter') }}</text>
       <view class="demo-card">
         <see-table :data="baseData" :columns="formatterColumns" row-key="id" border />
       </view>
 
       <!-- 自定义插槽 -->
-      <text class="title">自定义插槽（cell / header）</text>
+      <text class="title">{{ t('table.demo.slot') }}</text>
       <view class="demo-card">
         <see-table :data="slotData" :columns="slotColumns" row-key="id" border>
           <template #header-action="{ column }">
@@ -439,8 +517,8 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
           </template>
           <template #cell-action>
             <view class="action-btns">
-              <text class="action-btn action-btn--edit">编辑</text>
-              <text class="action-btn action-btn--delete">删除</text>
+              <text class="action-btn action-btn--edit">{{ t('table.demo.edit') }}</text>
+              <text class="action-btn action-btn--delete">{{ t('table.demo.delete') }}</text>
             </view>
           </template>
           <template #cell-price="{ row }">
@@ -450,7 +528,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 行点击 / 单元格点击 -->
-      <text class="title">行点击 / 单元格点击</text>
+      <text class="title">{{ t('table.demo.event') }}</text>
       <view class="demo-card">
         <see-table :data="baseData" :columns="baseColumns" row-key="id" border @on-row-click="handleRowClick" @on-cell-click="handleCellClick" />
         <view v-if="lastEvent" class="event-log">
@@ -459,52 +537,52 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 空状态 -->
-      <text class="title">空状态</text>
+      <text class="title">{{ t('table.demo.empty') }}</text>
       <view class="demo-card">
-        <see-table :data="emptyList" :columns="baseColumns" empty-text="暂无用户数据" />
+        <see-table :data="emptyList" :columns="baseColumns" :empty-text="t('table.demo.emptyUsers')" />
       </view>
 
       <!-- 自定义空状态 -->
-      <text class="title">自定义空状态插槽</text>
+      <text class="title">{{ t('table.demo.emptySlot') }}</text>
       <view class="demo-card">
         <see-table :data="emptyList" :columns="baseColumns">
           <template #empty>
             <view class="custom-empty">
               <text class="custom-empty__icon">📭</text>
-              <text class="custom-empty__text">这里什么都没有哦~</text>
+              <text class="custom-empty__text">{{ t('table.demo.customEmptyText') }}</text>
             </view>
           </template>
         </see-table>
       </view>
 
       <!-- 加载状态 -->
-      <text class="title">加载状态</text>
+      <text class="title">{{ t('table.demo.loading') }}</text>
       <view class="demo-card">
         <see-table :data="emptyList" :columns="baseColumns" :loading="isLoading || true" />
       </view>
 
       <!-- 错误状态 -->
-      <text class="title">错误状态</text>
+      <text class="title">{{ t('table.demo.error') }}</text>
       <view class="demo-card">
         <see-table :data="hasError ? baseData : []" :columns="baseColumns" :error="!hasError" />
       </view>
 
       <!-- 加载中叠加 -->
-      <text class="title">数据加载中叠加</text>
+      <text class="title">{{ t('table.demo.loadingOverlay') }}</text>
       <view class="demo-card">
         <see-table :data="baseData" :columns="baseColumns" row-key="id" :loading="true" border />
       </view>
 
       <!-- 省略文本 -->
-      <text class="title">文本省略</text>
+      <text class="title">{{ t('table.demo.ellipsis') }}</text>
       <view class="demo-card">
         <see-table
           :data="baseData"
           :columns="[
             { key: 'id', title: 'ID', width: 60, align: 'center' },
-            { key: 'name', title: '姓名', width: 80 },
-            { key: 'email', title: '邮箱地址（超长文本省略）', width: 200, ellipsis: true },
-            { key: 'role', title: '职位', width: 120 }
+            { key: 'name', title: t('table.demo.name'), width: 80 },
+            { key: 'email', title: t('table.demo.emailEllipsis'), width: 200, ellipsis: true },
+            { key: 'role', title: t('table.demo.role'), width: 120 }
           ]"
           row-key="id"
           border
@@ -512,7 +590,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 隐藏表头 -->
-      <text class="title">隐藏表头</text>
+      <text class="title">{{ t('table.demo.hideHeader') }}</text>
       <view class="demo-card">
         <see-table :data="baseData.slice(0, 3)" :columns="baseColumns" row-key="id" :show-header="false" border />
       </view>
@@ -520,7 +598,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       <!-- ==================== Phase 4 功能 ==================== -->
 
       <!-- 排序 -->
-      <text class="title">排序（点击表头排序）</text>
+      <text class="title">{{ t('table.demo.sort') }}</text>
       <view class="demo-card">
         <see-table
           :data="sortData"
@@ -537,7 +615,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 行选择 -->
-      <text class="title">行选择（多选 + 全选）</text>
+      <text class="title">{{ t('table.demo.selection') }}</text>
       <view class="demo-card">
         <see-table
           :data="baseData"
@@ -549,12 +627,14 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
           @on-selection-change="handleSelectionChange"
         />
         <view v-if="selectedRows.length > 0" class="event-log">
-          <text class="event-log__text">已选中：{{ selectedRows.map((r) => r.name).join('、') }}</text>
+          <text class="event-log__text">
+            {{ t('table.demo.selected', { names: selectedRows.map((r) => r.name).join(t('table.demo.joinSep')) }) }}
+          </text>
         </view>
       </view>
 
       <!-- 展开行 -->
-      <text class="title">展开行</text>
+      <text class="title">{{ t('table.demo.expand') }}</text>
       <view class="demo-card">
         <see-table
           :data="baseData.slice(0, 3)"
@@ -567,20 +647,20 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
         >
           <template #expand="{ row }">
             <view class="expand-content">
-              <text class="expand-content__text">📋 {{ row.name }} 的详细信息：{{ row.email }} | {{ row.role }}</text>
+              <text class="expand-content__text">{{ t('table.demo.expandInfo', { name: row.name, email: row.email, role: row.role }) }}</text>
             </view>
           </template>
         </see-table>
       </view>
 
       <!-- 树形数据 -->
-      <text class="title">树形数据</text>
+      <text class="title">{{ t('table.demo.tree') }}</text>
       <view class="demo-card">
         <see-table :data="treeData" :columns="treeColumns" row-key="id" border tree :default-expand-all="true" />
       </view>
 
       <!-- 分页 -->
-      <text class="title">分页表格</text>
+      <text class="title">{{ t('table.demo.pagination') }}</text>
       <view class="demo-card">
         <see-table
           :data="paginationData"
@@ -593,7 +673,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 简单分页 -->
-      <text class="title">简单分页</text>
+      <text class="title">{{ t('table.demo.simplePagination') }}</text>
       <view class="demo-card">
         <see-table
           :data="paginationData"
@@ -605,13 +685,13 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 吸顶表头 -->
-      <text class="title">吸顶表头（固定高度滚动时表头吸顶）</text>
+      <text class="title">{{ t('table.demo.stickyHeader') }}</text>
       <view class="demo-card">
         <see-table :data="scrollYData" :columns="scrollYColumns" row-key="id" height="400" border stripe sticky-header />
       </view>
 
       <!-- 序号列 -->
-      <text class="title">序号列</text>
+      <text class="title">{{ t('table.demo.index') }}</text>
       <view class="demo-card">
         <see-table
           :data="baseData"
@@ -622,7 +702,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 组合场景：排序 + 选择 + 分页 -->
-      <text class="title">组合场景（排序 + 选择 + 分页）</text>
+      <text class="title">{{ t('table.demo.combo') }}</text>
       <view class="demo-card">
         <see-table
           :data="comboData"
@@ -637,38 +717,38 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
           @on-sort-change="handleSortChange"
         />
         <view v-if="comboSelectedKeys.length > 0" class="event-log">
-          <text class="event-log__text">已选中 {{ comboSelectedKeys.length }} 行</text>
+          <text class="event-log__text">{{ t('table.demo.selectedCount', { count: comboSelectedKeys.length }) }}</text>
         </view>
       </view>
 
       <!-- ==================== Phase 5 功能 ==================== -->
 
       <!-- 虚拟行（大数据表格） -->
-      <text class="title">虚拟行（1000 条数据，仅渲染可视区域）</text>
+      <text class="title">{{ t('table.demo.virtualRow') }}</text>
       <view class="demo-card">
         <see-table :data="virtualData" :columns="virtualColumns" row-key="id" virtual :row-height="48" height="400" border stripe />
       </view>
 
       <!-- 固定列 -->
-      <text class="title">固定列（左侧 + 右侧固定）</text>
+      <text class="title">{{ t('table.demo.fixedColumn') }}</text>
       <view class="demo-card">
         <see-table :data="fixedColumnData" :columns="fixedColumns" row-key="id" border height="400" />
       </view>
 
       <!-- 虚拟行 + 固定列 -->
-      <text class="title">虚拟行 + 固定列（1000 条 + 固定列）</text>
+      <text class="title">{{ t('table.demo.virtualRowFixedCol') }}</text>
       <view class="demo-card">
         <see-table :data="virtualData" :columns="fixedColumns" row-key="id" virtual :row-height="48" height="400" border stripe />
       </view>
 
       <!-- 虚拟列（多列表格） -->
-      <text class="title">虚拟列（30 列，仅渲染可视区域）</text>
+      <text class="title">{{ t('table.demo.virtualCol') }}</text>
       <view class="demo-card">
         <see-table :data="virtualXData" :columns="virtualXColumns" row-key="id" virtual-x border height="400" />
       </view>
 
       <!-- 树形 + 虚拟行 -->
-      <text class="title">树形 + 虚拟行（大数据树形表格）</text>
+      <text class="title">{{ t('table.demo.treeVirtual') }}</text>
       <view class="demo-card">
         <see-table
           :data="treeVirtualData"
@@ -684,7 +764,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
       </view>
 
       <!-- 展开行 + 虚拟行 -->
-      <text class="title">展开行 + 虚拟行</text>
+      <text class="title">{{ t('table.demo.expandVirtual') }}</text>
       <view class="demo-card">
         <see-table
           :data="virtualData.slice(0, 200)"
@@ -700,7 +780,7 @@ const handleExpandVirtualChange = (keys: Array<string | number>) => {
         >
           <template #expand="{ row }">
             <view class="expand-content">
-              <text class="expand-content__text">📋 {{ row.name }} 的详细信息：{{ row.email }} | {{ row.role }}</text>
+              <text class="expand-content__text">{{ t('table.demo.expandInfo', { name: row.name, email: row.email, role: row.role }) }}</text>
             </view>
           </template>
         </see-table>

@@ -1,48 +1,48 @@
 <template>
   <see-config>
-    <text class="title">基础用法 - 左滑删除</text>
+    <text class="title">{{ t('swipeAction.demo.basic') }}</text>
     <view class="demo-content">
       <see-swipe-action :right-actions="deleteActions" @on-click="onDelete">
-        <see-cell title="左滑露出删除按钮" />
+        <see-cell :title="t('swipeAction.demo.swipeDelete')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">多个操作按钮</text>
+    <text class="title">{{ t('swipeAction.demo.multi') }}</text>
     <view class="demo-content">
       <see-swipe-action :right-actions="multiActions" @on-click="onAction">
-        <see-cell title="左滑露出多个按钮" />
+        <see-cell :title="t('swipeAction.demo.swipeMulti')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">左侧操作按钮</text>
+    <text class="title">{{ t('swipeAction.demo.left') }}</text>
     <view class="demo-content">
       <see-swipe-action :left-actions="leftActions" @on-click="onAction">
-        <see-cell title="右滑露出操作按钮" />
+        <see-cell :title="t('swipeAction.demo.swipeLeft')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">两侧操作按钮</text>
+    <text class="title">{{ t('swipeAction.demo.both') }}</text>
     <view class="demo-content">
       <see-swipe-action :left-actions="leftActions" :right-actions="multiActions" @on-click="onAction">
-        <see-cell title="左右滑动都有按钮" />
+        <see-cell :title="t('swipeAction.demo.swipeBoth')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">不同样式</text>
+    <text class="title">{{ t('swipeAction.demo.style') }}</text>
     <view class="demo-content">
       <see-swipe-action :right-actions="styleActions" @on-click="onAction">
-        <see-cell title="不同样式的按钮" />
+        <see-cell :title="t('swipeAction.demo.swipeStyle')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">禁用滑动</text>
+    <text class="title">{{ t('swipeAction.demo.disabled') }}</text>
     <view class="demo-content">
       <see-swipe-action :right-actions="deleteActions" is-disabled>
-        <see-cell title="禁用滑动状态" />
+        <see-cell :title="t('swipeAction.demo.swipeDisabled')" />
       </see-swipe-action>
     </view>
 
-    <text class="title">多个列表项</text>
+    <text class="title">{{ t('swipeAction.demo.list') }}</text>
     <view class="demo-content">
       <see-swipe-action v-for="item in list" :key="item.id" :right-actions="deleteActions" @on-click="(action) => onDeleteItem(item, action)">
         <see-cell :title="item.title" />
@@ -53,43 +53,46 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { toast } from '@/uni_modules/see-u-ui'
+import { toast, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import type { SwipeActionItem } from '@/uni_modules/see-u-ui'
 
-const deleteActions: SwipeActionItem[] = [{ text: '删除', style: 'danger' }]
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSwipeAction')
+
+const deleteActions: SwipeActionItem[] = [{ text: t('swipeAction.demo.delete'), style: 'danger' }]
 
 const multiActions: SwipeActionItem[] = [
-  { text: '收藏', style: 'success' },
-  { text: '编辑', style: 'warning' },
-  { text: '删除', style: 'danger' }
+  { text: t('swipeAction.demo.favorite'), style: 'success' },
+  { text: t('swipeAction.demo.edit'), style: 'warning' },
+  { text: t('swipeAction.demo.delete'), style: 'danger' }
 ]
 
-const leftActions: SwipeActionItem[] = [{ text: '置顶', style: 'primary' }]
+const leftActions: SwipeActionItem[] = [{ text: t('swipeAction.demo.top'), style: 'primary' }]
 
 const styleActions: SwipeActionItem[] = [
-  { text: '默认', style: 'default' },
-  { text: '成功', style: 'success' },
-  { text: '警告', style: 'warning' },
-  { text: '危险', style: 'danger' }
+  { text: t('swipeAction.demo.default'), style: 'default' },
+  { text: t('swipeAction.demo.success'), style: 'success' },
+  { text: t('swipeAction.demo.warning'), style: 'warning' },
+  { text: t('swipeAction.demo.danger'), style: 'danger' }
 ]
 
 const list = ref([
-  { id: 1, title: '列表项 1' },
-  { id: 2, title: '列表项 2' },
-  { id: 3, title: '列表项 3' }
+  { id: 1, title: t('swipeAction.demo.item1') },
+  { id: 2, title: t('swipeAction.demo.item2') },
+  { id: 3, title: t('swipeAction.demo.item3') }
 ])
 
 const onDelete = (_action: SwipeActionItem) => {
-  toast.success('点击了删除')
+  toast.success(t('swipeAction.demo.deleted'))
 }
 
 const onAction = (_action: SwipeActionItem) => {
-  toast.success(`点击了: ${_action.text}`)
+  toast.success(t('swipeAction.demo.clicked', { name: _action.text }))
 }
 
 const onDeleteItem = (item: { id: number; title: string }, _action: SwipeActionItem) => {
   list.value = list.value.filter((i) => i.id !== item.id)
-  toast.success(`删除了: ${item.title}`)
+  toast.success(t('swipeAction.demo.deletedItem', { name: item.title }))
 }
 </script>
 

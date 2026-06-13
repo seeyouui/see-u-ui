@@ -6,7 +6,7 @@
         {{ displayText }}
       </text>
       <text v-else class="see-datetime-picker__value see-datetime-picker__value--placeholder">
-        {{ props.placeholder }}
+        {{ resolvedPlaceholder }}
       </text>
       <text class="see-datetime-picker__arrow see-datetime-picker-icon-arrow"></text>
     </view>
@@ -17,13 +17,13 @@
         <!-- 工具栏 -->
         <view v-if="props.isShowToolbar" class="see-datetime-picker__toolbar">
           <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--cancel" @click="handleCancel">
-            {{ props.cancelText }}
+            {{ resolvedCancelText }}
           </text>
           <text class="see-datetime-picker__toolbar-title">
             {{ props.toolbarTitle }}
           </text>
           <text class="see-datetime-picker__toolbar-btn see-datetime-picker__toolbar-btn--confirm" @click="handleConfirm">
-            {{ props.confirmText }}
+            {{ resolvedConfirmText }}
           </text>
         </view>
 
@@ -99,11 +99,14 @@
  * @property {String}                   name             表单字段名
  */
 import { ref, computed, inject, watch, nextTick, onBeforeUnmount } from 'vue'
+import { useI18n } from '../../locale'
 import { formKey } from '../../utils/shared/form-keys'
 import { useField } from '../../utils/hooks/useField'
 import type { DatetimePickerType, DatetimePickerSize, ColumnType, ColumnOption, PickerColumn, FormContext } from './type'
 
 defineOptions({ name: 'SeeDatetimePicker' })
+
+const { t } = useI18n()
 
 /** ---------- constants ---------- */
 const ITEM_HEIGHT_MAP: Record<string, number> = { small: 72, default: 88, large: 100 }
@@ -157,13 +160,13 @@ const props = withDefaults(
   {
     modelValue: '',
     type: 'datetime',
-    placeholder: '请选择',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isShowToolbar: true,
     toolbarTitle: '',
-    confirmText: '确认',
-    cancelText: '取消',
+    confirmText: '',
+    cancelText: '',
     minDate: '',
     maxDate: '',
     minHour: 0,
@@ -247,6 +250,11 @@ try {
 }
 
 /** ---------- computed ---------- */
+
+/** 翻译回退 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('picker.placeholder'))
+const resolvedConfirmText = computed(() => props.confirmText || t('picker.confirm'))
+const resolvedCancelText = computed(() => props.cancelText || t('picker.cancel'))
 
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {

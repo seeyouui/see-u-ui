@@ -30,7 +30,7 @@
 
     <!-- 折叠/展开按钮 -->
     <view v-if="isCollapsible" class="see-alert__collapse" @click="handleToggleCollapse">
-      <text class="see-alert__collapse-icon">{{ isCollapsedValue ? '展开' : '收起' }}</text>
+      <text class="see-alert__collapse-icon">{{ isCollapsedValue ? t('alert.expand') : t('alert.collapse') }}</text>
     </view>
 
     <!-- 关闭按钮 -->
@@ -63,6 +63,7 @@
  */
 import { ref, computed, watch } from 'vue'
 import type { SeeAlertProps, SeeAlertEmits } from './type'
+import { useI18n } from '../../locale'
 
 defineOptions({ name: 'SeeAlert' })
 
@@ -83,6 +84,8 @@ const props = withDefaults(defineProps<SeeAlertProps>(), {
 })
 
 const emit = defineEmits<SeeAlertEmits>()
+
+const { t } = useI18n()
 
 // ==================== 状态管理 ====================
 

@@ -64,7 +64,7 @@ describe('SeeTable', () => {
 
   it('renders default empty text', () => {
     const wrapper = mount(SeeTable, { props: { data: [], columns: testColumns } })
-    expect(wrapper.text()).toContain('暂无数据')
+    expect(wrapper.text()).toContain('No Data')
   })
 
   it('renders custom empty slot', () => {
@@ -79,7 +79,7 @@ describe('SeeTable', () => {
   it('renders loading state when loading and no data', () => {
     const wrapper = mount(SeeTable, { props: { data: [], columns: testColumns, loading: true } })
     expect(wrapper.find('.see-table__loading-spinner').exists()).toBe(true)
-    expect(wrapper.text()).toContain('加载中...')
+    expect(wrapper.text()).toContain('Loading...')
   })
 
   it('renders loading overlay when loading with existing data', () => {
@@ -90,7 +90,7 @@ describe('SeeTable', () => {
   // ========== 错误状态 ==========
   it('renders error state when error and no data', () => {
     const wrapper = mount(SeeTable, { props: { data: [], columns: testColumns, error: true } })
-    expect(wrapper.text()).toContain('加载失败')
+    expect(wrapper.text()).toContain('Failed to load')
     expect(wrapper.find('.see-table__error-icon').exists()).toBe(true)
   })
 
@@ -563,7 +563,7 @@ describe('SeeTable', () => {
       const wrapper = mount(SeeTable, {
         props: { data: largeData, columns: testColumns, pagination: { current: 1, pageSize: 10, total: 25, showTotal: true } }
       })
-      expect(wrapper.text()).toContain('共 25 条')
+      expect(wrapper.text()).toContain('Total 25 items')
     })
 
     it('emits onPageChange when page is changed', async () => {

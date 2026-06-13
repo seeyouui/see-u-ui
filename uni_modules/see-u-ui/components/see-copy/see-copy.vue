@@ -19,19 +19,24 @@
  * @event {Function} onError 复制失败时触发
  * @event {Function} onClick 点击时触发
  */
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { SeeCopyProps, SeeCopyEmits } from './type'
+import { useI18n } from '../../locale'
 
 defineOptions({ name: 'SeeCopy' })
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<SeeCopyProps>(), {
   text: '',
   isShowToast: true,
-  toastMessage: '复制成功',
+  toastMessage: '',
   toastDuration: 1500,
   isDisabled: false,
   isHighlight: false
 })
+
+const toastMsg = computed(() => props.toastMessage || t('copy.success'))
 
 const emit = defineEmits<SeeCopyEmits>()
 
@@ -99,14 +104,14 @@ const copy = async (): Promise<boolean> => {
       // 显示成功提示
       if (props.isShowToast) {
         uni.showToast({
-          title: props.toastMessage,
+          title: toastMsg.value,
           icon: 'success',
           duration: props.toastDuration
         })
       }
       emit('onSuccess', props.text)
     } else {
-      const error = new Error('复制失败')
+      const error = new Error('Copy failed')
       emit('onError', error)
     }
 

@@ -2,43 +2,43 @@
   <view class="demo-subsection">
     <!-- 1. 基础用法 (default) -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法 (default)</text>
+      <text class="demo-section__title">{{ t('subsection.demo.basic') }}</text>
       <see-subsection v-model="active1" :options="basicOptions" />
     </view>
 
     <!-- 2. Button 样式 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. Button 样式</text>
+      <text class="demo-section__title">{{ t('subsection.demo.button') }}</text>
       <see-subsection v-model="active2" :options="basicOptions" type="button" />
     </view>
 
     <!-- 3. Pill 样式 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. Pill 样式</text>
+      <text class="demo-section__title">{{ t('subsection.demo.pill') }}</text>
       <see-subsection v-model="active3" :options="basicOptions" type="pill" />
     </view>
 
     <!-- 4. 自定义颜色 -->
     <view class="demo-section">
-      <text class="demo-section__title">4. 自定义颜色</text>
+      <text class="demo-section__title">{{ t('subsection.demo.customColor') }}</text>
       <see-subsection v-model="active4" :options="basicOptions" active-color="#ff6b6b" />
     </view>
 
     <!-- 5. 禁用选项 -->
     <view class="demo-section">
-      <text class="demo-section__title">5. 禁用选项</text>
+      <text class="demo-section__title">{{ t('subsection.demo.disabled') }}</text>
       <see-subsection v-model="active5" :options="disabledOptions" />
     </view>
 
     <!-- 6. 占满整行 -->
     <view class="demo-section">
-      <text class="demo-section__title">6. 占满整行</text>
+      <text class="demo-section__title">{{ t('subsection.demo.fullWidth') }}</text>
       <see-subsection v-model="active6" :options="basicOptions" :is-full-width="true" />
     </view>
 
     <!-- 7. 小尺寸 -->
     <view class="demo-section">
-      <text class="demo-section__title">7. 小尺寸</text>
+      <text class="demo-section__title">{{ t('subsection.demo.small') }}</text>
       <see-subsection v-model="active7" :options="basicOptions" size="small" />
     </view>
 
@@ -49,7 +49,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeSubsection from '@/uni_modules/see-u-ui/components/see-subsection/see-subsection.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSubsection')
 
 const active1 = ref('one')
 const active2 = ref('one')
@@ -60,15 +64,15 @@ const active6 = ref('one')
 const active7 = ref('one')
 
 const basicOptions = [
-  { label: '选项一', value: 'one' },
-  { label: '选项二', value: 'two' },
-  { label: '选项三', value: 'three' }
+  { label: t('subsection.demo.option1'), value: 'one' },
+  { label: t('subsection.demo.option2'), value: 'two' },
+  { label: t('subsection.demo.option3'), value: 'three' }
 ]
 
 const disabledOptions = [
-  { label: '可用', value: 'one' },
-  { label: '禁用', value: 'two', isDisabled: true },
-  { label: '可用', value: 'three' }
+  { label: t('subsection.demo.enabled'), value: 'one' },
+  { label: t('subsection.demo.disabledOption'), value: 'two', isDisabled: true },
+  { label: t('subsection.demo.enabled'), value: 'three' }
 ]
 </script>
 

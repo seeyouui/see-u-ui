@@ -2,26 +2,30 @@
   <view class="demo-index-list">
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
+      <text class="demo-section__title">{{ t('indexList.demo.basic') }}</text>
       <see-index-list :data="basicData" height="400px" @on-select="onSelect" />
     </view>
 
     <!-- 2. 带搜索框 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 带搜索框</text>
+      <text class="demo-section__title">{{ t('indexList.demo.search') }}</text>
       <see-index-list :data="basicData" :is-show-search="true" height="400px" />
     </view>
 
     <!-- 3. 通讯录示例 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. 通讯录示例</text>
+      <text class="demo-section__title">{{ t('indexList.demo.contacts') }}</text>
       <see-index-list :data="contactData" height="500px" @on-select="onContactSelect" />
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeIndexList from '@/uni_modules/see-u-ui/components/see-index-list/see-index-list.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeIndexList')
 
 const basicData = [
   { index: 'A', name: 'Alice' },
@@ -51,11 +55,11 @@ const contactData = [
 ]
 
 const onSelect = (item: any) => {
-  uni.showToast({ title: `选中: ${item.name}`, icon: 'none' })
+  uni.showToast({ title: t('indexList.demo.selected', { name: item.name }), icon: 'none' })
 }
 
 const onContactSelect = (item: any) => {
-  uni.showToast({ title: `联系: ${item.name}`, icon: 'none' })
+  uni.showToast({ title: t('indexList.demo.contact', { name: item.name }), icon: 'none' })
 }
 </script>
 

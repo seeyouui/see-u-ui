@@ -111,6 +111,7 @@
  */
 import { computed, watch } from 'vue'
 import SeeLink from '../see-link/see-link.vue'
+import { useI18n } from '../../locale'
 import { formatDate } from '../../utils/hooks/useDateFormat'
 import { formatTimeAgo } from '../../utils/hooks/useTimeAgo'
 import { formatCurrency } from '../../utils/hooks/useCurrencyFormat'
@@ -180,6 +181,9 @@ const emit = defineEmits<{
   (e: 'onTextUpTyping', currentText: string): void
 }>()
 
+/** ---------- i18n ---------- */
+const { t } = useI18n()
+
 /** ---------- 计算属性 ---------- */
 const getClass = computed(() => {
   return props.color ? '' : props.type
@@ -231,7 +235,7 @@ const onClick = () => {
 
     // #ifdef H5
     uni.showToast({
-      title: 'H5不支持，请使用小程序或APP点击',
+      title: t('text.h5PhoneNotSupported'),
       icon: 'none'
     })
     // #endif

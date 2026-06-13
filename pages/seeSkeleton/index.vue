@@ -1,69 +1,69 @@
 <template>
   <see-config>
-    <text class="title">基础骨架屏</text>
+    <text class="title">{{ t('skeleton.demo.basic') }}</text>
     <view class="demo-content">
       <see-skeleton />
     </view>
 
-    <text class="title">自定义行数</text>
+    <text class="title">{{ t('skeleton.demo.customRows') }}</text>
     <view class="demo-content">
       <see-skeleton :rows="5" />
     </view>
 
-    <text class="title">自定义行宽度</text>
+    <text class="title">{{ t('skeleton.demo.customRowWidth') }}</text>
     <view class="demo-content">
       <see-skeleton :row-width="['100%', '80%', '60%']" />
     </view>
 
-    <text class="title">带标题模式</text>
+    <text class="title">{{ t('skeleton.demo.withTitle') }}</text>
     <view class="demo-content">
       <see-skeleton :title="true" :rows="3" />
     </view>
 
-    <text class="title">带头像 + 标题</text>
+    <text class="title">{{ t('skeleton.demo.withAvatarTitle') }}</text>
     <view class="demo-content">
       <see-skeleton :avatar="true" :title="true" :rows="3" />
     </view>
 
-    <text class="title">方形头像</text>
+    <text class="title">{{ t('skeleton.demo.squareAvatar') }}</text>
     <view class="demo-content">
       <see-skeleton :avatar="true" avatar-shape="square" :rows="2" />
     </view>
 
-    <text class="title">关闭动画</text>
+    <text class="title">{{ t('skeleton.demo.disableAnimation') }}</text>
     <view class="demo-content">
       <see-skeleton :is-animate="false" />
     </view>
 
-    <text class="title">加载完成显示内容</text>
+    <text class="title">{{ t('skeleton.demo.loadedContent') }}</text>
     <view class="demo-content">
       <see-skeleton :loading="isLoading">
         <view class="loaded-content">
-          <text>这是实际加载完成的内容</text>
-          <text class="loaded-sub">数据已成功加载</text>
+          <text>{{ t('skeleton.demo.loadedText') }}</text>
+          <text class="loaded-sub">{{ t('skeleton.demo.dataLoaded') }}</text>
         </view>
       </see-skeleton>
       <view class="btn-wrap">
         <see-button size="small" type="primary" is-ripple @click="toggleLoading">
-          {{ isLoading ? '加载完成' : '重新加载' }}
+          {{ isLoading ? t('skeleton.demo.loadComplete') : t('skeleton.demo.reload') }}
         </see-button>
       </view>
     </view>
 
-    <text class="title">带头像的加载完成</text>
+    <text class="title">{{ t('skeleton.demo.loadedWithAvatar') }}</text>
     <view class="demo-content">
       <see-skeleton :loading="isLoading2" :avatar="true" :title="true" :rows="3">
         <view class="loaded-content">
           <view class="loaded-header">
             <view class="loaded-avatar" />
-            <text class="loaded-name">用户名称</text>
+            <text class="loaded-name">{{ t('skeleton.demo.userName') }}</text>
           </view>
-          <text>这是带头像骨架屏加载完成后的实际内容展示。</text>
+          <text>{{ t('skeleton.demo.avatarLoadedText') }}</text>
         </view>
       </see-skeleton>
       <view class="btn-wrap">
         <see-button size="small" type="primary" is-ripple @click="toggleLoading2">
-          {{ isLoading2 ? '加载完成' : '重新加载' }}
+          {{ isLoading2 ? t('skeleton.demo.loadComplete') : t('skeleton.demo.reload') }}
         </see-button>
       </view>
     </view>
@@ -72,6 +72,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSkeleton')
 
 const isLoading = ref(true)
 const isLoading2 = ref(true)

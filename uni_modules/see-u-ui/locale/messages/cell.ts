@@ -1,0 +1,86 @@
+/**
+ * SeeCell 单元格组件翻译 key
+ */
+const zhCN = {
+  'cell.demo.basic': '基础用法',
+  'cell.demo.withIcon': '带图标',
+  'cell.demo.withLabel': '带描述',
+  'cell.demo.required': '必填字段',
+  'cell.demo.navigate': '跳转页面',
+  'cell.demo.customSlot': '自定义插槽',
+  'cell.demo.noBorder': '无边框',
+  'cell.demo.centerAlign': '居中对齐',
+  'cell.demo.clickEffect': '点击反馈',
+  'cell.demo.customHeight': '自定义高度与标题宽度',
+  'cell.demo.title': '标题',
+  'cell.demo.content': '内容',
+  'cell.demo.withArrow': '带箭头',
+  'cell.demo.settings': '设置',
+  'cell.demo.enter': '进入',
+  'cell.demo.message': '消息',
+  'cell.demo.labelText': '这是一段描述信息',
+  'cell.demo.longLabel': '描述信息较长时会自动换行显示，确保内容完整展示',
+  'cell.demo.username': '用户名',
+  'cell.demo.placeholder': '请输入',
+  'cell.demo.phone': '手机号',
+  'cell.demo.profile': '个人中心',
+  'cell.demo.systemSettings': '系统设置',
+  'cell.demo.avatar': '用户头像',
+  'cell.demo.customTitle': '自定义标题',
+  'cell.demo.customValue': '自定义值',
+  'cell.demo.customIcon': '自定义图标',
+  'cell.demo.noBottomBorder': '无下边框',
+  'cell.demo.centerDisplay': '居中显示',
+  'cell.demo.bgFeedback': '背景反馈',
+  'cell.demo.opacityFeedback': '透明度反馈',
+  'cell.demo.noFeedback': '无反馈',
+  'cell.demo.clickMe': '点击试试',
+  'cell.demo.titleWidth': '标题宽度 200rpx',
+  'cell.demo.customHeightVal': '自定义高度',
+
+  // Demo toast 消息
+  'cell.demo.clicked': '点击了单元格'
+}
+
+const en = {
+  'cell.demo.basic': 'Basic Usage',
+  'cell.demo.withIcon': 'With Icon',
+  'cell.demo.withLabel': 'With Label',
+  'cell.demo.required': 'Required',
+  'cell.demo.navigate': 'Navigate',
+  'cell.demo.customSlot': 'Custom Slot',
+  'cell.demo.noBorder': 'No Border',
+  'cell.demo.centerAlign': 'Center Align',
+  'cell.demo.clickEffect': 'Click Effect',
+  'cell.demo.customHeight': 'Custom Height & Title Width',
+  'cell.demo.title': 'Title',
+  'cell.demo.content': 'Content',
+  'cell.demo.withArrow': 'With Arrow',
+  'cell.demo.settings': 'Settings',
+  'cell.demo.enter': 'Enter',
+  'cell.demo.message': 'Message',
+  'cell.demo.labelText': 'This is a description message',
+  'cell.demo.longLabel': 'Long description text will automatically wrap to ensure complete content display',
+  'cell.demo.username': 'Username',
+  'cell.demo.placeholder': 'Please enter',
+  'cell.demo.phone': 'Phone',
+  'cell.demo.profile': 'Profile',
+  'cell.demo.systemSettings': 'System Settings',
+  'cell.demo.avatar': 'Avatar',
+  'cell.demo.customTitle': 'Custom Title',
+  'cell.demo.customValue': 'Custom Value',
+  'cell.demo.customIcon': 'Custom Icon',
+  'cell.demo.noBottomBorder': 'No Bottom Border',
+  'cell.demo.centerDisplay': 'Center Display',
+  'cell.demo.bgFeedback': 'Background Feedback',
+  'cell.demo.opacityFeedback': 'Opacity Feedback',
+  'cell.demo.noFeedback': 'No Feedback',
+  'cell.demo.clickMe': 'Click Me',
+  'cell.demo.titleWidth': 'Title Width 200rpx',
+  'cell.demo.customHeightVal': 'Custom Height',
+
+  // Demo toast messages
+  'cell.demo.clicked': 'Cell clicked'
+}
+
+export default { 'zh-CN': zhCN, en }

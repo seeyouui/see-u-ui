@@ -1,59 +1,63 @@
 <template>
   <see-config>
-    <text class="title">水平分割线（默认）</text>
+    <text class="title">{{ t('line.demo.horizontal') }}</text>
     <view class="demo-content">
-      <text>上方内容</text>
+      <text>{{ t('line.demo.topContent') }}</text>
       <see-line />
-      <text>下方内容</text>
+      <text>{{ t('line.demo.bottomContent') }}</text>
     </view>
 
-    <text class="title">自定义颜色</text>
+    <text class="title">{{ t('line.demo.customColor') }}</text>
     <view class="demo-content">
-      <text>上方内容</text>
+      <text>{{ t('line.demo.topContent') }}</text>
       <see-line color="#007aff" />
-      <text>下方内容</text>
+      <text>{{ t('line.demo.bottomContent') }}</text>
     </view>
 
-    <text class="title">自定义粗细</text>
+    <text class="title">{{ t('line.demo.customThickness') }}</text>
     <view class="demo-content">
-      <text>上方内容</text>
+      <text>{{ t('line.demo.topContent') }}</text>
       <see-line size="4rpx" />
-      <text>下方内容</text>
+      <text>{{ t('line.demo.bottomContent') }}</text>
     </view>
 
-    <text class="title">虚线样式</text>
+    <text class="title">{{ t('line.demo.dashed') }}</text>
     <view class="demo-content">
-      <text>上方内容</text>
+      <text>{{ t('line.demo.topContent') }}</text>
       <see-line :is-dashed="true" />
-      <text>下方内容</text>
+      <text>{{ t('line.demo.bottomContent') }}</text>
     </view>
 
-    <text class="title">自定义长度</text>
+    <text class="title">{{ t('line.demo.customLength') }}</text>
     <view class="demo-content">
       <see-line length="50%" />
     </view>
 
-    <text class="title">垂直分割线</text>
+    <text class="title">{{ t('line.demo.vertical') }}</text>
     <view class="demo-content">
       <view style="display: flex; align-items: center; height: 60rpx">
-        <text>左</text>
+        <text>{{ t('line.demo.left') }}</text>
         <see-line direction="vertical" length="60rpx" margin="0 20rpx" />
-        <text>右</text>
+        <text>{{ t('line.demo.right') }}</text>
       </view>
     </view>
 
-    <text class="title">垂直虚线</text>
+    <text class="title">{{ t('line.demo.verticalDashed') }}</text>
     <view class="demo-content">
       <view style="display: flex; align-items: center; height: 60rpx">
-        <text>左</text>
+        <text>{{ t('line.demo.left') }}</text>
         <see-line direction="vertical" :is-dashed="true" length="60rpx" margin="0 20rpx" />
-        <text>右</text>
+        <text>{{ t('line.demo.right') }}</text>
       </view>
     </view>
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeLine')
+</script>
 
 <style lang="scss" scoped>
 .title {

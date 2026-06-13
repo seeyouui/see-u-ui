@@ -1,38 +1,42 @@
 <template>
   <see-config>
-    <text class="title">基础吸顶</text>
+    <text class="title">{{ t('sticky.demo.basic') }}</text>
     <view class="demo-content">
       <view style="height: 200rpx; background: var(--see-info); display: flex; align-items: center; justify-content: center">
-        <text>向下滚动查看吸顶效果</text>
+        <text>{{ t('sticky.demo.scrollHint') }}</text>
       </view>
       <see-sticky>
         <view style="background: var(--see-primary); padding: 20rpx; color: var(--see-text)">
-          <text style="color: var(--see-text)">吸顶内容</text>
+          <text style="color: var(--see-text)">{{ t('sticky.demo.stickyContent') }}</text>
         </view>
       </see-sticky>
       <view style="height: 1000rpx; padding: 20rpx">
-        <text>长内容区域</text>
+        <text>{{ t('sticky.demo.longContent') }}</text>
       </view>
     </view>
 
-    <text class="title">自定义 offsetTop</text>
+    <text class="title">{{ t('sticky.demo.customOffset') }}</text>
     <view class="demo-content">
       <view style="height: 200rpx; background: var(--see-info); display: flex; align-items: center; justify-content: center">
-        <text>距离顶部 100px 吸顶</text>
+        <text>{{ t('sticky.demo.offsetHint') }}</text>
       </view>
       <see-sticky :offset-top="100">
         <view style="background: var(--see-success); padding: 20rpx">
-          <text style="color: var(--see-text)">offsetTop=100px</text>
+          <text style="color: var(--see-text)">{{ t('sticky.demo.offsetValue') }}</text>
         </view>
       </see-sticky>
       <view style="height: 1000rpx; padding: 20rpx">
-        <text>长内容区域</text>
+        <text>{{ t('sticky.demo.longContent') }}</text>
       </view>
     </view>
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSticky')
+</script>
 
 <style lang="scss" scoped>
 .title {

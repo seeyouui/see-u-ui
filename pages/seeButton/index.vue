@@ -1,55 +1,61 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">按钮类型</text>
+      <text class="title">{{ t('button.demo.type') }}</text>
       <view class="content">
-        <see-button size="small" title="默认按钮" />
-        <see-button size="small" title="主要按钮" type="primary" />
-        <see-button size="small" title="失败按钮" type="error" />
-        <see-button size="small" title="警告按钮" type="warning" />
-        <see-button size="small" title="成功按钮" type="success" />
+        <see-button size="small" :title="t('button.demo.default')" />
+        <see-button size="small" :title="t('button.demo.primary')" type="primary" />
+        <see-button size="small" :title="t('button.demo.error')" type="error" />
+        <see-button size="small" :title="t('button.demo.warning')" type="warning" />
+        <see-button size="small" :title="t('button.demo.success')" type="success" />
       </view>
-      <text class="title">镂空按钮</text>
+      <text class="title">{{ t('button.demo.hollow') }}</text>
       <view class="content">
-        <see-button size="small" is-hollow title="默认按钮" />
-        <see-button size="small" is-hollow title="主要按钮" type="primary" />
-        <see-button size="small" is-hollow title="失败按钮" type="error" />
-        <see-button size="small" is-hollow title="警告按钮" type="warning" />
-        <see-button size="small" is-hollow title="成功按钮" type="success" />
+        <see-button size="small" is-hollow :title="t('button.demo.default')" />
+        <see-button size="small" is-hollow :title="t('button.demo.primary')" type="primary" />
+        <see-button size="small" is-hollow :title="t('button.demo.error')" type="error" />
+        <see-button size="small" is-hollow :title="t('button.demo.warning')" type="warning" />
+        <see-button size="small" is-hollow :title="t('button.demo.success')" type="success" />
       </view>
-      <text class="title">禁用按钮</text>
+      <text class="title">{{ t('button.demo.disabled') }}</text>
       <view class="content">
-        <see-button size="small" is-disabled title="默认按钮" />
-        <see-button size="small" is-disabled title="主要按钮" type="primary" />
-        <see-button size="small" is-disabled title="失败按钮" type="error" />
-        <see-button size="small" is-disabled title="警告按钮" type="warning" />
-        <see-button size="small" is-disabled title="成功按钮" type="success" />
+        <see-button size="small" is-disabled :title="t('button.demo.default')" />
+        <see-button size="small" is-disabled :title="t('button.demo.primary')" type="primary" />
+        <see-button size="small" is-disabled :title="t('button.demo.error')" type="error" />
+        <see-button size="small" is-disabled :title="t('button.demo.warning')" type="warning" />
+        <see-button size="small" is-disabled :title="t('button.demo.success')" type="success" />
       </view>
-      <text class="title">按钮大小</text>
+      <text class="title">{{ t('button.demo.size') }}</text>
       <view class="content">
-        <see-button size="default" title="默认大小" />
-        <see-button size="small" title="小型尺寸" />
-        <see-button size="mini" title="最小尺寸" />
-        <see-button size="large" title="超大尺寸" />
+        <see-button size="default" :title="t('button.demo.defaultSize')" />
+        <see-button size="small" :title="t('button.demo.smallSize')" />
+        <see-button size="mini" :title="t('button.demo.miniSize')" />
+        <see-button size="large" :title="t('button.demo.largeSize')" />
       </view>
-      <text class="title">水波动画</text>
+      <text class="title">{{ t('button.demo.ripple') }}</text>
       <view class="content">
-        <see-button title="默认动画" is-ripple />
-        <see-button type="primary" size="default" title="按钮颜色" is-ripple />
-        <see-button size="default" title="动画颜色" is-ripple ripple-color="blue" />
-        <see-button size="large" title="动画时长(10000ms)" is-ripple :ripple-time="10000" ripple-color="red" :mask-time="20000" />
+        <see-button :title="t('button.demo.rippleDefault')" is-ripple />
+        <see-button type="primary" size="default" :title="t('button.demo.rippleColor')" is-ripple />
+        <see-button size="default" :title="t('button.demo.rippleAnimColor')" is-ripple ripple-color="blue" />
+        <see-button size="large" :title="t('button.demo.rippleLong')" is-ripple :ripple-time="10000" ripple-color="red" :mask-time="20000" />
       </view>
-      <text class="title">自定义</text>
+      <text class="title">{{ t('button.demo.custom') }}</text>
       <view class="content">
-        <see-button :custom-style="customStyle" title="自定义宽高" />
-        <see-button :radius="24" title="圆角按钮" />
-        <see-button size="large" title="渐变色按钮" text-color="#FFFFFF" color="linear-gradient(135deg, #3ca7ff, #52f7bd)" is-ripple />
-        <see-button title="自定义颜色" color="#8A4D35" text-color="#FFFFFF" is-ripple />
-        <see-button title="传入一个view">
+        <see-button :custom-style="customStyle" :title="t('button.demo.customSize')" />
+        <see-button :radius="24" :title="t('button.demo.radius')" />
+        <see-button
+          size="large"
+          :title="t('button.demo.gradient')"
+          text-color="#FFFFFF"
+          color="linear-gradient(135deg, #3ca7ff, #52f7bd)"
+          is-ripple
+        />
+        <see-button :title="t('button.demo.customColor')" color="#8A4D35" text-color="#FFFFFF" is-ripple />
+        <see-button :title="t('button.demo.passView')">
           <view style="width: 10px; height: 10px; border: 1px red solid" />
         </see-button>
         <see-button size="large">
-          <text>标题以slot形式</text>
+          <text>{{ t('button.demo.slotTitle') }}</text>
         </see-button>
       </view>
     </view>
@@ -57,6 +63,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.button')
+
 const customStyle = {
   width: '200px',
   height: '150px'

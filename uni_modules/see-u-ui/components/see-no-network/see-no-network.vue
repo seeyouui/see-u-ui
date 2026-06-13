@@ -12,9 +12,9 @@
       <view class="see-no-network__icon">
         <text class="see-no-network__icon-text">{{ props.icon || '📡' }}</text>
       </view>
-      <text class="see-no-network__text">{{ props.text }}</text>
+      <text class="see-no-network__text">{{ displayText }}</text>
       <view class="see-no-network__retry" @click="handleRetry">
-        <text class="see-no-network__retry-text">{{ props.retryText }}</text>
+        <text class="see-no-network__retry-text">{{ displayRetryText }}</text>
       </view>
     </view>
   </view>
@@ -35,19 +35,25 @@
  * @event {Function} onRetry 点击重试时触发
  * @event {Function} onNetworkChange 网络状态变化时触发
  */
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import type { SeeNoNetworkProps, SeeNoNetworkEmits } from './type'
+import { useI18n } from '../../locale'
 
 defineOptions({ name: 'SeeNoNetwork' })
 
+const { t } = useI18n()
+
 const props = withDefaults(defineProps<SeeNoNetworkProps>(), {
   show: false,
-  text: '网络异常，请检查网络连接',
-  retryText: '重新连接',
+  text: '',
+  retryText: '',
   isFullscreen: false,
   autoCheck: true,
   retryInterval: 0
 })
+
+const displayText = computed(() => props.text || t('noNetwork.title'))
+const displayRetryText = computed(() => props.retryText || t('noNetwork.retry'))
 
 const emit = defineEmits<SeeNoNetworkEmits>()
 

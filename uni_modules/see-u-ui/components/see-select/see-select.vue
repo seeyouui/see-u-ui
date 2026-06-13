@@ -22,7 +22,7 @@
 
       <!-- 单选显示文本 -->
       <text v-else class="see-select__value" :class="{ 'see-select__value--placeholder': !displayText }">
-        {{ displayText || props.placeholder }}
+        {{ displayText || resolvedPlaceholder }}
       </text>
 
       <!-- 清除按钮 -->
@@ -47,7 +47,7 @@
           ref="searchInputRef"
           class="see-select__search-input"
           :value="searchQuery"
-          placeholder="搜索"
+          :placeholder="t('search')"
           :disabled="mergedDisabled"
           @input="handleSearchInput"
           @confirm="handleSearchConfirm"
@@ -56,7 +56,7 @@
 
       <!-- 加载状态 -->
       <view v-if="props.loading" class="see-select__loading">
-        <text class="see-select__loading-text">加载中...</text>
+        <text class="see-select__loading-text">{{ t('loading') }}</text>
       </view>
 
       <!-- 选项列表 -->
@@ -98,7 +98,7 @@
       <!-- 空状态 -->
       <view v-else class="see-select__empty">
         <slot name="empty">
-          <text class="see-select__empty-text">暂无数据</text>
+          <text class="see-select__empty-text">{{ t('noData') }}</text>
         </slot>
       </view>
     </view>
@@ -133,10 +133,13 @@
 import { ref, computed, inject, nextTick, onBeforeUnmount, watch } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
+import { useI18n } from '../../locale'
 import type { SelectOption, SelectSize, DisplayOption } from './type'
 import type { ValidateStatus } from '../../utils/shared/form-types'
 
 defineOptions({ name: 'SeeSelect' })
+
+const { t } = useI18n()
 
 /** ---------- 常量 ---------- */
 /** 下拉框动画延迟（ms） */
@@ -189,7 +192,7 @@ const props = withDefaults(
   {
     modelValue: undefined,
     options: () => [],
-    placeholder: '请选择',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isClearable: false,
@@ -263,6 +266,9 @@ const vKey = computed(() => props.valueKey || 'value')
 
 /** 标签键名 */
 const lKey = computed(() => props.labelKey || 'label')
+
+/** 翻译回退：占位符 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('select.placeholder'))
 
 /** 实际禁用状态（组件自身 + Form 联动） */
 const mergedDisabled = computed(() => {

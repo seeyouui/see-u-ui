@@ -6,7 +6,7 @@
       <textarea
         class="see-textarea__inner"
         :value="innerValue"
-        :placeholder="placeholder"
+        :placeholder="resolvedPlaceholder"
         :disabled="mergedDisabled || mergedReadonly"
         :maxlength="maxlength"
         :auto-height="isAutoHeight"
@@ -59,11 +59,14 @@
  * @property {'return' | 'send' | 'search' | 'next' | 'go'} confirmType 键盘右下角按钮文字（默认 'return'）
  */
 import { computed, inject, ref, watch } from 'vue'
+import { useI18n } from '../../locale'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
 import type { ConfirmType, FormContext, TextareaSize, TextareaInputEvent, TextareaKeyboardEvent, TextareaLineChangeEvent } from './type'
 
 defineOptions({ name: 'SeeTextarea' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -101,7 +104,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: '',
-    placeholder: '请输入内容',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     maxlength: -1,
@@ -168,6 +171,9 @@ const innerValue = ref(props.modelValue)
 const isFocused = ref(false)
 
 /** ---------- computed ---------- */
+/** 翻译回退 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('textarea.placeholder'))
+
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
   return props.isDisabled || fieldDisabled.value || false

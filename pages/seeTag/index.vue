@@ -2,18 +2,18 @@
   <see-config>
     <view class="container">
       <!-- ========== 基本使用 ========== -->
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('tag.demo.basic') }}</text>
       <view class="content">
-        <see-tag>默认</see-tag>
-        <see-tag type="primary">主要</see-tag>
-        <see-tag type="success">成功</see-tag>
-        <see-tag type="warning">警告</see-tag>
-        <see-tag type="danger">危险</see-tag>
-        <see-tag type="info">信息</see-tag>
+        <see-tag>{{ t('tag.demo.default') }}</see-tag>
+        <see-tag type="primary">{{ t('tag.demo.primary') }}</see-tag>
+        <see-tag type="success">{{ t('tag.demo.success') }}</see-tag>
+        <see-tag type="warning">{{ t('tag.demo.warning') }}</see-tag>
+        <see-tag type="danger">{{ t('tag.demo.danger') }}</see-tag>
+        <see-tag type="info">{{ t('tag.demo.info') }}</see-tag>
       </view>
 
       <!-- ========== 主题效果 ========== -->
-      <text class="title">主题效果</text>
+      <text class="title">{{ t('tag.demo.theme') }}</text>
       <view class="content">
         <see-tag type="primary" effect="dark">Dark</see-tag>
         <see-tag type="primary" effect="light">Light</see-tag>
@@ -31,15 +31,15 @@
       </view>
 
       <!-- ========== 尺寸 ========== -->
-      <text class="title">尺寸</text>
+      <text class="title">{{ t('tag.demo.size') }}</text>
       <view class="content">
-        <see-tag type="primary" size="large">大型</see-tag>
-        <see-tag type="primary">默认</see-tag>
-        <see-tag type="primary" size="small">小型</see-tag>
+        <see-tag type="primary" size="large">{{ t('tag.demo.large') }}</see-tag>
+        <see-tag type="primary">{{ t('tag.demo.default') }}</see-tag>
+        <see-tag type="primary" size="small">{{ t('tag.demo.small') }}</see-tag>
       </view>
 
       <!-- ========== 圆角标签 ========== -->
-      <text class="title">圆角标签</text>
+      <text class="title">{{ t('tag.demo.round') }}</text>
       <view class="content">
         <see-tag type="primary" round>Round</see-tag>
         <see-tag type="success" round effect="dark">Round</see-tag>
@@ -47,18 +47,18 @@
       </view>
 
       <!-- ========== 可关闭 ========== -->
-      <text class="title">可关闭</text>
+      <text class="title">{{ t('tag.demo.closable') }}</text>
       <view class="content">
         <see-tag v-for="(tag, index) in dynamicTags" :key="index" :type="tag.type" closable @on-close="handleClose(index)">
           {{ tag.label }}
         </see-tag>
       </view>
       <view class="flex-sb">
-        <see-button size="mini" is-ripple type="primary" @tap="addTag">添加标签</see-button>
+        <see-button size="mini" is-ripple type="primary" @tap="addTag">{{ t('tag.demo.addTag') }}</see-button>
       </view>
 
       <!-- ========== 标记样式 ========== -->
-      <text class="title">标记样式</text>
+      <text class="title">{{ t('tag.demo.mark') }}</text>
       <view class="content">
         <see-tag type="primary" mark>Mark</see-tag>
         <see-tag type="success" mark effect="dark">Mark</see-tag>
@@ -66,7 +66,7 @@
       </view>
 
       <!-- ========== 描边 ========== -->
-      <text class="title">描边</text>
+      <text class="title">{{ t('tag.demo.hit') }}</text>
       <view class="content">
         <see-tag type="primary" hit>Hit</see-tag>
         <see-tag type="primary" hit effect="dark">Hit Dark</see-tag>
@@ -74,28 +74,28 @@
       </view>
 
       <!-- ========== 禁用状态 ========== -->
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('tag.demo.disabled') }}</text>
       <view class="content">
-        <see-tag type="primary" is-disabled>禁用</see-tag>
-        <see-tag type="primary" closable is-disabled>禁用可关闭</see-tag>
-        <see-tag type="success" is-disabled effect="dark">禁用</see-tag>
+        <see-tag type="primary" is-disabled>{{ t('tag.demo.tagDisabled') }}</see-tag>
+        <see-tag type="primary" closable is-disabled>{{ t('tag.demo.closableDisabled') }}</see-tag>
+        <see-tag type="success" is-disabled effect="dark">{{ t('tag.demo.tagDisabled') }}</see-tag>
       </view>
 
       <!-- ========== 自定义颜色 ========== -->
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('tag.demo.customColor') }}</text>
       <view class="content">
-        <see-tag color="#7232dd">自定义</see-tag>
-        <see-tag color="#7232dd" effect="dark">自定义</see-tag>
-        <see-tag color="#7232dd" effect="plain">自定义</see-tag>
+        <see-tag color="#7232dd">{{ t('tag.demo.custom') }}</see-tag>
+        <see-tag color="#7232dd" effect="dark">{{ t('tag.demo.custom') }}</see-tag>
+        <see-tag color="#7232dd" effect="plain">{{ t('tag.demo.custom') }}</see-tag>
       </view>
       <view class="content">
-        <see-tag bg-color="#fdf0ff" text-color="#7232dd" border-color="#e8d0f8">完全自定义</see-tag>
+        <see-tag bg-color="#fdf0ff" text-color="#7232dd" border-color="#e8d0f8">{{ t('tag.demo.fullCustom') }}</see-tag>
       </view>
 
       <!-- ========== 点击事件 ========== -->
-      <text class="title">点击事件</text>
+      <text class="title">{{ t('tag.demo.click') }}</text>
       <view class="content">
-        <see-tag type="primary" @on-click="handleClick">点击我 ({{ clickCount }})</see-tag>
+        <see-tag type="primary" @on-click="handleClick">{{ t('tag.demo.clickMe') }} ({{ clickCount }})</see-tag>
       </view>
     </view>
   </see-config>
@@ -103,18 +103,22 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.tag')
 
 const dynamicTags = ref([
-  { label: '标签一', type: 'primary' },
-  { label: '标签二', type: 'success' },
-  { label: '标签三', type: 'warning' }
+  { label: t('tag.demo.tag1'), type: 'primary' },
+  { label: t('tag.demo.tag2'), type: 'success' },
+  { label: t('tag.demo.tag3'), type: 'warning' }
 ])
 const tagTypes = ['primary', 'success', 'warning', 'danger', 'info'] as const
 let tagIndex = 3
 
 const addTag = () => {
   tagIndex++
-  dynamicTags.value.push({ label: `标签${tagIndex}`, type: tagTypes[tagIndex % tagTypes.length] })
+  dynamicTags.value.push({ label: t('tag.demo.tagLabel', { index: tagIndex + 1 }), type: tagTypes[tagIndex % tagTypes.length] })
 }
 
 const handleClose = (index: number) => {

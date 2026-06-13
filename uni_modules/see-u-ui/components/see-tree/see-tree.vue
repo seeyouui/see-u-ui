@@ -2,7 +2,7 @@
   <view class="see-tree">
     <!-- 搜索框 -->
     <view v-if="isFilterable" class="see-tree__search">
-      <input class="see-tree__search-input" type="text" :placeholder="searchPlaceholder" :value="searchQuery" @input="handleSearch" />
+      <input class="see-tree__search-input" type="text" :placeholder="displaySearchPlaceholder" :value="searchQuery" @input="handleSearch" />
     </view>
 
     <!-- 树形列表 -->
@@ -59,17 +59,20 @@
 
     <!-- 空数据 -->
     <view v-else class="see-tree__empty">
-      <text class="see-tree__empty-text">{{ emptyText }}</text>
+      <text class="see-tree__empty-text">{{ displayEmptyText }}</text>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue'
+import { useI18n } from '../../locale'
 import { useTree } from '../../utils/hooks/useTree'
 import type { TreeNode, SeeTreeProps, SeeTreeEmits, SeeTreeExpose } from './type'
 
 defineOptions({ name: 'SeeTree' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeTreeProps>(), {
@@ -89,12 +92,16 @@ const props = withDefaults(defineProps<SeeTreeProps>(), {
   virtualHeight: 400,
   nodeHeight: 44,
   indent: 24,
-  emptyText: '暂无数据',
-  searchPlaceholder: '搜索'
+  emptyText: '',
+  searchPlaceholder: ''
 })
 
 /** ---------- emits ---------- */
 const emit = defineEmits<SeeTreeEmits>()
+
+/** ---------- computed ---------- */
+const displayEmptyText = computed(() => props.emptyText || t('noData'))
+const displaySearchPlaceholder = computed(() => props.searchPlaceholder || t('search'))
 
 /** ---------- state ---------- */
 // 用浅拷贝包装一份内部数据，避免 useTree 的写入操作污染父组件传入的 props.data

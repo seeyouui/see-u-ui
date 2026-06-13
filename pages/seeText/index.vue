@@ -1,99 +1,105 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('text.demo.basic') }}</text>
       <view class="content">
-        <see-text text="我的愿望是世界上没有加班"></see-text>
+        <see-text :text="t('text.demo.noOvertime')"></see-text>
       </view>
-      <text class="title">设置主题</text>
+      <text class="title">{{ t('text.demo.theme') }}</text>
       <view class="content">
-        <see-text text="默认" />
-        <see-text text="主色" type="primary" />
-        <see-text text="失败" type="error" />
-        <see-text text="警告" type="warning" />
-        <see-text text="成功" type="success" />
-        <see-text text="自定义颜色" color="#52f7bd" />
+        <see-text :text="t('text.demo.default')" />
+        <see-text :text="t('text.demo.primary')" type="primary" />
+        <see-text :text="t('text.demo.error')" type="error" />
+        <see-text :text="t('text.demo.warning')" type="warning" />
+        <see-text :text="t('text.demo.success')" type="success" />
+        <see-text :text="t('text.demo.customColor')" color="#52f7bd" />
       </view>
-      <text class="title">链接</text>
+      <text class="title">{{ t('text.demo.link') }}</text>
       <view class="content">
-        <see-text text="这是SeeYouUI的官方文档" type="primary" mode="link" href="https://www.baidu.com" />
+        <see-text :text="t('text.demo.docLink')" type="primary" mode="link" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-text text="如需更完整功能,请查看Link链接组件" type="warning" mode="link" href="https://www.baidu.com" />
+        <see-text :text="t('text.demo.needLink')" type="warning" mode="link" href="https://www.baidu.com" />
       </view>
-      <text class="title">拨打电话</text>
+      <text class="title">{{ t('text.demo.phone') }}</text>
       <view class="content">
         <see-text text="18888888888" type="primary" mode="phone" phone-number="18888888888" />
         <view class="gap-12"></view>
-        <see-text text="自定义文本" type="primary" mode="phone" phone-number="19999999999" />
+        <see-text :text="t('text.demo.customText')" type="primary" mode="phone" phone-number="19999999999" />
       </view>
-      <text class="title">显示金额</text>
+      <text class="title">{{ t('text.demo.price') }}</text>
       <view class="content flex-start">
-        <see-text text="一千块：" />
+        <see-text :text="t('text.demo.thousand')" />
         <see-text text="1000" type="primary" mode="price" />
         <view class="gap-12"></view>
-        <see-text text="金额滚动：" />
+        <see-text :text="t('text.demo.scrollAmount')" />
         <see-text :text="price" is-count-up mode="price" type="primary" :size="16" />
-        <see-button size="mini" is-ripple @tap="price++">点我+1</see-button>
+        <see-button size="mini" is-ripple @tap="price++">{{ t('text.demo.plusOne') }}</see-button>
         <view class="gap-12"></view>
       </view>
-      <text class="title">日期格式化</text>
+      <text class="title">{{ t('text.demo.date') }}</text>
       <view class="content flex-start">
-        <see-text text="字符串时间戳：" />
+        <see-text :text="t('text.demo.strTimestamp')" />
         <see-text type="primary" mode="date" date="1672502400000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="数字时间戳 + 时分秒：" />
+        <see-text :text="t('text.demo.numTimestamp')" />
         <see-text type="primary" mode="date" :date="1715668235000" date-format="YYYY-MM-DD HH:mm:ss" />
         <view class="gap-12"></view>
-        <see-text text="显示星期：" />
-        <see-text type="primary" mode="date" :date="1715668235000" date-format="YYYY年MM月DD日 WWW" />
+        <see-text :text="t('text.demo.showWeek')" />
+        <see-text type="primary" mode="date" :date="1715668235000" :date-format="t('text.demo.formatWithWeek')" />
         <view class="gap-12"></view>
-        <see-text text="Date形式：" />
-        <see-text type="primary" mode="date" :date="new Date()" date-format="YYYY年MM月DD日" />
+        <see-text :text="t('text.demo.dateForm')" />
+        <see-text type="primary" mode="date" :date="new Date()" :date-format="t('text.demo.formatDateObj')" />
         <view class="gap-12"></view>
-        <see-text text="实时：" />
-        <see-text type="primary" mode="date" :date="currentTime" date-format="YYYY年MM月DD日 HH:mm:ss.S" />
+        <see-text :text="t('text.demo.realtime')" />
+        <see-text type="primary" mode="date" :date="currentTime" :date-format="t('text.demo.formatRealtime')" />
       </view>
-      <text class="title">时间距今</text>
+      <text class="title">{{ t('text.demo.timeago') }}</text>
       <view class="content flex-start">
-        <see-text text="当前时间 + 1秒：" />
+        <see-text :text="t('text.demo.currPlus1s')" />
         <see-text type="primary" mode="timeago" :date="Date.now() + 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 30秒：" />
+        <see-text :text="t('text.demo.currMinus30s')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 30 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 30分钟：" />
+        <see-text :text="t('text.demo.currMinus30m')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 30 * 60 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 5小时：" />
+        <see-text :text="t('text.demo.currMinus5h')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 5 * 3600 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 3天：" />
+        <see-text :text="t('text.demo.currMinus3d')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 3 * 86400 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 15天：" />
+        <see-text :text="t('text.demo.currMinus15d')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 15 * 86400 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 150天：" />
+        <see-text :text="t('text.demo.currMinus150d')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 150 * 86400 * 1000" date-format="YYYY-MM-DD" />
         <view class="gap-12"></view>
-        <see-text text="当前时间 - 800天：" />
+        <see-text :text="t('text.demo.currMinus800d')" />
         <see-text type="primary" mode="timeago" :date="Date.now() - 800 * 86400 * 1000" date-format="YYYY-MM-DD" />
       </view>
-      <text class="title">打字机效果</text>
+      <text class="title">{{ t('text.demo.typewriter') }}</text>
       <view class="content flex-start">
         <see-text
           ref="textRef"
           mode="text"
-          :text="message"
+          :text="t('text.demo.typing')"
           :is-text-up="true"
           :text-up="{ speed: 120, autoStart: false, showCursor: true }"
           @on-text-up-complete="handleComplete"
         />
         <view class="gap-12"></view>
         <view class="flex-sb">
-          <see-button is-ripple title="开始打字" @tap="start" />
-          <see-button is-ripple :title="isStop ? '暂停' : '继续'" :type="isStop ? 'warning' : 'primary'" :is-disabled="!isStart" @tap="stopResume" />
-          <see-button title="立即显示" @tap="showAll" />
+          <see-button is-ripple :title="t('text.demo.startTyping')" @tap="start" />
+          <see-button
+            is-ripple
+            :title="isStop ? t('text.demo.pause') : t('text.demo.continue')"
+            :type="isStop ? 'warning' : 'primary'"
+            :is-disabled="!isStart"
+            @tap="stopResume"
+          />
+          <see-button :title="t('text.demo.showAll')" @tap="showAll" />
         </view>
       </view>
     </view>
@@ -102,6 +108,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.text')
 
 const currentTime = ref(new Date())
 let timer: ReturnType<typeof setInterval> | null = null
@@ -120,7 +130,6 @@ onUnmounted(() => {
 const price = ref(9999999999999.99)
 
 /** 打字机效果 */
-const message = ref('这是一段模拟AI输出的文本，会一个字一个字地显示出来。')
 const textRef = ref()
 const isStop = ref(true)
 const isStart = ref(false)

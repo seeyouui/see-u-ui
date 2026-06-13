@@ -14,31 +14,31 @@ describe('SeeEmpty', () => {
 
   it('默认类型显示暂无数据', () => {
     const wrapper = mount(SeeEmpty, { props: { type: 'default' } })
-    expect(wrapper.text()).toContain('暂无数据')
+    expect(wrapper.text()).toContain('No Data')
   })
 
   it('search 类型显示正确文字', () => {
     const wrapper = mount(SeeEmpty, { props: { type: 'search' } })
-    expect(wrapper.text()).toContain('未找到相关内容')
-    expect(wrapper.text()).toContain('请尝试修改搜索条件')
+    expect(wrapper.text()).toContain('No Results Found')
+    expect(wrapper.text()).toContain('Please try modifying your search')
   })
 
   it('network 类型显示正确文字', () => {
     const wrapper = mount(SeeEmpty, { props: { type: 'network' } })
-    expect(wrapper.text()).toContain('网络异常')
-    expect(wrapper.text()).toContain('请检查网络连接后重试')
+    expect(wrapper.text()).toContain('Network Error')
+    expect(wrapper.text()).toContain('Please check your connection and retry')
   })
 
   it('error 类型显示正确文字', () => {
     const wrapper = mount(SeeEmpty, { props: { type: 'error' } })
-    expect(wrapper.text()).toContain('页面出错')
-    expect(wrapper.text()).toContain('请稍后重试')
+    expect(wrapper.text()).toContain('Page Error')
+    expect(wrapper.text()).toContain('Please try again later')
   })
 
   it('404 类型显示正确文字', () => {
     const wrapper = mount(SeeEmpty, { props: { type: '404' } })
-    expect(wrapper.text()).toContain('页面不存在')
-    expect(wrapper.text()).toContain('您访问的页面不存在')
+    expect(wrapper.text()).toContain('Page Not Found')
+    expect(wrapper.text()).toContain('The page you visited does not exist')
   })
 
   it('自定义标题', () => {
@@ -98,7 +98,7 @@ describe('SeeEmpty', () => {
   it('custom 类型无默认内容', () => {
     const wrapper = mount(SeeEmpty, { props: { type: 'custom' } })
     // custom 类型没有默认标题
-    expect(wrapper.text()).not.toContain('暂无数据')
+    expect(wrapper.text()).not.toContain('No Data')
   })
 
   it('image 插槽', () => {

@@ -6,6 +6,7 @@
  * 固定列、虚拟行、虚拟列及高级组合。
  */
 import { computed, toRef, getCurrentInstance } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeTableProps, SeeTableColumn } from './type'
 import { useTableColumns } from './hooks/useTableColumns'
 import { useTableSort } from './hooks/useTableSort'
@@ -16,6 +17,8 @@ import { useTablePagination } from './hooks/useTablePagination'
 import { useTableVirtual } from './hooks/useTableVirtual'
 
 defineOptions({ name: 'SeeTable' })
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<SeeTableProps>(), {
   data: () => [],
@@ -470,7 +473,7 @@ const pageNumbers = computed(() => {
       <slot name="loading">
         <view class="see-table__loading">
           <view class="see-table__loading-spinner" />
-          <text class="see-table__loading-text">加载中...</text>
+          <text class="see-table__loading-text">{{ t('table.loading') }}</text>
         </view>
       </slot>
     </view>
@@ -480,7 +483,7 @@ const pageNumbers = computed(() => {
       <slot name="error">
         <view class="see-table__error">
           <text class="see-table__error-icon">!</text>
-          <text class="see-table__status-text">加载失败</text>
+          <text class="see-table__status-text">{{ t('table.error') }}</text>
         </view>
       </slot>
     </view>
@@ -490,7 +493,7 @@ const pageNumbers = computed(() => {
       <slot name="empty">
         <view class="see-table__empty">
           <text class="see-table__empty-icon">○</text>
-          <text class="see-table__status-text">{{ emptyText || '暂无数据' }}</text>
+          <text class="see-table__status-text">{{ emptyText || t('table.empty') }}</text>
         </view>
       </slot>
     </view>
@@ -841,7 +844,7 @@ const pageNumbers = computed(() => {
         <!-- 分页 -->
         <view v-if="showPagination" class="see-table__pagination">
           <view v-if="showTotal" class="see-table__pagination-total">
-            <text class="see-table__pagination-total-text">共 {{ total }} 条</text>
+            <text class="see-table__pagination-total-text">{{ t('table.total', { total }) }}</text>
           </view>
           <view class="see-table__pagination-nav">
             <view class="see-table__pagination-btn" :class="{ 'see-table__pagination-btn--disabled': !hasPrev }" @tap="prevPage">

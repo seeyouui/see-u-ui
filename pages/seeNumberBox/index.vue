@@ -1,64 +1,64 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('numberBox.demo.basic') }}</text>
       <view class="content">
         <see-number-box v-model="val1" />
-        <text class="info">当前值：{{ val1 }}</text>
+        <text class="info">{{ t('numberBox.demo.currentValue') }}{{ val1 }}</text>
       </view>
 
-      <text class="title">步长设置</text>
+      <text class="title">{{ t('numberBox.demo.step') }}</text>
       <view class="content">
         <see-number-box v-model="val2" :step="5" />
-        <text class="info">步长为 5，当前值：{{ val2 }}</text>
+        <text class="info">{{ t('numberBox.demo.stepHint') }}{{ val2 }}</text>
       </view>
 
-      <text class="title">限制范围</text>
+      <text class="title">{{ t('numberBox.demo.range') }}</text>
       <view class="content">
         <see-number-box v-model="val3" :min="1" :max="10" />
-        <text class="info">范围 1~10，当前值：{{ val3 }}</text>
+        <text class="info">{{ t('numberBox.demo.rangeHint') }}{{ val3 }}</text>
       </view>
 
-      <text class="title">小数位数</text>
+      <text class="title">{{ t('numberBox.demo.decimal') }}</text>
       <view class="content">
         <see-number-box v-model="val4" :step="0.1" :decimal-length="1" />
-        <text class="info">1位小数，当前值：{{ val4 }}</text>
+        <text class="info">{{ t('numberBox.demo.decimalHint') }}{{ val4 }}</text>
       </view>
 
-      <text class="title">禁用输入框</text>
+      <text class="title">{{ t('numberBox.demo.disabledInput') }}</text>
       <view class="content">
         <see-number-box v-model="val5" is-disabled-input />
-        <text class="info">仅可通过按钮操作</text>
+        <text class="info">{{ t('numberBox.demo.buttonOnly') }}</text>
       </view>
 
-      <text class="title">禁用增加按钮</text>
+      <text class="title">{{ t('numberBox.demo.disabledPlus') }}</text>
       <view class="content">
         <see-number-box v-model="val6" is-disabled-plus />
       </view>
 
-      <text class="title">禁用减少按钮</text>
+      <text class="title">{{ t('numberBox.demo.disabledMinus') }}</text>
       <view class="content">
         <see-number-box v-model="val7" is-disabled-minus />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('numberBox.demo.disabled') }}</text>
       <view class="content">
         <see-number-box :model-value="5" is-disabled />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('numberBox.demo.readonly') }}</text>
       <view class="content">
         <see-number-box :model-value="8" is-readonly />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('numberBox.demo.sizes') }}</text>
       <view class="content">
         <see-number-box v-model="val8" size="small" />
         <see-number-box v-model="val8" size="default" />
         <see-number-box v-model="val8" size="large" />
       </view>
 
-      <text class="title">自定义输入框宽度</text>
+      <text class="title">{{ t('numberBox.demo.customInputWidth') }}</text>
       <view class="content">
         <see-number-box v-model="val9" :input-width="100" />
       </view>
@@ -68,6 +68,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeNumberBox')
 
 const val1 = ref(1)
 const val2 = ref(0)

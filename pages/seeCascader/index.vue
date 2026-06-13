@@ -1,63 +1,85 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法 - 省市区</text>
+      <text class="title">{{ t('cascader.demo.basic') }}</text>
       <view class="content">
-        <see-cascader v-model="basicValue" :options="areaData" placeholder="请选择地区" toolbar-title="选择地区" @on-confirm="handleBasicConfirm" />
-        <text class="result-text">选中值：{{ JSON.stringify(basicValue) }}</text>
+        <see-cascader
+          v-model="basicValue"
+          :options="areaData"
+          :placeholder="t('cascader.demo.placeholderRegion')"
+          :toolbar-title="t('cascader.demo.toolbarRegion')"
+          @on-confirm="handleBasicConfirm"
+        />
+        <text class="result-text">{{ t('cascader.demo.selectedValue') }}{{ JSON.stringify(basicValue) }}</text>
       </view>
 
-      <text class="title">显示标签页导航</text>
+      <text class="title">{{ t('cascader.demo.tabNav') }}</text>
       <view class="content">
-        <see-cascader v-model="tabValue" :options="areaData" is-show-tab placeholder="带标签页导航" toolbar-title="选择地区" />
+        <see-cascader
+          v-model="tabValue"
+          :options="areaData"
+          is-show-tab
+          :placeholder="t('cascader.demo.placeholderTab')"
+          :toolbar-title="t('cascader.demo.toolbarRegion')"
+        />
       </view>
 
-      <text class="title">懒加载</text>
+      <text class="title">{{ t('cascader.demo.lazy') }}</text>
       <view class="content">
         <see-cascader
           v-model="lazyValue"
           :options="lazyData"
           is-lazy
           :lazy-load="lazyLoadChildren"
-          placeholder="懒加载子级"
-          toolbar-title="懒加载选择"
+          :placeholder="t('cascader.demo.placeholderLazy')"
+          :toolbar-title="t('cascader.demo.toolbarLazy')"
           @on-confirm="handleLazyConfirm"
         />
-        <text class="result-text">选中值：{{ JSON.stringify(lazyValue) }}</text>
+        <text class="result-text">{{ t('cascader.demo.selectedValue') }}{{ JSON.stringify(lazyValue) }}</text>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('cascader.demo.disabled') }}</text>
       <view class="content">
-        <see-cascader :model-value="['zhejiang', 'hangzhou', 'xihu']" :options="areaData" is-disabled placeholder="禁用状态" />
+        <see-cascader
+          :model-value="['zhejiang', 'hangzhou', 'xihu']"
+          :options="areaData"
+          is-disabled
+          :placeholder="t('cascader.demo.placeholderDisabled')"
+        />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('cascader.demo.readonly') }}</text>
       <view class="content">
-        <see-cascader :model-value="['zhejiang', 'hangzhou', 'xihu']" :options="areaData" is-readonly placeholder="只读状态" />
+        <see-cascader
+          :model-value="['zhejiang', 'hangzhou', 'xihu']"
+          :options="areaData"
+          is-readonly
+          :placeholder="t('cascader.demo.placeholderReadonly')"
+        />
       </view>
 
-      <text class="title">自定义按钮文字</text>
+      <text class="title">{{ t('cascader.demo.customBtnText') }}</text>
       <view class="content">
         <see-cascader
           v-model="customValue"
           :options="areaData"
-          placeholder="自定义按钮"
-          toolbar-title="请选择地址"
-          confirm-text="确定"
-          cancel-text="返回"
+          :placeholder="t('cascader.demo.placeholderCustom')"
+          :toolbar-title="t('cascader.demo.toolbarAddress')"
+          :confirm-text="t('cascader.demo.confirm')"
+          :cancel-text="t('cascader.demo.cancel')"
         />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('cascader.demo.sizes') }}</text>
       <view class="content">
-        <see-cascader v-model="sizeValue1" :options="areaData" size="small" placeholder="小尺寸" />
-        <see-cascader v-model="sizeValue2" :options="areaData" size="default" placeholder="默认尺寸" />
-        <see-cascader v-model="sizeValue3" :options="areaData" size="large" placeholder="大尺寸" />
+        <see-cascader v-model="sizeValue1" :options="areaData" size="small" :placeholder="t('cascader.demo.placeholderSmall')" />
+        <see-cascader v-model="sizeValue2" :options="areaData" size="default" :placeholder="t('cascader.demo.placeholderDefault')" />
+        <see-cascader v-model="sizeValue3" :options="areaData" size="large" :placeholder="t('cascader.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('cascader.demo.noBorder') }}</text>
       <view class="content">
-        <see-cascader v-model="borderValue" :options="areaData" :is-border="false" placeholder="无边框样式" />
+        <see-cascader v-model="borderValue" :options="areaData" :is-border="false" :placeholder="t('cascader.demo.placeholderNoBorder')" />
       </view>
     </view>
   </see-config>
@@ -65,7 +87,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import type { CascaderOption } from '../../uni_modules/see-u-ui/components/see-cascader/type'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCascader')
 
 /** 省市区数据 */
 const areaData: CascaderOption[] = [

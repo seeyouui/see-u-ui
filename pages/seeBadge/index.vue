@@ -1,14 +1,14 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('badge.demo.basic') }}</text>
       <view class="content">
         <see-badge value="5" type="error"></see-badge>
         <view class="ml-12" />
         <see-badge value="99" type="primary"></see-badge>
       </view>
 
-      <text class="title">圆点形式</text>
+      <text class="title">{{ t('badge.demo.dot') }}</text>
       <view class="content">
         <see-badge :is-dot="true" type="error"></see-badge>
         <view class="ml-12" />
@@ -17,7 +17,7 @@
         <see-badge :is-dot="true" type="warning"></see-badge>
       </view>
 
-      <text class="title">设置主题</text>
+      <text class="title">{{ t('badge.demo.theme') }}</text>
       <view class="content flex-sb">
         <see-badge value="1" type="info"></see-badge>
         <see-badge value="2" type="primary"></see-badge>
@@ -26,7 +26,7 @@
         <see-badge value="5" type="success"></see-badge>
       </view>
 
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('badge.demo.customColor') }}</text>
       <view class="content">
         <see-badge value="8" bg-color="#ff6b6b" color="#ffffff"></see-badge>
         <view class="ml-12" />
@@ -35,7 +35,7 @@
         <see-badge :is-dot="true" bg-color="#ffd700"></see-badge>
       </view>
 
-      <text class="title">超过最大值</text>
+      <text class="title">{{ t('badge.demo.overflow') }}</text>
       <view class="content">
         <see-badge value="150" max="99" number-type="overflow" type="error"></see-badge>
         <view class="ml-12" />
@@ -44,7 +44,7 @@
         <see-badge value="2500" number-type="limit" type="primary"></see-badge>
       </view>
 
-      <text class="title">数字格式化</text>
+      <text class="title">{{ t('badge.demo.numberFormat') }}</text>
       <view class="content flex-sb">
         <see-badge value="999" number-type="limit" type="success"></see-badge>
         <see-badge value="1500" number-type="limit" type="success"></see-badge>
@@ -52,21 +52,21 @@
         <see-badge value="9999999" number-type="limit" type="success"></see-badge>
       </view>
 
-      <text class="title">徽标形状</text>
+      <text class="title">{{ t('badge.demo.shape') }}</text>
       <view class="content">
         <see-badge value="5" shape="circle" type="primary"></see-badge>
         <view class="ml-12" />
         <see-badge value="5" shape="horn" type="primary"></see-badge>
       </view>
 
-      <text class="title">颜色反转</text>
+      <text class="title">{{ t('badge.demo.inverted') }}</text>
       <view class="content">
         <see-badge value="5" type="primary" :inverted="false"></see-badge>
         <view class="ml-12" />
         <see-badge value="5" type="primary" :inverted="true"></see-badge>
       </view>
 
-      <text class="title">自定义大小</text>
+      <text class="title">{{ t('badge.demo.size') }}</text>
       <view class="content">
         <see-badge value="5" :size="10"></see-badge>
         <view class="ml-12" />
@@ -75,7 +75,7 @@
         <see-badge value="5" :size="18"></see-badge>
       </view>
 
-      <text class="title">圆点大小</text>
+      <text class="title">{{ t('badge.demo.dotSize') }}</text>
       <view class="content">
         <see-badge :is-dot="true" :dot-size="8" type="primary"></see-badge>
         <view class="ml-12" />
@@ -84,7 +84,7 @@
         <see-badge :is-dot="true" :dot-size="24" type="primary"></see-badge>
       </view>
 
-      <text class="title">动画效果</text>
+      <text class="title">{{ t('badge.demo.animation') }}</text>
       <view class="content flex-sb">
         <see-badge value="5" animation-type="scale" type="primary"></see-badge>
         <see-badge value="5" animation-type="fade" type="primary"></see-badge>
@@ -92,7 +92,7 @@
         <see-badge value="5" :animate="false" type="primary"></see-badge>
       </view>
 
-      <text class="title">位置偏移</text>
+      <text class="title">{{ t('badge.demo.offset') }}</text>
       <view class="content flex-sb">
         <view class="box">
           <see-badge :is-dot="true" absolute value="3" :offset="[0, 0]" type="error"></see-badge>
@@ -105,14 +105,14 @@
         </view>
       </view>
 
-      <text class="title">实时更新</text>
+      <text class="title">{{ t('badge.demo.realtime') }}</text>
       <view class="content">
-        <see-text text="消息数量：" />
+        <see-text :text="t('badge.demo.messageCount')" />
         <see-badge :value="messageCount" max="99" type="primary"></see-badge>
         <view class="flex-sb">
           <see-button size="mini" is-ripple type="primary" @tap="addMessage">+1</see-button>
           <see-button size="mini" is-ripple type="warning" @tap="reduceMessage">-1</see-button>
-          <see-button size="mini" is-ripple type="error" @tap="clearMessage">清空</see-button>
+          <see-button size="mini" is-ripple type="error" @tap="clearMessage">{{ t('badge.demo.clear') }}</see-button>
         </view>
       </view>
     </view>
@@ -121,6 +121,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.badge')
 
 const messageCount = ref(5)
 

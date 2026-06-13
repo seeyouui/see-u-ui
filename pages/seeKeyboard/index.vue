@@ -1,107 +1,114 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">数字键盘</text>
+      <text class="title">{{ t('keyboard.demo.number') }}</text>
       <view class="content">
         <view class="input-box" @tap="showNumber = true">
-          <text class="input-text">{{ numberValue || '点击输入数字' }}</text>
+          <text class="input-text">{{ numberValue || t('keyboard.demo.hintNumber') }}</text>
         </view>
         <see-keyboard
           v-model="showNumber"
           type="number"
-          title="数字键盘"
+          :title="t('keyboard.demo.titleNumber')"
           @on-input="onNumberInput"
           @on-delete="onNumberDelete"
           @on-confirm="onNumberConfirm"
         />
       </view>
 
-      <text class="title">身份证键盘</text>
+      <text class="title">{{ t('keyboard.demo.idcard') }}</text>
       <view class="content">
         <view class="input-box" @tap="showIdcard = true">
-          <text class="input-text">{{ idcardValue || '点击输入身份证号' }}</text>
+          <text class="input-text">{{ idcardValue || t('keyboard.demo.hintIdcard') }}</text>
         </view>
         <see-keyboard
           v-model="showIdcard"
           type="idcard"
-          title="身份证键盘"
+          :title="t('keyboard.demo.titleIdcard')"
           @on-input="onIdcardInput"
           @on-delete="onIdcardDelete"
           @on-confirm="onIdcardConfirm"
         />
       </view>
 
-      <text class="title">银行卡键盘</text>
+      <text class="title">{{ t('keyboard.demo.bankCard') }}</text>
       <view class="content">
         <view class="input-box" @tap="showCard = true">
-          <text class="input-text">{{ cardValue || '点击输入银行卡号' }}</text>
+          <text class="input-text">{{ cardValue || t('keyboard.demo.hintCard') }}</text>
         </view>
         <see-keyboard
           v-model="showCard"
           type="card"
-          title="银行卡键盘"
+          :title="t('keyboard.demo.titleCard')"
           @on-input="onCardInput"
           @on-delete="onCardDelete"
           @on-confirm="onCardConfirm"
         />
       </view>
 
-      <text class="title">完整键盘（字母 + 数字 + 符号）</text>
+      <text class="title">{{ t('keyboard.demo.fullText') }}</text>
       <view class="content">
         <view class="input-box" @tap="showText = true">
-          <text class="input-text">{{ textValue || '点击输入文本' }}</text>
+          <text class="input-text">{{ textValue || t('keyboard.demo.hintText') }}</text>
         </view>
-        <see-keyboard v-model="showText" type="text" title="完整键盘" @on-input="onTextInput" @on-delete="onTextDelete" @on-confirm="onTextConfirm" />
+        <see-keyboard
+          v-model="showText"
+          type="text"
+          :title="t('keyboard.demo.titleFull')"
+          @on-input="onTextInput"
+          @on-delete="onTextDelete"
+          @on-confirm="onTextConfirm"
+        />
       </view>
 
-      <text class="title">安全键盘（随机数字）</text>
+      <text class="title">{{ t('keyboard.demo.secure') }}</text>
       <view class="content">
         <view class="input-box" @tap="showRandom = true">
-          <text class="input-text">{{ randomValue || '点击输入密码' }}</text>
+          <text class="input-text">{{ randomValue || t('keyboard.demo.hintRandom') }}</text>
         </view>
         <see-keyboard
           v-model="showRandom"
           type="number"
           is-random
-          title="安全键盘"
+          :title="t('keyboard.demo.titleSecure')"
           @on-input="onRandomInput"
           @on-delete="onRandomDelete"
           @on-confirm="onRandomConfirm"
         />
-        <text class="info">每次打开键盘数字排列随机，防止窥探</text>
+        <text class="info">{{ t('keyboard.demo.secureHint') }}</text>
       </view>
 
-      <text class="title">配合 Code 组件使用</text>
+      <text class="title">{{ t('keyboard.demo.withCode') }}</text>
       <view class="content">
         <see-code v-model="codeValue" :length="6" :is-focus="false" is-cursor @tap="showCodeKeyboard = true" />
         <see-keyboard
           v-model="showCodeKeyboard"
           type="number"
-          title="输入验证码"
+          :title="t('keyboard.demo.titleCode')"
           @on-input="onCodeInput"
           @on-delete="onCodeDelete"
           @on-confirm="onCodeConfirm"
         />
-        <text class="info">点击验证码框弹出数字键盘</text>
+        <text class="info">{{ t('keyboard.demo.codeHint') }}</text>
       </view>
 
-      <text class="title">不显示 Toolbar</text>
+      <text class="title">{{ t('keyboard.demo.noToolbar') }}</text>
       <view class="content">
         <view class="input-box" @tap="showNoToolbar = true">
-          <text class="input-text">{{ noToolbarValue || '点击输入' }}</text>
+          <text class="input-text">{{ noToolbarValue || t('keyboard.demo.hintInput') }}</text>
         </view>
         <see-keyboard v-model="showNoToolbar" type="number" :is-show-toolbar="false" @on-input="onNoToolbarInput" @on-delete="onNoToolbarDelete" />
       </view>
 
-      <text class="title">不显示确认按钮</text>
+      <text class="title">{{ t('keyboard.demo.noConfirm') }}</text>
       <view class="content">
         <view class="input-box" @tap="showNoConfirm = true">
-          <text class="input-text">{{ noConfirmValue || '点击输入' }}</text>
+          <text class="input-text">{{ noConfirmValue || t('keyboard.demo.hintInput') }}</text>
         </view>
         <see-keyboard
           v-model="showNoConfirm"
           type="number"
-          title="无确认按钮"
+          :title="t('keyboard.demo.titleNoConfirm')"
           :is-show-confirm="false"
           @on-input="onNoConfirmInput"
           @on-delete="onNoConfirmDelete"
@@ -113,6 +120,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeKeyboard')
 
 /* ========== 数字键盘 ========== */
 const showNumber = ref(false)

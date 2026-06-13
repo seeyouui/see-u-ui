@@ -45,7 +45,7 @@ describe('SeeButton 组件测试', () => {
       const wrapper = mount(SeeButton)
 
       expect(wrapper.props('title')).toBe('')
-      expect(wrapper.props('size')).toBe('normal')
+      expect(wrapper.props('size')).toBe('default')
       expect(wrapper.props('type')).toBe('info')
       expect(wrapper.props('color')).toBe('')
       expect(wrapper.props('textColor')).toBe('')
@@ -615,6 +615,65 @@ describe('SeeButton 组件测试', () => {
       const wrapper = mount(SeeButton)
       const id = wrapper.find('.see-button').attributes('id')
       expect(id).toMatch(/^seeButton_\d+$/)
+    })
+  })
+
+  describe('Loading 加载状态', () => {
+    it('loading 默认值为 false', () => {
+      const wrapper = mount(SeeButton)
+      expect(wrapper.props('loading')).toBe(false)
+    })
+
+    it('loadingText 默认值为空字符串', () => {
+      const wrapper = mount(SeeButton)
+      expect(wrapper.props('loadingText')).toBe('')
+    })
+
+    it('loading 时应该显示加载文案', () => {
+      const wrapper = mount(SeeButton, {
+        props: {
+          title: '提交',
+          loading: true
+        }
+      })
+      const text = wrapper.find('text')
+      // loading 时显示内置翻译的文案
+      expect(text.exists()).toBe(true)
+      expect(text.text()).toBeTruthy()
+      expect(text.text()).not.toBe('提交')
+    })
+
+    it('loading 时应该显示自定义 loadingText', () => {
+      const wrapper = mount(SeeButton, {
+        props: {
+          title: '提交',
+          loading: true,
+          loadingText: '请稍候...'
+        }
+      })
+      const text = wrapper.find('text')
+      expect(text.text()).toBe('请稍候...')
+    })
+
+    it('loading 时按钮应该被禁用', () => {
+      const wrapper = mount(SeeButton, {
+        props: {
+          loading: true
+        }
+      })
+      const button = wrapper.find('button')
+      expect(button.attributes('disabled')).toBeDefined()
+    })
+
+    it('非 loading 时应该显示 title', () => {
+      const wrapper = mount(SeeButton, {
+        props: {
+          title: '提交',
+          loading: false
+        }
+      })
+      const text = wrapper.find('text')
+      expect(text.text()).toBe('提交')
     })
   })
 

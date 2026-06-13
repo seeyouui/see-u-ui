@@ -1,5 +1,6 @@
 import { ref, type Ref } from 'vue'
 import type { ToastOptions, ToastType, ToastPosition } from './type'
+import { t } from '../../locale'
 
 /**
  * Toast 管理器（单例）
@@ -126,7 +127,7 @@ class ToastManager {
    * 显示加载中 Toast
    * @param message 消息文字
    */
-  loading(message = '加载中...') {
+  loading(message = t('loading')) {
     this.showWithOptions({ message, type: 'loading', duration: 0, isOverlay: true })
   }
 

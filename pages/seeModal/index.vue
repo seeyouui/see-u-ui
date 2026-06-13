@@ -1,56 +1,72 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('modal.demo.basic') }}</text>
     <view class="demo-content">
-      <see-button title="基础 Modal" type="primary" is-ripple @click="show1 = true" />
-      <see-modal v-model:show="show1" title="提示" content="这是一个模态框" @on-confirm="onConfirm" @on-cancel="onCancel" />
+      <see-button :title="t('modal.demo.basicBtn')" type="primary" is-ripple @click="show1 = true" />
+      <see-modal
+        v-model:show="show1"
+        :title="t('modal.demo.title')"
+        :content="t('modal.demo.content')"
+        @on-confirm="onConfirm"
+        @on-cancel="onCancel"
+      />
     </view>
 
-    <text class="title">无标题</text>
+    <text class="title">{{ t('modal.demo.noTitle') }}</text>
     <view class="demo-content">
-      <see-button title="无标题 Modal" type="primary" is-ripple @click="show2 = true" />
-      <see-modal v-model:show="show2" :is-show-header="false" content="这是一个无标题的模态框" />
+      <see-button :title="t('modal.demo.noTitleBtn')" type="primary" is-ripple @click="show2 = true" />
+      <see-modal v-model:show="show2" :is-show-header="false" :content="t('modal.demo.noTitleContent')" />
     </view>
 
-    <text class="title">无取消按钮</text>
+    <text class="title">{{ t('modal.demo.noCancel') }}</text>
     <view class="demo-content">
-      <see-button title="无取消按钮" type="primary" is-ripple @click="show3 = true" />
-      <see-modal v-model:show="show3" title="提示" content="确认删除此项目？" :is-show-cancel-btn="false" confirm-type="danger" confirm-text="删除" />
+      <see-button :title="t('modal.demo.noCancelBtn')" type="primary" is-ripple @click="show3 = true" />
+      <see-modal
+        v-model:show="show3"
+        :title="t('modal.demo.title')"
+        :content="t('modal.demo.confirmDelete')"
+        :is-show-cancel-btn="false"
+        confirm-type="danger"
+        :confirm-text="t('modal.demo.deleteText')"
+      />
     </view>
 
-    <text class="title">异步关闭</text>
+    <text class="title">{{ t('modal.demo.async') }}</text>
     <view class="demo-content">
-      <see-button title="异步关闭" type="primary" is-ripple @click="show4 = true" />
+      <see-button :title="t('modal.demo.asyncBtn')" type="primary" is-ripple @click="show4 = true" />
       <see-modal
         v-model:show="show4"
-        title="提示"
-        content="点击确认后会有loading状态"
+        :title="t('modal.demo.title')"
+        :content="t('modal.demo.asyncContent')"
         :is-confirm-loading="isLoading"
         @on-confirm="handleAsyncConfirm"
       />
     </view>
 
-    <text class="title">自定义内容</text>
+    <text class="title">{{ t('modal.demo.custom') }}</text>
     <view class="demo-content">
-      <see-button title="自定义内容" type="primary" is-ripple @click="show5 = true" />
-      <see-modal v-model:show="show5" title="自定义内容">
+      <see-button :title="t('modal.demo.customBtn')" type="primary" is-ripple @click="show5 = true" />
+      <see-modal v-model:show="show5" :title="t('modal.demo.custom')">
         <view class="custom-content">
-          <text class="custom-text">这是通过插槽自定义的内容</text>
-          <see-input placeholder="请输入内容" />
+          <text class="custom-text">{{ t('modal.demo.slotContent') }}</text>
+          <see-input :placeholder="t('modal.demo.placeholder')" />
         </view>
       </see-modal>
     </view>
 
-    <text class="title">命令式调用</text>
+    <text class="title">{{ t('modal.demo.imperative') }}</text>
     <view class="demo-content">
-      <see-button title="命令式 confirm" type="primary" is-ripple @click="showConfirm" />
+      <see-button :title="t('modal.demo.confirmBtn')" type="primary" is-ripple @click="showConfirm" />
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { modal, toast } from '@/uni_modules/see-u-ui'
+import { modal, toast, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeModal')
 
 const show1 = ref(false)
 const show2 = ref(false)
@@ -60,11 +76,11 @@ const show5 = ref(false)
 const isLoading = ref(false)
 
 const onConfirm = () => {
-  toast.success('点击了确认')
+  toast.success(t('modal.demo.confirmed'))
 }
 
 const onCancel = () => {
-  toast.info('点击了取消')
+  toast.info(t('modal.demo.cancelled'))
 }
 
 const handleAsyncConfirm = () => {
@@ -72,16 +88,16 @@ const handleAsyncConfirm = () => {
   setTimeout(() => {
     isLoading.value = false
     show4.value = false
-    toast.success('操作完成')
+    toast.success(t('modal.demo.completed'))
   }, 2000)
 }
 
 const showConfirm = async () => {
-  const result = await modal.confirm('确认执行此操作？')
+  const result = await modal.confirm(t('modal.demo.confirmAction'))
   if (result) {
-    toast.success('已确认')
+    toast.success(t('modal.demo.confirmedText'))
   } else {
-    toast.info('已取消')
+    toast.info(t('modal.demo.cancelledText'))
   }
 }
 </script>

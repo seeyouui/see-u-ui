@@ -1,55 +1,55 @@
 <template>
   <see-config>
-    <text class="title">长按触发（默认）</text>
+    <text class="title">{{ t('tooltip.demo.longPress') }}</text>
     <view class="demo-content">
-      <see-tooltip content="长按显示提示">
-        <see-button title="长按我" type="primary" />
+      <see-tooltip :content="t('tooltip.demo.longPressContent')">
+        <see-button :title="t('tooltip.demo.longPressBtn')" type="primary" />
       </see-tooltip>
     </view>
 
-    <text class="title">点击触发</text>
+    <text class="title">{{ t('tooltip.demo.click') }}</text>
     <view class="demo-content">
-      <see-tooltip content="点击显示提示" trigger="click">
-        <see-button title="点击我" type="primary" />
+      <see-tooltip :content="t('tooltip.demo.clickContent')" trigger="click">
+        <see-button :title="t('tooltip.demo.clickBtn')" type="primary" />
       </see-tooltip>
     </view>
 
-    <text class="title">不同位置</text>
+    <text class="title">{{ t('tooltip.demo.position') }}</text>
     <view class="demo-content">
       <view class="tooltip-grid">
-        <see-tooltip content="顶部提示" position="top">
-          <see-button title="上" type="primary" size="small" />
+        <see-tooltip :content="t('tooltip.demo.topContent')" position="top">
+          <see-button :title="t('tooltip.demo.top')" type="primary" size="small" />
         </see-tooltip>
-        <see-tooltip content="底部提示" position="bottom">
-          <see-button title="下" type="primary" size="small" />
+        <see-tooltip :content="t('tooltip.demo.bottomContent')" position="bottom">
+          <see-button :title="t('tooltip.demo.bottom')" type="primary" size="small" />
         </see-tooltip>
-        <see-tooltip content="左侧提示" position="left">
-          <see-button title="左" type="primary" size="small" />
+        <see-tooltip :content="t('tooltip.demo.leftContent')" position="left">
+          <see-button :title="t('tooltip.demo.left')" type="primary" size="small" />
         </see-tooltip>
-        <see-tooltip content="右侧提示" position="right">
-          <see-button title="右" type="primary" size="small" />
+        <see-tooltip :content="t('tooltip.demo.rightContent')" position="right">
+          <see-button :title="t('tooltip.demo.right')" type="primary" size="small" />
         </see-tooltip>
       </view>
     </view>
 
-    <text class="title">浅色效果</text>
+    <text class="title">{{ t('tooltip.demo.light') }}</text>
     <view class="demo-content">
-      <see-tooltip content="浅色效果提示" effect="light">
-        <see-button title="浅色效果" type="primary" />
+      <see-tooltip :content="t('tooltip.demo.lightContent')" effect="light">
+        <see-button :title="t('tooltip.demo.lightBtn')" type="primary" />
       </see-tooltip>
     </view>
 
-    <text class="title">手动控制</text>
+    <text class="title">{{ t('tooltip.demo.manual') }}</text>
     <view class="demo-content">
-      <see-tooltip v-model:show="show1" content="手动控制的提示" trigger="manual">
-        <see-button title="手动控制" type="primary" @click="show1 = !show1" />
+      <see-tooltip v-model:show="show1" :content="t('tooltip.demo.manualContent')" trigger="manual">
+        <see-button :title="t('tooltip.demo.manualBtn')" type="primary" @click="show1 = !show1" />
       </see-tooltip>
     </view>
 
-    <text class="title">禁用状态</text>
+    <text class="title">{{ t('tooltip.demo.disabled') }}</text>
     <view class="demo-content">
-      <see-tooltip content="不会显示" is-disabled>
-        <see-button title="禁用状态" type="info" />
+      <see-tooltip :content="t('tooltip.demo.disabledContent')" is-disabled>
+        <see-button :title="t('tooltip.demo.disabledBtn')" type="info" />
       </see-tooltip>
     </view>
   </see-config>
@@ -57,6 +57,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeTooltip')
 
 const show1 = ref(false)
 </script>

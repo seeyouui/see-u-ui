@@ -1,42 +1,42 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('overlay.demo.basic') }}</text>
     <view class="demo-content">
-      <see-button title="显示遮罩层" type="primary" is-ripple @click="show1 = true" />
+      <see-button :title="t('overlay.demo.showOverlay')" type="primary" is-ripple @click="show1 = true" />
       <see-overlay v-model:show="show1" />
     </view>
 
-    <text class="title">自定义背景色</text>
+    <text class="title">{{ t('overlay.demo.customBg') }}</text>
     <view class="demo-content">
-      <see-button title="红色遮罩" type="primary" is-ripple @click="show2 = true" />
+      <see-button :title="t('overlay.demo.redOverlay')" type="primary" is-ripple @click="show2 = true" />
       <see-overlay v-model:show="show2" background="rgba(255, 0, 0, 0.3)" />
     </view>
 
-    <text class="title">不可点击关闭</text>
+    <text class="title">{{ t('overlay.demo.notClickable') }}</text>
     <view class="demo-content">
-      <see-button title="显示遮罩（需手动关闭）" type="primary" is-ripple @click="show3 = true" />
+      <see-button :title="t('overlay.demo.manualClose')" type="primary" is-ripple @click="show3 = true" />
       <see-overlay v-model:show="show3" :clickable="false">
         <view class="overlay-content">
-          <text class="overlay-text">点击遮罩层不会关闭</text>
-          <see-button title="手动关闭" type="primary" is-ripple @click="show3 = false" />
+          <text class="overlay-text">{{ t('overlay.demo.wontClose') }}</text>
+          <see-button :title="t('overlay.demo.manualCloseBtn')" type="primary" is-ripple @click="show3 = false" />
         </view>
       </see-overlay>
     </view>
 
-    <text class="title">带内容的遮罩</text>
+    <text class="title">{{ t('overlay.demo.withContent') }}</text>
     <view class="demo-content">
-      <see-button title="带内容遮罩" type="primary" is-ripple @click="show4 = true" />
+      <see-button :title="t('overlay.demo.contentOverlay')" type="primary" is-ripple @click="show4 = true" />
       <see-overlay v-model:show="show4">
         <view class="overlay-content">
-          <text class="overlay-text">自定义内容</text>
-          <see-button title="关闭" type="primary" is-ripple @click="show4 = false" />
+          <text class="overlay-text">{{ t('overlay.demo.customContent') }}</text>
+          <see-button :title="t('overlay.demo.close')" type="primary" is-ripple @click="show4 = false" />
         </view>
       </see-overlay>
     </view>
 
-    <text class="title">无动画</text>
+    <text class="title">{{ t('overlay.demo.noAnimation') }}</text>
     <view class="demo-content">
-      <see-button title="无动画遮罩" type="primary" is-ripple @click="show5 = true" />
+      <see-button :title="t('overlay.demo.noAnimateOverlay')" type="primary" is-ripple @click="show5 = true" />
       <see-overlay v-model:show="show5" :is-animated="false" />
     </view>
   </see-config>
@@ -44,6 +44,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeOverlay')
 
 const show1 = ref(false)
 const show2 = ref(false)

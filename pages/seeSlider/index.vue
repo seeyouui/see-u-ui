@@ -1,50 +1,50 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('slider.demo.basic') }}</text>
       <view class="content">
         <see-slider v-model="val1" />
-        <text class="info">当前值：{{ val1 }}</text>
+        <text class="info">{{ t('slider.demo.currentValue') }}{{ val1 }}</text>
       </view>
 
-      <text class="title">显示当前值</text>
+      <text class="title">{{ t('slider.demo.showValue') }}</text>
       <view class="content">
         <see-slider v-model="val2" is-show-value />
       </view>
 
-      <text class="title">范围选择</text>
+      <text class="title">{{ t('slider.demo.range') }}</text>
       <view class="content">
         <see-slider v-model="val3" is-range is-show-value />
-        <text class="info">范围：[{{ val3[0] }}, {{ val3[1] }}]</text>
+        <text class="info">{{ t('slider.demo.rangeValue') }}[{{ val3[0] }}, {{ val3[1] }}]</text>
       </view>
 
-      <text class="title">步长和刻度</text>
+      <text class="title">{{ t('slider.demo.stepScale') }}</text>
       <view class="content">
         <see-slider v-model="val4" :min="0" :max="100" :step="10" is-show-step is-show-value />
       </view>
 
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('slider.demo.customColor') }}</text>
       <view class="content">
         <see-slider v-model="val5" active-color="#07c160" inactive-color="#eee" />
       </view>
 
-      <text class="title">自定义高度</text>
+      <text class="title">{{ t('slider.demo.customHeight') }}</text>
       <view class="content">
         <see-slider v-model="val6" :bar-height="8" active-color="#ff6b6b" />
       </view>
 
-      <text class="title">垂直模式</text>
+      <text class="title">{{ t('slider.demo.vertical') }}</text>
       <view class="content vertical-box">
         <see-slider v-model="val7" is-vertical is-show-value />
         <see-slider v-model="val8" is-vertical is-show-value active-color="#07c160" />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('slider.demo.disabled') }}</text>
       <view class="content">
         <see-slider :model-value="40" is-disabled />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('slider.demo.readonly') }}</text>
       <view class="content">
         <see-slider :model-value="60" is-readonly />
       </view>
@@ -54,6 +54,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSlider')
 
 const val1 = ref(30)
 const val2 = ref(50)

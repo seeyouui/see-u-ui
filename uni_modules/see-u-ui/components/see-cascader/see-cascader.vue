@@ -3,7 +3,7 @@
     <!-- 触发区域 -->
     <view class="see-cascader__trigger" :class="triggerClasses" @click="open">
       <text class="see-cascader__trigger-text" :class="{ 'is-placeholder': !displayText }">
-        {{ displayText || props.placeholder }}
+        {{ displayText || resolvedPlaceholder }}
       </text>
       <text class="see-cascader__arrow see-cascader-icon-arrow"></text>
     </view>
@@ -14,11 +14,11 @@
         <!-- Toolbar -->
         <view v-if="props.isShowToolbar" class="see-cascader__toolbar">
           <text class="see-cascader__toolbar-btn is-cancel" @click="onCancel">
-            {{ props.cancelText }}
+            {{ resolvedCancelText }}
           </text>
           <text class="see-cascader__toolbar-title">{{ props.toolbarTitle }}</text>
           <text class="see-cascader__toolbar-btn is-confirm" @click="onConfirm">
-            {{ props.confirmText }}
+            {{ resolvedConfirmText }}
           </text>
         </view>
 
@@ -40,12 +40,12 @@
         <scroll-view v-if="currentPanel" class="see-cascader__content" scroll-y :show-scrollbar="false">
           <!-- 加载状态 -->
           <view v-if="currentPanel.isLoading" class="see-cascader__loading">
-            <text class="see-cascader__loading-text">加载中...</text>
+            <text class="see-cascader__loading-text">{{ t('loading') }}</text>
           </view>
 
           <!-- 空状态 -->
           <view v-else-if="currentPanel.nodes.length === 0" class="see-cascader__empty">
-            <text class="see-cascader__empty-text">暂无数据</text>
+            <text class="see-cascader__empty-text">{{ t('noData') }}</text>
           </view>
 
           <!-- 选项列表 -->
@@ -98,9 +98,12 @@
  */
 import { ref, computed, watch, inject, nextTick } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
+import { useI18n } from '../../locale'
 import type { CascaderOption, CascaderNode, CascaderPanel, CascaderTab, CascaderSize } from './type'
 
 defineOptions({ name: 'SeeCascader' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -145,13 +148,13 @@ const props = withDefaults(
   {
     modelValue: () => [],
     options: () => [],
-    placeholder: '请选择',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isShowToolbar: true,
     toolbarTitle: '',
-    confirmText: '确认',
-    cancelText: '取消',
+    confirmText: '',
+    cancelText: '',
     valueKey: 'value',
     labelKey: 'text',
     childrenKey: 'children',
@@ -217,6 +220,13 @@ const mergedBorder = computed(() => {
   return props.isBorder
 })
 
+/** 翻译回退：占位符 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('cascader.placeholder'))
+/** 翻译回退：取消按钮 */
+const resolvedCancelText = computed(() => props.cancelText || t('cascader.cancelText'))
+/** 翻译回退：确认按钮 */
+const resolvedConfirmText = computed(() => props.confirmText || t('cascader.confirmText'))
+
 /** 是否可交互 */
 const isInteractive = computed(() => {
   return !mergedDisabled.value && !mergedReadonly.value
@@ -238,7 +248,7 @@ const tabs = computed<CascaderTab[]>(() => {
     const isSelected = panel.selectedText != null && panel.selectedText !== ''
     return {
       index,
-      text: isSelected ? panel.selectedText! : '请选择',
+      text: isSelected ? panel.selectedText! : t('cascader.placeholder'),
       isActive: index === activeLevel.value
     }
   })

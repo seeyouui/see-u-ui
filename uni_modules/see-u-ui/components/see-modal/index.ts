@@ -1,4 +1,5 @@
 import { createApp, ref } from 'vue'
+import { t } from '../../locale'
 import SeeModal from './see-modal.vue'
 import type { ModalOptions, ModalResult } from './type'
 
@@ -30,8 +31,8 @@ function showModal(options: ModalOptions): Promise<ModalResult> {
       },
       title: options.title || '',
       content: options.content || '',
-      confirmText: options.confirmText || '确认',
-      cancelText: options.cancelText || '取消',
+      confirmText: options.confirmText || t('modal.confirm'),
+      cancelText: options.cancelText || t('modal.cancel'),
       isShowCancelBtn: options.isShowCancelBtn !== false,
       confirmType: options.confirmType || 'primary',
       beforeClose: options.beforeClose,
@@ -50,8 +51,8 @@ function showModal(options: ModalOptions): Promise<ModalResult> {
       title: options.title || '',
       content: options.content || '',
       showCancel: options.isShowCancelBtn !== false,
-      confirmText: options.confirmText || '确认',
-      cancelText: options.cancelText || '取消',
+      confirmText: options.confirmText || t('modal.confirm'),
+      cancelText: options.cancelText || t('modal.cancel'),
       success: (res) => {
         if (res.confirm) {
           resolve({ confirm: true, cancel: false })

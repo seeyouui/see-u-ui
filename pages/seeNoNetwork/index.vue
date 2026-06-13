@@ -1,34 +1,39 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('noNetwork.demo.basic') }}</text>
     <view class="demo-content">
-      <see-button type="primary" is-ripple style="margin-right: 20rpx" @click="showBasic = true">显示无网络提示</see-button>
-      <see-button type="primary" is-ripple @click="showBasic = false">隐藏</see-button>
+      <see-button type="primary" is-ripple style="margin-right: 20rpx" @click="showBasic = true">{{ t('noNetwork.demo.showBasic') }}</see-button>
+      <see-button type="primary" is-ripple @click="showBasic = false">{{ t('noNetwork.demo.hide') }}</see-button>
       <see-no-network v-model:show="showBasic" :auto-check="false" />
     </view>
 
-    <text class="title">自定义文案</text>
+    <text class="title">{{ t('noNetwork.demo.customText') }}</text>
     <view class="demo-content">
-      <see-button type="primary" is-ripple @click="showCustom = true">显示自定义文案</see-button>
-      <see-no-network v-model:show="showCustom" text="哎呀，网络开小差了~" retry-text="点击重试" :auto-check="false" />
+      <see-button type="primary" is-ripple @click="showCustom = true">{{ t('noNetwork.demo.showCustom') }}</see-button>
+      <see-no-network
+        v-model:show="showCustom"
+        :text="t('noNetwork.demo.customErrorText')"
+        :retry-text="t('noNetwork.demo.tapToRetry')"
+        :auto-check="false"
+      />
     </view>
 
-    <text class="title">全屏模式</text>
+    <text class="title">{{ t('noNetwork.demo.fullscreen') }}</text>
     <view class="demo-content">
-      <see-button type="primary" is-ripple @click="showFullscreen = true">显示全屏无网络提示</see-button>
+      <see-button type="primary" is-ripple @click="showFullscreen = true">{{ t('noNetwork.demo.showFullscreen') }}</see-button>
       <see-no-network v-model:show="showFullscreen" is-fullscreen :auto-check="false" />
     </view>
 
-    <text class="title">重试事件</text>
+    <text class="title">{{ t('noNetwork.demo.retryEvent') }}</text>
     <view class="demo-content">
-      <see-button type="primary" is-ripple @click="showRetry = true">显示（带重试回调）</see-button>
+      <see-button type="primary" is-ripple @click="showRetry = true">{{ t('noNetwork.demo.showWithRetry') }}</see-button>
       <see-no-network v-model:show="showRetry" :auto-check="false" @on-retry="handleRetry" />
-      <text v-if="retryCount > 0" class="retry-tip">已重试 {{ retryCount }} 次</text>
+      <text v-if="retryCount > 0" class="retry-tip">{{ t('noNetwork.demo.retryCount', { count: retryCount }) }}</text>
     </view>
 
-    <text class="title">自动监听网络状态</text>
+    <text class="title">{{ t('noNetwork.demo.autoListen') }}</text>
     <view class="demo-content">
-      <text class="demo-tip">autoCheck 默认为 true，组件会自动监听网络变化并显示/隐藏</text>
+      <text class="demo-tip">{{ t('noNetwork.demo.autoCheckTip') }}</text>
       <see-no-network v-model:show="showAuto" />
     </view>
   </see-config>
@@ -36,6 +41,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeNoNetwork')
 
 const showBasic = ref(false)
 const showCustom = ref(false)

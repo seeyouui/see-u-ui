@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { t } from '../../../locale'
 
 export interface UseCopyOptions {
   /** 复制成功后是否显示 Toast，默认 true */
@@ -16,7 +17,7 @@ export interface UseCopyOptions {
  * @returns 返回复制方法和状态
  */
 export function useCopy(options: UseCopyOptions = {}) {
-  const { showToast = true, toastMessage = '复制成功', toastDuration = 1500 } = options
+  const { showToast = true, toastMessage = t('text.copySuccess'), toastDuration = 1500 } = options
 
   /** 是否正在复制 */
   const isCopying = ref(false)

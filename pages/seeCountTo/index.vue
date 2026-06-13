@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCountTo')
 
 const target = ref(26880)
 const countToRef = ref<{ update: (value: number) => void; reset: () => void } | null>(null)
@@ -18,44 +21,44 @@ const resetValue = () => {
 <template>
   <see-config>
     <view class="page">
-      <text class="title">基础统计</text>
+      <text class="title">{{ t('countTo.demo.basic') }}</text>
       <view class="stats-card">
-        <text class="label">访问量</text>
+        <text class="label">{{ t('countTo.demo.visits') }}</text>
         <see-count-to :start-val="0" :end-val="12890" />
       </view>
 
-      <text class="title">金额格式化</text>
+      <text class="title">{{ t('countTo.demo.money') }}</text>
       <view class="stats-card">
-        <text class="label">成交额</text>
-        <see-count-to :start-val="0" :end-val="986543.21" :decimals="2" prefix="¥" suffix=" 元" />
+        <text class="label">{{ t('countTo.demo.turnover') }}</text>
+        <see-count-to :start-val="0" :end-val="986543.21" :decimals="2" prefix="¥" :suffix="t('countTo.demo.yuan')" />
       </view>
 
-      <text class="title">小数展示</text>
+      <text class="title">{{ t('countTo.demo.decimal') }}</text>
       <view class="stats-card">
-        <text class="label">转化率</text>
+        <text class="label">{{ t('countTo.demo.conversion') }}</text>
         <see-count-to :start-val="0" :end-val="73.86" :decimals="2" suffix="%" />
       </view>
 
-      <text class="title">插槽用法</text>
+      <text class="title">{{ t('countTo.demo.slot') }}</text>
       <view class="stats-card">
-        <text class="label">排名变化</text>
+        <text class="label">{{ t('countTo.demo.ranking') }}</text>
         <see-count-to :start-val="50" :end-val="12" color="var(--see-success)">
           <template #prefix>
             <text class="slot-prefix">{{ 'TOP ' }}</text>
           </template>
           <template #suffix>
-            <text class="slot-suffix">{{ ' 名' }}</text>
+            <text class="slot-suffix">{{ t('countTo.demo.rank') }}</text>
           </template>
         </see-count-to>
       </view>
 
-      <text class="title">方法控制</text>
+      <text class="title">{{ t('countTo.demo.methods') }}</text>
       <view class="stats-card">
-        <text class="label">实时收入</text>
+        <text class="label">{{ t('countTo.demo.income') }}</text>
         <see-count-to ref="countToRef" :start-val="26880" :end-val="target" prefix="¥" :autoplay="false" />
         <view class="actions">
-          <button size="mini" type="primary" @tap="updateValue">更新</button>
-          <button size="mini" @tap="resetValue">重置</button>
+          <button size="mini" type="primary" @tap="updateValue">{{ t('countTo.demo.update') }}</button>
+          <button size="mini" @tap="resetValue">{{ t('countTo.demo.reset') }}</button>
         </view>
       </view>
     </view>

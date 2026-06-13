@@ -2,49 +2,49 @@
   <view class="demo-navbar-mini">
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
-      <see-navbar-mini title="子页面标题" @on-back="onBack" />
+      <text class="demo-section__title">{{ t('navbarMini.demo.basic') }}</text>
+      <see-navbar-mini :title="t('navbarMini.demo.subPageTitle')" @on-back="onBack" />
     </view>
 
     <!-- 2. 自定义标题 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 自定义标题</text>
-      <see-navbar-mini title="设置页面" @on-back="onBack" />
+      <text class="demo-section__title">{{ t('navbarMini.demo.customTitle') }}</text>
+      <see-navbar-mini :title="t('navbarMini.demo.settingsPage')" @on-back="onBack" />
     </view>
 
     <!-- 3. 无返回按钮 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. 无返回按钮</text>
-      <see-navbar-mini title="弹窗标题" :is-show-back="false" />
+      <text class="demo-section__title">{{ t('navbarMini.demo.noBack') }}</text>
+      <see-navbar-mini :title="t('navbarMini.demo.popupTitle')" :is-show-back="false" />
     </view>
 
     <!-- 4. 右侧插槽 -->
     <view class="demo-section">
-      <text class="demo-section__title">4. 右侧插槽</text>
-      <see-navbar-mini title="详情" @on-back="onBack">
+      <text class="demo-section__title">{{ t('navbarMini.demo.rightSlot') }}</text>
+      <see-navbar-mini :title="t('navbarMini.demo.details')" @on-back="onBack">
         <template #right>
-          <text class="action-text">保存</text>
+          <text class="action-text">{{ t('navbarMini.demo.save') }}</text>
         </template>
       </see-navbar-mini>
     </view>
 
     <!-- 5. 自定义背景色 -->
     <view class="demo-section">
-      <text class="demo-section__title">5. 自定义背景色</text>
-      <see-navbar-mini title="蓝色主题" bg-color="#3ca7ff" @on-back="onBack" />
+      <text class="demo-section__title">{{ t('navbarMini.demo.customBg') }}</text>
+      <see-navbar-mini :title="t('navbarMini.demo.blueTheme')" bg-color="#3ca7ff" @on-back="onBack" />
     </view>
 
     <!-- 6. 弹窗内使用 -->
     <view class="demo-section">
-      <text class="demo-section__title">6. 弹窗内使用</text>
+      <text class="demo-section__title">{{ t('navbarMini.demo.inPopup') }}</text>
       <view class="mock-popup">
-        <see-navbar-mini title="弹窗内容" :is-show-back="false">
+        <see-navbar-mini :title="t('navbarMini.demo.popupContent')" :is-show-back="false">
           <template #right>
             <text class="close-icon">✕</text>
           </template>
         </see-navbar-mini>
         <view class="mock-popup__content">
-          <text>弹窗内容区域</text>
+          <text>{{ t('navbarMini.demo.popupContentArea') }}</text>
         </view>
       </view>
     </view>
@@ -52,10 +52,14 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeNavbarMini from '@/uni_modules/see-u-ui/components/see-navbar-mini/see-navbar-mini.vue'
 
+const { t } = useI18n()
+useNavbarI18n('navbar.seeNavbarMini')
+
 const onBack = () => {
-  uni.showToast({ title: '点击返回', icon: 'none' })
+  uni.showToast({ title: t('navbarMini.demo.back'), icon: 'none' })
 }
 </script>
 

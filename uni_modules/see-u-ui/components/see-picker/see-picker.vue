@@ -3,7 +3,7 @@
     <!-- 触发区域 -->
     <view class="see-picker__trigger" :class="triggerClasses" @click="handleOpen">
       <text class="see-picker__value" :class="{ 'see-picker__value--placeholder': !displayText }">
-        {{ displayText || props.placeholder }}
+        {{ displayText || resolvedPlaceholder }}
       </text>
       <text class="see-picker__arrow see-picker-icon-arrow"></text>
     </view>
@@ -14,13 +14,13 @@
         <!-- 顶部 Toolbar -->
         <view v-if="props.isShowToolbar" class="see-picker__toolbar">
           <text class="see-picker__toolbar-btn see-picker__toolbar-btn--cancel" @click="handleCancel">
-            {{ props.cancelText }}
+            {{ resolvedCancelText }}
           </text>
           <text class="see-picker__toolbar-title">
             {{ props.toolbarTitle }}
           </text>
           <text class="see-picker__toolbar-btn see-picker__toolbar-btn--confirm" @click="handleConfirm">
-            {{ props.confirmText }}
+            {{ resolvedConfirmText }}
           </text>
         </view>
 
@@ -93,10 +93,13 @@
  * @property {Boolean}                  isAsync          是否异步加载
  */
 import { ref, computed, watch, inject, nextTick, reactive, onBeforeUnmount } from 'vue'
+import { useI18n } from '../../locale'
 import { formKey } from '../../utils/shared/form-keys'
 import type { PickerOption, PickerColumn, PickerSize, FormContext, WheelState } from './type'
 
 defineOptions({ name: 'SeePicker' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -141,13 +144,13 @@ const props = withDefaults(
   {
     modelValue: '',
     columns: () => [],
-    placeholder: '请选择',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isShowToolbar: true,
     toolbarTitle: '',
-    confirmText: '确认',
-    cancelText: '取消',
+    confirmText: '',
+    cancelText: '',
     isCascade: false,
     valueKey: 'value',
     labelKey: 'text',
@@ -208,6 +211,11 @@ const wheelStates = reactive<Record<number, WheelState>>({})
 const currentCascadeColumns = ref<PickerColumn[]>([])
 
 /** ---------- computed ---------- */
+
+/** 翻译回退 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('picker.placeholder'))
+const resolvedConfirmText = computed(() => props.confirmText || t('picker.confirm'))
+const resolvedCancelText = computed(() => props.cancelText || t('picker.cancel'))
 
 /** 实际禁用状态 */
 const mergedDisabled = computed(() => {

@@ -1,63 +1,69 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础单选</text>
+      <text class="title">{{ t('select.demo.basic') }}</text>
       <view class="content">
-        <see-select v-model="singleValue" :options="basicOptions" placeholder="请选择城市" />
-        <text class="info">选中值：{{ singleValue || '无' }}</text>
+        <see-select v-model="singleValue" :options="basicOptions" :placeholder="t('select.demo.cityPlaceholder')" />
+        <text class="info">{{ t('select.demo.selectedValue') }}{{ singleValue || t('select.demo.none') }}</text>
       </view>
 
-      <text class="title">多选模式</text>
+      <text class="title">{{ t('select.demo.multiple') }}</text>
       <view class="content">
-        <see-select v-model="multiValue" :options="basicOptions" is-multiple placeholder="请选择多个城市" />
-        <text class="info">选中值：{{ JSON.stringify(multiValue) }}</text>
+        <see-select v-model="multiValue" :options="basicOptions" is-multiple :placeholder="t('select.demo.multiPlaceholder')" />
+        <text class="info">{{ t('select.demo.selectedValue') }}{{ JSON.stringify(multiValue) }}</text>
       </view>
 
-      <text class="title">多选 - 限制标签数</text>
+      <text class="title">{{ t('select.demo.multipleMaxTags') }}</text>
       <view class="content">
-        <see-select v-model="multiMaxValue" :options="basicOptions" is-multiple :max-tag-count="2" placeholder="最多显示2个标签" />
+        <see-select
+          v-model="multiMaxValue"
+          :options="basicOptions"
+          is-multiple
+          :max-tag-count="2"
+          :placeholder="t('select.demo.maxTagPlaceholder')"
+        />
       </view>
 
-      <text class="title">搜索过滤</text>
+      <text class="title">{{ t('select.demo.filterable') }}</text>
       <view class="content">
-        <see-select v-model="filterValue" :options="basicOptions" is-filterable placeholder="可输入搜索" />
+        <see-select v-model="filterValue" :options="basicOptions" is-filterable :placeholder="t('select.demo.filterPlaceholder')" />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('select.demo.disabled') }}</text>
       <view class="content">
-        <see-select :model-value="'beijing'" :options="basicOptions" is-disabled placeholder="禁用状态" />
+        <see-select :model-value="'beijing'" :options="basicOptions" is-disabled :placeholder="t('select.demo.disabledPlaceholder')" />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('select.demo.readonly') }}</text>
       <view class="content">
-        <see-select :model-value="'shanghai'" :options="basicOptions" is-readonly placeholder="只读状态" />
+        <see-select :model-value="'shanghai'" :options="basicOptions" is-readonly :placeholder="t('select.demo.readonlyPlaceholder')" />
       </view>
 
-      <text class="title">可清除</text>
+      <text class="title">{{ t('select.demo.clearable') }}</text>
       <view class="content">
-        <see-select v-model="clearableValue" :options="basicOptions" is-clearable placeholder="可清除" />
+        <see-select v-model="clearableValue" :options="basicOptions" is-clearable :placeholder="t('select.demo.clearablePlaceholder')" />
       </view>
 
-      <text class="title">禁用选项</text>
+      <text class="title">{{ t('select.demo.disabledOption') }}</text>
       <view class="content">
-        <see-select v-model="disabledOptValue" :options="disabledOptions" placeholder="部分选项禁用" />
+        <see-select v-model="disabledOptValue" :options="disabledOptions" :placeholder="t('select.demo.disabledOptPlaceholder')" />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('select.demo.sizes') }}</text>
       <view class="content">
-        <see-select v-model="sizeValue1" :options="basicOptions" size="small" placeholder="小尺寸" />
-        <see-select v-model="sizeValue2" :options="basicOptions" size="default" placeholder="默认尺寸" />
-        <see-select v-model="sizeValue3" :options="basicOptions" size="large" placeholder="大尺寸" />
+        <see-select v-model="sizeValue1" :options="basicOptions" size="small" :placeholder="t('select.demo.smallPlaceholder')" />
+        <see-select v-model="sizeValue2" :options="basicOptions" size="default" :placeholder="t('select.demo.defaultPlaceholder')" />
+        <see-select v-model="sizeValue3" :options="basicOptions" size="large" :placeholder="t('select.demo.largePlaceholder')" />
       </view>
 
-      <text class="title">分组选项</text>
+      <text class="title">{{ t('select.demo.group') }}</text>
       <view class="content">
-        <see-select v-model="groupValue" :options="groupOptions" placeholder="分组选择" />
+        <see-select v-model="groupValue" :options="groupOptions" :placeholder="t('select.demo.groupPlaceholder')" />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('select.demo.noBorder') }}</text>
       <view class="content">
-        <see-select v-model="borderValue" :options="basicOptions" :is-border="false" placeholder="无边框样式" />
+        <see-select v-model="borderValue" :options="basicOptions" :is-border="false" :placeholder="t('select.demo.noBorderPlaceholder')" />
       </view>
     </view>
   </see-config>
@@ -65,48 +71,52 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSelect')
 
 const basicOptions = [
-  { label: '北京', value: 'beijing' },
-  { label: '上海', value: 'shanghai' },
-  { label: '广州', value: 'guangzhou' },
-  { label: '深圳', value: 'shenzhen' },
-  { label: '杭州', value: 'hangzhou' },
-  { label: '成都', value: 'chengdu' }
+  { label: t('select.data.beijing'), value: 'beijing' },
+  { label: t('select.data.shanghai'), value: 'shanghai' },
+  { label: t('select.data.guangzhou'), value: 'guangzhou' },
+  { label: t('select.data.shenzhen'), value: 'shenzhen' },
+  { label: t('select.data.hangzhou'), value: 'hangzhou' },
+  { label: t('select.data.chengdu'), value: 'chengdu' }
 ]
 
 const disabledOptions = [
-  { label: '选项一', value: 1 },
-  { label: '选项二（禁用）', value: 2, isDisabled: true },
-  { label: '选项三', value: 3 },
-  { label: '选项四（禁用）', value: 4, isDisabled: true },
-  { label: '选项五', value: 5 }
+  { label: t('select.demo.option1'), value: 1 },
+  { label: t('select.demo.option2Disabled'), value: 2, isDisabled: true },
+  { label: t('select.demo.option3'), value: 3 },
+  { label: t('select.demo.option4Disabled'), value: 4, isDisabled: true },
+  { label: t('select.demo.option5'), value: 5 }
 ]
 
 const groupOptions = [
   {
-    label: '华东地区',
+    label: t('select.demo.eastChina'),
     value: 'east',
     children: [
-      { label: '上海', value: 'shanghai' },
-      { label: '杭州', value: 'hangzhou' },
-      { label: '南京', value: 'nanjing' }
+      { label: t('select.data.shanghai'), value: 'shanghai' },
+      { label: t('select.data.hangzhou'), value: 'hangzhou' },
+      { label: t('select.data.nanjing'), value: 'nanjing' }
     ]
   },
   {
-    label: '华南地区',
+    label: t('select.demo.southChina'),
     value: 'south',
     children: [
-      { label: '广州', value: 'guangzhou' },
-      { label: '深圳', value: 'shenzhen' }
+      { label: t('select.data.guangzhou'), value: 'guangzhou' },
+      { label: t('select.data.shenzhen'), value: 'shenzhen' }
     ]
   },
   {
-    label: '西南地区',
+    label: t('select.demo.southwestChina'),
     value: 'southwest',
     children: [
-      { label: '成都', value: 'chengdu' },
-      { label: '重庆', value: 'chongqing' }
+      { label: t('select.data.chengdu'), value: 'chengdu' },
+      { label: t('select.data.chongqing'), value: 'chongqing' }
     ]
   }
 ]

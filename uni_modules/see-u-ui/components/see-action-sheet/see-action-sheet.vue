@@ -62,7 +62,7 @@
 
       <!-- 取消按钮 -->
       <view v-if="isShowCancelBtn" class="see-action-sheet__cancel" @click="handleCancel">
-        <text class="see-action-sheet__cancel-text">{{ cancelText }}</text>
+        <text class="see-action-sheet__cancel-text">{{ resolvedCancelText }}</text>
       </view>
     </view>
   </see-popup>
@@ -90,17 +90,21 @@
  * @event {Function} onOpen 打开时触发
  * @event {Function} onClose 关闭时触发
  */
+import { computed } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeActionSheetProps, SeeActionSheetEmits, ActionSheetAction } from './type'
 import { SeePopup } from '../see-popup'
 
 defineOptions({ name: 'SeeActionSheet' })
 
-withDefaults(defineProps<SeeActionSheetProps>(), {
+const { t } = useI18n()
+
+const props = withDefaults(defineProps<SeeActionSheetProps>(), {
   show: false,
   title: '',
   description: '',
   actions: () => [],
-  cancelText: '取消',
+  cancelText: '',
   isShowCancelBtn: true,
   zIndex: 1001,
   duration: 300,
@@ -111,6 +115,10 @@ withDefaults(defineProps<SeeActionSheetProps>(), {
 })
 
 const emit = defineEmits<SeeActionSheetEmits>()
+
+// ==================== 计算属性 ====================
+
+const resolvedCancelText = computed(() => props.cancelText || t('actionSheet.cancel'))
 
 // ==================== 事件处理 ====================
 

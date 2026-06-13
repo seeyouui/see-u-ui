@@ -1,70 +1,70 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('collapse.demo.basic') }}</text>
     <view class="demo-content">
       <see-collapse v-model="active1">
-        <see-collapse-item name="1" title="标题1">
-          <text class="collapse-text">内容1</text>
+        <see-collapse-item name="1" :title="t('collapse.demo.title1')">
+          <text class="collapse-text">{{ t('collapse.demo.content1') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="2" title="标题2">
-          <text class="collapse-text">内容2</text>
+        <see-collapse-item name="2" :title="t('collapse.demo.title2')">
+          <text class="collapse-text">{{ t('collapse.demo.content2') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="3" title="标题3">
-          <text class="collapse-text">内容3</text>
+        <see-collapse-item name="3" :title="t('collapse.demo.title3')">
+          <text class="collapse-text">{{ t('collapse.demo.content3') }}</text>
         </see-collapse-item>
       </see-collapse>
     </view>
 
-    <text class="title">手风琴模式</text>
+    <text class="title">{{ t('collapse.demo.accordion') }}</text>
     <view class="demo-content">
       <see-collapse v-model="active2" is-accordion>
-        <see-collapse-item name="1" title="标题1">
-          <text class="collapse-text">手风琴模式只能展开一个</text>
+        <see-collapse-item name="1" :title="t('collapse.demo.title1')">
+          <text class="collapse-text">{{ t('collapse.demo.accordionContent1') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="2" title="标题2">
-          <text class="collapse-text">点击其他项会自动收起</text>
+        <see-collapse-item name="2" :title="t('collapse.demo.title2')">
+          <text class="collapse-text">{{ t('collapse.demo.accordionContent2') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="3" title="标题3">
-          <text class="collapse-text">当前展开的项</text>
+        <see-collapse-item name="3" :title="t('collapse.demo.title3')">
+          <text class="collapse-text">{{ t('collapse.demo.accordionContent3') }}</text>
         </see-collapse-item>
       </see-collapse>
     </view>
 
-    <text class="title">禁用项</text>
+    <text class="title">{{ t('collapse.demo.disabled') }}</text>
     <view class="demo-content">
       <see-collapse v-model="active3">
-        <see-collapse-item name="1" title="正常项">
-          <text class="collapse-text">可以点击</text>
+        <see-collapse-item name="1" :title="t('collapse.demo.normalItem')">
+          <text class="collapse-text">{{ t('collapse.demo.normalContent') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="2" title="禁用项" is-disabled>
-          <text class="collapse-text">不可点击</text>
+        <see-collapse-item name="2" :title="t('collapse.demo.disabledItem')" is-disabled>
+          <text class="collapse-text">{{ t('collapse.demo.disabledContent') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="3" title="正常项">
-          <text class="collapse-text">可以点击</text>
+        <see-collapse-item name="3" :title="t('collapse.demo.normalItem')">
+          <text class="collapse-text">{{ t('collapse.demo.normalContent') }}</text>
         </see-collapse-item>
       </see-collapse>
     </view>
 
-    <text class="title">带图标</text>
+    <text class="title">{{ t('collapse.demo.icon') }}</text>
     <view class="demo-content">
       <see-collapse v-model="active4">
-        <see-collapse-item name="1" title="设置" icon="⚙️">
-          <text class="collapse-text">设置内容</text>
+        <see-collapse-item name="1" :title="t('collapse.demo.setting')" icon="⚙️">
+          <text class="collapse-text">{{ t('collapse.demo.settingContent') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="2" title="通知" icon="🔔">
-          <text class="collapse-text">通知内容</text>
+        <see-collapse-item name="2" :title="t('collapse.demo.notification')" icon="🔔">
+          <text class="collapse-text">{{ t('collapse.demo.notificationContent') }}</text>
         </see-collapse-item>
       </see-collapse>
     </view>
 
-    <text class="title">无边框</text>
+    <text class="title">{{ t('collapse.demo.noBorder') }}</text>
     <view class="demo-content">
       <see-collapse v-model="active5" :is-show-border="false">
-        <see-collapse-item name="1" title="标题1">
-          <text class="collapse-text">无边框样式</text>
+        <see-collapse-item name="1" :title="t('collapse.demo.title1')">
+          <text class="collapse-text">{{ t('collapse.demo.noBorderContent') }}</text>
         </see-collapse-item>
-        <see-collapse-item name="2" title="标题2">
-          <text class="collapse-text">内容2</text>
+        <see-collapse-item name="2" :title="t('collapse.demo.title2')">
+          <text class="collapse-text">{{ t('collapse.demo.content2') }}</text>
         </see-collapse-item>
       </see-collapse>
     </view>
@@ -73,6 +73,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCollapse')
 
 const active1 = ref<string[]>([])
 const active2 = ref<string[]>([])

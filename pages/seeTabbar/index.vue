@@ -2,37 +2,37 @@
   <view class="demo-tabbar">
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.basic') }}</text>
       <see-tabbar v-model="activeTab1" :tabs="basicTabs" :is-fixed="false" />
     </view>
 
     <!-- 2. 自定义图标 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 自定义图标</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.customIcon') }}</text>
       <see-tabbar v-model="activeTab2" :tabs="customIconTabs" :is-fixed="false" />
     </view>
 
     <!-- 3. Badge/Dot -->
     <view class="demo-section">
-      <text class="demo-section__title">3. Badge/Dot 徽标</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.badge') }}</text>
       <see-tabbar v-model="activeTab3" :tabs="badgeTabs" :is-fixed="false" />
     </view>
 
     <!-- 4. 中央凸起按钮 -->
     <view class="demo-section">
-      <text class="demo-section__title">4. 中央凸起按钮</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.centerBtn') }}</text>
       <see-tabbar v-model="activeTab4" :tabs="centerTabs" :is-fixed="false" @on-center-click="onCenterClick" />
     </view>
 
     <!-- 5. 自定义颜色 -->
     <view class="demo-section">
-      <text class="demo-section__title">5. 自定义颜色</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.customColor') }}</text>
       <see-tabbar v-model="activeTab5" :tabs="basicTabs" :is-fixed="false" active-color="#ff6b6b" inactive-color="#999999" />
     </view>
 
     <!-- 6. 毛玻璃效果 -->
     <view class="demo-section">
-      <text class="demo-section__title">6. 毛玻璃效果</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.frosted') }}</text>
       <view class="frosted-bg">
         <see-tabbar v-model="activeTab6" :tabs="basicTabs" :is-frosted="true" :is-fixed="false" />
       </view>
@@ -40,29 +40,29 @@
 
     <!-- 7. 无边框 -->
     <view class="demo-section">
-      <text class="demo-section__title">7. 无边框</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.noBorder') }}</text>
       <see-tabbar v-model="activeTab7" :tabs="basicTabs" :border="false" :is-fixed="false" />
     </view>
 
     <!-- 8. 禁用状态 -->
     <view class="demo-section">
-      <text class="demo-section__title">8. 禁用状态</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.disabledState') }}</text>
       <see-tabbar v-model="activeTab8" :tabs="disabledTabs" :is-fixed="false" />
     </view>
 
     <!-- 9. 动态 tab -->
     <view class="demo-section">
-      <text class="demo-section__title">9. 动态 tab</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.dynamic') }}</text>
       <see-tabbar v-model="activeTab9" :tabs="dynamicTabs" :is-fixed="false" />
       <view class="demo-actions">
-        <text class="demo-btn" @tap="addTab">添加 Tab</text>
-        <text class="demo-btn" @tap="removeTab">移除 Tab</text>
+        <text class="demo-btn" @tap="addTab">{{ t('tabBar.demo.addTab') }}</text>
+        <text class="demo-btn" @tap="removeTab">{{ t('tabBar.demo.removeTab') }}</text>
       </view>
     </view>
 
     <!-- 10. 完整应用导航 -->
     <view class="demo-section">
-      <text class="demo-section__title">10. 完整应用导航</text>
+      <text class="demo-section__title">{{ t('tabBar.demo.full') }}</text>
       <see-tabbar v-model="activeTab10" :tabs="fullTabs" :is-fixed="false" />
     </view>
 
@@ -73,7 +73,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeTabbar from '@/uni_modules/see-u-ui/components/see-tabbar/see-tabbar.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeTabbar')
 
 const activeTab1 = ref('home')
 const activeTab2 = ref('home')
@@ -87,44 +91,44 @@ const activeTab9 = ref('home')
 const activeTab10 = ref('home')
 
 const basicTabs = [
-  { name: 'home', text: '首页', icon: '🏠' },
-  { name: 'category', text: '分类', icon: '📂' },
-  { name: 'cart', text: '购物车', icon: '🛒' },
-  { name: 'mine', text: '我的', icon: '👤' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠' },
+  { name: 'category', text: t('tabBar.demo.category'), icon: '📂' },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒' },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤' }
 ]
 
 const customIconTabs = [
-  { name: 'home', text: '首页', icon: '🏠', activeIcon: '🏡' },
-  { name: 'category', text: '分类', icon: '📂', activeIcon: '📁' },
-  { name: 'cart', text: '购物车', icon: '🛒', activeIcon: '🛍️' },
-  { name: 'mine', text: '我的', icon: '👤', activeIcon: '🧑' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠', activeIcon: '🏡' },
+  { name: 'category', text: t('tabBar.demo.category'), icon: '📂', activeIcon: '📁' },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒', activeIcon: '🛍️' },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤', activeIcon: '🧑' }
 ]
 
 const badgeTabs = [
-  { name: 'home', text: '首页', icon: '🏠' },
-  { name: 'msg', text: '消息', icon: '💬', badge: 99 },
-  { name: 'cart', text: '购物车', icon: '🛒', dot: true },
-  { name: 'mine', text: '我的', icon: '👤' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠' },
+  { name: 'msg', text: t('tabBar.demo.msg'), icon: '💬', badge: 99 },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒', dot: true },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤' }
 ]
 
 const centerTabs = [
-  { name: 'home', text: '首页', icon: '🏠' },
-  { name: 'category', text: '分类', icon: '📂' },
-  { name: 'publish', text: '发布', icon: '➕', isCenter: true, centerIcon: '✚' },
-  { name: 'cart', text: '购物车', icon: '🛒' },
-  { name: 'mine', text: '我的', icon: '👤' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠' },
+  { name: 'category', text: t('tabBar.demo.category'), icon: '📂' },
+  { name: 'publish', text: t('tabBar.demo.publish'), icon: '➕', isCenter: true, centerIcon: '✚' },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒' },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤' }
 ]
 
 const disabledTabs = [
-  { name: 'home', text: '首页', icon: '🏠' },
-  { name: 'disabled', text: '禁用', icon: '🚫', isDisabled: true },
-  { name: 'cart', text: '购物车', icon: '🛒' },
-  { name: 'mine', text: '我的', icon: '👤' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠' },
+  { name: 'disabled', text: t('tabBar.demo.disabled'), icon: '🚫', isDisabled: true },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒' },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤' }
 ]
 
 const dynamicTabs = ref([
-  { name: 'home', text: '首页', icon: '🏠' },
-  { name: 'tab2', text: 'Tab2', icon: '📄' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠' },
+  { name: 'tab2', text: t('tabBar.demo.tab2'), icon: '📄' }
 ])
 
 let tabIndex = 3
@@ -141,15 +145,15 @@ const removeTab = () => {
 }
 
 const fullTabs = [
-  { name: 'home', text: '首页', icon: '🏠', activeIcon: '🏡' },
-  { name: 'category', text: '分类', icon: '📂', activeIcon: '📁' },
-  { name: 'publish', text: '发布', icon: '➕', isCenter: true, centerIcon: '✚' },
-  { name: 'cart', text: '购物车', icon: '🛒', badge: 5, activeIcon: '🛍️' },
-  { name: 'mine', text: '我的', icon: '👤', dot: true, activeIcon: '🧑' }
+  { name: 'home', text: t('tabBar.demo.home'), icon: '🏠', activeIcon: '🏡' },
+  { name: 'category', text: t('tabBar.demo.category'), icon: '📂', activeIcon: '📁' },
+  { name: 'publish', text: t('tabBar.demo.publish'), icon: '➕', isCenter: true, centerIcon: '✚' },
+  { name: 'cart', text: t('tabBar.demo.cart'), icon: '🛒', badge: 5, activeIcon: '🛍️' },
+  { name: 'mine', text: t('tabBar.demo.mine'), icon: '👤', dot: true, activeIcon: '🧑' }
 ]
 
 const onCenterClick = () => {
-  uni.showToast({ title: '点击中央按钮', icon: 'none' })
+  uni.showToast({ title: t('tabBar.demo.centerClick'), icon: 'none' })
 }
 </script>
 

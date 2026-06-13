@@ -29,7 +29,7 @@
             <input
               class="see-navbar__search-input"
               type="text"
-              :placeholder="searchPlaceholder"
+              :placeholder="displaySearchPlaceholder"
               :value="searchQuery"
               @input="handleSearchInput"
               @confirm="handleSearchConfirm"
@@ -56,9 +56,12 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeNavbarProps, SeeNavbarEmits, SeeNavbarExpose } from './type'
 
 defineOptions({ name: 'SeeNavbar' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeNavbarProps>(), {
@@ -71,7 +74,7 @@ const props = withDefaults(defineProps<SeeNavbarProps>(), {
   rightText: '',
   rightIcon: '',
   isSearch: false,
-  searchPlaceholder: '搜索',
+  searchPlaceholder: '',
   isFrosted: false,
   zIndex: 990,
   safeAreaInsetTop: true,
@@ -83,6 +86,9 @@ const props = withDefaults(defineProps<SeeNavbarProps>(), {
 
 /** ---------- emits ---------- */
 const emit = defineEmits<SeeNavbarEmits>()
+
+/** ---------- computed ---------- */
+const displaySearchPlaceholder = computed(() => props.searchPlaceholder || t('search'))
 
 /** ---------- state ---------- */
 const isVisible = ref(true)

@@ -1,101 +1,103 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法（独立 Checkbox）</text>
+      <text class="title">{{ t('checkbox.demo.basic') }}</text>
       <view class="content">
-        <see-checkbox v-model="basicChecked">选项一</see-checkbox>
-        <text class="info">当前状态：{{ basicChecked ? '已选中' : '未选中' }}</text>
+        <see-checkbox v-model="basicChecked">{{ t('checkbox.demo.option1') }}</see-checkbox>
+        <text class="info">{{ t('checkbox.demo.currentStatus') }}{{ basicChecked ? t('checkbox.demo.checked') : t('checkbox.demo.unchecked') }}</text>
       </view>
 
-      <text class="title">CheckboxGroup 用法</text>
+      <text class="title">{{ t('checkbox.demo.group') }}</text>
       <view class="content">
         <see-checkbox-group v-model="groupValues">
-          <see-checkbox label="apple">苹果</see-checkbox>
-          <see-checkbox label="banana">香蕉</see-checkbox>
-          <see-checkbox label="orange">橘子</see-checkbox>
-          <see-checkbox label="grape">葡萄</see-checkbox>
+          <see-checkbox label="apple">{{ t('checkbox.demo.apple') }}</see-checkbox>
+          <see-checkbox label="banana">{{ t('checkbox.demo.banana') }}</see-checkbox>
+          <see-checkbox label="orange">{{ t('checkbox.demo.orange') }}</see-checkbox>
+          <see-checkbox label="grape">{{ t('checkbox.demo.grape') }}</see-checkbox>
         </see-checkbox-group>
-        <text class="info">选中值：{{ groupValues.join(', ') || '无' }}</text>
+        <text class="info">{{ t('checkbox.demo.selectedValues') }}{{ groupValues.join(', ') || t('checkbox.demo.none') }}</text>
       </view>
 
-      <text class="title">全选 / 半选</text>
+      <text class="title">{{ t('checkbox.demo.checkAll') }}</text>
       <view class="content">
-        <see-checkbox :model-value="isAllChecked" :is-indeterminate="isIndeterminate" @on-change="handleCheckAll">全选</see-checkbox>
+        <see-checkbox :model-value="isAllChecked" :is-indeterminate="isIndeterminate" @on-change="handleCheckAll">
+          {{ t('checkbox.demo.checkAllText') }}
+        </see-checkbox>
         <view style="height: 8px" />
         <see-checkbox-group v-model="fruitValues">
-          <see-checkbox label="apple">苹果</see-checkbox>
-          <see-checkbox label="banana">香蕉</see-checkbox>
-          <see-checkbox label="orange">橘子</see-checkbox>
+          <see-checkbox label="apple">{{ t('checkbox.demo.apple') }}</see-checkbox>
+          <see-checkbox label="banana">{{ t('checkbox.demo.banana') }}</see-checkbox>
+          <see-checkbox label="orange">{{ t('checkbox.demo.orange') }}</see-checkbox>
         </see-checkbox-group>
       </view>
 
-      <text class="title">最少 / 最多选择限制</text>
+      <text class="title">{{ t('checkbox.demo.limit') }}</text>
       <view class="content">
         <see-checkbox-group v-model="limitValues" :min="1" :max="3">
-          <see-checkbox label="a">选项 A</see-checkbox>
-          <see-checkbox label="b">选项 B</see-checkbox>
-          <see-checkbox label="c">选项 C</see-checkbox>
-          <see-checkbox label="d">选项 D</see-checkbox>
-          <see-checkbox label="e">选项 E</see-checkbox>
+          <see-checkbox label="a">{{ t('checkbox.demo.optionA') }}</see-checkbox>
+          <see-checkbox label="b">{{ t('checkbox.demo.optionB') }}</see-checkbox>
+          <see-checkbox label="c">{{ t('checkbox.demo.optionC') }}</see-checkbox>
+          <see-checkbox label="d">{{ t('checkbox.demo.optionD') }}</see-checkbox>
+          <see-checkbox label="e">{{ t('checkbox.demo.optionE') }}</see-checkbox>
         </see-checkbox-group>
-        <text class="info">最少选1个，最多选3个</text>
-        <text class="info">当前选中：{{ limitValues.length }} 个</text>
+        <text class="info">{{ t('checkbox.demo.limitHint') }}</text>
+        <text class="info">{{ t('checkbox.demo.selectedCount') }}{{ limitValues.length }}{{ t('checkbox.demo.countUnit') }}</text>
       </view>
 
-      <text class="title">行内排列</text>
+      <text class="title">{{ t('checkbox.demo.inline') }}</text>
       <view class="content">
         <see-checkbox-group v-model="inlineValues" is-inline>
-          <see-checkbox label="a">选项 A</see-checkbox>
-          <see-checkbox label="b">选项 B</see-checkbox>
-          <see-checkbox label="c">选项 C</see-checkbox>
-          <see-checkbox label="d">选项 D</see-checkbox>
+          <see-checkbox label="a">{{ t('checkbox.demo.optionA') }}</see-checkbox>
+          <see-checkbox label="b">{{ t('checkbox.demo.optionB') }}</see-checkbox>
+          <see-checkbox label="c">{{ t('checkbox.demo.optionC') }}</see-checkbox>
+          <see-checkbox label="d">{{ t('checkbox.demo.optionD') }}</see-checkbox>
         </see-checkbox-group>
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('checkbox.demo.sizes') }}</text>
       <view class="content">
-        <see-checkbox v-model="sizeChecked" size="small">小型</see-checkbox>
-        <see-checkbox v-model="sizeChecked" size="default">默认</see-checkbox>
-        <see-checkbox v-model="sizeChecked" size="large">大型</see-checkbox>
+        <see-checkbox v-model="sizeChecked" size="small">{{ t('checkbox.demo.small') }}</see-checkbox>
+        <see-checkbox v-model="sizeChecked" size="default">{{ t('checkbox.demo.default') }}</see-checkbox>
+        <see-checkbox v-model="sizeChecked" size="large">{{ t('checkbox.demo.large') }}</see-checkbox>
       </view>
 
-      <text class="title">带边框</text>
+      <text class="title">{{ t('checkbox.demo.border') }}</text>
       <view class="content">
         <see-checkbox-group v-model="borderValues" is-border>
-          <see-checkbox label="a">选项 A</see-checkbox>
-          <see-checkbox label="b">选项 B</see-checkbox>
-          <see-checkbox label="c">选项 C</see-checkbox>
+          <see-checkbox label="a">{{ t('checkbox.demo.optionA') }}</see-checkbox>
+          <see-checkbox label="b">{{ t('checkbox.demo.optionB') }}</see-checkbox>
+          <see-checkbox label="c">{{ t('checkbox.demo.optionC') }}</see-checkbox>
         </see-checkbox-group>
       </view>
 
-      <text class="title">带边框（行内）</text>
+      <text class="title">{{ t('checkbox.demo.borderInline') }}</text>
       <view class="content">
         <see-checkbox-group v-model="borderInlineValues" is-border is-inline>
-          <see-checkbox label="a">选项 A</see-checkbox>
-          <see-checkbox label="b">选项 B</see-checkbox>
-          <see-checkbox label="c">选项 C</see-checkbox>
+          <see-checkbox label="a">{{ t('checkbox.demo.optionA') }}</see-checkbox>
+          <see-checkbox label="b">{{ t('checkbox.demo.optionB') }}</see-checkbox>
+          <see-checkbox label="c">{{ t('checkbox.demo.optionC') }}</see-checkbox>
         </see-checkbox-group>
       </view>
 
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('checkbox.demo.customColor') }}</text>
       <view class="content">
-        <see-checkbox v-model="colorChecked1" checked-color="#e43d33">红色</see-checkbox>
-        <see-checkbox v-model="colorChecked2" checked-color="#19be6b">绿色</see-checkbox>
-        <see-checkbox v-model="colorChecked3" checked-color="#ff9900">橙色</see-checkbox>
+        <see-checkbox v-model="colorChecked1" checked-color="#e43d33">{{ t('checkbox.demo.red') }}</see-checkbox>
+        <see-checkbox v-model="colorChecked2" checked-color="#19be6b">{{ t('checkbox.demo.green') }}</see-checkbox>
+        <see-checkbox v-model="colorChecked3" checked-color="#ff9900">{{ t('checkbox.demo.orangeColor') }}</see-checkbox>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('checkbox.demo.disabled') }}</text>
       <view class="content">
-        <see-checkbox v-model="disabledChecked1" is-disabled>禁用未选</see-checkbox>
-        <see-checkbox v-model="disabledChecked2" is-disabled>禁用已选</see-checkbox>
+        <see-checkbox v-model="disabledChecked1" is-disabled>{{ t('checkbox.demo.disabledUnchecked') }}</see-checkbox>
+        <see-checkbox v-model="disabledChecked2" is-disabled>{{ t('checkbox.demo.disabledChecked') }}</see-checkbox>
       </view>
 
-      <text class="title">整组禁用</text>
+      <text class="title">{{ t('checkbox.demo.groupDisabled') }}</text>
       <view class="content">
         <see-checkbox-group v-model="disabledGroupValues" is-disabled>
-          <see-checkbox label="a">选项 A</see-checkbox>
-          <see-checkbox label="b">选项 B</see-checkbox>
-          <see-checkbox label="c">选项 C</see-checkbox>
+          <see-checkbox label="a">{{ t('checkbox.demo.optionA') }}</see-checkbox>
+          <see-checkbox label="b">{{ t('checkbox.demo.optionB') }}</see-checkbox>
+          <see-checkbox label="c">{{ t('checkbox.demo.optionC') }}</see-checkbox>
         </see-checkbox-group>
       </view>
     </view>
@@ -104,6 +106,10 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCheckbox')
 
 // 基础用法
 const basicChecked = ref(false)

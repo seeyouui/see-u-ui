@@ -48,14 +48,14 @@ describe('SeeNoNetwork 组件测试', () => {
       const wrapper = mount(SeeNoNetwork, {
         props: { show: true, autoCheck: false }
       })
-      expect(wrapper.find('.see-no-network__text').text()).toBe('网络异常，请检查网络连接')
+      expect(wrapper.find('.see-no-network__text').text()).toBe('Network Error')
     })
 
     it('应该显示默认重试按钮文案', () => {
       const wrapper = mount(SeeNoNetwork, {
         props: { show: true, autoCheck: false }
       })
-      expect(wrapper.find('.see-no-network__retry-text').text()).toBe('重新连接')
+      expect(wrapper.find('.see-no-network__retry-text').text()).toBe('Tap to retry')
     })
   })
 

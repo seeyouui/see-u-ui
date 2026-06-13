@@ -92,7 +92,7 @@ describe('SeeIndexList', () => {
       props: { data: [] }
     })
     expect(wrapper.find('.see-index-list__empty').exists()).toBe(true)
-    expect(wrapper.text()).toContain('暂无数据')
+    expect(wrapper.text()).toContain('No Data')
   })
 
   it('单分组场景', () => {

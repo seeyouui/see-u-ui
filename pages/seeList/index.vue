@@ -1,20 +1,23 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeList')
 
 // 基础列表数据
 const baseList = ref([
-  { id: 1, name: '张三', desc: '前端开发工程师' },
-  { id: 2, name: '李四', desc: '后端开发工程师' },
-  { id: 3, name: '王五', desc: '产品经理' },
-  { id: 4, name: '赵六', desc: 'UI 设计师' },
-  { id: 5, name: '钱七', desc: '测试工程师' }
+  { id: 1, name: t('list.data.zhangsan'), desc: t('list.data.frontendDev') },
+  { id: 2, name: t('list.data.lisi'), desc: t('list.data.backendDev') },
+  { id: 3, name: t('list.data.wangwu'), desc: t('list.data.pm') },
+  { id: 4, name: t('list.data.zhaoliu'), desc: t('list.data.uiDesigner') },
+  { id: 5, name: t('list.data.qianqi'), desc: t('list.data.testEngineer') }
 ])
 
 // 加载更多列表
 const loadMoreList = ref([
-  { id: 1, name: '商品 A', price: '¥19.99' },
-  { id: 2, name: '商品 B', price: '¥29.99' },
-  { id: 3, name: '商品 C', price: '¥39.99' }
+  { id: 1, name: t('list.data.productName', { letter: 'A' }), price: '¥19.99' },
+  { id: 2, name: t('list.data.productName', { letter: 'B' }), price: '¥29.99' },
+  { id: 3, name: t('list.data.productName', { letter: 'C' }), price: '¥39.99' }
 ])
 const loading = ref(false)
 const finished = ref(false)
@@ -29,17 +32,17 @@ const onLoadMore = () => {
     const newItems = [
       {
         id: loadMoreList.value.length + 1,
-        name: `商品 ${String.fromCharCode(64 + loadMoreList.value.length + 1)}`,
+        name: t('list.data.productName', { letter: String.fromCharCode(64 + loadMoreList.value.length + 1) }),
         price: `¥${((loadMoreList.value.length + 1) * 10).toFixed(2)}`
       },
       {
         id: loadMoreList.value.length + 2,
-        name: `商品 ${String.fromCharCode(64 + loadMoreList.value.length + 2)}`,
+        name: t('list.data.productName', { letter: String.fromCharCode(64 + loadMoreList.value.length + 2) }),
         price: `¥${((loadMoreList.value.length + 2) * 10).toFixed(2)}`
       },
       {
         id: loadMoreList.value.length + 3,
-        name: `商品 ${String.fromCharCode(64 + loadMoreList.value.length + 3)}`,
+        name: t('list.data.productName', { letter: String.fromCharCode(64 + loadMoreList.value.length + 3) }),
         price: `¥${((loadMoreList.value.length + 3) * 10).toFixed(2)}`
       }
     ]
@@ -51,14 +54,14 @@ const onLoadMore = () => {
 
 // 分组列表数据
 const groupList = ref([
-  { id: 1, name: '北京', region: '华北' },
-  { id: 2, name: '天津', region: '华北' },
-  { id: 3, name: '上海', region: '华东' },
-  { id: 4, name: '南京', region: '华东' },
-  { id: 5, name: '广州', region: '华南' },
-  { id: 6, name: '深圳', region: '华南' },
-  { id: 7, name: '成都', region: '西南' },
-  { id: 8, name: '重庆', region: '西南' }
+  { id: 1, name: t('list.data.beijing'), region: t('list.data.northChina') },
+  { id: 2, name: t('list.data.tianjin'), region: t('list.data.northChina') },
+  { id: 3, name: t('list.data.shanghai'), region: t('list.data.eastChina') },
+  { id: 4, name: t('list.data.nanjing'), region: t('list.data.eastChina') },
+  { id: 5, name: t('list.data.guangzhou'), region: t('list.data.southChina') },
+  { id: 6, name: t('list.data.shenzhen'), region: t('list.data.southChina') },
+  { id: 7, name: t('list.data.chengdu'), region: t('list.data.southwestChina') },
+  { id: 8, name: t('list.data.chongqing'), region: t('list.data.southwestChina') }
 ])
 
 // 空状态和错误状态演示
@@ -74,7 +77,7 @@ const toggleError = () => {
   <see-config>
     <view class="page">
       <!-- 基础用法 -->
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('list.demo.basic') }}</text>
       <view class="demo-card">
         <see-list :list="baseList" key-field="id">
           <template #item="{ item, index }">
@@ -90,7 +93,7 @@ const toggleError = () => {
       </view>
 
       <!-- 分割线样式 -->
-      <text class="title">分割线样式</text>
+      <text class="title">{{ t('list.demo.divided') }}</text>
       <view class="demo-card">
         <see-list :list="baseList" key-field="id" divided>
           <template #item="{ item, index }">
@@ -103,30 +106,30 @@ const toggleError = () => {
       </view>
 
       <!-- 空状态 -->
-      <text class="title">空状态</text>
+      <text class="title">{{ t('list.demo.empty') }}</text>
       <view class="demo-card">
-        <see-list :list="emptyList" empty-text="暂无数据，请稍后再试" />
+        <see-list :list="emptyList" :empty-text="t('list.demo.emptyText')" />
       </view>
 
       <!-- 加载状态 -->
-      <text class="title">加载状态</text>
+      <text class="title">{{ t('list.demo.loading') }}</text>
       <view class="demo-card">
-        <see-list :list="emptyList" :loading="true" loading-text="数据加载中..." />
+        <see-list :list="emptyList" :loading="true" :loading-text="t('list.demo.loadingText')" />
       </view>
 
       <!-- 错误状态 -->
-      <text class="title">错误状态</text>
+      <text class="title">{{ t('list.demo.error') }}</text>
       <view class="demo-card">
-        <see-list :list="hasError ? baseList : []" :error="!hasError" error-text="加载失败，点击重试" @on-retry="toggleError" />
+        <see-list :list="hasError ? baseList : []" :error="!hasError" :error-text="t('list.demo.errorText')" @on-retry="toggleError" />
       </view>
 
       <!-- 插槽用法 -->
-      <text class="title">插槽用法（Header/Footer）</text>
+      <text class="title">{{ t('list.demo.slot') }}</text>
       <view class="demo-card">
         <see-list :list="baseList" key-field="id">
           <template #header>
             <view class="custom-header">
-              <text class="custom-header__text">📋 员工列表</text>
+              <text class="custom-header__text">{{ t('list.demo.employeeList') }}</text>
             </view>
           </template>
           <template #item="{ item }">
@@ -136,20 +139,20 @@ const toggleError = () => {
           </template>
           <template #footer>
             <view class="custom-footer">
-              <text class="custom-footer__text">共 {{ baseList.length }} 人</text>
+              <text class="custom-footer__text">{{ t('list.demo.totalCount', { count: baseList.length }) }}</text>
             </view>
           </template>
         </see-list>
       </view>
 
       <!-- 分组展示 -->
-      <text class="title">分组展示</text>
+      <text class="title">{{ t('list.demo.group') }}</text>
       <view class="demo-card">
         <see-list :list="groupList" key-field="id" :group-by="'region'">
           <template #group="{ group, count }">
             <view class="group-header">
               <text class="group-header__title">{{ group }}</text>
-              <text class="group-header__count">{{ count }} 个城市</text>
+              <text class="group-header__count">{{ t('list.demo.cityCount', { count }) }}</text>
             </view>
           </template>
           <template #item="{ item }">
@@ -159,9 +162,16 @@ const toggleError = () => {
       </view>
 
       <!-- 加载更多 -->
-      <text class="title">加载更多</text>
+      <text class="title">{{ t('list.demo.loadMore') }}</text>
       <view class="demo-card">
-        <see-list :list="loadMoreList" key-field="id" :loading="loading" :finished="finished" finished-text="全部加载完成" @on-load-more="onLoadMore">
+        <see-list
+          :list="loadMoreList"
+          key-field="id"
+          :loading="loading"
+          :finished="finished"
+          :finished-text="t('list.demo.finishedText')"
+          @on-load-more="onLoadMore"
+        >
           <template #item="{ item }">
             <view class="list-item">
               <text class="list-item__name">{{ item.name }}</text>

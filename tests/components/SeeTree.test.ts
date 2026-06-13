@@ -140,7 +140,7 @@ describe('SeeTree', () => {
     const wrapper = mount(SeeTree, {
       props: { data: [] }
     })
-    expect(wrapper.text()).toContain('暂无数据')
+    expect(wrapper.text()).toContain('No Data')
   })
 
   it('自定义 emptyText', () => {

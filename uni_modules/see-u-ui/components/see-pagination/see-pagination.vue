@@ -1,7 +1,7 @@
 <template>
   <view class="see-pagination" :class="{ 'see-pagination--disabled': isDisabled }">
     <!-- 总数 -->
-    <text v-if="isShowTotal" class="see-pagination__total">共 {{ total }} 条</text>
+    <text v-if="isShowTotal" class="see-pagination__total">{{ t('pagination.total', { total }) }}</text>
 
     <!-- button 模式 -->
     <template v-if="mode === 'button'">
@@ -55,16 +55,19 @@
 
     <!-- 每页条数选择器 -->
     <view v-if="isShowSizeChanger" class="see-pagination__size-changer">
-      <text class="see-pagination__size-text">{{ pageSize }}条/页</text>
+      <text class="see-pagination__size-text">{{ t('pagination.demo.perPage', { pageSize }) }}</text>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeePaginationProps, SeePaginationEmits } from './type'
 
 defineOptions({ name: 'SeePagination' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeePaginationProps>(), {

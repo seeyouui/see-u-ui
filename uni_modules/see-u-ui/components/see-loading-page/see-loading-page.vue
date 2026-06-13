@@ -13,8 +13,8 @@
     >
       <view class="see-loading-page__content">
         <see-loading-icon :type="props.iconType" :size="props.iconSize" />
-        <text v-if="props.message" class="see-loading-page__message">
-          {{ props.message }}
+        <text v-if="resolvedMessage" class="see-loading-page__message">
+          {{ resolvedMessage }}
         </text>
       </view>
     </view>
@@ -40,18 +40,23 @@
  * @property {Number} zIndex z-index
  */
 import { computed } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeLoadingPageProps } from './type'
 
 defineOptions({ name: 'SeeLoadingPage' })
 
+const { t } = useI18n()
+
 const props = withDefaults(defineProps<SeeLoadingPageProps>(), {
   loading: true,
-  message: '加载中...',
+  message: '',
   iconType: 'spinner',
   iconSize: '80rpx',
   isFullscreen: false,
   zIndex: 999
 })
+
+const resolvedMessage = computed(() => props.message || t('loadingPage.loading'))
 
 const maskStyle = computed(() => ({
   backgroundColor: props.background || 'var(--see-bg-color)',

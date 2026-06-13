@@ -1,73 +1,85 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础输入</text>
+      <text class="title">{{ t('input.demo.basic') }}</text>
       <view class="content">
-        <see-input v-model="basicText" placeholder="文本输入" />
-        <see-input v-model="basicNumber" type="number" placeholder="数字输入" />
-        <see-input v-model="basicPassword" type="password" placeholder="密码输入" />
+        <see-input v-model="basicText" :placeholder="t('input.demo.placeholderText')" />
+        <see-input v-model="basicNumber" type="number" :placeholder="t('input.demo.placeholderNumber')" />
+        <see-input v-model="basicPassword" type="password" :placeholder="t('input.demo.placeholderPassword')" />
       </view>
 
-      <text class="title">带清除按钮</text>
+      <text class="title">{{ t('input.demo.clearable') }}</text>
       <view class="content">
-        <see-input v-model="clearableValue" is-clearable placeholder="输入内容后点击清除" />
+        <see-input v-model="clearableValue" is-clearable :placeholder="t('input.demo.placeholderClearable')" />
       </view>
 
-      <text class="title">密码切换</text>
+      <text class="title">{{ t('input.demo.passwordToggle') }}</text>
       <view class="content">
-        <see-input v-model="passwordValue" type="password" is-show-password placeholder="点击切换密码可见" />
+        <see-input v-model="passwordValue" type="password" is-show-password :placeholder="t('input.demo.placeholderShowPwd')" />
       </view>
 
-      <text class="title">带前缀图标</text>
+      <text class="title">{{ t('input.demo.prefixIcon') }}</text>
       <view class="content">
-        <see-input v-model="prefixValue" prefix-icon="see-icon-search" placeholder="搜索" />
-        <see-input v-model="phoneValue" prefix-icon="see-icon-phone" type="number" placeholder="手机号" />
+        <see-input v-model="prefixValue" prefix-icon="see-icon-search" :placeholder="t('input.demo.placeholderSearch')" />
+        <see-input v-model="phoneValue" prefix-icon="see-icon-phone" type="number" :placeholder="t('input.demo.placeholderPhone')" />
       </view>
 
-      <text class="title">带后缀图标</text>
+      <text class="title">{{ t('input.demo.suffixIcon') }}</text>
       <view class="content">
-        <see-input v-model="suffixValue" suffix-icon="see-icon-right" placeholder="带后缀图标" />
+        <see-input v-model="suffixValue" suffix-icon="see-icon-right" :placeholder="t('input.demo.placeholderSuffix')" />
       </view>
 
-      <text class="title">前后缀插槽</text>
+      <text class="title">{{ t('input.demo.prefixSuffixSlot') }}</text>
       <view class="content">
-        <see-input v-model="slotValue" placeholder="自定义前后缀">
+        <see-input v-model="slotValue" :placeholder="t('input.demo.placeholderSlot')">
           <template #prefix>
-            <text class="slot-text">https://</text>
+            <text class="slot-text">{{ t('input.demo.httpsPrefix') }}</text>
           </template>
           <template #suffix>
-            <text class="slot-text">.com</text>
+            <text class="slot-text">{{ t('input.demo.comSuffix') }}</text>
           </template>
         </see-input>
       </view>
 
-      <text class="title">字数统计</text>
+      <text class="title">{{ t('input.demo.wordLimit') }}</text>
       <view class="content">
-        <see-input v-model="limitValue" :maxlength="20" is-show-word-limit placeholder="最多输入20个字符" />
+        <see-input v-model="limitValue" :maxlength="20" is-show-word-limit :placeholder="t('input.demo.placeholderWordLimit')" />
       </view>
 
-      <text class="title">Formatter 格式化</text>
+      <text class="title">{{ t('input.demo.formatter') }}</text>
       <view class="content">
-        <see-input v-model="phoneFormat" type="number" :maxlength="11" :formatter="phoneFormatter" placeholder="手机号格式化 (3-4-4)" />
-        <see-input v-model="bankFormat" type="number" :maxlength="19" :formatter="bankFormatter" placeholder="银行卡号格式化 (每4位空格)" />
+        <see-input
+          v-model="phoneFormat"
+          type="number"
+          :maxlength="11"
+          :formatter="phoneFormatter"
+          :placeholder="t('input.demo.placeholderPhoneFormat')"
+        />
+        <see-input
+          v-model="bankFormat"
+          type="number"
+          :maxlength="19"
+          :formatter="bankFormatter"
+          :placeholder="t('input.demo.placeholderBankFormat')"
+        />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('input.demo.sizes') }}</text>
       <view class="content">
-        <see-input v-model="sizeValue" size="small" placeholder="小型尺寸" />
-        <see-input v-model="sizeValue" size="default" placeholder="默认尺寸" />
-        <see-input v-model="sizeValue" size="large" placeholder="大型尺寸" />
+        <see-input v-model="sizeValue" size="small" :placeholder="t('input.demo.placeholderSmall')" />
+        <see-input v-model="sizeValue" size="default" :placeholder="t('input.demo.placeholderDefault')" />
+        <see-input v-model="sizeValue" size="large" :placeholder="t('input.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">禁用和只读</text>
+      <text class="title">{{ t('input.demo.disabledReadonly') }}</text>
       <view class="content">
-        <see-input model-value="禁用状态" is-disabled />
-        <see-input model-value="只读状态" is-readonly />
+        <see-input :model-value="t('input.demo.disabledValue')" is-disabled />
+        <see-input :model-value="t('input.demo.readonlyValue')" is-readonly />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('input.demo.noBorder') }}</text>
       <view class="content">
-        <see-input v-model="noBorderValue" :is-border="false" placeholder="无边框输入框" />
+        <see-input v-model="noBorderValue" :is-border="false" :placeholder="t('input.demo.placeholderNoBorder')" />
       </view>
     </view>
   </see-config>
@@ -75,11 +87,15 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeInput')
 
 const basicText = ref('')
 const basicNumber = ref('')
 const basicPassword = ref('')
-const clearableValue = ref('可清除的内容')
+const clearableValue = ref(t('input.demo.clearableValue'))
 const passwordValue = ref('')
 const prefixValue = ref('')
 const phoneValue = ref('')

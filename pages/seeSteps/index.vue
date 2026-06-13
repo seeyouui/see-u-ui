@@ -2,44 +2,44 @@
   <view class="demo-steps">
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
+      <text class="demo-section__title">{{ t('steps.demo.basic') }}</text>
       <see-steps v-model="current1" :steps="basicSteps" />
     </view>
 
     <!-- 2. 垂直方向 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 垂直方向</text>
+      <text class="demo-section__title">{{ t('steps.demo.vertical') }}</text>
       <see-steps v-model="current2" :steps="basicSteps" direction="vertical" />
     </view>
 
     <!-- 3. 圆点样式 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. 圆点样式</text>
+      <text class="demo-section__title">{{ t('steps.demo.dotStyle') }}</text>
       <see-steps v-model="current3" :steps="basicSteps" :is-dot-style="true" />
     </view>
 
     <!-- 4. 错误状态 -->
     <view class="demo-section">
-      <text class="demo-section__title">4. 错误状态</text>
+      <text class="demo-section__title">{{ t('steps.demo.error') }}</text>
       <see-steps v-model="current4" :steps="errorSteps" />
     </view>
 
-    <!-- 5. 可点击 -->
+    <!-- 5. 可点击切换 -->
     <view class="demo-section">
-      <text class="demo-section__title">5. 可点击切换</text>
+      <text class="demo-section__title">{{ t('steps.demo.clickable') }}</text>
       <see-steps v-model="current5" :steps="basicSteps" :is-clickable="true" @on-change="onChange" />
     </view>
 
     <!-- 6. 自定义颜色 -->
     <view class="demo-section">
-      <text class="demo-section__title">6. 自定义颜色</text>
+      <text class="demo-section__title">{{ t('steps.demo.customColor') }}</text>
       <see-steps v-model="current6" :steps="basicSteps" active-color="#ff6b6b" />
     </view>
 
     <!-- 底部操作 -->
     <view class="demo-actions">
-      <text class="demo-btn" @tap="prevStep">上一步</text>
-      <text class="demo-btn" @tap="nextStep">下一步</text>
+      <text class="demo-btn" @tap="prevStep">{{ t('steps.demo.prev') }}</text>
+      <text class="demo-btn" @tap="nextStep">{{ t('steps.demo.next') }}</text>
     </view>
 
     <!-- 底部占位 -->
@@ -49,7 +49,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeSteps from '@/uni_modules/see-u-ui/components/see-steps/see-steps.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSteps')
 
 const current1 = ref(1)
 const current2 = ref(1)
@@ -59,19 +63,19 @@ const current5 = ref(1)
 const current6 = ref(1)
 
 const basicSteps = [
-  { title: '步骤一', description: '填写基本信息' },
-  { title: '步骤二', description: '确认订单信息' },
-  { title: '步骤三', description: '完成支付' }
+  { title: t('steps.demo.step1'), description: t('steps.demo.desc1') },
+  { title: t('steps.demo.step2'), description: t('steps.demo.desc2') },
+  { title: t('steps.demo.step3'), description: t('steps.demo.desc3') }
 ]
 
 const errorSteps = [
-  { title: '步骤一', status: 'finish' as const },
-  { title: '步骤二', status: 'error' as const },
-  { title: '步骤三', status: 'wait' as const }
+  { title: t('steps.demo.step1'), status: 'finish' as const },
+  { title: t('steps.demo.step2'), status: 'error' as const },
+  { title: t('steps.demo.step3'), status: 'wait' as const }
 ]
 
 const onChange = (index: number) => {
-  uni.showToast({ title: `点击步骤 ${index + 1}`, icon: 'none' })
+  uni.showToast({ title: t('steps.demo.clickStep', { index: index + 1 }), icon: 'none' })
 }
 
 const prevStep = () => {

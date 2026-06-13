@@ -1,104 +1,104 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('radio.demo.basic') }}</text>
       <view class="content">
         <see-radio-group v-model="basicValue">
-          <see-radio label="apple">苹果</see-radio>
-          <see-radio label="banana">香蕉</see-radio>
-          <see-radio label="orange">橘子</see-radio>
+          <see-radio label="apple">{{ t('radio.demo.apple') }}</see-radio>
+          <see-radio label="banana">{{ t('radio.demo.banana') }}</see-radio>
+          <see-radio label="orange">{{ t('radio.demo.orange') }}</see-radio>
         </see-radio-group>
-        <text class="info">选中值：{{ basicValue || '无' }}</text>
+        <text class="info">{{ t('radio.demo.selectedValue') }}{{ basicValue || t('radio.demo.none') }}</text>
       </view>
 
-      <text class="title">行内排列</text>
+      <text class="title">{{ t('radio.demo.inline') }}</text>
       <view class="content">
         <see-radio-group v-model="inlineValue" is-inline>
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">块级排列</text>
+      <text class="title">{{ t('radio.demo.block') }}</text>
       <view class="content">
         <see-radio-group v-model="blockValue" :is-inline="false">
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('radio.demo.sizes') }}</text>
       <view class="content">
         <see-radio-group v-model="smallValue" size="small" is-inline>
-          <see-radio label="a">小型</see-radio>
-          <see-radio label="b">小型</see-radio>
+          <see-radio label="a">{{ t('radio.demo.small') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.small') }}</see-radio>
         </see-radio-group>
         <see-radio-group v-model="defaultValue" size="default" is-inline>
-          <see-radio label="a">默认</see-radio>
-          <see-radio label="b">默认</see-radio>
+          <see-radio label="a">{{ t('radio.demo.default') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.default') }}</see-radio>
         </see-radio-group>
         <see-radio-group v-model="largeValue" size="large" is-inline>
-          <see-radio label="a">大型</see-radio>
-          <see-radio label="b">大型</see-radio>
+          <see-radio label="a">{{ t('radio.demo.large') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.large') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">带边框</text>
+      <text class="title">{{ t('radio.demo.border') }}</text>
       <view class="content">
         <see-radio-group v-model="borderValue" is-border>
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">带边框（行内）</text>
+      <text class="title">{{ t('radio.demo.borderInline') }}</text>
       <view class="content">
         <see-radio-group v-model="borderInlineValue" is-border is-inline>
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('radio.demo.customColor') }}</text>
       <view class="content">
         <see-radio-group v-model="colorValue" checked-color="#e43d33" is-inline>
-          <see-radio label="a">红色</see-radio>
-          <see-radio label="b">红色</see-radio>
+          <see-radio label="a">{{ t('radio.demo.red') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.red') }}</see-radio>
         </see-radio-group>
         <see-radio-group v-model="colorValue2" checked-color="#19be6b" is-border is-inline>
-          <see-radio label="a">绿色</see-radio>
-          <see-radio label="b">绿色</see-radio>
+          <see-radio label="a">{{ t('radio.demo.green') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.green') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('radio.demo.disabled') }}</text>
       <view class="content">
         <see-radio-group v-model="disabledValue" is-inline>
-          <see-radio label="a">正常</see-radio>
-          <see-radio label="b" is-disabled>禁用项</see-radio>
-          <see-radio label="c">正常</see-radio>
+          <see-radio label="a">{{ t('radio.demo.normal') }}</see-radio>
+          <see-radio label="b" is-disabled>{{ t('radio.demo.disabledItem') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.normal') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">整组禁用</text>
+      <text class="title">{{ t('radio.demo.groupDisabled') }}</text>
       <view class="content">
         <see-radio-group v-model="disabledGroupValue" is-disabled is-inline>
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
 
-      <text class="title">整组只读</text>
+      <text class="title">{{ t('radio.demo.groupReadonly') }}</text>
       <view class="content">
         <see-radio-group v-model="readonlyValue" is-readonly is-inline>
-          <see-radio label="a">选项 A</see-radio>
-          <see-radio label="b">选项 B</see-radio>
-          <see-radio label="c">选项 C</see-radio>
+          <see-radio label="a">{{ t('radio.demo.optionA') }}</see-radio>
+          <see-radio label="b">{{ t('radio.demo.optionB') }}</see-radio>
+          <see-radio label="c">{{ t('radio.demo.optionC') }}</see-radio>
         </see-radio-group>
       </view>
     </view>
@@ -107,6 +107,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeRadio')
 
 const basicValue = ref('apple')
 const inlineValue = ref('a')

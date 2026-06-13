@@ -1,7 +1,7 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('icon.demo.basic') }}</text>
       <view class="content">
         <view v-for="(item, index) in 6" :key="index" class="item">
           <see-icon></see-icon>
@@ -12,7 +12,12 @@
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.icon')
+</script>
 
 <style lang="scss" scoped>
 .gap-12 {

@@ -2,7 +2,7 @@
   <see-config>
     <view class="demo-loading-icon">
       <view class="demo-section">
-        <text class="demo-title">动画类型</text>
+        <text class="demo-title">{{ t('loadingIcon.demo.animationType') }}</text>
         <view class="demo-row">
           <view class="demo-item">
             <see-loading-icon type="spinner" />
@@ -24,29 +24,29 @@
       </view>
 
       <view class="demo-section">
-        <text class="demo-title">自定义颜色</text>
+        <text class="demo-title">{{ t('loadingIcon.demo.customColor') }}</text>
         <view class="demo-row">
           <view class="demo-item">
             <see-loading-icon color="#07c160" />
-            <text class="demo-label">绿色</text>
+            <text class="demo-label">{{ t('loadingIcon.demo.green') }}</text>
           </view>
           <view class="demo-item">
             <see-loading-icon color="#ee0a24" />
-            <text class="demo-label">红色</text>
+            <text class="demo-label">{{ t('loadingIcon.demo.red') }}</text>
           </view>
           <view class="demo-item">
             <see-loading-icon color="#1989fa" />
-            <text class="demo-label">蓝色</text>
+            <text class="demo-label">{{ t('loadingIcon.demo.blue') }}</text>
           </view>
           <view class="demo-item">
             <see-loading-icon color="#ff976a" />
-            <text class="demo-label">橙色</text>
+            <text class="demo-label">{{ t('loadingIcon.demo.orange') }}</text>
           </view>
         </view>
       </view>
 
       <view class="demo-section">
-        <text class="demo-title">自定义尺寸</text>
+        <text class="demo-title">{{ t('loadingIcon.demo.customSize') }}</text>
         <view class="demo-row">
           <view class="demo-item">
             <see-loading-icon size="32rpx" />
@@ -68,7 +68,7 @@
       </view>
 
       <view class="demo-section">
-        <text class="demo-title">自定义速度</text>
+        <text class="demo-title">{{ t('loadingIcon.demo.customSpeed') }}</text>
         <view class="demo-row">
           <view class="demo-item">
             <see-loading-icon :speed="0.4" />
@@ -92,7 +92,11 @@
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeLoadingIcon')
+</script>
 
 <style lang="scss" scoped>
 .demo-loading-icon {

@@ -1,69 +1,75 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">单列选择</text>
+      <text class="title">{{ t('picker.demo.single') }}</text>
       <view class="content">
         <see-picker
           v-model="singleValue"
           :columns="singleColumns"
-          placeholder="请选择水果"
-          toolbar-title="选择水果"
+          :placeholder="t('picker.demo.placeholderFruit')"
+          :toolbar-title="t('picker.demo.toolbarFruit')"
           @on-confirm="handleSingleConfirm"
         />
-        <text class="result-text">选中值：{{ singleValue || '无' }}</text>
+        <text class="result-text">{{ t('picker.demo.selectedValue') }}{{ singleValue || t('picker.demo.none') }}</text>
       </view>
 
-      <text class="title">多列选择</text>
+      <text class="title">{{ t('picker.demo.multi') }}</text>
       <view class="content">
-        <see-picker v-model="multiValue" :columns="multiColumns" placeholder="请选择日期" toolbar-title="选择日期" @on-confirm="handleMultiConfirm" />
-        <text class="result-text">选中值：{{ JSON.stringify(multiValue) }}</text>
+        <see-picker
+          v-model="multiValue"
+          :columns="multiColumns"
+          :placeholder="t('picker.demo.placeholderDate')"
+          :toolbar-title="t('picker.demo.toolbarDate')"
+          @on-confirm="handleMultiConfirm"
+        />
+        <text class="result-text">{{ t('picker.demo.selectedValue') }}{{ JSON.stringify(multiValue) }}</text>
       </view>
 
-      <text class="title">联动选择</text>
+      <text class="title">{{ t('picker.demo.cascade') }}</text>
       <view class="content">
         <see-picker
           v-model="cascadeValue"
           :columns="cascadeColumns"
           is-cascade
-          placeholder="请选择地区"
-          toolbar-title="选择地区"
+          :placeholder="t('picker.demo.placeholderRegion')"
+          :toolbar-title="t('picker.demo.toolbarRegion')"
           @on-confirm="handleCascadeConfirm"
         />
-        <text class="result-text">选中值：{{ JSON.stringify(cascadeValue) }}</text>
+        <text class="result-text">{{ t('picker.demo.selectedValue') }}{{ JSON.stringify(cascadeValue) }}</text>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('picker.demo.disabled') }}</text>
       <view class="content">
-        <see-picker :model-value="'apple'" :columns="singleColumns" is-disabled placeholder="禁用状态" />
+        <see-picker :model-value="'apple'" :columns="singleColumns" is-disabled :placeholder="t('picker.demo.placeholderDisabled')" />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('picker.demo.readonly') }}</text>
       <view class="content">
-        <see-picker :model-value="'banana'" :columns="singleColumns" is-readonly placeholder="只读状态" />
+        <see-picker :model-value="'banana'" :columns="singleColumns" is-readonly :placeholder="t('picker.demo.placeholderReadonly')" />
       </view>
 
-      <text class="title">自定义按钮文字</text>
+      <text class="title">{{ t('picker.demo.customBtnText') }}</text>
       <view class="content">
         <see-picker
           v-model="customValue"
           :columns="singleColumns"
-          placeholder="自定义按钮"
-          toolbar-title="请选择"
-          confirm-text="确定"
-          cancel-text="返回"
+          :placeholder="t('picker.demo.placeholderCustom')"
+          :toolbar-title="t('picker.demo.toolbarSelect')"
+          :confirm-text="t('picker.demo.confirm')"
+          :cancel-text="t('picker.demo.cancel')"
         />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('picker.demo.sizes') }}</text>
       <view class="content">
-        <see-picker v-model="sizeValue1" :columns="singleColumns" size="small" placeholder="小尺寸" />
-        <see-picker v-model="sizeValue2" :columns="singleColumns" size="default" placeholder="默认尺寸" />
-        <see-picker v-model="sizeValue3" :columns="singleColumns" size="large" placeholder="大尺寸" />
+        <see-picker v-model="sizeValue1" :columns="singleColumns" size="small" :placeholder="t('picker.demo.placeholderSmall')" />
+        <see-picker v-model="sizeValue2" :columns="singleColumns" size="default" :placeholder="t('picker.demo.placeholderDefault')" />
+        <see-picker v-model="sizeValue3" :columns="singleColumns" size="large" :placeholder="t('picker.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('picker.demo.noBorder') }}</text>
       <view class="content">
-        <see-picker v-model="borderValue" :columns="singleColumns" :is-border="false" placeholder="无边框样式" />
+        <see-picker v-model="borderValue" :columns="singleColumns" :is-border="false" :placeholder="t('picker.demo.placeholderNoBorder')" />
       </view>
     </view>
   </see-config>
@@ -71,75 +77,79 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seePicker')
 
 /** 单列数据 */
 const singleColumns = [
-  { text: '苹果', value: 'apple' },
-  { text: '香蕉', value: 'banana' },
-  { text: '橙子', value: 'orange' },
-  { text: '葡萄', value: 'grape' },
-  { text: '西瓜', value: 'watermelon' }
+  { text: t('picker.data.apple'), value: 'apple' },
+  { text: t('picker.data.banana'), value: 'banana' },
+  { text: t('picker.data.orange'), value: 'orange' },
+  { text: t('picker.data.grape'), value: 'grape' },
+  { text: t('picker.data.watermelon'), value: 'watermelon' }
 ]
 
 /** 多列数据 */
 const multiColumns = [
   [
-    { text: '2024年', value: 2024 },
-    { text: '2025年', value: 2025 },
-    { text: '2026年', value: 2026 }
+    { text: t('picker.data.year', { year: 2024 }), value: 2024 },
+    { text: t('picker.data.year', { year: 2025 }), value: 2025 },
+    { text: t('picker.data.year', { year: 2026 }), value: 2026 }
   ],
   [
-    { text: '1月', value: 1 },
-    { text: '2月', value: 2 },
-    { text: '3月', value: 3 },
-    { text: '6月', value: 6 },
-    { text: '12月', value: 12 }
+    { text: t('picker.data.month', { month: 1 }), value: 1 },
+    { text: t('picker.data.month', { month: 2 }), value: 2 },
+    { text: t('picker.data.month', { month: 3 }), value: 3 },
+    { text: t('picker.data.month', { month: 6 }), value: 6 },
+    { text: t('picker.data.month', { month: 12 }), value: 12 }
   ]
 ]
 
 /** 联动数据 */
 const cascadeColumns = [
   {
-    text: '浙江省',
+    text: t('picker.data.zhejiang'),
     value: 'zhejiang',
     children: [
       {
-        text: '杭州市',
+        text: t('picker.data.hangzhou'),
         value: 'hangzhou',
         children: [
-          { text: '西湖区', value: 'xihu' },
-          { text: '余杭区', value: 'yuhang' },
-          { text: '滨江区', value: 'binjiang' }
+          { text: t('picker.data.xihu'), value: 'xihu' },
+          { text: t('picker.data.yuhang'), value: 'yuhang' },
+          { text: t('picker.data.binjiang'), value: 'binjiang' }
         ]
       },
       {
-        text: '宁波市',
+        text: t('picker.data.ningbo'),
         value: 'ningbo',
         children: [
-          { text: '海曙区', value: 'haishu' },
-          { text: '鄞州区', value: 'yinzhou' }
+          { text: t('picker.data.haishu'), value: 'haishu' },
+          { text: t('picker.data.yinzhou'), value: 'yinzhou' }
         ]
       }
     ]
   },
   {
-    text: '江苏省',
+    text: t('picker.data.jiangsu'),
     value: 'jiangsu',
     children: [
       {
-        text: '南京市',
+        text: t('picker.data.nanjing'),
         value: 'nanjing',
         children: [
-          { text: '玄武区', value: 'xuanwu' },
-          { text: '鼓楼区', value: 'gulou' }
+          { text: t('picker.data.xuanwu'), value: 'xuanwu' },
+          { text: t('picker.data.gulou'), value: 'gulou' }
         ]
       },
       {
-        text: '苏州市',
+        text: t('picker.data.suzhou'),
         value: 'suzhou',
         children: [
-          { text: '姑苏区', value: 'gusu' },
-          { text: '吴中区', value: 'wuzhong' }
+          { text: t('picker.data.gusu'), value: 'gusu' },
+          { text: t('picker.data.wuzhong'), value: 'wuzhong' }
         ]
       }
     ]

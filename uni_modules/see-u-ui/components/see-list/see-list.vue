@@ -4,9 +4,12 @@
  * @description 基础数据容器，统一处理普通列表、加载状态、空状态、错误状态、完成状态、分组和列表项插槽。大量数据场景请使用 SeeVirtualList。
  */
 import { computed, ref, watch, nextTick, onMounted } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeListProps } from './type'
 
 defineOptions({ name: 'SeeList' })
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<SeeListProps>(), {
   list: () => [],
@@ -152,7 +155,7 @@ onMounted(() => {
       <slot name="loading">
         <view class="see-list__loading">
           <view class="see-list__loading-spinner" />
-          <text class="see-list__status-text">{{ loadingText || '加载中...' }}</text>
+          <text class="see-list__status-text">{{ loadingText || t('list.loading') }}</text>
         </view>
       </slot>
     </view>
@@ -162,7 +165,7 @@ onMounted(() => {
       <slot name="error">
         <view class="see-list__error" @tap="handleRetry">
           <text class="see-list__error-icon">!</text>
-          <text class="see-list__status-text">{{ errorText || '加载失败，点击重试' }}</text>
+          <text class="see-list__status-text">{{ errorText || t('list.error') }}</text>
         </view>
       </slot>
     </view>
@@ -172,7 +175,7 @@ onMounted(() => {
       <slot name="empty">
         <view class="see-list__empty">
           <text class="see-list__empty-icon">○</text>
-          <text class="see-list__status-text">{{ emptyText || '暂无数据' }}</text>
+          <text class="see-list__status-text">{{ emptyText || t('list.empty') }}</text>
         </view>
       </slot>
     </view>
@@ -233,21 +236,21 @@ onMounted(() => {
       <!-- 底部加载更多指示 -->
       <view v-if="loading && safeList.length > 0" class="see-list__footer-status">
         <slot name="loading">
-          <text class="see-list__status-text">{{ loadingText || '加载中...' }}</text>
+          <text class="see-list__status-text">{{ loadingText || t('list.loading') }}</text>
         </slot>
       </view>
 
       <!-- 完成状态 -->
       <view v-if="showFinished" class="see-list__footer-status">
         <slot name="finished">
-          <text class="see-list__status-text">{{ finishedText || '没有更多了' }}</text>
+          <text class="see-list__status-text">{{ finishedText || t('list.finished') }}</text>
         </slot>
       </view>
 
       <!-- 错误状态（有数据时） -->
       <view v-if="error && safeList.length > 0" class="see-list__footer-status" @tap="handleRetry">
         <slot name="error">
-          <text class="see-list__status-text">{{ errorText || '加载失败，点击重试' }}</text>
+          <text class="see-list__status-text">{{ errorText || t('list.error') }}</text>
         </slot>
       </view>
 

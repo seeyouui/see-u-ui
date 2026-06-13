@@ -115,9 +115,20 @@ export function useTheme() {
     // #endif
   }
 
+  // 接收来自文档站（postMessage）的外部主题同步
+  const handleExternalSync = (res: { theme: string }) => {
+    isManual.value = true
+    themeMode.value = res.theme as 'light' | 'dark'
+    isSwitchChecked.value = res.theme === 'dark'
+  }
+
   // 生命周期管理
   onMounted(() => {
     uni.onThemeChange(handleThemeChange)
+
+    // #ifdef H5
+    uni.$on('see-theme-sync', handleExternalSync)
+    // #endif
 
     // 初始化时应用主题
     if (themeMode.value === 'system') {
@@ -131,6 +142,10 @@ export function useTheme() {
 
   onUnmounted(() => {
     uni.offThemeChange(handleThemeChange)
+
+    // #ifdef H5
+    uni.$off('see-theme-sync', handleExternalSync)
+    // #endif
   })
 
   return {

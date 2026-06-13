@@ -2,51 +2,51 @@
   <see-config>
     <view class="demo-cell">
       <view class="demo-cell__section">
-        <view class="demo-cell__title">基础用法</view>
-        <see-cell title="标题" value="内容" />
-        <see-cell title="标题" value="带箭头" is-link />
+        <view class="demo-cell__title">{{ t('cell.demo.basic') }}</view>
+        <see-cell :title="t('cell.demo.title')" :value="t('cell.demo.content')" />
+        <see-cell :title="t('cell.demo.title')" :value="t('cell.demo.withArrow')" is-link />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">带图标</view>
-        <see-cell title="设置" icon="⚙️" value="进入" is-link />
-        <see-cell title="消息" icon="🔔" value="99+" />
+        <view class="demo-cell__title">{{ t('cell.demo.withIcon') }}</view>
+        <see-cell :title="t('cell.demo.settings')" icon="⚙️" :value="t('cell.demo.enter')" is-link />
+        <see-cell :title="t('cell.demo.message')" icon="🔔" value="99+" />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">带描述</view>
-        <see-cell title="标题" label="这是一段描述信息" value="内容" />
-        <see-cell title="标题" label="描述信息较长时会自动换行显示，确保内容完整展示" is-link />
+        <view class="demo-cell__title">{{ t('cell.demo.withLabel') }}</view>
+        <see-cell :title="t('cell.demo.title')" :label="t('cell.demo.labelText')" :value="t('cell.demo.content')" />
+        <see-cell :title="t('cell.demo.title')" :label="t('cell.demo.longLabel')" is-link />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">必填字段</view>
-        <see-cell title="用户名" value="请输入" is-required />
-        <see-cell title="手机号" value="请输入" is-required is-link />
+        <view class="demo-cell__title">{{ t('cell.demo.required') }}</view>
+        <see-cell :title="t('cell.demo.username')" :value="t('cell.demo.placeholder')" is-required />
+        <see-cell :title="t('cell.demo.phone')" :value="t('cell.demo.placeholder')" is-required is-link />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">跳转页面</view>
-        <see-cell title="个人中心" is-link to="/pages/index/index" />
-        <see-cell title="系统设置" icon="⚙️" is-link to="/pages/index/index" />
+        <view class="demo-cell__title">{{ t('cell.demo.navigate') }}</view>
+        <see-cell :title="t('cell.demo.profile')" is-link to="/pages/index/index" />
+        <see-cell :title="t('cell.demo.systemSettings')" icon="⚙️" is-link to="/pages/index/index" />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">自定义插槽</view>
-        <see-cell title="用户头像">
+        <view class="demo-cell__title">{{ t('cell.demo.customSlot') }}</view>
+        <see-cell :title="t('cell.demo.avatar')">
           <template #right>
             <view style="width: 60rpx; height: 60rpx; background: #eee; border-radius: 50%" />
           </template>
         </see-cell>
         <see-cell>
           <template #title>
-            <text style="color: #07c160; font-weight: bold">自定义标题</text>
+            <text style="color: #07c160; font-weight: bold">{{ t('cell.demo.customTitle') }}</text>
           </template>
           <template #value>
-            <text style="color: #ee0a24">自定义值</text>
+            <text style="color: #ee0a24">{{ t('cell.demo.customValue') }}</text>
           </template>
         </see-cell>
-        <see-cell title="自定义图标">
+        <see-cell :title="t('cell.demo.customIcon')">
           <template #icon>
             <view style="width: 40rpx; height: 40rpx; background: #1989fa; border-radius: 8rpx" />
           </template>
@@ -54,35 +54,39 @@
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">无边框</view>
-        <see-cell title="无下边框" value="内容" :border="false" />
-        <see-cell title="无下边框" value="内容" :border="false" />
+        <view class="demo-cell__title">{{ t('cell.demo.noBorder') }}</view>
+        <see-cell :title="t('cell.demo.noBottomBorder')" :value="t('cell.demo.content')" :border="false" />
+        <see-cell :title="t('cell.demo.noBottomBorder')" :value="t('cell.demo.content')" :border="false" />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">居中对齐</view>
-        <see-cell title="居中显示" value="内容" is-center />
+        <view class="demo-cell__title">{{ t('cell.demo.centerAlign') }}</view>
+        <see-cell :title="t('cell.demo.centerDisplay')" :value="t('cell.demo.content')" is-center />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">点击反馈</view>
-        <see-cell title="背景反馈" value="点击试试" click-effect="background" @on-click="onCellClick" />
-        <see-cell title="透明度反馈" value="点击试试" click-effect="opacity" @on-click="onCellClick" />
-        <see-cell title="无反馈" value="点击试试" click-effect="none" @on-click="onCellClick" />
+        <view class="demo-cell__title">{{ t('cell.demo.clickEffect') }}</view>
+        <see-cell :title="t('cell.demo.bgFeedback')" :value="t('cell.demo.clickMe')" click-effect="background" @on-click="onCellClick" />
+        <see-cell :title="t('cell.demo.opacityFeedback')" :value="t('cell.demo.clickMe')" click-effect="opacity" @on-click="onCellClick" />
+        <see-cell :title="t('cell.demo.noFeedback')" :value="t('cell.demo.clickMe')" click-effect="none" @on-click="onCellClick" />
       </view>
 
       <view class="demo-cell__section">
-        <view class="demo-cell__title">自定义高度与标题宽度</view>
-        <see-cell title="标题" value="自定义高度" height="120rpx" />
-        <see-cell title="标题宽度 200rpx" value="内容" title-width="200rpx" />
+        <view class="demo-cell__title">{{ t('cell.demo.customHeight') }}</view>
+        <see-cell :title="t('cell.demo.title')" :value="t('cell.demo.customHeightVal')" height="120rpx" />
+        <see-cell :title="t('cell.demo.titleWidth')" :value="t('cell.demo.content')" title-width="200rpx" />
       </view>
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCell')
+
 const onCellClick = () => {
-  uni.showToast({ title: '点击了单元格', icon: 'none' })
+  uni.showToast({ title: t('cell.demo.clicked'), icon: 'none' })
 }
 </script>
 

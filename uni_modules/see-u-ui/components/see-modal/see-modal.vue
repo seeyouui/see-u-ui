@@ -34,7 +34,7 @@
         <slot name="footer">
           <view class="see-modal__buttons">
             <view v-if="isShowCancelBtn" class="see-modal__btn see-modal__btn--cancel" @click="handleCancel">
-              <text class="see-modal__btn-text see-modal__btn-text--cancel">{{ cancelText }}</text>
+              <text class="see-modal__btn-text see-modal__btn-text--cancel">{{ resolvedCancelText }}</text>
             </view>
             <view
               class="see-modal__btn see-modal__btn--confirm"
@@ -48,7 +48,7 @@
               <view v-if="isConfirmLoading" class="see-modal__loading">
                 <view class="see-modal__loading-ring" />
               </view>
-              <text class="see-modal__btn-text see-modal__btn-text--confirm">{{ confirmText }}</text>
+              <text class="see-modal__btn-text see-modal__btn-text--confirm">{{ resolvedConfirmText }}</text>
             </view>
           </view>
         </slot>
@@ -87,10 +87,13 @@
  * @event {Function} onClosed 关闭动画结束
  */
 import { computed } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeModalProps, SeeModalEmits } from './type'
 import { SeePopup } from '../see-popup'
 
 defineOptions({ name: 'SeeModal' })
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<SeeModalProps>(), {
   show: false,
@@ -98,8 +101,8 @@ const props = withDefaults(defineProps<SeeModalProps>(), {
   content: '',
   isShowHeader: true,
   isShowFooter: true,
-  confirmText: '确认',
-  cancelText: '取消',
+  confirmText: '',
+  cancelText: '',
   isShowCancelBtn: true,
   confirmType: 'primary',
   isConfirmLoading: false,
@@ -115,6 +118,9 @@ const props = withDefaults(defineProps<SeeModalProps>(), {
 const emit = defineEmits<SeeModalEmits>()
 
 // ==================== 计算属性 ====================
+
+const resolvedConfirmText = computed(() => props.confirmText || t('modal.confirm'))
+const resolvedCancelText = computed(() => props.cancelText || t('modal.cancel'))
 
 const modalStyle = computed(() => ({
   width: props.width

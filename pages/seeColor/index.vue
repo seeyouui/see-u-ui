@@ -1,7 +1,7 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">主色 primary</text>
+      <text class="title">{{ t('color.demo.primary') }}</text>
       <view class="content">
         <view class="item primary-primary">
           <view class="subtitle">primary</view>
@@ -21,7 +21,7 @@
         </view>
       </view>
 
-      <text class="title">错误 error</text>
+      <text class="title">{{ t('color.demo.error') }}</text>
       <view class="content">
         <view class="item error-primary">
           <view class="subtitle">primary</view>
@@ -41,7 +41,7 @@
         </view>
       </view>
 
-      <text class="title">警告 warning</text>
+      <text class="title">{{ t('color.demo.warning') }}</text>
       <view class="content">
         <view class="item warning-primary">
           <view class="subtitle">primary</view>
@@ -61,7 +61,7 @@
         </view>
       </view>
 
-      <text class="title">默认 info</text>
+      <text class="title">{{ t('color.demo.info') }}</text>
       <view class="content">
         <view class="item info-primary">
           <view class="subtitle">primary</view>
@@ -81,7 +81,7 @@
         </view>
       </view>
 
-      <text class="title">成功 success</text>
+      <text class="title">{{ t('color.demo.success') }}</text>
       <view class="content">
         <view class="item success-primary">
           <view class="subtitle">primary</view>
@@ -101,54 +101,54 @@
         </view>
       </view>
 
-      <text class="title">文字颜色</text>
+      <text class="title">{{ t('color.demo.textColor') }}</text>
       <view class="content">
         <view class="item text-primary">
-          <view class="subtitle">主要文字</view>
+          <view class="subtitle">{{ t('color.demo.mainText') }}</view>
           <view class="color">#2e2f33</view>
         </view>
         <view class="item text-dark">
-          <view class="subtitle">常规文字</view>
+          <view class="subtitle">{{ t('color.demo.normalText') }}</view>
           <view class="color">#5a5c60</view>
         </view>
         <view class="item text-disabled">
-          <view class="subtitle">次要文字</view>
+          <view class="subtitle">{{ t('color.demo.secondaryText') }}</view>
           <view class="color">#8c8e93</view>
         </view>
         <view class="item text-light">
-          <view class="subtitle">占位文字</view>
+          <view class="subtitle">{{ t('color.demo.placeholderText') }}</view>
           <view class="color">#c9ccd1</view>
         </view>
       </view>
 
-      <text class="title">边框颜色</text>
+      <text class="title">{{ t('color.demo.borderColor') }}</text>
       <view class="content">
         <view class="item border-primary">
-          <view class="subtitle">一级边框</view>
+          <view class="subtitle">{{ t('color.demo.border1') }}</view>
           <view class="color">#aeb0b4</view>
         </view>
         <view class="item border-dark">
-          <view class="subtitle">二级边框</view>
+          <view class="subtitle">{{ t('color.demo.border2') }}</view>
           <view class="color">#c3c5c8</view>
         </view>
         <view class="item border-disabled">
-          <view class="subtitle">三级边框</view>
+          <view class="subtitle">{{ t('color.demo.border3') }}</view>
           <view class="color">#d9dadc</view>
         </view>
         <view class="item border-light">
-          <view class="subtitle">四级边框</view>
+          <view class="subtitle">{{ t('color.demo.border4') }}</view>
           <view class="color">#eceff1</view>
         </view>
       </view>
 
-      <text class="title">背景颜色</text>
+      <text class="title">{{ t('color.demo.bgColor') }}</text>
       <view class="content">
         <view class="item bg-primary">
-          <view class="subtitle">亮色</view>
+          <view class="subtitle">{{ t('color.demo.light') }}</view>
           <view class="color">#f6faff</view>
         </view>
         <view class="item bg-dark">
-          <view class="subtitle">暗色</view>
+          <view class="subtitle">{{ t('color.demo.dark') }}</view>
           <view class="color">#1e222a</view>
         </view>
         <view class="item"></view>
@@ -158,7 +158,12 @@
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.color')
+</script>
 
 <style lang="scss" scoped>
 .container {

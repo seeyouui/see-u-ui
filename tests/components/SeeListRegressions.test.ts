@@ -34,7 +34,7 @@ describe('SeeList regressions', () => {
 
     const statusBlocks = wrapper.findAll('.see-list__status')
     expect(statusBlocks.length).toBe(1)
-    expect(statusBlocks[0].text()).toContain('暂无数据')
+    expect(statusBlocks[0].text()).toContain('No data')
     wrapper.unmount()
   })
 

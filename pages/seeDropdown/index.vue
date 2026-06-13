@@ -1,26 +1,26 @@
 <template>
   <view class="demo-dropdown">
     <view class="demo-header">
-      <text class="demo-header__title">Dropdown 下拉菜单</text>
+      <text class="demo-header__title">{{ t('dropdown.demo.title') }}</text>
     </view>
 
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
+      <text class="demo-section__title">{{ t('dropdown.demo.basic') }}</text>
       <see-dropdown>
         <template #menu>
-          <see-dropdown-item name="sort" title="排序" />
-          <see-dropdown-item name="filter" title="筛选" />
+          <see-dropdown-item name="sort" :title="t('dropdown.demo.sort')" />
+          <see-dropdown-item name="filter" :title="t('dropdown.demo.filter')" />
         </template>
         <template #panels>
           <see-dropdown-panel name="sort">
             <view class="panel-content">
-              <text>排序面板内容</text>
+              <text>{{ t('dropdown.demo.sortPanel') }}</text>
             </view>
           </see-dropdown-panel>
           <see-dropdown-panel name="filter">
             <view class="panel-content">
-              <text>筛选面板内容</text>
+              <text>{{ t('dropdown.demo.filterPanel') }}</text>
             </view>
           </see-dropdown-panel>
         </template>
@@ -29,16 +29,16 @@
 
     <!-- 2. 禁用项 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 禁用项</text>
+      <text class="demo-section__title">{{ t('dropdown.demo.disabled') }}</text>
       <see-dropdown>
         <template #menu>
-          <see-dropdown-item name="enabled" title="可选" />
-          <see-dropdown-item name="disabled" title="禁用" :is-disabled="true" />
+          <see-dropdown-item name="enabled" :title="t('dropdown.demo.enabled')" />
+          <see-dropdown-item name="disabled" :title="t('dropdown.demo.disabledItem')" :is-disabled="true" />
         </template>
         <template #panels>
           <see-dropdown-panel name="enabled">
             <view class="panel-content">
-              <text>可选面板</text>
+              <text>{{ t('dropdown.demo.enabledPanel') }}</text>
             </view>
           </see-dropdown-panel>
         </template>
@@ -47,21 +47,21 @@
 
     <!-- 3. 无遮罩 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. 无遮罩</text>
+      <text class="demo-section__title">{{ t('dropdown.demo.noOverlay') }}</text>
       <see-dropdown :is-overlay="false">
         <template #menu>
-          <see-dropdown-item name="sort2" title="排序" />
-          <see-dropdown-item name="filter2" title="筛选" />
+          <see-dropdown-item name="sort2" :title="t('dropdown.demo.sort')" />
+          <see-dropdown-item name="filter2" :title="t('dropdown.demo.filter')" />
         </template>
         <template #panels>
           <see-dropdown-panel name="sort2">
             <view class="panel-content">
-              <text>排序（无遮罩）</text>
+              <text>{{ t('dropdown.demo.sortNoOverlay') }}</text>
             </view>
           </see-dropdown-panel>
           <see-dropdown-panel name="filter2">
             <view class="panel-content">
-              <text>筛选（无遮罩）</text>
+              <text>{{ t('dropdown.demo.filterNoOverlay') }}</text>
             </view>
           </see-dropdown-panel>
         </template>
@@ -74,9 +74,13 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeDropdown from '@/uni_modules/see-u-ui/components/see-dropdown/see-dropdown.vue'
 import SeeDropdownItem from '@/uni_modules/see-u-ui/components/see-dropdown-item/see-dropdown-item.vue'
 import SeeDropdownPanel from '@/uni_modules/see-u-ui/components/see-dropdown-panel/see-dropdown-panel.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeDropdown')
 </script>
 
 <style lang="scss" scoped>

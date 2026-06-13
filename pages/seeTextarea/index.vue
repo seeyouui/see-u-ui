@@ -1,58 +1,64 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('textarea.demo.basic') }}</text>
       <view class="content">
-        <see-textarea v-model="basicValue" placeholder="请输入内容" />
+        <see-textarea v-model="basicValue" :placeholder="t('textarea.demo.placeholderBasic')" />
       </view>
 
-      <text class="title">自定义行数</text>
+      <text class="title">{{ t('textarea.demo.customRows') }}</text>
       <view class="content">
-        <see-textarea v-model="rowsValue" :rows="5" placeholder="5行高度的文本域" />
+        <see-textarea v-model="rowsValue" :rows="5" :placeholder="t('textarea.demo.placeholderRows')" />
       </view>
 
-      <text class="title">自动增高</text>
+      <text class="title">{{ t('textarea.demo.autoHeight') }}</text>
       <view class="content">
-        <see-textarea v-model="autoHeightValue" is-auto-height placeholder="输入内容自动增高" />
+        <see-textarea v-model="autoHeightValue" is-auto-height :placeholder="t('textarea.demo.placeholderAutoHeight')" />
       </view>
 
-      <text class="title">字数统计</text>
+      <text class="title">{{ t('textarea.demo.wordLimit') }}</text>
       <view class="content">
-        <see-textarea v-model="limitValue" :maxlength="200" is-show-word-limit placeholder="最多输入200个字符" />
+        <see-textarea v-model="limitValue" :maxlength="200" is-show-word-limit :placeholder="t('textarea.demo.placeholderWordLimit')" />
       </view>
 
-      <text class="title">字数统计 + 自动增高</text>
+      <text class="title">{{ t('textarea.demo.wordLimitAutoHeight') }}</text>
       <view class="content">
-        <see-textarea v-model="autoLimitValue" is-auto-height :maxlength="500" is-show-word-limit placeholder="自动增高 + 字数统计" />
+        <see-textarea
+          v-model="autoLimitValue"
+          is-auto-height
+          :maxlength="500"
+          is-show-word-limit
+          :placeholder="t('textarea.demo.placeholderAutoLimit')"
+        />
       </view>
 
-      <text class="title">带清除按钮</text>
+      <text class="title">{{ t('textarea.demo.clearable') }}</text>
       <view class="content">
-        <see-textarea v-model="clearableValue" is-clearable placeholder="输入内容后可清除" />
+        <see-textarea v-model="clearableValue" is-clearable :placeholder="t('textarea.demo.placeholderClearable')" />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('textarea.demo.sizes') }}</text>
       <view class="content">
-        <see-textarea v-model="smallValue" size="small" placeholder="小型尺寸" />
-        <see-textarea v-model="defaultValue" size="default" placeholder="默认尺寸" />
-        <see-textarea v-model="largeValue" size="large" placeholder="大型尺寸" />
+        <see-textarea v-model="smallValue" size="small" :placeholder="t('textarea.demo.placeholderSmall')" />
+        <see-textarea v-model="defaultValue" size="default" :placeholder="t('textarea.demo.placeholderDefault')" />
+        <see-textarea v-model="largeValue" size="large" :placeholder="t('textarea.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">禁用和只读</text>
+      <text class="title">{{ t('textarea.demo.disabledReadonly') }}</text>
       <view class="content">
-        <see-textarea model-value="这是禁用状态的文本域内容，不可编辑。" is-disabled />
-        <see-textarea model-value="这是只读状态的文本域内容，不可编辑。" is-readonly />
+        <see-textarea :model-value="t('textarea.demo.disabledValue')" is-disabled />
+        <see-textarea :model-value="t('textarea.demo.readonlyValue')" is-readonly />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('textarea.demo.noBorder') }}</text>
       <view class="content">
-        <see-textarea v-model="noBorderValue" :is-border="false" placeholder="无边框文本域" />
+        <see-textarea v-model="noBorderValue" :is-border="false" :placeholder="t('textarea.demo.placeholderNoBorder')" />
       </view>
 
-      <text class="title">键盘确认按钮</text>
+      <text class="title">{{ t('textarea.demo.confirmType') }}</text>
       <view class="content">
-        <see-textarea v-model="sendValue" confirm-type="send" placeholder="键盘确认按钮为「发送」" />
-        <see-textarea v-model="nextValue" confirm-type="next" placeholder="键盘确认按钮为「下一个」" />
+        <see-textarea v-model="sendValue" confirm-type="send" :placeholder="t('textarea.demo.placeholderSend')" />
+        <see-textarea v-model="nextValue" confirm-type="next" :placeholder="t('textarea.demo.placeholderNext')" />
       </view>
     </view>
   </see-config>
@@ -60,13 +66,17 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeTextarea')
 
 const basicValue = ref('')
 const rowsValue = ref('')
 const autoHeightValue = ref('')
 const limitValue = ref('')
 const autoLimitValue = ref('')
-const clearableValue = ref('可清除的内容')
+const clearableValue = ref(t('textarea.demo.clearable'))
 const smallValue = ref('')
 const defaultValue = ref('')
 const largeValue = ref('')

@@ -1,49 +1,49 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('switch.demo.basic') }}</text>
       <view class="content">
         <see-switch v-model="val1" />
-        <text class="info">当前值：{{ val1 }}</text>
+        <text class="info">{{ t('switch.demo.currentValue') }}{{ val1 }}</text>
       </view>
 
-      <text class="title">自定义颜色</text>
+      <text class="title">{{ t('switch.demo.customColor') }}</text>
       <view class="content">
         <see-switch v-model="val2" active-color="#07c160" inactive-color="#ee0a24" />
-        <text class="info">绿色开启 / 红色关闭</text>
+        <text class="info">{{ t('switch.demo.greenOnRedOff') }}</text>
       </view>
 
-      <text class="title">自定义值</text>
+      <text class="title">{{ t('switch.demo.customValue') }}</text>
       <view class="content">
-        <see-switch v-model="val3" active-value="开" inactive-value="关" />
-        <text class="info">当前值：{{ val3 }}</text>
+        <see-switch v-model="val3" :active-value="activeVal" :inactive-value="inactiveVal" />
+        <text class="info">{{ t('switch.demo.currentValue') }}{{ val3 }}</text>
       </view>
 
-      <text class="title">文字描述（两侧布局）</text>
+      <text class="title">{{ t('switch.demo.textBoth') }}</text>
       <view class="content">
-        <see-switch v-model="val4" active-text="开" inactive-text="关" />
+        <see-switch v-model="val4" :active-text="t('switch.demo.on')" :inactive-text="t('switch.demo.off')" />
       </view>
 
-      <text class="title">文字描述（右侧布局）</text>
+      <text class="title">{{ t('switch.demo.textRight') }}</text>
       <view class="content">
-        <see-switch v-model="val5" active-text="开启" inactive-text="关闭" />
+        <see-switch v-model="val5" :active-text="t('switch.demo.enable')" :inactive-text="t('switch.demo.disable')" />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('switch.demo.disabled') }}</text>
       <view class="content">
         <see-switch :model-value="true" is-disabled />
         <view class="ml-12" />
         <see-switch :model-value="false" is-disabled />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('switch.demo.readonly') }}</text>
       <view class="content">
         <see-switch :model-value="true" is-readonly />
         <view class="ml-12" />
         <see-switch :model-value="false" is-readonly />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('switch.demo.sizes') }}</text>
       <view class="content">
         <see-switch v-model="val6" size="small" />
         <view class="ml-12" />
@@ -57,10 +57,16 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSwitch')
+
+const activeVal = ref(t('switch.demo.on'))
+const inactiveVal = ref(t('switch.demo.off'))
 const val1 = ref(false)
 const val2 = ref(true)
-const val3 = ref('关')
+const val3 = ref(t('switch.demo.off'))
 const val4 = ref(true)
 const val5 = ref(false)
 const val6 = ref(true)

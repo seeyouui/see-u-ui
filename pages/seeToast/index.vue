@@ -1,85 +1,88 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('toast.demo.basic') }}</text>
     <view class="demo-content">
-      <see-button title="默认 Toast" type="primary" is-ripple @click="showDefault" />
+      <see-button :title="t('toast.demo.defaultToast')" type="primary" is-ripple @click="showDefault" />
     </view>
 
-    <text class="title">不同类型</text>
+    <text class="title">{{ t('toast.demo.type') }}</text>
     <view class="demo-content">
       <view class="btn-group">
-        <see-button title="成功" type="success" is-ripple @click="showSuccess" />
-        <see-button title="错误" type="error" is-ripple @click="showError" />
-        <see-button title="警告" type="warning" is-ripple @click="showWarning" />
-        <see-button title="信息" type="info" is-ripple @click="showInfo" />
+        <see-button :title="t('toast.demo.success')" type="success" is-ripple @click="showSuccess" />
+        <see-button :title="t('toast.demo.error')" type="error" is-ripple @click="showError" />
+        <see-button :title="t('toast.demo.warning')" type="warning" is-ripple @click="showWarning" />
+        <see-button :title="t('toast.demo.info')" type="info" is-ripple @click="showInfo" />
       </view>
     </view>
 
-    <text class="title">Loading 类型</text>
+    <text class="title">{{ t('toast.demo.loading') }}</text>
     <view class="demo-content">
-      <see-button title="显示 Loading" type="primary" is-ripple @click="showLoading" />
+      <see-button :title="t('toast.demo.loadingBtn')" type="primary" is-ripple @click="showLoading" />
     </view>
 
-    <text class="title">不同位置</text>
+    <text class="title">{{ t('toast.demo.position') }}</text>
     <view class="demo-content">
       <view class="btn-group">
-        <see-button title="顶部" type="primary" is-ripple @click="showTop" />
-        <see-button title="居中" type="primary" is-ripple @click="showCenter" />
-        <see-button title="底部" type="primary" is-ripple @click="showBottom" />
+        <see-button :title="t('toast.demo.top')" type="primary" is-ripple @click="showTop" />
+        <see-button :title="t('toast.demo.center')" type="primary" is-ripple @click="showCenter" />
+        <see-button :title="t('toast.demo.bottom')" type="primary" is-ripple @click="showBottom" />
       </view>
     </view>
 
-    <text class="title">组件式调用</text>
+    <text class="title">{{ t('toast.demo.component') }}</text>
     <view class="demo-content">
-      <see-button title="组件式 Toast" type="primary" is-ripple @click="show1 = true" />
-      <see-toast v-model:show="show1" message="组件式 Toast" type="success" />
+      <see-button :title="t('toast.demo.componentToast')" type="primary" is-ripple @click="show1 = true" />
+      <see-toast v-model:show="show1" :message="t('toast.demo.componentToast')" type="success" />
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { toast } from '@/uni_modules/see-u-ui'
+import { toast, useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeToast')
 
 const show1 = ref(false)
 
 const showDefault = () => {
-  toast.show('默认 Toast')
+  toast.show(t('toast.demo.defaultMsg'))
 }
 
 const showSuccess = () => {
-  toast.success('操作成功')
+  toast.success(t('toast.demo.successMsg'))
 }
 
 const showError = () => {
-  toast.error('操作失败')
+  toast.error(t('toast.demo.errorMsg'))
 }
 
 const showWarning = () => {
-  toast.warning('警告信息')
+  toast.warning(t('toast.demo.warningMsg'))
 }
 
 const showInfo = () => {
-  toast.info('提示信息')
+  toast.info(t('toast.demo.infoMsg'))
 }
 
 const showLoading = () => {
-  toast.loading('加载中...')
+  toast.loading(t('toast.demo.loadingMsg'))
   setTimeout(() => {
     toast.hide()
   }, 3000)
 }
 
 const showTop = () => {
-  toast.show({ message: '顶部 Toast', position: 'top' })
+  toast.show({ message: t('toast.demo.topMsg'), position: 'top' })
 }
 
 const showCenter = () => {
-  toast.show({ message: '居中 Toast', position: 'center' })
+  toast.show({ message: t('toast.demo.centerMsg'), position: 'center' })
 }
 
 const showBottom = () => {
-  toast.show({ message: '底部 Toast', position: 'bottom' })
+  toast.show({ message: t('toast.demo.bottomMsg'), position: 'bottom' })
 }
 </script>
 

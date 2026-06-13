@@ -1,35 +1,40 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('link.demo.basic') }}</text>
       <view class="content">
-        <see-link text="这是SeeYouUI的官方文档" type="primary" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.docLink')" type="primary" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="自定义文字颜色" color="#52f7bd" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.customColor')" color="#52f7bd" href="https://www.baidu.com" />
       </view>
-      <text class="title">设置主题</text>
+      <text class="title">{{ t('link.demo.theme') }}</text>
       <view class="content">
-        <see-link text="《静夜思》" type="" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.poemTitle')" type="" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="床前明月光，" type="primary" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.poemLine1')" type="primary" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="疑是地上霜。" type="error" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.poemLine2')" type="error" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="举头望明月，" type="warning" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.poemLine3')" type="warning" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="低头思故乡。" type="success" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.poemLine4')" type="success" href="https://www.baidu.com" />
       </view>
-      <text class="title">下划线</text>
+      <text class="title">{{ t('link.demo.underline') }}</text>
       <view class="content">
-        <see-link text="来都来了, 给我点个Star吗？" is-line type="primary" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.starRequest')" is-line type="primary" href="https://www.baidu.com" />
         <view class="gap-12"></view>
-        <see-link text="自定义下划线颜色" is-line line-color="#52f7bd" type="primary" href="https://www.baidu.com" />
+        <see-link :text="t('link.demo.customLineColor')" is-line line-color="#52f7bd" type="primary" href="https://www.baidu.com" />
       </view>
     </view>
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.link')
+</script>
 
 <style lang="scss" scoped>
 .gap-12 {

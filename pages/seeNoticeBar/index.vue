@@ -1,57 +1,61 @@
 <template>
   <see-config>
-    <text class="title">基础用法</text>
+    <text class="title">{{ t('noticeBar.demo.basic') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="这是一条通知信息，文字过长时会自动滚动显示完整内容" />
+      <see-notice-bar :text="t('noticeBar.demo.longText')" />
     </view>
 
-    <text class="title">不同类型</text>
+    <text class="title">{{ t('noticeBar.demo.type') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="信息类型通知" type="info" />
+      <see-notice-bar :text="t('noticeBar.demo.infoText')" type="info" />
       <view class="gap" />
-      <see-notice-bar text="警告类型通知" type="warning" />
+      <see-notice-bar :text="t('noticeBar.demo.warningText')" type="warning" />
       <view class="gap" />
-      <see-notice-bar text="错误类型通知" type="error" />
+      <see-notice-bar :text="t('noticeBar.demo.errorText')" type="error" />
     </view>
 
-    <text class="title">可关闭</text>
+    <text class="title">{{ t('noticeBar.demo.closable') }}</text>
     <view class="demo-content">
-      <see-notice-bar v-if="show1" text="这是一条可关闭的通知" is-closable @on-close="show1 = false" />
+      <see-notice-bar v-if="show1" :text="t('noticeBar.demo.closableText')" is-closable @on-close="show1 = false" />
     </view>
 
-    <text class="title">自定义图标</text>
+    <text class="title">{{ t('noticeBar.demo.icon') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="自定义图标的通知" icon="📢" />
+      <see-notice-bar :text="t('noticeBar.demo.iconText')" icon="📢" />
     </view>
 
-    <text class="title">无图标</text>
+    <text class="title">{{ t('noticeBar.demo.noIcon') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="无图标的通知" :is-show-icon="false" />
+      <see-notice-bar :text="t('noticeBar.demo.noIconText')" :is-show-icon="false" />
     </view>
 
-    <text class="title">静态文字（不滚动）</text>
+    <text class="title">{{ t('noticeBar.demo.static') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="短文字不滚动" :is-scrollable="false" />
+      <see-notice-bar :text="t('noticeBar.demo.staticText')" :is-scrollable="false" />
     </view>
 
-    <text class="title">垂直轮播</text>
+    <text class="title">{{ t('noticeBar.demo.vertical') }}</text>
     <view class="demo-content">
       <see-notice-bar vertical :messages="verticalMessages" :vertical-interval="3000" />
     </view>
 
-    <text class="title">自定义速度</text>
+    <text class="title">{{ t('noticeBar.demo.speed') }}</text>
     <view class="demo-content">
-      <see-notice-bar text="快速滚动的通知信息" :speed="100" />
+      <see-notice-bar :text="t('noticeBar.demo.speedText')" :speed="100" />
     </view>
   </see-config>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeNoticeBar')
 
 const show1 = ref(true)
 
-const verticalMessages = ['第一条通知信息', '第二条通知信息', '第三条通知信息']
+const verticalMessages = [t('noticeBar.demo.msg1'), t('noticeBar.demo.msg2'), t('noticeBar.demo.msg3')]
 </script>
 
 <style lang="scss" scoped>

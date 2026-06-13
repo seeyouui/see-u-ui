@@ -18,6 +18,7 @@
  * @example
  */
 import { nextTick, computed } from 'vue'
+import { useI18n } from '../../locale'
 
 defineOptions({
   name: 'SeeLink'
@@ -49,6 +50,9 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e?: 'onClick'): void
 }>()
+
+/** ---------- i18n ---------- */
+const { t } = useI18n()
 
 const getClass = computed(() => {
   const classes: string[] = []
@@ -110,7 +114,7 @@ const onClick = () => {
         uni.hideToast()
         nextTick(() => {
           uni.showToast({
-            title: '链接已复制，请在浏览器打开',
+            title: t('link.copyTip'),
             icon: 'none'
           })
         })

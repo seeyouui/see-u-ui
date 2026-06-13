@@ -168,6 +168,13 @@
       }
     },
     {
+      "path": "pages/seeCalendar/index",
+      "style": {
+        "navigationBarTitleText": "Calendar 日历",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/seeUpload/index",
       "style": {
         "navigationBarTitleText": "Upload 上传",
@@ -185,6 +192,27 @@
       "path": "pages/seeKeyboard/index",
       "style": {
         "navigationBarTitleText": "Keyboard 键盘",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeWatermark/index",
+      "style": {
+        "navigationBarTitleText": "Watermark 水印",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeCoupon/index",
+      "style": {
+        "navigationBarTitleText": "Coupon 优惠券",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/seeScratchCard/index",
+      "style": {
+        "navigationBarTitleText": "ScratchCard 刮刮卡",
         "enablePullDownRefresh": false
       }
     },

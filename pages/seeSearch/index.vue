@@ -1,69 +1,69 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('search.demo.basic') }}</text>
       <view class="content">
-        <see-search v-model="val1" placeholder="请输入搜索内容" />
-        <text class="info">当前值：{{ val1 }}</text>
+        <see-search v-model="val1" :placeholder="t('search.placeholder')" />
+        <text class="info">{{ t('search.demo.currentValue') }}{{ val1 }}</text>
       </view>
 
-      <text class="title">圆角形状（默认）</text>
+      <text class="title">{{ t('search.demo.round') }}</text>
       <view class="content">
-        <see-search v-model="val2" shape="round" placeholder="圆角搜索框" />
+        <see-search v-model="val2" shape="round" :placeholder="t('search.demo.placeholderRound')" />
       </view>
 
-      <text class="title">方形形状</text>
+      <text class="title">{{ t('search.demo.square') }}</text>
       <view class="content">
-        <see-search v-model="val3" shape="square" placeholder="方形搜索框" />
+        <see-search v-model="val3" shape="square" :placeholder="t('search.demo.placeholderSquare')" />
       </view>
 
-      <text class="title">显示操作按钮</text>
+      <text class="title">{{ t('search.demo.showAction') }}</text>
       <view class="content">
-        <see-search v-model="val4" is-show-action placeholder="搜索" />
+        <see-search v-model="val4" is-show-action :placeholder="t('search.demo.placeholderSearch')" />
       </view>
 
-      <text class="title">自定义操作按钮文字</text>
+      <text class="title">{{ t('search.demo.customActionText') }}</text>
       <view class="content">
-        <see-search v-model="val5" is-show-action action-text="搜索" placeholder="请输入关键词" />
+        <see-search v-model="val5" is-show-action :action-text="t('search')" :placeholder="t('search.demo.placeholderKeyword')" />
       </view>
 
-      <text class="title">显示边框</text>
+      <text class="title">{{ t('search.demo.showBorder') }}</text>
       <view class="content">
-        <see-search v-model="val6" is-border placeholder="带边框的搜索框" />
+        <see-search v-model="val6" is-border :placeholder="t('search.demo.placeholderBorder')" />
       </view>
 
-      <text class="title">自定义背景色</text>
+      <text class="title">{{ t('search.demo.customBg') }}</text>
       <view class="content">
-        <see-search v-model="val7" bg-color="#e8f5e9" placeholder="自定义背景色" />
+        <see-search v-model="val7" bg-color="#e8f5e9" :placeholder="t('search.demo.placeholderBg')" />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('search.demo.disabled') }}</text>
       <view class="content">
-        <see-search model-value="禁用状态" is-disabled />
+        <see-search :model-value="t('search.demo.disabledValue')" is-disabled />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('search.demo.readonly') }}</text>
       <view class="content">
-        <see-search model-value="只读状态" is-readonly />
+        <see-search :model-value="t('search.demo.readonlyValue')" is-readonly />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('search.demo.sizes') }}</text>
       <view class="content">
-        <see-search v-model="val8" size="small" placeholder="小尺寸" />
-        <see-search v-model="val8" size="default" placeholder="默认尺寸" />
-        <see-search v-model="val8" size="large" placeholder="大尺寸" />
+        <see-search v-model="val8" size="small" :placeholder="t('search.demo.placeholderSmall')" />
+        <see-search v-model="val8" size="default" :placeholder="t('search.demo.placeholderDefault')" />
+        <see-search v-model="val8" size="large" :placeholder="t('search.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">自定义插槽</text>
+      <text class="title">{{ t('search.demo.customSlot') }}</text>
       <view class="content">
-        <see-search v-model="val9" placeholder="左侧带文字">
+        <see-search v-model="val9" :placeholder="t('search.demo.placeholderLeftText')">
           <template #left>
-            <text class="slot-text">取消</text>
+            <text class="slot-text">{{ t('search.demo.slotCancel') }}</text>
           </template>
         </see-search>
-        <see-search v-model="val9" placeholder="右侧带图标">
+        <see-search v-model="val9" :placeholder="t('search.demo.placeholderRightIcon')">
           <template #right>
-            <text class="slot-text">筛选</text>
+            <text class="slot-text">{{ t('search.demo.slotFilter') }}</text>
           </template>
         </see-search>
       </view>
@@ -73,6 +73,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeSearch')
 
 const val1 = ref('')
 const val2 = ref('')

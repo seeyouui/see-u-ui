@@ -1,6 +1,6 @@
 <template>
   <see-config>
-    <text class="title">基础横向滚动列表</text>
+    <text class="title">{{ t('scrollList.demo.basicHorizontal') }}</text>
     <view class="demo-content">
       <see-scroll-list :list="basicList">
         <template #item="{ item }">
@@ -11,7 +11,7 @@
       </see-scroll-list>
     </view>
 
-    <text class="title">自定义项样式</text>
+    <text class="title">{{ t('scrollList.demo.customStyle') }}</text>
     <view class="demo-content">
       <see-scroll-list :list="colorList" item-gap="24rpx">
         <template #item="{ item }">
@@ -22,7 +22,7 @@
       </see-scroll-list>
     </view>
 
-    <text class="title">带尾部插槽</text>
+    <text class="title">{{ t('scrollList.demo.withFooter') }}</text>
     <view class="demo-content">
       <see-scroll-list :list="basicList.slice(0, 4)">
         <template #item="{ item }">
@@ -32,13 +32,13 @@
         </template>
         <template #footer>
           <view class="scroll-item scroll-item--more" @click="handleLoadMore">
-            <text class="scroll-item__text">更多 ></text>
+            <text class="scroll-item__text">{{ t('scrollList.demo.more') }}</text>
           </view>
         </template>
       </see-scroll-list>
     </view>
 
-    <text class="title">加载更多</text>
+    <text class="title">{{ t('scrollList.demo.loadMore') }}</text>
     <view class="demo-content">
       <see-scroll-list :list="loadMoreList" @on-scroll-to-lower="onLoadMore">
         <template #item="{ item }">
@@ -50,7 +50,7 @@
       </see-scroll-list>
     </view>
 
-    <text class="title">纵向滚动</text>
+    <text class="title">{{ t('scrollList.demo.vertical') }}</text>
     <view class="demo-content">
       <see-scroll-list :list="verticalList" :scroll-x="false" :scroll-y="true" style="height: 300rpx">
         <template #item="{ item }">
@@ -65,44 +65,56 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeScrollList')
 
-const basicList = ref(['推荐', '热门', '关注', '科技', '财经', '体育', '娱乐', '教育'])
+const basicList = ref([
+  t('scrollList.demo.recommend'),
+  t('scrollList.demo.hot'),
+  t('scrollList.demo.follow'),
+  t('scrollList.demo.tech'),
+  t('scrollList.demo.finance'),
+  t('scrollList.demo.sports'),
+  t('scrollList.demo.entertainment'),
+  t('scrollList.demo.education')
+])
 
 const colorList = ref([
-  { label: '红色', color: '#ff4757' },
-  { label: '橙色', color: '#ff6348' },
-  { label: '黄色', color: '#ffa502' },
-  { label: '绿色', color: '#2ed573' },
-  { label: '蓝色', color: '#1e90ff' },
-  { label: '紫色', color: '#a55eea' }
+  { label: t('scrollList.demo.red'), color: '#ff4757' },
+  { label: t('scrollList.demo.orange'), color: '#ff6348' },
+  { label: t('scrollList.demo.yellow'), color: '#ffa502' },
+  { label: t('scrollList.demo.green'), color: '#2ed573' },
+  { label: t('scrollList.demo.blue'), color: '#1e90ff' },
+  { label: t('scrollList.demo.purple'), color: '#a55eea' }
 ])
 
 const loadMoreList = ref([
-  { title: '卡片 1', desc: '描述内容' },
-  { title: '卡片 2', desc: '描述内容' },
-  { title: '卡片 3', desc: '描述内容' }
+  { title: t('scrollList.demo.card', { n: 1 }), desc: t('scrollList.demo.cardDesc') },
+  { title: t('scrollList.demo.card', { n: 2 }), desc: t('scrollList.demo.cardDesc') },
+  { title: t('scrollList.demo.card', { n: 3 }), desc: t('scrollList.demo.cardDesc') }
 ])
 
 let loadMoreCount = 0
 
 const onLoadMore = () => {
   if (loadMoreCount >= 3) {
-    uni.showToast({ title: '没有更多了', icon: 'none' })
+    uni.showToast({ title: t('scrollList.demo.noMore'), icon: 'none' })
     return
   }
   loadMoreCount++
   const newItems = Array.from({ length: 3 }, (_, i) => ({
-    title: `卡片 ${loadMoreList.value.length + i + 1}`,
-    desc: '新加载内容'
+    title: t('scrollList.demo.card', { n: loadMoreList.value.length + i + 1 }),
+    desc: t('scrollList.demo.loadedContent')
   }))
   loadMoreList.value.push(...newItems)
 }
 
 const handleLoadMore = () => {
-  uni.showToast({ title: '点击了更多', icon: 'none' })
+  uni.showToast({ title: t('scrollList.demo.clickedMore'), icon: 'none' })
 }
 
-const verticalList = ref(Array.from({ length: 20 }, (_, i) => `纵向列表项 ${i + 1}`))
+const verticalList = ref(Array.from({ length: 20 }, (_, i) => `${t('scrollList.demo.verticalItem')} ${i + 1}`))
 </script>
 
 <style lang="scss" scoped>

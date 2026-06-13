@@ -1,4 +1,5 @@
 import { ref, computed, unref, onMounted, onUnmounted, type ComputedRef, type MaybeRef } from 'vue'
+import { t } from '../../../locale'
 
 // --- 类型定义 ---
 type DateInput = string | number | Date | null | undefined
@@ -20,9 +21,9 @@ function normalizeDate(date: DateInput): Date | null {
 }
 
 /**
- * 核心：计算“多久之前”
+ * 核心：计算”多久之前”
  * @param date 目标时间
- * @returns 格式化后的字符串 (如 "1分钟前")
+ * @returns 格式化后的字符串 (如 “1分钟前”)
  */
 export function formatTimeAgo(date: DateInput): string {
   const d = normalizeDate(date)
@@ -32,40 +33,40 @@ export function formatTimeAgo(date: DateInput): string {
   const diff = (now - d.getTime()) / 1000 // 转换为秒
 
   // 如果是未来时间，或者差异极小，显示刚刚
-  if (diff < 0) return '刚刚'
+  if (diff < 0) return t('timeago.justNow')
 
   // 1分钟内 -> X秒前
   if (diff < 60) {
-    return Math.floor(diff) + '秒前'
+    return t('timeago.secondsAgo', { count: Math.floor(diff) })
   }
 
   // 1小时内 -> X分钟前
   if (diff < 3600) {
-    return Math.floor(diff / 60) + '分钟前'
+    return t('timeago.minutesAgo', { count: Math.floor(diff / 60) })
   }
 
   // 24小时内 -> X小时前
   if (diff < 3600 * 24) {
-    return Math.floor(diff / 3600) + '小时前'
+    return t('timeago.hoursAgo', { count: Math.floor(diff / 3600) })
   }
 
   // 7天内 -> X天前
   if (diff < 3600 * 24 * 7) {
-    return Math.floor(diff / (3600 * 24)) + '天前'
+    return t('timeago.daysAgo', { count: Math.floor(diff / (3600 * 24)) })
   }
 
   // 30天内 -> X周前 (粗略计算)
   if (diff < 3600 * 24 * 30) {
-    return Math.floor(diff / (3600 * 24 * 7)) + '周前'
+    return t('timeago.weeksAgo', { count: Math.floor(diff / (3600 * 24 * 7)) })
   }
 
   // 365天内 -> X月前 (粗略计算，按30天)
   if (diff < 3600 * 24 * 365) {
-    return Math.floor(diff / (3600 * 24 * 30)) + '月前'
+    return t('timeago.monthsAgo', { count: Math.floor(diff / (3600 * 24 * 30)) })
   }
 
   // 超过1年 -> X年前
-  return Math.floor(diff / (3600 * 24 * 365)) + '年前'
+  return t('timeago.yearsAgo', { count: Math.floor(diff / (3600 * 24 * 365)) })
 }
 
 // --- 2. Vue Hook (响应式封装，带自动刷新) ---

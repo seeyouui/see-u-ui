@@ -1,6 +1,6 @@
 <template>
   <see-config>
-    <text class="title">等分布局</text>
+    <text class="title">{{ t('layout.demo.equalDivide') }}</text>
     <view class="demo-content">
       <see-layout>
         <see-layout-item :span="8">
@@ -15,7 +15,7 @@
       </see-layout>
     </view>
 
-    <text class="title">2:1 比例</text>
+    <text class="title">{{ t('layout.demo.twoToOne') }}</text>
     <view class="demo-content">
       <see-layout>
         <see-layout-item :span="16">
@@ -27,7 +27,7 @@
       </see-layout>
     </view>
 
-    <text class="title">偏移</text>
+    <text class="title">{{ t('layout.demo.offset') }}</text>
     <view class="demo-content">
       <see-layout>
         <see-layout-item :span="8" :offset="8">
@@ -36,7 +36,7 @@
       </see-layout>
     </view>
 
-    <text class="title">带间距</text>
+    <text class="title">{{ t('layout.demo.withGap') }}</text>
     <view class="demo-content">
       <see-layout :gap="16">
         <see-layout-item :span="8">
@@ -51,7 +51,7 @@
       </see-layout>
     </view>
 
-    <text class="title">Flex 自定义比例</text>
+    <text class="title">{{ t('layout.demo.flexCustom') }}</text>
     <view class="demo-content">
       <see-layout>
         <see-layout-item :flex="2">
@@ -66,24 +66,28 @@
       </see-layout>
     </view>
 
-    <text class="title">垂直方向</text>
+    <text class="title">{{ t('layout.demo.vertical') }}</text>
     <view class="demo-content">
       <see-layout direction="column" :gap="10">
         <see-layout-item>
-          <view class="grid-item">第一行</view>
+          <view class="grid-item">{{ t('layout.demo.row1') }}</view>
         </see-layout-item>
         <see-layout-item>
-          <view class="grid-item">第二行</view>
+          <view class="grid-item">{{ t('layout.demo.row2') }}</view>
         </see-layout-item>
         <see-layout-item>
-          <view class="grid-item">第三行</view>
+          <view class="grid-item">{{ t('layout.demo.row3') }}</view>
         </see-layout-item>
       </see-layout>
     </view>
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeLayout')
+</script>
 
 <style lang="scss" scoped>
 .title {

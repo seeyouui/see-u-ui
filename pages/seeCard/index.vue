@@ -1,68 +1,72 @@
 <template>
   <see-config>
-    <text class="title">基础卡片</text>
+    <text class="title">{{ t('card.demo.basic') }}</text>
     <view class="demo-content">
-      <see-card title="卡片标题">
-        <text>这是卡片的内容区域</text>
+      <see-card :title="t('card.demo.cardTitle')">
+        <text>{{ t('card.demo.cardContent') }}</text>
       </see-card>
     </view>
 
-    <text class="title">带副标题</text>
+    <text class="title">{{ t('card.demo.withSubtitle') }}</text>
     <view class="demo-content">
-      <see-card title="卡片标题" sub-title="这是副标题描述">
-        <text>这是卡片的内容区域</text>
+      <see-card :title="t('card.demo.cardTitle')" :sub-title="t('card.demo.subtitleDesc')">
+        <text>{{ t('card.demo.cardContent') }}</text>
       </see-card>
     </view>
 
-    <text class="title">自定义 Header</text>
+    <text class="title">{{ t('card.demo.customHeader') }}</text>
     <view class="demo-content">
       <see-card>
         <template #header>
           <view style="display: flex; align-items: center; justify-content: space-between">
-            <text style="font-size: 30rpx; font-weight: 600">自定义标题</text>
-            <text style="font-size: 24rpx; color: #999">更多</text>
+            <text style="font-size: 30rpx; font-weight: 600">{{ t('card.demo.customHeaderTitle') }}</text>
+            <text style="font-size: 24rpx; color: #999">{{ t('card.demo.more') }}</text>
           </view>
         </template>
-        <text>自定义 header 插槽内容</text>
+        <text>{{ t('card.demo.customHeaderContent') }}</text>
       </see-card>
     </view>
 
-    <text class="title">带 Footer</text>
+    <text class="title">{{ t('card.demo.withFooter') }}</text>
     <view class="demo-content">
-      <see-card title="卡片标题">
-        <text>这是卡片的内容区域</text>
+      <see-card :title="t('card.demo.cardTitle')">
+        <text>{{ t('card.demo.cardContent') }}</text>
         <template #footer>
           <view style="display: flex; justify-content: flex-end; gap: 20rpx">
-            <text style="color: var(--see-primary)">取消</text>
-            <text style="color: var(--see-primary)">确定</text>
+            <text style="color: var(--see-primary)">{{ t('card.demo.cancel') }}</text>
+            <text style="color: var(--see-primary)">{{ t('card.demo.confirm') }}</text>
           </view>
         </template>
       </see-card>
     </view>
 
-    <text class="title">不同阴影</text>
+    <text class="title">{{ t('card.demo.differentShadow') }}</text>
     <view class="demo-content">
-      <see-card title="始终显示阴影" shadow="always" margin="0 0 20rpx">
+      <see-card :title="t('card.demo.alwaysShadow')" shadow="always" margin="0 0 20rpx">
         <text>shadow="always"</text>
       </see-card>
-      <see-card title="从不显示阴影" shadow="never" margin="0 0 20rpx">
+      <see-card :title="t('card.demo.neverShadow')" shadow="never" margin="0 0 20rpx">
         <text>shadow="never"</text>
       </see-card>
-      <see-card title="悬浮显示阴影" shadow="hover" margin="0 0 20rpx">
+      <see-card :title="t('card.demo.hoverShadow')" shadow="hover" margin="0 0 20rpx">
         <text>shadow="hover"</text>
       </see-card>
     </view>
 
-    <text class="title">无边框</text>
+    <text class="title">{{ t('card.demo.noBorder') }}</text>
     <view class="demo-content">
-      <see-card title="无边框卡片" :border="false">
-        <text>没有边框的卡片</text>
+      <see-card :title="t('card.demo.noBorderCard')" :border="false">
+        <text>{{ t('card.demo.noBorderText') }}</text>
       </see-card>
     </view>
   </see-config>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+const { t } = useI18n()
+useNavbarI18n('navbar.seeCard')
+</script>
 
 <style lang="scss" scoped>
 .title {

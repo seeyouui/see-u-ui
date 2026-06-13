@@ -1,0 +1,66 @@
+/**
+ * SeeTree 树形组件 Demo 翻译 key
+ */
+const zhCN = {
+  'tree.demo.basic': '1. 基础用法',
+  'tree.demo.checkbox': '2. 复选框',
+  'tree.demo.search': '3. 搜索过滤',
+  'tree.demo.org': '4. 组织架构示例',
+  'tree.demo.folder1': '文件夹1',
+  'tree.demo.file11': '文件1-1.txt',
+  'tree.demo.file12': '文件1-2.txt',
+  'tree.demo.folder2': '文件夹2',
+  'tree.demo.subfolder21': '子文件夹2-1',
+  'tree.demo.file211': '文件2-1-1.txt',
+  'tree.demo.file212': '文件2-1-2.txt',
+  'tree.demo.file22': '文件2-2.txt',
+  'tree.demo.file3': '文件3.txt',
+  'tree.demo.frontend': '前端开发组',
+  'tree.demo.backend': '后端开发组',
+  'tree.demo.qa': '测试组',
+  'tree.demo.finance': '财务部',
+  'tree.demo.audit': '审计部',
+  'tree.demo.operations': '运营部',
+  'tree.demo.marketing': '市场部',
+  'tree.demo.dataLabel': '标签',
+  'tree.demo.dataLabel2': '标签',
+  'tree.demo.dataLabel3': '标签',
+  'tree.demo.dataLabel4': '标签',
+  'tree.demo.empty': '暂无数据',
+  'tree.demo.searchPlaceholder': '搜索...',
+  'tree.demo.nodeClick': '点击: {name}',
+  'tree.demo.checkChange': '选中: {name}'
+}
+
+const en = {
+  'tree.demo.basic': '1. Basic Usage',
+  'tree.demo.checkbox': '2. Checkbox',
+  'tree.demo.search': '3. Search & Filter',
+  'tree.demo.org': '4. Organization Example',
+  'tree.demo.folder1': 'Folder 1',
+  'tree.demo.file11': 'File 1-1.txt',
+  'tree.demo.file12': 'File 1-2.txt',
+  'tree.demo.folder2': 'Folder 2',
+  'tree.demo.subfolder21': 'Subfolder 2-1',
+  'tree.demo.file211': 'File 2-1-1.txt',
+  'tree.demo.file212': 'File 2-1-2.txt',
+  'tree.demo.file22': 'File 2-2.txt',
+  'tree.demo.file3': 'File 3.txt',
+  'tree.demo.frontend': 'Frontend Team',
+  'tree.demo.backend': 'Backend Team',
+  'tree.demo.qa': 'QA Team',
+  'tree.demo.finance': 'Finance',
+  'tree.demo.audit': 'Audit',
+  'tree.demo.operations': 'Operations',
+  'tree.demo.marketing': 'Marketing',
+  'tree.demo.dataLabel': 'Label',
+  'tree.demo.dataLabel2': 'Label',
+  'tree.demo.dataLabel3': 'Label',
+  'tree.demo.dataLabel4': 'Label',
+  'tree.demo.empty': 'No Data',
+  'tree.demo.searchPlaceholder': 'Search...',
+  'tree.demo.nodeClick': 'Clicked: {name}',
+  'tree.demo.checkChange': 'Checked: {name}'
+}
+
+export default { 'zh-CN': zhCN, en }

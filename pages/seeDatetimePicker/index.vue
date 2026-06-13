@@ -1,97 +1,132 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">日期选择</text>
+      <text class="title">{{ t('datetimePicker.demo.date') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="dateValue" type="date" placeholder="请选择日期" toolbar-title="选择日期" @on-confirm="handleDateConfirm" />
-        <text class="info">选中值：{{ formatDate(dateValue) }}</text>
+        <see-datetime-picker
+          v-model="dateValue"
+          type="date"
+          :placeholder="t('datetimePicker.demo.placeholderDate')"
+          :toolbar-title="t('datetimePicker.demo.toolbarDate')"
+          @on-confirm="handleDateConfirm"
+        />
+        <text class="info">{{ t('datetimePicker.demo.selectedValue') }}{{ formatDate(dateValue) }}</text>
       </view>
 
-      <text class="title">时间选择</text>
+      <text class="title">{{ t('datetimePicker.demo.time') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="timeValue" type="time" placeholder="请选择时间" toolbar-title="选择时间" @on-confirm="handleTimeConfirm" />
-        <text class="info">选中值：{{ formatDate(timeValue) }}</text>
+        <see-datetime-picker
+          v-model="timeValue"
+          type="time"
+          :placeholder="t('datetimePicker.demo.placeholderTime')"
+          :toolbar-title="t('datetimePicker.demo.toolbarTime')"
+          @on-confirm="handleTimeConfirm"
+        />
+        <text class="info">{{ t('datetimePicker.demo.selectedValue') }}{{ formatDate(timeValue) }}</text>
       </view>
 
-      <text class="title">日期时间选择</text>
+      <text class="title">{{ t('datetimePicker.demo.datetime') }}</text>
       <view class="content">
         <see-datetime-picker
           v-model="datetimeValue"
           type="datetime"
-          placeholder="请选择日期和时间"
-          toolbar-title="选择日期时间"
+          :placeholder="t('datetimePicker.demo.placeholderDatetime')"
+          :toolbar-title="t('datetimePicker.demo.toolbarDatetime')"
           @on-confirm="handleDatetimeConfirm"
         />
-        <text class="info">选中值：{{ formatDate(datetimeValue) }}</text>
+        <text class="info">{{ t('datetimePicker.demo.selectedValue') }}{{ formatDate(datetimeValue) }}</text>
       </view>
 
-      <text class="title">年月选择</text>
+      <text class="title">{{ t('datetimePicker.demo.yearMonth') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="yearMonthValue" type="year-month" placeholder="请选择年月" toolbar-title="选择年月" />
-        <text class="info">选中值：{{ formatDate(yearMonthValue) }}</text>
+        <see-datetime-picker
+          v-model="yearMonthValue"
+          type="year-month"
+          :placeholder="t('datetimePicker.demo.placeholderYearMonth')"
+          :toolbar-title="t('datetimePicker.demo.toolbarYearMonth')"
+        />
+        <text class="info">{{ t('datetimePicker.demo.selectedValue') }}{{ formatDate(yearMonthValue) }}</text>
       </view>
 
-      <text class="title">月日选择</text>
+      <text class="title">{{ t('datetimePicker.demo.monthDay') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="monthDayValue" type="month-day" placeholder="请选择月日" toolbar-title="选择月日" />
+        <see-datetime-picker
+          v-model="monthDayValue"
+          type="month-day"
+          :placeholder="t('datetimePicker.demo.placeholderMonthDay')"
+          :toolbar-title="t('datetimePicker.demo.toolbarMonthDay')"
+        />
       </view>
 
-      <text class="title">日期范围限制</text>
+      <text class="title">{{ t('datetimePicker.demo.dateRange') }}</text>
       <view class="content">
         <see-datetime-picker
           v-model="rangeValue"
           type="date"
-          placeholder="2024-2026年"
-          toolbar-title="选择日期"
+          :placeholder="t('datetimePicker.demo.placeholderDateRange')"
+          :toolbar-title="t('datetimePicker.demo.toolbarDate')"
           min-date="2024-01-01"
           max-date="2026-12-31"
         />
-        <text class="info">限制范围：2024-01-01 ~ 2026-12-31</text>
+        <text class="info">{{ t('datetimePicker.demo.dateRangeHint') }}</text>
       </view>
 
-      <text class="title">时间范围限制</text>
+      <text class="title">{{ t('datetimePicker.demo.timeRange') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="timeRangeValue" type="time" placeholder="8:00-18:00" toolbar-title="选择时间" :min-hour="8" :max-hour="18" />
-        <text class="info">限制范围：08:00 ~ 18:00</text>
+        <see-datetime-picker
+          v-model="timeRangeValue"
+          type="time"
+          :placeholder="t('datetimePicker.demo.placeholderTimeRange')"
+          :toolbar-title="t('datetimePicker.demo.toolbarTime')"
+          :min-hour="8"
+          :max-hour="18"
+        />
+        <text class="info">{{ t('datetimePicker.demo.timeRangeHint') }}</text>
       </view>
 
-      <text class="title">显示秒</text>
+      <text class="title">{{ t('datetimePicker.demo.showSeconds') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="secondsValue" type="datetime" placeholder="精确到秒" toolbar-title="选择日期时间" is-show-seconds />
+        <see-datetime-picker
+          v-model="secondsValue"
+          type="datetime"
+          :placeholder="t('datetimePicker.demo.placeholderSeconds')"
+          :toolbar-title="t('datetimePicker.demo.toolbarDatetime')"
+          is-show-seconds
+        />
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('datetimePicker.demo.disabled') }}</text>
       <view class="content">
-        <see-datetime-picker :model-value="new Date()" type="date" is-disabled placeholder="禁用状态" />
+        <see-datetime-picker :model-value="new Date()" type="date" is-disabled :placeholder="t('datetimePicker.demo.placeholderDisabled')" />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('datetimePicker.demo.readonly') }}</text>
       <view class="content">
-        <see-datetime-picker :model-value="new Date()" type="date" is-readonly placeholder="只读状态" />
+        <see-datetime-picker :model-value="new Date()" type="date" is-readonly :placeholder="t('datetimePicker.demo.placeholderReadonly')" />
       </view>
 
-      <text class="title">自定义按钮文字</text>
+      <text class="title">{{ t('datetimePicker.demo.customBtnText') }}</text>
       <view class="content">
         <see-datetime-picker
           v-model="customValue"
           type="date"
-          placeholder="自定义按钮"
-          toolbar-title="请选择日期"
-          confirm-text="确定"
-          cancel-text="返回"
+          :placeholder="t('datetimePicker.demo.placeholderCustom')"
+          :toolbar-title="t('datetimePicker.demo.toolbarDate')"
+          :confirm-text="t('datetimePicker.demo.confirm')"
+          :cancel-text="t('datetimePicker.demo.cancel')"
         />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('datetimePicker.demo.sizes') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="sizeValue1" type="date" size="small" placeholder="小尺寸" />
-        <see-datetime-picker v-model="sizeValue2" type="date" size="default" placeholder="默认尺寸" />
-        <see-datetime-picker v-model="sizeValue3" type="date" size="large" placeholder="大尺寸" />
+        <see-datetime-picker v-model="sizeValue1" type="date" size="small" :placeholder="t('datetimePicker.demo.placeholderSmall')" />
+        <see-datetime-picker v-model="sizeValue2" type="date" size="default" :placeholder="t('datetimePicker.demo.placeholderDefault')" />
+        <see-datetime-picker v-model="sizeValue3" type="date" size="large" :placeholder="t('datetimePicker.demo.placeholderLarge')" />
       </view>
 
-      <text class="title">无边框</text>
+      <text class="title">{{ t('datetimePicker.demo.noBorder') }}</text>
       <view class="content">
-        <see-datetime-picker v-model="borderValue" type="date" :is-border="false" placeholder="无边框样式" />
+        <see-datetime-picker v-model="borderValue" type="date" :is-border="false" :placeholder="t('datetimePicker.demo.placeholderNoBorder')" />
       </view>
     </view>
   </see-config>
@@ -99,6 +134,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeDatetimePicker')
 
 const dateValue = ref<Date | string | number>('')
 const timeValue = ref<Date | string | number>('')
@@ -115,7 +154,7 @@ const sizeValue3 = ref<Date | string | number>('')
 const borderValue = ref<Date | string | number>('')
 
 const formatDate = (val: Date | string | number) => {
-  if (!val) return '无'
+  if (!val) return t('datetimePicker.demo.none')
   if (val instanceof Date) return val.toLocaleString()
   return String(val)
 }

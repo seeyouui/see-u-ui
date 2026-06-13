@@ -16,7 +16,7 @@
         :value="displayValue"
         :type="computedType"
         :password="isActualPassword"
-        :placeholder="props.placeholder"
+        :placeholder="resolvedPlaceholder"
         :disabled="mergedDisabled || mergedReadonly"
         :maxlength="computedMaxlength"
         :focus="needFocus"
@@ -85,11 +85,14 @@
  * @property {String}           autocomplete        自动完成（H5）
  */
 import { ref, computed, watch, nextTick, inject, useSlots, onBeforeUnmount } from 'vue'
+import { useI18n } from '../../locale'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
 import type { InputType, InputSize, InputEvent, FormContext } from './type'
 
 defineOptions({ name: 'SeeInput' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(
@@ -136,7 +139,7 @@ const props = withDefaults(
   {
     modelValue: '',
     type: 'text',
-    placeholder: '请输入',
+    placeholder: '',
     isDisabled: false,
     isReadonly: false,
     isClearable: false,
@@ -210,6 +213,9 @@ const formattedValue = ref('')
 const needFocus = ref(false)
 
 /** ---------- computed ---------- */
+
+/** 翻译回退 */
+const resolvedPlaceholder = computed(() => props.placeholder || t('input.placeholder'))
 
 /** 实际禁用状态（组件自身 + Form 联动） */
 const mergedDisabled = computed(() => {

@@ -1,4 +1,5 @@
 import { computed, unref, type ComputedRef, type MaybeRef } from 'vue'
+import { t } from '../../../locale'
 
 // --- 类型定义 ---
 type DateInput = string | number | Date | null | undefined
@@ -67,8 +68,19 @@ export function formatDate(date: DateInput, fmt: string = 'YYYY-MM-DD HH:mm:ss',
 
   // 处理周 (W)
   if (/(W+)/.test(fmt)) {
-    const week = ['日', '一', '二', '三', '四', '五', '六']
-    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length > 1 ? (RegExp.$1.length > 2 ? '星期' : '周') : '') + week[d.getDay()])
+    const week = [
+      t('dateFormat.week.sun'),
+      t('dateFormat.week.mon'),
+      t('dateFormat.week.tue'),
+      t('dateFormat.week.wed'),
+      t('dateFormat.week.thu'),
+      t('dateFormat.week.fri'),
+      t('dateFormat.week.sat')
+    ]
+    fmt = fmt.replace(
+      RegExp.$1,
+      (RegExp.$1.length > 1 ? (RegExp.$1.length > 2 ? t('dateFormat.week.prefixLong') : t('dateFormat.week.prefixShort')) : '') + week[d.getDay()]
+    )
   }
 
   // 处理其他部分

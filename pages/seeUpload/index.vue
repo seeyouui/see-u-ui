@@ -1,79 +1,92 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">图片上传</text>
+      <text class="title">{{ t('upload.demo.image') }}</text>
       <view class="content">
-        <see-upload v-model="imageList" accept="image" upload-text="上传图片" @on-change="handleImageChange" />
+        <see-upload v-model="imageList" accept="image" :upload-text="t('upload.demo.uploadImage')" @on-change="handleImageChange" />
       </view>
 
-      <text class="title">多选图片上传</text>
+      <text class="title">{{ t('upload.demo.multiImage') }}</text>
       <view class="content">
-        <see-upload v-model="multiImageList" accept="image" is-multiple :max-count="9" upload-text="多选上传" @on-change="handleMultiImageChange" />
+        <see-upload
+          v-model="multiImageList"
+          accept="image"
+          is-multiple
+          :max-count="9"
+          :upload-text="t('upload.demo.uploadMulti')"
+          @on-change="handleMultiImageChange"
+        />
       </view>
 
-      <text class="title">限制文件大小</text>
+      <text class="title">{{ t('upload.demo.sizeLimit') }}</text>
       <view class="content">
-        <see-upload v-model="sizeLimitList" accept="image" :max-size="2" upload-text="限2MB" @on-oversize="handleOversize" />
-        <text class="info">单个文件不超过 2MB</text>
+        <see-upload
+          v-model="sizeLimitList"
+          accept="image"
+          :max-size="2"
+          :upload-text="t('upload.demo.uploadSizeLimit')"
+          @on-oversize="handleOversize"
+        />
+        <text class="info">{{ t('upload.demo.sizeHint') }}</text>
       </view>
 
-      <text class="title">视频上传</text>
+      <text class="title">{{ t('upload.demo.video') }}</text>
       <view class="content">
-        <see-upload v-model="videoList" accept="video" upload-text="上传视频" :max-count="3" />
+        <see-upload v-model="videoList" accept="video" :upload-text="t('upload.demo.uploadVideo')" :max-count="3" />
       </view>
 
-      <text class="title">文件上传</text>
+      <text class="title">{{ t('upload.demo.file') }}</text>
       <view class="content">
-        <see-upload v-model="fileList" accept="file" upload-text="上传文件" :max-count="5" />
+        <see-upload v-model="fileList" accept="file" :upload-text="t('upload.demo.uploadFile')" :max-count="5" />
       </view>
 
-      <text class="title">自定义上传</text>
+      <text class="title">{{ t('upload.demo.custom') }}</text>
       <view class="content">
         <see-upload
           v-model="customList"
           accept="image"
           :upload="customUpload"
-          upload-text="自定义上传"
+          :upload-text="t('upload.demo.uploadCustom')"
           @on-change="handleCustomChange"
           @on-error="handleUploadError"
         />
-        <text class="info">使用自定义上传函数模拟上传</text>
+        <text class="info">{{ t('upload.demo.customHint') }}</text>
       </view>
 
-      <text class="title">上传前校验</text>
+      <text class="title">{{ t('upload.demo.beforeRead') }}</text>
       <view class="content">
-        <see-upload v-model="beforeReadList" accept="image" :before-read="beforeReadCheck" upload-text="校验后上传" />
-        <text class="info">仅允许上传 JPG/PNG 格式</text>
+        <see-upload v-model="beforeReadList" accept="image" :before-read="beforeReadCheck" :upload-text="t('upload.demo.uploadBeforeRead')" />
+        <text class="info">{{ t('upload.demo.formatHint') }}</text>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('upload.demo.disabled') }}</text>
       <view class="content">
-        <see-upload v-model="disabledList" accept="image" is-disabled upload-text="禁用" />
+        <see-upload v-model="disabledList" accept="image" is-disabled :upload-text="t('upload.demo.uploadDisabled')" />
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('upload.demo.readonly') }}</text>
       <view class="content">
-        <see-upload :model-value="readonlyFiles" accept="image" is-readonly upload-text="只读" />
+        <see-upload :model-value="readonlyFiles" accept="image" is-readonly :upload-text="t('upload.demo.uploadReadonly')" />
       </view>
 
-      <text class="title">不显示删除按钮</text>
+      <text class="title">{{ t('upload.demo.noDelete') }}</text>
       <view class="content">
-        <see-upload v-model="noDeleteList" accept="image" :is-deletable="false" upload-text="不可删除" />
+        <see-upload v-model="noDeleteList" accept="image" :is-deletable="false" :upload-text="t('upload.demo.uploadNoDelete')" />
       </view>
 
-      <text class="title">不同尺寸</text>
+      <text class="title">{{ t('upload.demo.sizes') }}</text>
       <view class="content">
         <view class="size-row">
-          <text class="info">小尺寸</text>
-          <see-upload v-model="sizeList1" accept="image" size="small" upload-text="上传" />
+          <text class="info">{{ t('upload.demo.smallSize') }}</text>
+          <see-upload v-model="sizeList1" accept="image" size="small" :upload-text="t('upload.demo.uploadSmall')" />
         </view>
         <view class="size-row">
-          <text class="info">默认</text>
-          <see-upload v-model="sizeList2" accept="image" size="default" upload-text="上传" />
+          <text class="info">{{ t('upload.demo.defaultSize') }}</text>
+          <see-upload v-model="sizeList2" accept="image" size="default" :upload-text="t('upload.demo.uploadDefault')" />
         </view>
         <view class="size-row">
-          <text class="info">大尺寸</text>
-          <see-upload v-model="sizeList3" accept="image" size="large" upload-text="上传" />
+          <text class="info">{{ t('upload.demo.largeSize') }}</text>
+          <see-upload v-model="sizeList3" accept="image" size="large" :upload-text="t('upload.demo.uploadLarge')" />
         </view>
       </view>
     </view>
@@ -82,7 +95,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import type { UploadFileItem } from '../../uni_modules/see-u-ui/components/see-upload/type'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeUpload')
 
 const imageList = ref<UploadFileItem[]>([])
 const multiImageList = ref<UploadFileItem[]>([])
@@ -108,7 +125,7 @@ const customUpload = (file: UploadFileItem): Promise<string> => {
       if (file.url) {
         resolve(file.url)
       } else {
-        reject(new Error('上传失败'))
+        reject(new Error(t('upload.fail')))
       }
     }, 1500)
   })

@@ -2,7 +2,7 @@
   <view class="see-index-list" :style="listStyle">
     <!-- 搜索框 -->
     <view v-if="isShowSearch" class="see-index-list__search">
-      <input class="see-index-list__search-input" type="text" placeholder="搜索" :value="searchQuery" @input="handleSearch" />
+      <input class="see-index-list__search-input" type="text" :placeholder="t('search')" :value="searchQuery" @input="handleSearch" />
     </view>
 
     <!-- 列表内容 -->
@@ -21,7 +21,7 @@
 
       <!-- 空数据 -->
       <view v-if="filteredGroups.length === 0" class="see-index-list__empty">
-        <text class="see-index-list__empty-text">暂无数据</text>
+        <text class="see-index-list__empty-text">{{ t('noData') }}</text>
       </view>
     </scroll-view>
 
@@ -47,9 +47,12 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, getCurrentInstance, onMounted, nextTick } from 'vue'
+import { useI18n } from '../../locale'
 import type { IndexListItem, SeeIndexListProps, SeeIndexListEmits } from './type'
 
 defineOptions({ name: 'SeeIndexList' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeIndexListProps>(), {

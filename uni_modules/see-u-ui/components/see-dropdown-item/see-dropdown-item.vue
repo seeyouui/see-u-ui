@@ -16,9 +16,12 @@
 
 <script lang="ts" setup>
 import { computed, inject, onMounted, onUnmounted } from 'vue'
+import { useI18n } from '../../locale'
 import type { SeeDropdownItemProps, DropdownContext } from '../see-dropdown/type'
 
 defineOptions({ name: 'SeeDropdownItem' })
+
+const { t } = useI18n()
 
 /** ---------- props ---------- */
 const props = withDefaults(defineProps<SeeDropdownItemProps>(), {
@@ -26,7 +29,7 @@ const props = withDefaults(defineProps<SeeDropdownItemProps>(), {
   menuType: 'single',
   options: () => [],
   isDisabled: false,
-  placeholder: '请选择'
+  placeholder: ''
 })
 
 /** ---------- inject ---------- */
@@ -38,7 +41,7 @@ const isActive = computed(() => {
 })
 
 const displayTitle = computed(() => {
-  return props.title || props.placeholder
+  return props.title || props.placeholder || t('dropdown.placeholder')
 })
 
 /** ---------- methods ---------- */

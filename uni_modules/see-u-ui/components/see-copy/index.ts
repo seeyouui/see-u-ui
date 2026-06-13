@@ -1,5 +1,6 @@
 import SeeCopy from './see-copy.vue'
 import type { CopyOptions } from './type'
+import { t } from '../../locale'
 
 export { SeeCopy }
 export default SeeCopy
@@ -16,7 +17,7 @@ export const copy = {
    * @returns 是否复制成功
    */
   async copy(text: string, options: CopyOptions = {}): Promise<boolean> {
-    const { showToast = true, toastMessage = '复制成功' } = options
+    const { showToast = true, toastMessage = t('copy.success') } = options
 
     try {
       let success = false

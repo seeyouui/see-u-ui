@@ -1,32 +1,32 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基本使用</text>
+      <text class="title">{{ t('image.demo.basic') }}</text>
       <view class="content">
         <see-image src="https://www.seeuui.cn/logo.png" width="80px" height="80px" />
       </view>
 
-      <text class="title">圆角设置</text>
+      <text class="title">{{ t('image.demo.radius') }}</text>
       <view class="content">
         <see-image src="https://www.seeuui.cn/logo.png" width="80px" height="80px" :radius="40" />
       </view>
 
-      <text class="title">遮罩层</text>
+      <text class="title">{{ t('image.demo.mask') }}</text>
       <view class="content">
         <view class="demo-item">
-          <text class="demo-label">无遮罩</text>
+          <text class="demo-label">{{ t('image.demo.noMask') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" />
         </view>
         <view class="demo-item">
-          <text class="demo-label">黑色遮罩(0.3)</text>
+          <text class="demo-label">{{ t('image.demo.blackMask') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" show-mask mask-color="#000" :mask-opacity="0.3" />
         </view>
         <view class="demo-item">
-          <text class="demo-label">白色遮罩(0.5)</text>
+          <text class="demo-label">{{ t('image.demo.whiteMask') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="120px" height="120px" :radius="8" show-mask mask-color="#fff" :mask-opacity="0.5" />
         </view>
         <view class="demo-item">
-          <text class="demo-label">蓝色遮罩(0.4)</text>
+          <text class="demo-label">{{ t('image.demo.blueMask') }}</text>
           <see-image
             src="https://www.seeuui.cn/logo.png"
             width="120px"
@@ -39,7 +39,7 @@
         </view>
       </view>
 
-      <text class="title">图片预览</text>
+      <text class="title">{{ t('image.demo.preview') }}</text>
       <view class="content">
         <see-image
           src="https://www.seeuui.cn/logo.png"
@@ -47,51 +47,58 @@
           height="200px"
           :radius="8"
           preview-mode
-          preview-tip="点击图片预览大图"
+          :preview-tip="t('image.demo.previewTip')"
           @on-click="handlePreviewClick"
         />
       </view>
 
-      <text class="title">淡入动画</text>
+      <text class="title">{{ t('image.demo.fadeIn') }}</text>
       <view class="content">
         <view class="demo-item">
-          <text class="demo-label">快速淡入(100ms)</text>
+          <text class="demo-label">{{ t('image.demo.fastFade') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="150px" height="150px" :fade-in-duration="100" />
         </view>
         <view class="demo-item">
-          <text class="demo-label">默认淡入(300ms)</text>
+          <text class="demo-label">{{ t('image.demo.defaultFade') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="150px" height="150px" :fade-in-duration="300" />
         </view>
         <view class="demo-item">
-          <text class="demo-label">自定义淡入时间(10000ms)</text>
+          <text class="demo-label">{{ t('image.demo.customFade') }}</text>
           <see-image src="https://www.seeuui.cn/logo.png" width="150px" height="150px" :fade-in-duration="10000" />
         </view>
       </view>
 
-      <text class="title">错误处理</text>
+      <text class="title">{{ t('image.demo.errorHandle') }}</text>
       <view class="content">
         <view class="demo-item">
           <see-image src="https://invalid-url-for-test.com/image.jpg" width="200px" height="200px" :radius="8" @on-error="handleImageError" />
         </view>
       </view>
 
-      <text class="title">自定义内容</text>
+      <text class="title">{{ t('image.demo.custom') }}</text>
       <view class="content">
         <see-image src="https://www.seeuui.cn/logo.png" width="200px" height="200px" :radius="8" show-mask :mask-opacity="0.4">
           <view class="custom-content">
-            <text class="custom-text">自定义内容</text>
-            <text class="custom-subtext">可叠加任何元素</text>
+            <text class="custom-text">{{ t('image.demo.customContent') }}</text>
+            <text class="custom-subtext">{{ t('image.demo.overlayAny') }}</text>
           </view>
         </see-image>
       </view>
 
-      <text class="title">懒加载</text>
+      <text class="title">{{ t('image.demo.lazy') }}</text>
       <view class="content">
-        <text class="lazy-text">已启用懒加载，滚动时加载图片</text>
-        <see-image src="https://www.seeuui.cn/logo.png" width="200px" height="200px" :radius="8" :lazy-load="true" loading-text="图片加载中..." />
+        <text class="lazy-text">{{ t('image.demo.lazyEnabled') }}</text>
+        <see-image
+          src="https://www.seeuui.cn/logo.png"
+          width="200px"
+          height="200px"
+          :radius="8"
+          :lazy-load="true"
+          :loading-text="t('image.demo.loadingText')"
+        />
       </view>
 
-      <text class="title">组件事件</text>
+      <text class="title">{{ t('image.demo.events') }}</text>
       <view class="content">
         <see-image
           src="https://www.seeuui.cn/logo.png"
@@ -111,54 +118,58 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.image')
 
 // 事件日志
-const eventLog = ref('等待事件...')
+const eventLog = ref(t('image.demo.waitingEvent'))
 
 /**
  * @title 图片加载完成事件
  */
 const handleLoad = () => {
-  eventLog.value = '✓ 图片加载完成'
-  console.log('图片加载完成')
+  eventLog.value = t('image.demo.loadSuccess')
+  console.log(t('image.demo.loadSuccess'))
 }
 
 /**
  * @title 图片加载失败事件
  */
 const handleError = () => {
-  eventLog.value = '✗ 图片加载失败'
-  console.log('图片加载失败')
+  eventLog.value = t('image.demo.loadFail')
+  console.log(t('image.demo.loadFail'))
 }
 
 /**
  * @title 图片点击事件
  */
 const handleClick = () => {
-  eventLog.value = '◯ 图片被点击'
-  console.log('图片被点击')
+  eventLog.value = t('image.demo.clicked')
+  console.log(t('image.demo.clicked'))
 }
 
 /**
  * @title 图片长按事件
  */
 const handleLongpress = () => {
-  eventLog.value = '◆ 图片被长按'
-  console.log('图片被长按')
+  eventLog.value = t('image.demo.longPressed')
+  console.log(t('image.demo.longPressed'))
 }
 
 /**
  * @title 图片错误事件
  */
 const handleImageError = () => {
-  console.log('图片加载出错')
+  console.log(t('image.demo.loadFail'))
 }
 
 /**
  * @title 预览点击
  */
 const handlePreviewClick = () => {
-  console.log('点击预览图片')
+  console.log('preview click')
 }
 </script>
 

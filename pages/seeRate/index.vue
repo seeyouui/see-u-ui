@@ -1,52 +1,52 @@
 <template>
   <see-config>
     <view class="container">
-      <text class="title">基础用法</text>
+      <text class="title">{{ t('rate.demo.basic') }}</text>
       <view class="content">
         <see-rate v-model="val1" />
-        <text class="info">当前评分：{{ val1 }}</text>
+        <text class="info">{{ t('rate.demo.currentScore') }}{{ val1 }}</text>
       </view>
 
-      <text class="title">半星</text>
+      <text class="title">{{ t('rate.demo.half') }}</text>
       <view class="content">
         <see-rate v-model="val2" allow-half />
-        <text class="info">当前评分：{{ val2 }}</text>
+        <text class="info">{{ t('rate.demo.currentScore') }}{{ val2 }}</text>
       </view>
 
-      <text class="title">自定义图标颜色</text>
+      <text class="title">{{ t('rate.demo.customIconColor') }}</text>
       <view class="content">
         <see-rate v-model="val3" color="#ff6b6b" void-color="#ddd" />
-        <text class="info">红色主题</text>
+        <text class="info">{{ t('rate.demo.redTheme') }}</text>
       </view>
 
-      <text class="title">自定义图标</text>
+      <text class="title">{{ t('rate.demo.customIcon') }}</text>
       <view class="content">
         <see-rate v-model="val4" icon="♥" void-icon="♡" color="#ee0a24" />
-        <text class="info">爱心评分</text>
+        <text class="info">{{ t('rate.demo.heartScore') }}</text>
       </view>
 
-      <text class="title">清除评分</text>
+      <text class="title">{{ t('rate.demo.clearable') }}</text>
       <view class="content">
         <see-rate v-model="val5" is-clearable />
-        <text class="info">再次点击已选星级可清除，当前：{{ val5 }}</text>
+        <text class="info">{{ t('rate.demo.clearHint') }}{{ val5 }}</text>
       </view>
 
-      <text class="title">自定义数量和大小</text>
+      <text class="title">{{ t('rate.demo.customCountSize') }}</text>
       <view class="content">
         <see-rate v-model="val6" :count="10" :size="18" :gap="2" />
-        <text class="info">10颗星</text>
+        <text class="info">{{ t('rate.demo.tenStars') }}</text>
       </view>
 
-      <text class="title">禁用状态</text>
+      <text class="title">{{ t('rate.demo.disabled') }}</text>
       <view class="content">
         <see-rate :model-value="3.5" is-disabled allow-half />
-        <text class="info">不可操作</text>
+        <text class="info">{{ t('rate.demo.notOperable') }}</text>
       </view>
 
-      <text class="title">只读状态</text>
+      <text class="title">{{ t('rate.demo.readonly') }}</text>
       <view class="content">
         <see-rate :model-value="4" is-readonly />
-        <text class="info">只读展示</text>
+        <text class="info">{{ t('rate.demo.readonlyDisplay') }}</text>
       </view>
     </view>
   </see-config>
@@ -54,6 +54,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeRate')
 
 const val1 = ref(3)
 const val2 = ref(3.5)

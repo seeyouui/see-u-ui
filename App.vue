@@ -1,36 +1,125 @@
-<script>
-export default {
-  onLaunch: function () {
-    console.log('App Launch')
+<script setup>
+import { watch, onMounted, onUnmounted, nextTick, ref } from 'vue'
+import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
+import { useI18n } from '@/uni_modules/see-u-ui'
 
-    // #ifdef APP
-    plus.nativeUI.setUIStyle('auto')
-    // #endif
+const { t, locale, setLocale } = useI18n()
 
-    // #ifdef H5
-    window.addEventListener('message', (event) => {
-      const data = event.data
-      if (!data || data.type !== 'vp-theme') return
-      const targetTheme = data.theme
+/** 防止 parent → iframe 消息触发的变更再回传给 parent（避免死循环） */
+const fromParent = ref(false)
 
-      // 切换 CSS 类名
-      if (targetTheme === 'dark') {
+// ==================== tabBar ====================
+
+const updateTabBar = () => {
+  uni.setTabBarItem({ index: 0, text: t('tabbar.components') })
+  uni.setTabBarItem({ index: 1, text: t('tabbar.config') })
+}
+
+onMounted(() => nextTick(updateTabBar))
+watch(locale, () => nextTick(updateTabBar))
+
+// ==================== parent ↔ iframe 双向通信 ====================
+
+/**
+ * 向父窗口（VitePress 文档站）发送消息
+ */
+const postToParent = (msg) => {
+  // #ifdef H5
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage(msg, '*')
+  }
+  // #endif
+}
+
+// 监听 iframe 内的语言变化 → 推给文档站
+watch(locale, (val) => {
+  if (fromParent.value) return
+  postToParent({ type: 'ui-locale', locale: val })
+})
+
+// 监听 iframe 内的主题变化 → 推给文档站
+// 注意：useTheme() 不是单例，各组件实例独立，所以用 MutationObserver 直接监听 DOM class
+let themeObserver = null
+const setupThemeObserver = () => {
+  // #ifdef H5
+  themeObserver = new MutationObserver(() => {
+    if (fromParent.value) return
+    const cls = document.documentElement.classList
+    let theme
+    if (cls.contains('see-theme-dark')) {
+      theme = 'dark'
+    } else if (cls.contains('see-theme-light')) {
+      theme = 'light'
+    } else {
+      // 跟随系统模式：两个 class 都没有，用 matchMedia 判断
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    }
+    postToParent({ type: 'ui-theme', theme })
+  })
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  })
+  // #endif
+}
+const teardownThemeObserver = () => {
+  // #ifdef H5
+  if (themeObserver) {
+    themeObserver.disconnect()
+    themeObserver = null
+  }
+  // #endif
+}
+onMounted(setupThemeObserver)
+onUnmounted(teardownThemeObserver)
+
+onLaunch(() => {
+  console.log('App Launch')
+
+  updateTabBar()
+
+  // #ifdef APP
+  plus.nativeUI.setUIStyle('auto')
+  // #endif
+
+  // #ifdef H5
+  window.addEventListener('message', (event) => {
+    const data = event.data
+    if (!data) return
+
+    // 主题切换（来自 VitePress 文档站）
+    if (data.type === 'vp-theme') {
+      fromParent.value = true
+      if (data.theme === 'dark') {
         document.documentElement.classList.remove('see-theme-light')
         document.documentElement.classList.add('see-theme-dark')
       } else {
         document.documentElement.classList.remove('see-theme-dark')
         document.documentElement.classList.add('see-theme-light')
       }
-    })
-    // #endif
-  },
-  onShow: function () {
-    console.log('App Show')
-  },
-  onHide: function () {
-    console.log('App Hide')
-  }
-}
+      // 同步 useTheme 实例状态，config 页面按钮才能正确高亮
+      uni.$emit('see-theme-sync', { theme: data.theme })
+      fromParent.value = false
+    }
+
+    // 语言切换（来自 VitePress 文档站）
+    if (data.type === 'vp-locale') {
+      fromParent.value = true
+      setLocale(data.locale === 'zh-CN' ? 'zh-CN' : 'en')
+      fromParent.value = false
+    }
+  })
+  // #endif
+})
+
+onShow(() => {
+  console.log('App Show')
+  updateTabBar()
+})
+
+onHide(() => {
+  console.log('App Hide')
+})
 </script>
 
 <style lang="scss">
@@ -41,11 +130,9 @@ export default {
 html,
 body,
 page {
-  /* 保证背景色铺满，防止漏出白底 */
   min-height: 100%;
   background-color: var(--see-bg-color);
   color: var(--see-main-color);
-
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
@@ -62,8 +149,8 @@ page {
 
 /* 通用隐藏滚动条 */
 page {
-  -ms-overflow-style: none; /* IE 和 Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* #ifdef H5 */
@@ -73,6 +160,6 @@ page {
 /* #endif */
 
 page::-webkit-scrollbar {
-  display: none; /* Chrome, Safari 和 Opera */
+  display: none;
 }
 </style>

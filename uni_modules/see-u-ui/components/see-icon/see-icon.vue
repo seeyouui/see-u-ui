@@ -1,5 +1,5 @@
 <template>
-  <view class="see-icon">这是see-icon组件</view>
+  <view class="see-icon">{{ t('icon.component.placeholder') }}</view>
 </template>
 
 <script lang="ts" setup>
@@ -12,9 +12,13 @@
  *
  * @example
  */
+import { useI18n } from '../../locale'
+
 defineOptions({
   name: 'SeeIcon'
 })
+
+const { t } = useI18n()
 </script>
 
 <style lang="scss" scoped></style>

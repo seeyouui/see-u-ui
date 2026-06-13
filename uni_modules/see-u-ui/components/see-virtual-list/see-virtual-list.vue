@@ -4,10 +4,13 @@
  * @description 用于大数据列表渲染，解决节点过多、滚动卡顿问题。固定高度是主路径，动态高度是增强模式。
  */
 import { computed, ref, watch, nextTick } from 'vue'
+import { useI18n } from '../../locale'
 import { useVirtualWindow } from '../../utils/hooks/useVirtualWindow'
 import type { SeeVirtualListProps, SeeVirtualListRangeChange, SeeVirtualListScrollEvent } from './type'
 
 defineOptions({ name: 'SeeVirtualList' })
+
+const { t } = useI18n()
 
 const props = withDefaults(defineProps<SeeVirtualListProps>(), {
   list: () => [],
@@ -230,7 +233,7 @@ defineExpose({
     <!-- 空状态 -->
     <view v-if="isEmpty" class="see-virtual-list__empty">
       <slot name="empty">
-        <text class="see-virtual-list__empty-text">暂无数据</text>
+        <text class="see-virtual-list__empty-text">{{ t('virtualList.empty') }}</text>
       </slot>
     </view>
 

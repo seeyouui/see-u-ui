@@ -2,58 +2,62 @@
   <view class="demo-tree">
     <!-- 1. 基础用法 -->
     <view class="demo-section">
-      <text class="demo-section__title">1. 基础用法</text>
+      <text class="demo-section__title">{{ t('tree.demo.basic') }}</text>
       <see-tree :data="basicData" />
     </view>
 
     <!-- 2. 复选框 -->
     <view class="demo-section">
-      <text class="demo-section__title">2. 复选框</text>
+      <text class="demo-section__title">{{ t('tree.demo.checkbox') }}</text>
       <see-tree :data="basicData" :is-checkable="true" />
     </view>
 
     <!-- 3. 搜索过滤 -->
     <view class="demo-section">
-      <text class="demo-section__title">3. 搜索过滤</text>
+      <text class="demo-section__title">{{ t('tree.demo.search') }}</text>
       <see-tree :data="basicData" :is-filterable="true" />
     </view>
 
     <!-- 4. 组织架构示例 -->
     <view class="demo-section">
-      <text class="demo-section__title">4. 组织架构示例</text>
+      <text class="demo-section__title">{{ t('tree.demo.org') }}</text>
       <see-tree :data="orgData" />
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
 import SeeTree from '@/uni_modules/see-u-ui/components/see-tree/see-tree.vue'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeTree')
 
 const basicData = [
   {
     id: 1,
-    label: '文件夹1',
+    label: t('tree.demo.folder1'),
     children: [
-      { id: 11, label: '文件1-1.txt' },
-      { id: 12, label: '文件1-2.txt' }
+      { id: 11, label: t('tree.demo.file11') },
+      { id: 12, label: t('tree.demo.file12') }
     ]
   },
   {
     id: 2,
-    label: '文件夹2',
+    label: t('tree.demo.folder2'),
     children: [
       {
         id: 21,
-        label: '子文件夹2-1',
+        label: t('tree.demo.subfolder21'),
         children: [
-          { id: 211, label: '文件2-1-1.txt' },
-          { id: 212, label: '文件2-1-2.txt' }
+          { id: 211, label: t('tree.demo.file211') },
+          { id: 212, label: t('tree.demo.file212') }
         ]
       },
-      { id: 22, label: '文件2-2.txt' }
+      { id: 22, label: t('tree.demo.file22') }
     ]
   },
-  { id: 3, label: '文件3.txt' }
+  { id: 3, label: t('tree.demo.file3') }
 ]
 
 const orgData = [
@@ -65,25 +69,25 @@ const orgData = [
         id: 'cto',
         label: 'CTO',
         children: [
-          { id: 'dev1', label: '前端开发组' },
-          { id: 'dev2', label: '后端开发组' },
-          { id: 'dev3', label: '测试组' }
+          { id: 'dev1', label: t('tree.demo.frontend') },
+          { id: 'dev2', label: t('tree.demo.backend') },
+          { id: 'dev3', label: t('tree.demo.qa') }
         ]
       },
       {
         id: 'cfo',
         label: 'CFO',
         children: [
-          { id: 'fin1', label: '财务部' },
-          { id: 'fin2', label: '审计部' }
+          { id: 'fin1', label: t('tree.demo.finance') },
+          { id: 'fin2', label: t('tree.demo.audit') }
         ]
       },
       {
         id: 'coo',
         label: 'COO',
         children: [
-          { id: 'ops1', label: '运营部' },
-          { id: 'ops2', label: '市场部' }
+          { id: 'ops1', label: t('tree.demo.operations') },
+          { id: 'ops2', label: t('tree.demo.marketing') }
         ]
       }
     ]

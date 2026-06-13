@@ -1,36 +1,31 @@
 <template>
   <view class="demo-backtop">
     <view class="demo-header">
-      <text class="demo-header__title">BackTop 返回顶部</text>
-      <text class="demo-header__desc">请向下滚动查看效果</text>
+      <text class="demo-header__title">{{ t('backTop.demo.title') }}</text>
+      <text class="demo-header__desc">{{ t('backTop.demo.scrollHint') }}</text>
     </view>
 
     <!-- 长列表内容 -->
     <view class="demo-list">
       <view v-for="i in 50" :key="i" class="demo-list__item">
-        <text class="demo-list__text">列表项 {{ i }}</text>
+        <text class="demo-list__text">{{ t('backTop.demo.listItem', { i }) }}</text>
       </view>
     </view>
 
     <!-- 1. 基础用法 -->
     <see-backtop />
 
-    <!-- 2. 自定义位置（演示用，实际只需一个） -->
-    <!-- <see-backtop :right="50" :bottom="100" /> -->
-
-    <!-- 3. 自定义图标 -->
-    <!-- <see-backtop>
-      <view class="custom-btn">
-        <text class="custom-btn__text">TOP</text>
-      </view>
-    </see-backtop> -->
-
     <!-- 底部占位 -->
     <view style="height: 200rpx" />
   </view>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useI18n, useNavbarI18n } from '@/uni_modules/see-u-ui'
+
+const { t } = useI18n()
+useNavbarI18n('navbar.seeBackTop')
+</script>
 
 <style lang="scss" scoped>
 .demo-backtop {
