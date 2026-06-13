@@ -1,7 +1,7 @@
 <script setup>
 import { watch, onMounted, onUnmounted, nextTick, ref } from 'vue'
 import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
-import { useI18n } from '@/uni_modules/see-u-ui'
+import { useI18n, applyThemeColorOnLaunch } from '@/uni_modules/see-u-ui'
 
 const { t, locale, setLocale } = useI18n()
 
@@ -75,6 +75,9 @@ onUnmounted(teardownThemeObserver)
 
 onLaunch(() => {
   console.log('App Launch')
+
+  // 在最早期复原自定义主题色，避免颜色闪烁
+  applyThemeColorOnLaunch()
 
   updateTabBar()
 

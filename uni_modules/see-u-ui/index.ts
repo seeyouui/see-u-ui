@@ -91,6 +91,8 @@ import { useField } from './utils/hooks/useField'
 import { formatCountdown, parseCountdownTime, useCountdown } from './utils/hooks/useCountdown'
 import { easeOutExpo, formatCountToValue, useCountTo } from './utils/hooks/useCountTo'
 import { useVirtualWindow } from './utils/hooks/useVirtualWindow'
+import { useThemeColor, applyThemeColorOnLaunch, DEFAULT_COLORS, PRIMARY_PRESETS } from './utils/hooks/useThemeColor'
+import { isValidHex } from './utils/colorDerive'
 
 // 反馈组件公共 Hooks
 import { useZIndex } from './utils/hooks/useZIndex'
@@ -226,6 +228,11 @@ export {
   easeOutExpo,
   formatCountToValue,
   useVirtualWindow,
+  useThemeColor,
+  applyThemeColorOnLaunch,
+  DEFAULT_COLORS,
+  PRIMARY_PRESETS,
+  isValidHex,
   // 反馈组件公共 Hooks
   useZIndex,
   useLockScroll,
@@ -387,3 +394,5 @@ export type { SeeMarkdownProps, SeeMarkdownEmits, MarkdownParserOptions } from '
 export type { SeeWatermarkProps, SeeWatermarkEmits } from './components/see-watermark/type'
 export type { SeeCouponProps, SeeCouponEmits, CouponStatus, CouponType } from './components/see-coupon/type'
 export type { SeeScratchCardProps, SeeScratchCardEmits } from './components/see-scratch-card/type'
+export type { ThemeColorState, ThemeColorToken, ThemeColorPreset, UseThemeColorReturn } from './utils/hooks/useThemeColor'
+export type { ColorPalette, ThemeMode } from './utils/colorDerive'

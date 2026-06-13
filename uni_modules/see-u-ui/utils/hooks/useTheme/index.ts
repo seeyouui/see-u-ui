@@ -24,6 +24,20 @@ export function useTheme() {
   }
   // #endif
 
+  // H5 端从 localStorage 恢复主题模式，防止页面跳转后丢失手动设置
+  // #ifdef H5
+  try {
+    const savedMode = localStorage.getItem('see-ui-theme-mode')
+    if (savedMode === 'light' || savedMode === 'dark') {
+      themeMode.value = savedMode
+      isManual.value = true
+      isSwitchChecked.value = savedMode === 'dark'
+    }
+  } catch {
+    /* ignore */
+  }
+  // #endif
+
   // 应用主题
   const applyTheme = (isDark: boolean) => {
     // #ifdef H5
@@ -67,6 +81,13 @@ export function useTheme() {
     // #ifdef MP
     uni.setStorageSync('mp-theme-mode', themeMode.value)
     // #endif
+    // #ifdef H5
+    try {
+      localStorage.setItem('see-ui-theme-mode', themeMode.value)
+    } catch {
+      /* ignore */
+    }
+    // #endif
   }
 
   // 设置为浅色模式
@@ -79,6 +100,13 @@ export function useTheme() {
     // #ifdef MP
     uni.setStorageSync('mp-theme-mode', 'light')
     // #endif
+    // #ifdef H5
+    try {
+      localStorage.setItem('see-ui-theme-mode', 'light')
+    } catch {
+      /* ignore */
+    }
+    // #endif
   }
 
   // 设置为暗黑模式
@@ -90,6 +118,13 @@ export function useTheme() {
 
     // #ifdef MP
     uni.setStorageSync('mp-theme-mode', 'dark')
+    // #endif
+    // #ifdef H5
+    try {
+      localStorage.setItem('see-ui-theme-mode', 'dark')
+    } catch {
+      /* ignore */
+    }
     // #endif
   }
 
@@ -106,6 +141,11 @@ export function useTheme() {
     // #endif
 
     // #ifdef H5
+    try {
+      localStorage.removeItem('see-ui-theme-mode')
+    } catch {
+      /* ignore */
+    }
     document.documentElement.classList.remove('see-theme-light')
     document.documentElement.classList.remove('see-theme-dark')
     // #endif
@@ -120,6 +160,13 @@ export function useTheme() {
     isManual.value = true
     themeMode.value = res.theme as 'light' | 'dark'
     isSwitchChecked.value = res.theme === 'dark'
+    // #ifdef H5
+    try {
+      localStorage.setItem('see-ui-theme-mode', res.theme)
+    } catch {
+      /* ignore */
+    }
+    // #endif
   }
 
   // 生命周期管理
