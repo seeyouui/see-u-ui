@@ -100,7 +100,7 @@
         <view class="uni-list-cell">
           <view class="uni-list-cell-left">{{ t('config.skeleton') }}</view>
           <view class="uni-list-cell-db">
-            <switch disabled :checked="false" />
+            <switch :checked="skeletonEnabled" @change="toggleSkeleton" />
           </view>
         </view>
         <view class="uni-list-detail">
@@ -113,7 +113,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue'
-import { useThemeColor, useTheme, useI18n, useNavbarI18n, isValidHex, DEFAULT_COLORS } from '@/uni_modules/see-u-ui'
+import { useThemeColor, useTheme, useI18n, useNavbarI18n, isValidHex, DEFAULT_COLORS, useSkeletonGlobal } from '@/uni_modules/see-u-ui'
 import type { ThemeColorToken } from '@/uni_modules/see-u-ui'
 
 // 暗黑模式切换
@@ -125,6 +125,28 @@ const { customColors, setColor, resetColor, resetAll } = useThemeColor()
 // 国际化切换
 const { t, locale, setLocale } = useI18n()
 useNavbarI18n('navbar.config')
+
+// 全局骨架屏演示
+const { show, hide, visible: skeletonVisible } = useSkeletonGlobal()
+const skeletonEnabled = ref(false)
+
+const toggleSkeleton = (e: any) => {
+  const value = e.detail?.value ?? e.value
+  skeletonEnabled.value = value
+
+  if (value) {
+    // 开启骨架屏
+    show()
+    // 3秒后自动关闭
+    setTimeout(() => {
+      hide()
+      skeletonEnabled.value = false
+    }, 3000)
+  } else {
+    // 手动关闭骨架屏
+    hide()
+  }
+}
 
 const tokens: { key: ThemeColorToken; labelKey: string }[] = [
   { key: 'primary', labelKey: 'config.customThemePrimary' },
@@ -163,8 +185,10 @@ onMounted(() => {
     const color = (e.target as HTMLInputElement).value
     if (color) setColor(currentToken.value, color)
   }
-  if (nativePickerHost.value) {
-    nativePickerHost.value.appendChild(nativePickerInput)
+  // 获取实际的 DOM 元素（uni-app 中 ref 返回的是组件实例，需要通过 $el 获取 DOM）
+  const hostEl = nativePickerHost.value?.$el || nativePickerHost.value
+  if (hostEl && hostEl.appendChild) {
+    hostEl.appendChild(nativePickerInput)
   }
 })
 

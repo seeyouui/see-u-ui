@@ -48,6 +48,7 @@ import { SeeSticky } from './components/see-sticky/index'
 import { SeeLoadingIcon } from './components/see-loading-icon/index'
 import { SeeLoadingPage } from './components/see-loading-page/index'
 import { SeeSkeleton } from './components/see-skeleton/index'
+import { SeeSkeletonGlobal } from './components/see-skeleton-global/index'
 import { SeeSwiper } from './components/see-swiper/index'
 import { SeeScrollList } from './components/see-scroll-list/index'
 import { SeeWaterfall } from './components/see-waterfall/index'
@@ -92,6 +93,7 @@ import { formatCountdown, parseCountdownTime, useCountdown } from './utils/hooks
 import { easeOutExpo, formatCountToValue, useCountTo } from './utils/hooks/useCountTo'
 import { useVirtualWindow } from './utils/hooks/useVirtualWindow'
 import { useThemeColor, applyThemeColorOnLaunch, DEFAULT_COLORS, PRIMARY_PRESETS } from './utils/hooks/useThemeColor'
+import { useSkeletonGlobal } from './utils/hooks/useSkeletonGlobal'
 import { isValidHex } from './utils/colorDerive'
 
 // 反馈组件公共 Hooks
@@ -153,6 +155,7 @@ const components: Component[] = [
   SeeLoadingIcon,
   SeeLoadingPage,
   SeeSkeleton,
+  SeeSkeletonGlobal,
   SeeSwiper,
   SeeScrollList,
   SeeWaterfall,
@@ -232,6 +235,7 @@ export {
   applyThemeColorOnLaunch,
   DEFAULT_COLORS,
   PRIMARY_PRESETS,
+  useSkeletonGlobal,
   isValidHex,
   // 反馈组件公共 Hooks
   useZIndex,
@@ -291,6 +295,7 @@ export {
   SeeLoadingIcon,
   SeeLoadingPage,
   SeeSkeleton,
+  SeeSkeletonGlobal,
   SeeSwiper,
   SeeScrollList,
   SeeWaterfall,
@@ -369,6 +374,8 @@ export type { UseTeleportOptions } from './utils/hooks/useTeleport'
 export type { UseGestureOptions, SwipeDirection, GestureDirection } from './utils/hooks/useGesture'
 export type { UsePopoverPositionOptions, PopoverPosition, Rect } from './utils/hooks/usePopoverPosition'
 export type { UseCopyOptions } from './utils/hooks/useCopy'
+export type { UseSkeletonGlobalReturn } from './utils/hooks/useSkeletonGlobal'
+export type { SeeSkeletonGlobalProps } from './components/see-skeleton-global/type'
 export type { SeePopupProps, SeePopupEmits, PopupPosition } from './components/see-popup/type'
 export type { SeeToastProps, SeeToastEmits, ToastOptions, ToastType, ToastPosition } from './components/see-toast/type'
 export type { SeeNotifyProps, SeeNotifyEmits, NotifyOptions, NotifyType } from './components/see-notify/type'

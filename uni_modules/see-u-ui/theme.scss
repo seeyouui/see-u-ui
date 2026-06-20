@@ -316,3 +316,50 @@ page {
     background: #aeb0b4 !important;
   }
 }
+
+/* =========================================================
+ * 5. 全局骨架屏样式
+ * ========================================================= */
+
+/* 骨架屏加载状态 - 只作用于叶子节点
+ *
+ * 零跳动原则：绝不改变元素的盒模型（display / width / height / box-sizing 等）。
+ * 任何尺寸或 display 的改动都会触发重排，重排后的尺寸无法和原始布局 1:1 吻合，
+ * 必然产生「变高 / 缩小 / 等比缩放」的跳动。
+ * 因此这里只做纯视觉处理：文字 color 透明（仍占原空间 → 高度守恒），
+ * 边框透明，背景画成骨架灰。
+ *
+ * 流光（shimmer）用「元素自身背景渐变 + background-position 动画」实现，而非
+ * 绝对定位的 ::after 覆盖层。原因：删掉 display:inline-block 后元素保持原始 display，
+ * 页面文字 <text> 多为 inline 元素，而 overflow:hidden 对 inline 盒子无效，无法裁剪
+ * 覆盖层，导致流光扫出元素、流过整屏。改用背景渐变后，背景天然被裁剪在元素自身
+ * border-box（并遵守 border-radius）内，不溢出，且不依赖 overflow、不改盒模型，
+ * inline / block 均适用。 */
+.see-skeleton-loading {
+  color: transparent !important;
+  border-color: transparent !important;
+  border-radius: 8rpx;
+  /* 同色打底：覆盖元素自身原始的直角背景色，否则其方形背景会从圆角渐变盖不到的
+     四角三角区露出来（圆角漏色）。打底色与渐变同被 border-radius 裁剪，四角干净。 */
+  background-color: var(--see-info) !important;
+  background-image: linear-gradient(90deg, var(--see-info) 25%, var(--see-bg-color) 37%, var(--see-info) 63%) !important;
+  background-size: 400% 100% !important;
+  background-repeat: no-repeat !important;
+  animation: see-skeleton-loading-shimmer 1.5s ease infinite;
+
+  /* 输入框 */
+  input,
+  textarea {
+    caret-color: transparent !important;
+  }
+}
+
+/* 骨架屏闪烁动画 */
+@keyframes see-skeleton-loading-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

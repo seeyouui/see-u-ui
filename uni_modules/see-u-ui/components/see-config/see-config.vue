@@ -1,12 +1,21 @@
 <template>
   <!-- #ifdef MP -->
-  <view class="see-config" :class="[themeClass, pageClass]" :style="cssVars">
+  <view class="see-config" :class="[themeClass, pageClass, skeletonClass]" :style="cssVars">
+    <!-- 小程序端骨架屏遮罩 -->
+    <view v-if="skeletonVisible" class="see-config__skeleton-mask">
+      <slot name="skeleton">
+        <!-- 默认骨架屏内容 -->
+        <view class="see-config__skeleton-content">
+          <view class="see-config__skeleton-block" style="width: 100%; height: 100vh" />
+        </view>
+      </slot>
+    </view>
     <slot></slot>
   </view>
   <!-- #endif -->
 
   <!-- #ifndef MP -->
-  <view class="see-config">
+  <view class="see-config" :class="skeletonClass">
     <slot></slot>
   </view>
   <!-- #endif -->
@@ -15,13 +24,16 @@
 <script lang="ts" setup>
 defineOptions({ name: 'SeeConfig' })
 
-// #ifdef MP
 import { ref, computed } from 'vue'
+
+// #ifdef MP
 import { onShow, onUnload } from '@dcloudio/uni-app'
 
 onShow(() => {
   uni.$on('mp-theme-change', handleThemeChange)
   uni.$on('see-css-vars-change', handleCssVarsChange)
+  uni.$on('see-skeleton-global-show', handleSkeletonShow)
+  uni.$on('see-skeleton-global-hide', handleSkeletonHide)
   if (uni.getStorageSync('mp-theme')) {
     handleThemeChange({ theme: uni.getStorageSync('mp-theme') })
   }
@@ -42,6 +54,8 @@ onShow(() => {
 onUnload(() => {
   uni.$off('mp-theme-change', handleThemeChange)
   uni.$off('see-css-vars-change', handleCssVarsChange)
+  uni.$off('see-skeleton-global-show', handleSkeletonShow)
+  uni.$off('see-skeleton-global-hide', handleSkeletonHide)
 })
 
 const themeClass = ref('')
@@ -90,6 +104,26 @@ const handleThemeChange = (res: { theme: 'light' | 'dark' }) => {
   }
 }
 // #endif
+
+// ==================== 全局骨架屏 ====================
+
+const skeletonVisible = ref(false)
+
+const skeletonClass = computed(() => (skeletonVisible.value ? 'see-config--skeleton-visible' : ''))
+
+// #ifdef MP
+const handleSkeletonShow = () => {
+  skeletonVisible.value = true
+}
+
+const handleSkeletonHide = (payload?: { force?: boolean }) => {
+  if (payload?.force) {
+    skeletonVisible.value = false
+  } else {
+    skeletonVisible.value = false
+  }
+}
+// #endif
 </script>
 
 <style lang="scss" scoped>
@@ -97,12 +131,49 @@ const handleThemeChange = (res: { theme: 'light' | 'dark' }) => {
 .see-config {
   width: 100vw;
   min-height: 100vh;
+  position: relative;
+
+  &__skeleton-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background: var(--see-bg-color, #fff);
+  }
+
+  &__skeleton-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__skeleton-block {
+    background: linear-gradient(
+      90deg,
+      var(--see-skeleton-bg, #f0f0f0) 25%,
+      var(--see-skeleton-highlight, #e0e0e0) 37%,
+      var(--see-skeleton-bg, #f0f0f0) 63%
+    );
+    background-size: 400% 100%;
+    animation: see-config-skeleton-shimmer 1.4s ease infinite;
+  }
 }
 /* #endif */
+
 .see-page-dark {
   background-color: #14171d;
 }
 .see-page-light {
   background-color: #ffffff;
+}
+
+@keyframes see-config-skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
 }
 </style>
