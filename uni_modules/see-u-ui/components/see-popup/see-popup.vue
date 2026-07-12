@@ -84,7 +84,7 @@
  * @event {Function} onClosed 弹出层关闭动画结束时触发
  * @event {Function} onClickOverlay 点击遮罩时触发
  */
-import { computed, ref, watch, onMounted, onUnmounted } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import type { SeePopupProps, SeePopupEmits } from './type'
 
 defineOptions({ name: 'SeePopup' })
@@ -95,6 +95,8 @@ let globalLockCount = 0
 let globalSavedScrollTop = 0
 
 const globalLockScroll = () => {
+  // 仅在存在 document 的环境（H5）锁定页面滚动；小程序/App 逻辑层无 document，安全跳过
+  if (typeof document === 'undefined') return
   if (globalLockCount === 0) {
     globalSavedScrollTop = document.documentElement.scrollTop || document.body.scrollTop
     document.body.style.overflow = 'hidden'
@@ -106,6 +108,7 @@ const globalLockScroll = () => {
 }
 
 const globalUnlockScroll = () => {
+  if (typeof document === 'undefined') return
   globalLockCount--
   if (globalLockCount <= 0) {
     globalLockCount = 0
@@ -252,6 +255,7 @@ const open = () => {
   emit('onOpen')
   emit('update:show', true)
 
+  // #ifdef H5
   // 使用双层 requestAnimationFrame 确保浏览器先渲染隐藏状态，再触发动画
   // 第一帧：DOM 已更新，元素处于隐藏位置（translateY(100%) 等）
   // 第二帧：浏览器已绘制隐藏状态，现在添加 show 类触发过渡动画
@@ -260,6 +264,17 @@ const open = () => {
       isShow.value = true
     })
   })
+  // #endif
+
+  // #ifndef H5
+  // 非 H5（小程序/App）逻辑层无 requestAnimationFrame，
+  // 改用 nextTick 等待 DOM 渲染隐藏状态后，再用短延时触发 show 类以播放过渡动画
+  nextTick(() => {
+    setTimeout(() => {
+      isShow.value = true
+    }, 20)
+  })
+  // #endif
 
   animationTimer = setTimeout(() => {
     emit('onOpened')

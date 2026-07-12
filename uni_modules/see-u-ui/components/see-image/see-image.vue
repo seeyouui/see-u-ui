@@ -25,6 +25,8 @@
     >
       <!-- 主图片 -->
       <image
+        v-if="showImage"
+        :key="imageKey"
         class="see-image"
         :src="error && props.showErrorImage ? props.errorImage : props.src"
         :mode="props.mode"
@@ -89,7 +91,7 @@
  *
  * @example
  */
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useI18n } from '../../locale'
 
 defineOptions({
@@ -168,11 +170,39 @@ const { t } = useI18n()
 /** ---------- state ---------- */
 const loading = ref(true)
 const error = ref(false)
+/** 用于强制 <image> 重新挂载的 key，配合置空重挂确保缓存图也能触发 @load */
+const imageKey = ref(0)
+/** 控制 <image> 渲染，短暂置空后重新渲染以触发重新加载 */
+const showImage = ref(true)
 
 /** ---------- computed ---------- */
 const imageList = computed(() => {
   return [props.src]
 })
+
+/**
+ * @title 触发图片重新加载
+ * @description 重置 loading/error 状态，并让 <image> 重新挂载（换 key + 先卸载再挂载），
+ * 保证 src 变更或缓存图也能重新触发 @load，避免永久卡在错误态或加载态。
+ */
+const reloadImage = () => {
+  loading.value = true
+  error.value = false
+  showImage.value = false
+  imageKey.value++
+  nextTick(() => {
+    showImage.value = true
+  })
+}
+
+/** ---------- watch ---------- */
+/** src 变化时重置状态并重新挂载图片 */
+watch(
+  () => props.src,
+  () => {
+    reloadImage()
+  }
+)
 
 /** ---------- methods ---------- */
 /**
@@ -219,8 +249,7 @@ const onLongpress = () => {
 defineExpose({
   // 重新加载图片
   reload: () => {
-    loading.value = true
-    error.value = false
+    reloadImage()
   },
   // 获取加载状态
   getLoadingState: () => loading.value,

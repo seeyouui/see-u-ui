@@ -58,6 +58,8 @@ export interface SeeTreeEmits {
   ): void
   /** 搜索触发 */
   (e: 'onSearch', query: string, filteredNodes: import('../../utils/hooks/useTree').TreeNode[]): void
+  /** v-model 更新（单选为选中 key，可勾选为勾选 key 列表） */
+  (e: 'update:modelValue', value: (string | number)[]): void
 }
 
 /**

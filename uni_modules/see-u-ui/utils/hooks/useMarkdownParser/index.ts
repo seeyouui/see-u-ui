@@ -19,7 +19,10 @@
  *   - 普通文本中的 < > & " 全部转义
  *   - 链接/图片 src/href 拒绝 javascript:/vbscript:/data:text/html 协议
  *   - HTML 不直接透传（要透传的话上层再用 see-parse 的 allowedTags 控制）
+ *   - highlight 回调输出经 sanitizeHtml 清洗（剥离危险标签与 on* 事件），保留高亮 span
  */
+
+import { sanitizeHtml } from '../useHtmlParser'
 
 // ==================== 类型定义 ====================
 export interface MarkdownParserOptions {
@@ -267,7 +270,8 @@ export function markdownToHtml(input: string, options: MarkdownParserOptions = {
       let codeBody: string
       if (opts.highlight) {
         try {
-          codeBody = opts.highlight(codeText, lang)
+          // highlight 返回的 HTML 会原样嵌入 <code>，先经 sanitizeHtml 清洗防 XSS
+          codeBody = sanitizeHtml(opts.highlight(codeText, lang))
         } catch {
           codeBody = escapeHtml(codeText)
         }

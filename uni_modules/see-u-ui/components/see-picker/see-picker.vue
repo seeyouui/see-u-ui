@@ -95,6 +95,7 @@
 import { ref, computed, watch, inject, nextTick, reactive, onBeforeUnmount } from 'vue'
 import { useI18n } from '../../locale'
 import { formKey } from '../../utils/shared/form-keys'
+import { useField } from '../../utils/hooks/useField'
 import type { PickerOption, PickerColumn, PickerSize, FormContext, WheelState } from './type'
 
 defineOptions({ name: 'SeePicker' })
@@ -179,6 +180,16 @@ const emit = defineEmits<{
 
 /** ---------- inject ---------- */
 const formContext = inject<FormContext | null>(formKey, null)
+
+/** ---------- Form 联动（useField） ---------- */
+const field = useField({
+  field: props.name || '',
+  getValue: () => props.modelValue,
+  trigger: 'change',
+  onValueChange: () => {
+    // 由 useField 内部管理 change 校验触发
+  }
+})
 
 /** ---------- 常量 ---------- */
 const ITEM_HEIGHT = 88 // 每个选项的高度 rpx
@@ -404,11 +415,13 @@ function initCascadeIndices(): void {
     }
   }
 
-  // 如果没有初始值，至少有第一列
+  // 如果没有初始值，沿默认 index(0) 逐层向下把所有联动层建满
   if (indices.length === 0 && columns.length > 0) {
     indices.push(0)
-    if (columns[0]?.[props.childrenKey]) {
-      cascadeColumns.push(columns[0][props.childrenKey]!)
+    while (columns[0]?.[props.childrenKey]) {
+      columns = columns[0][props.childrenKey]!
+      cascadeColumns.push(columns)
+      indices.push(0)
     }
   }
 
@@ -690,6 +703,7 @@ function handleConfirm(): void {
   const value = getCurrentValue()
   emit('update:modelValue', value)
   emit('onConfirm', value)
+  field.handleChange(value)
   handleClose()
 }
 
@@ -713,6 +727,7 @@ onBeforeUnmount(() => {
     clearTimeout(closeTimer)
     closeTimer = null
   }
+  field.resetField()
 })
 
 /** ---------- watch ---------- */
@@ -749,7 +764,17 @@ defineExpose({
   /** 关闭选择器 */
   close: handleClose,
   /** 当前选中值 */
-  getValue: getCurrentValue
+  getValue: getCurrentValue,
+  /** 校验状态 */
+  validateStatus: field.validateStatus,
+  /** 校验信息 */
+  validateMessage: field.validateMessage,
+  /** 校验该字段 */
+  validate: field.validate,
+  /** 重置该字段 */
+  resetField: field.resetField,
+  /** 清除校验状态 */
+  clearValidate: field.clearValidate
 })
 </script>
 

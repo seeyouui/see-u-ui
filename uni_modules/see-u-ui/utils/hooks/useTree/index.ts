@@ -128,6 +128,19 @@ export function useTree(options: UseTreeOptions): UseTreeReturn {
   }
 
   /**
+   * 节点自身或其任一后代是否命中查询（用于搜索时保留祖先路径可见）
+   */
+  const matchesQuery = (node: TreeNode, query: string): boolean => {
+    const label = String((node as any)[labelField] ?? '').toLowerCase()
+    if (label.includes(query)) return true
+    const children = getNodeChildren(node)
+    for (const child of children) {
+      if (matchesQuery(child, query)) return true
+    }
+    return false
+  }
+
+  /**
    * 扁平化树形数据（按需：只递归展开节点的子节点）
    */
   const flattenTree = (nodes: TreeNode[], level: number = 0, parentKey: string | number | null = null): FlatNode[] => {
@@ -143,11 +156,10 @@ export function useTree(options: UseTreeOptions): UseTreeReturn {
       const checked = checkedKeys.value.has(key)
       const loading = loadingKeys.value.has(key)
 
-      // 搜索过滤：防御非字符串 label
+      // 搜索过滤：命中节点及其祖先路径均可见（防御非字符串 label）
       let visible = true
       if (query) {
-        const label = String((node as any)[labelField] ?? '').toLowerCase()
-        visible = label.includes(query)
+        visible = matchesQuery(node, query)
       }
 
       result.push({
@@ -239,9 +251,30 @@ export function useTree(options: UseTreeOptions): UseTreeReturn {
 
   /**
    * 过滤节点
+   * 命中项若位于折叠子树内，自动展开其所有祖先节点，使匹配项可见。
    */
   const filterNodes = (query: string) => {
     filterQuery.value = query
+
+    const q = query ? query.toLowerCase() : ''
+    if (!q) return
+
+    // 收集所有命中节点的祖先 key
+    const ancestorsToExpand = new Set<string | number>(expandedKeys.value)
+    const walk = (nodes: TreeNode[], ancestors: (string | number)[]) => {
+      for (const node of nodes) {
+        const label = String((node as any)[labelField] ?? '').toLowerCase()
+        if (label.includes(q)) {
+          ancestors.forEach((k) => ancestorsToExpand.add(k))
+        }
+        const children = getNodeChildren(node)
+        if (children.length > 0) {
+          walk(children, [...ancestors, getNodeKey(node)])
+        }
+      }
+    }
+    walk(data.value || [], [])
+    expandedKeys.value = ancestorsToExpand
   }
 
   /**

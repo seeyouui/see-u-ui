@@ -52,7 +52,7 @@
     </view>
 
     <!-- 占位元素 -->
-    <view v-if="placeholder && isFixed" class="see-tabbar__placeholder" />
+    <view v-if="placeholder && isFixed" class="see-tabbar__placeholder" :style="placeholderStyle" />
   </view>
 </template>
 
@@ -98,7 +98,7 @@ onMounted(() => {
   try {
     const systemInfo = uni.getSystemInfoSync()
     const insets = systemInfo.safeAreaInsets
-    safeAreaBottom.value = insets?.bottom || 20
+    safeAreaBottom.value = insets?.bottom ?? 0
   } catch {
     safeAreaBottom.value = 20
   }
@@ -122,6 +122,19 @@ const tabbarStyle = computed(() => {
 
 const activeColorVar = computed(() => props.activeColor || 'var(--see-tabbar-active-color, var(--see-primary))')
 const inactiveColorVar = computed(() => props.inactiveColor || 'var(--see-tabbar-inactive-color, var(--see-tips-color))')
+
+// 占位高度需与真实 tabbar 一致：内容高度 + 底部安全区
+const placeholderStyle = computed(() => {
+  const base = 'var(--see-tabbar-height, 100rpx)'
+  if (!props.safeAreaInsetBottom) {
+    return { height: base }
+  }
+  let bottom = `${safeAreaBottom.value}px`
+  // #ifdef H5
+  bottom = 'env(safe-area-inset-bottom)'
+  // #endif
+  return { height: `calc(${base} + ${bottom})` }
+})
 
 /** ---------- methods ---------- */
 const handleTabClick = (tab: TabbarItem, index: number) => {

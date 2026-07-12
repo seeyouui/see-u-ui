@@ -142,6 +142,44 @@ const {
   isLazy: props.isLazy
 })
 
+/** ---------- v-model 接线 ---------- */
+// 标记内部变更引发的 emit，避免 emit → 父级回写 modelValue → watch 再次写入的回环
+let syncingFromModel = false
+
+/** 用 modelValue 初始化内部选中状态（按 selectMode 区分语义） */
+const applyModelValue = (val: (string | number)[]) => {
+  const list = Array.isArray(val) ? val : []
+  if (props.isCheckable || props.selectMode !== 'single') {
+    checkedKeys.value = new Set(list)
+  } else {
+    selectedKey.value = list.length > 0 ? list[0] : null
+  }
+}
+
+/** 将当前内部选中状态回写给父级 */
+const emitModelValue = () => {
+  syncingFromModel = true
+  if (props.isCheckable || props.selectMode !== 'single') {
+    emit('update:modelValue', Array.from(checkedKeys.value))
+  } else {
+    emit('update:modelValue', selectedKey.value != null ? [selectedKey.value] : [])
+  }
+  // 同一 tick 内父级回写后 watch 才触发，用微任务解除标记
+  Promise.resolve().then(() => {
+    syncingFromModel = false
+  })
+}
+
+// immediate: true 使首屏即根据 modelValue 初始化选中状态
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (syncingFromModel) return
+    applyModelValue(val || [])
+  },
+  { immediate: true, deep: false }
+)
+
 /** ---------- computed ---------- */
 const scrollStyle = computed(() => {
   if (props.isVirtual) {
@@ -172,6 +210,7 @@ const handleNodeClick = (flatNode: any) => {
 
   if (props.selectMode === 'single') {
     selectNode(getNodeKey(flatNode.node))
+    if (!props.isCheckable) emitModelValue()
   }
 
   if (flatNode.hasChildren && !flatNode.isLeaf) {
@@ -190,6 +229,7 @@ const handleToggleCheck = (flatNode: any) => {
   if (flatNode.node.isDisabled) return
   toggleCheck(getNodeKey(flatNode.node))
   emit('onCheckChange', Array.from(checkedKeys.value), flatNode.node)
+  emitModelValue()
 }
 
 const handleSearch = (e: any) => {

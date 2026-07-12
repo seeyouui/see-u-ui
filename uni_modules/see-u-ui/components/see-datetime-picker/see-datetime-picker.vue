@@ -574,6 +574,9 @@ function initSelectedValues() {
       minute: 0,
       second: 0
     }
+    // 默认值可能越界（now 在 min/max 之外），先 clamp 到范围内
+    // 再由后续 initColumnOffsets 计算偏移，避免 offset 与实际年不符
+    validateAndFixDate()
     return
   }
 
@@ -626,6 +629,19 @@ function initColumnOffsets() {
 }
 
 /**
+ * @title 同步所有列的滚动偏移
+ * @description 依据 selectedValues 重新计算每一列的 columnOffsets，
+ * 用于日期被修正（validateAndFixDate / 联动限制）后保持滚轮与实际值一致
+ */
+function syncColumnOffsets() {
+  displayColumns.value.forEach((column, colIndex) => {
+    const selectedVal = selectedValues.value[column.type]
+    const index = column.options.findIndex((opt) => opt.value === selectedVal)
+    columnOffsets.value[colIndex] = index <= 0 ? 0 : -index * itemHeight.value
+  })
+}
+
+/**
  * @title 获取列的滚动样式
  */
 function getColumnStyle(colIndex: number): Record<string, string> {
@@ -668,6 +684,10 @@ function snapToNearest(colIndex: number) {
     selectedValues.value[column.type] = selectedOption.value
     // 验证日期有效性并修正
     validateAndFixDate()
+    // 修正可能改动了所有字段（day/年月范围 clamp），同步刷新所有列偏移
+    nextTick(() => {
+      syncColumnOffsets()
+    })
   }
 }
 
@@ -802,6 +822,8 @@ function handleCancel() {
  * @title 确认选择
  */
 function handleConfirm() {
+  // 确认前先修正，保证不 emit 越界日期（如默认值未经触摸直接确认的场景）
+  validateAndFixDate()
   const date = buildDate()
   emit('update:modelValue', date)
   emit('onChange', date)
@@ -846,6 +868,8 @@ watch(
       if (dayCol && !dayCol.options.find((opt) => opt.value === selectedValues.value.day)) {
         selectedValues.value.day = dayCol.options[0]?.value || 1
       }
+      // 联动修正 month/day 后同步刷新所有列偏移，避免滚轮与值脱钩
+      syncColumnOffsets()
     })
   }
 )
@@ -859,6 +883,8 @@ watch(
       if (dayCol && !dayCol.options.find((opt) => opt.value === selectedValues.value.day)) {
         selectedValues.value.day = dayCol.options[dayCol.options.length - 1]?.value || 1
       }
+      // 联动修正 day 后同步刷新所有列偏移，避免滚轮与值脱钩
+      syncColumnOffsets()
     })
   }
 )

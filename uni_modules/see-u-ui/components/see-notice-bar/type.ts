@@ -43,8 +43,8 @@ export interface SeeNoticeBarProps {
    */
   isShowIcon?: boolean
   /**
-   * 自定义图标
-   * @default '🔊'
+   * 自定义图标（留空时按 type 显示内置图标）
+   * @default ''
    */
   icon?: string
   /**

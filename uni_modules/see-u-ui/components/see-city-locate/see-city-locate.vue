@@ -17,7 +17,13 @@
     <view v-if="hotCitiesData.length > 0" class="see-city-locate__hot">
       <text class="see-city-locate__section-title">{{ t('cityLocate.hotCities') }}</text>
       <view class="see-city-locate__hot-grid">
-        <view v-for="city in hotCitiesData" :key="city.id" class="see-city-locate__hot-item" @tap="handleSelect(city)">
+        <view
+          v-for="city in hotCitiesData"
+          :key="city.id"
+          class="see-city-locate__hot-item"
+          :class="{ 'see-city-locate__hot-item--active': selectedCity && selectedCity.id === city.id }"
+          @tap="handleSelect(city)"
+        >
           <text class="see-city-locate__hot-text">{{ getCityName(city) }}</text>
         </view>
       </view>
@@ -42,7 +48,13 @@
           <view class="see-city-locate__group-header">
             <text class="see-city-locate__group-letter">{{ group[0] }}</text>
           </view>
-          <view v-for="city in group[1]" :key="city.id" class="see-city-locate__city-item" @tap="handleSelect(city)">
+          <view
+            v-for="city in group[1]"
+            :key="city.id"
+            class="see-city-locate__city-item"
+            :class="{ 'see-city-locate__city-item--active': selectedCity && selectedCity.id === city.id }"
+            @tap="handleSelect(city)"
+          >
             <text class="see-city-locate__city-name">{{ getCityName(city) }}</text>
           </view>
         </view>
@@ -59,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useI18n } from '../../locale'
 import type { CityInfo, SeeCityLocateProps, SeeCityLocateEmits } from './type'
 import { builtinCities, defaultHotCities, groupCitiesByLetter, searchCities } from './city-data'
@@ -105,6 +117,17 @@ const searchQuery = ref('')
 const locatedCity = ref<CityInfo | null>(null)
 const historyCities = ref<CityInfo[]>([])
 const scrollIntoView = ref('')
+/** 当前选中城市（用于回显/高亮），由 modelValue 初始化 */
+const selectedCity = ref<CityInfo | null>(null)
+
+/** 监听 modelValue，初始化/回显当前选中城市 */
+watch(
+  () => props.modelValue,
+  (val) => {
+    selectedCity.value = val ?? null
+  },
+  { immediate: true }
+)
 
 /** ---------- computed ---------- */
 const hotCitiesData = computed(() => {
@@ -137,6 +160,8 @@ const handleSearch = (e: any) => {
 
 const handleSelect = (city: CityInfo) => {
   saveHistory(city)
+  selectedCity.value = city
+  emit('update:modelValue', city)
   emit('onSelect', city)
 }
 
@@ -315,6 +340,10 @@ onMounted(() => {
     border-radius: 8rpx;
   }
 
+  &__hot-item--active {
+    background: var(--see-primary-light, #e9f6ff);
+  }
+
   &__hot-text {
     font-size: 26rpx;
     color: var(--see-main-color);
@@ -378,6 +407,11 @@ onMounted(() => {
     height: var(--see-index-list-item-height, 88rpx);
     padding: 0 24rpx;
     border-bottom: 1rpx solid var(--see-border-four-color);
+  }
+
+  &__city-item--active .see-city-locate__city-name {
+    color: var(--see-primary);
+    font-weight: 500;
   }
 
   &__city-name {

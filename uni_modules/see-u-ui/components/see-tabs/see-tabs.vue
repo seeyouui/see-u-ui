@@ -2,7 +2,14 @@
   <view class="see-tabs" :class="tabsClass" :style="tabsStyle">
     <!-- 标签栏 -->
     <view class="see-tabs__nav" :class="navClass">
-      <scroll-view v-if="isScrollable" class="see-tabs__scroll" scroll-x :scroll-into-view="scrollIntoView" scroll-with-animation>
+      <scroll-view
+        v-if="isScrollable"
+        class="see-tabs__scroll"
+        scroll-x
+        :scroll-into-view="scrollIntoView"
+        scroll-with-animation
+        @scroll="handleScroll"
+      >
         <view class="see-tabs__nav-inner">
           <view
             v-for="pane in panes"
@@ -96,6 +103,8 @@ const panes = ref<SeeTabPaneProps[]>([])
 const scrollIntoView = ref('')
 // 每个 tab 在 nav-inner 内的真实 left / width，由 createSelectorQuery 测量
 const tabRects = ref<Array<{ left: number; width: number }>>([])
+// 可滚动模式下 scroll-view 的横向滚动偏移，用于修正指示器位置
+const scrollLeft = ref(0)
 const instance = getCurrentInstance()
 
 const measureTabs = () => {
@@ -155,7 +164,9 @@ const indicatorStyle = computed(() => {
     }
   }
   // 让指示器以 lineWidth 居中显示在每个 tab 下方
-  const left = rect.left + (rect.width - props.lineWidth) / 2
+  // 指示器挂在 scroll-view 外，tabRects 相对随滚动的 nav-inner 测量，
+  // 需扣除 scroll-view 的横向滚动偏移，避免横向滚动后下划线错位
+  const left = rect.left + (rect.width - props.lineWidth) / 2 - scrollLeft.value
   return {
     width: `${props.lineWidth}px`,
     height: `${props.lineHeight}px`,
@@ -206,6 +217,11 @@ const handleTabClick = (pane: SeeTabPaneProps) => {
 
 const handleClose = (pane: SeeTabPaneProps) => {
   emit('onClose', pane.name)
+}
+
+// 记录 scroll-view 横向滚动偏移，供指示器修正 translateX
+const handleScroll = (e: { detail: { scrollLeft: number } }) => {
+  scrollLeft.value = e.detail?.scrollLeft || 0
 }
 
 const switchTo = (name: string | number) => {

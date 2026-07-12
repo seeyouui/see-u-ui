@@ -54,7 +54,7 @@
  * @event {Function} onReady    挂载就绪
  */
 import { computed, ref, watch, onMounted } from 'vue'
-import { parseHtml, stripHtml, extractImgSrc, sanitizeHtml, type ParseNode } from '../../utils/hooks/useHtmlParser'
+import { parseHtml, parseHtmlToSafeString, stripHtml, extractImgSrc, type ParseNode } from '../../utils/hooks/useHtmlParser'
 
 defineOptions({
   name: 'SeeParse'
@@ -121,15 +121,19 @@ const rootClass = computed(() => {
 
 const rootStyle = computed(() => props.containerStyle)
 
-/** 预处理后的安全 HTML（含 \n → <br> 转换、危险标签剥离） */
+/** 预处理后的安全 HTML（走白名单 + 属性白名单 + 协议校验，与 rich-text 平台一致） */
 const safeHtml = computed(() => {
   if (!hasContent.value) return ''
   try {
-    let html = sanitizeHtml(currentContent.value)
+    let input = currentContent.value
     if (props.preserveNewline) {
-      html = html.replace(/\n/g, '<br/>')
+      input = input.replace(/\n/g, '<br/>')
     }
-    return html
+    return parseHtmlToSafeString(input, {
+      tagStyle: props.tagStyle,
+      allowedTags: props.allowedTags,
+      allowedAttrs: props.allowedAttrs
+    })
   } catch (e) {
     emit('onError', e as Error)
     return ''

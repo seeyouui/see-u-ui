@@ -42,7 +42,7 @@
  * @property {Boolean} isCloseOnClickOverlay 点击遮罩是否关闭
  * @event {Function} onClose Toast 关闭时触发
  */
-import { computed, ref, watch, onUnmounted, nextTick } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import type { SeeToastProps, SeeToastEmits, ToastType } from './type'
 import { toastManager } from './toast-manager'
 
@@ -70,6 +70,8 @@ let closeTimer: ReturnType<typeof setTimeout> | null = null
 let exitTimer: ReturnType<typeof setTimeout> | null = null
 /** 标记当前是否为命令式（manager）模式 */
 let isManagerMode = false
+/** 当前实例在 manager 中的注册 id */
+let instanceId = 0
 
 // ==================== 当前状态（支持命令式和组件式） ====================
 
@@ -203,9 +205,11 @@ watch(
 )
 
 // 监听 toastManager.show（命令式调用）
+// 仅激活实例响应，避免多页面/常驻实例重复弹出
 watch(
   () => toastManager.show.value,
   (val) => {
+    if (toastManager.activeId.value !== instanceId) return
     if (val) {
       open(true) // 标记为命令式调用
     } else if (visible.value && isManagerMode) {
@@ -217,8 +221,13 @@ watch(
 
 // ==================== 生命周期 ====================
 
+onMounted(() => {
+  instanceId = toastManager.register()
+})
+
 onUnmounted(() => {
   cleanupTimer()
+  toastManager.unregister(instanceId)
 })
 
 // ==================== Expose ====================

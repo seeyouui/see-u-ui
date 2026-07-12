@@ -81,8 +81,9 @@ const instance = getCurrentInstance()
 let navTop = 0
 let navItemHeight = 0
 let navItemList: string[] = []
-// rAF 节流标志，避免高频 touchmove 直接刷新 setData
-let rafId = 0
+// setTimeout 节流：避免高频 touchmove 直接刷新 setData；rAF 在小程序端不存在，故统一用定时器分帧
+let throttleTimer: ReturnType<typeof setTimeout> | null = null
+let pendingClientY = 0
 
 /** ---------- computed ---------- */
 const listStyle = computed(() => {
@@ -151,25 +152,36 @@ const measureNav = () => {
   })
 }
 
+// 从触摸事件中提取 clientY（与 boundingClientRect().top 同为视口坐标系，避免页面滚动后落点错位）
+const getTouchClientY = (e: any): number | null => {
+  const touch = e.touches?.[0] || e.changedTouches?.[0]
+  if (!touch) return null
+  return touch.clientY ?? touch.pageY ?? 0
+}
+
 const handleNavTouchStart = (e: any) => {
   // touchstart 时再测量一次，避免页面滚动或屏幕旋转后位置失效
   measureNav()
-  updateIndexByTouch(e)
+  const clientY = getTouchClientY(e)
+  if (clientY !== null) updateIndexByClientY(clientY)
 }
 
 const handleNavTouchMove = (e: any) => {
-  // 用 rAF 节流：节流期间仍记录最新事件，但每帧只刷新一次状态
-  if (rafId) return
-  rafId = requestAnimationFrame(() => {
-    rafId = 0
-    updateIndexByTouch(e)
-  })
+  // setTimeout 节流：同步取出坐标（事件对象在小程序端可能被回收），节流期间只保留最新坐标，每帧刷新一次
+  const clientY = getTouchClientY(e)
+  if (clientY === null) return
+  pendingClientY = clientY
+  if (throttleTimer) return
+  throttleTimer = setTimeout(() => {
+    throttleTimer = null
+    updateIndexByClientY(pendingClientY)
+  }, 16)
 }
 
 const handleNavTouchEnd = () => {
-  if (rafId) {
-    cancelAnimationFrame(rafId)
-    rafId = 0
+  if (throttleTimer) {
+    clearTimeout(throttleTimer)
+    throttleTimer = null
   }
   if (bubbleTimer) clearTimeout(bubbleTimer)
   bubbleTimer = setTimeout(() => {
@@ -177,11 +189,10 @@ const handleNavTouchEnd = () => {
   }, 500)
 }
 
-const updateIndexByTouch = (e: any) => {
-  const touch = e.touches?.[0] || e.changedTouches?.[0]
-  if (!touch || !navItemHeight || navItemList.length === 0) return
-  // 使用 pageY 计算落在 nav 容器内的相对偏移
-  const offsetY = (touch.pageY || touch.clientY || 0) - navTop
+const updateIndexByClientY = (clientY: number) => {
+  if (!navItemHeight || navItemList.length === 0) return
+  // clientY 与 navTop 同为视口坐标系，直接相减得到落在 nav 容器内的相对偏移
+  const offsetY = clientY - navTop
   let i = Math.floor(offsetY / navItemHeight)
   if (i < 0) i = 0
   if (i >= navItemList.length) i = navItemList.length - 1

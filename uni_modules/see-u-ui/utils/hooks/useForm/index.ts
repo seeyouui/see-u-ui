@@ -94,8 +94,10 @@ export function useForm(options: UseFormOptions) {
   /** 校验整个表单 */
   const validate = async (): Promise<ValidateResult> => {
     const result = await validateForm(options.model, options.rules || {})
-    // 更新每个字段的校验状态
+    // 更新每个字段的校验状态（仅针对真正跑了规则的字段）
     fields.value.forEach((field) => {
+      // 无规则字段保持中性，不误标 success
+      if (getRules(field.field).length === 0) return
       const fieldErrors = result.errors.filter((e) => e.field === field.field)
       if (fieldErrors.length > 0) {
         field.validateStatus = 'error'

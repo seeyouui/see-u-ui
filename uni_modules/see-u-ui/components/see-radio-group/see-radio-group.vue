@@ -71,7 +71,7 @@ const formContext = inject(formKey, null)
 /** ---------- computed ---------- */
 /** 实际禁用状态（考虑 Form 联动） */
 const mergedDisabled = computed(() => {
-  return props.isDisabled || formContext?.isDisabled || false
+  return props.isDisabled || formContext?.props?.isDisabled || false
 })
 
 /** 实际只读状态（考虑 Form 联动） */

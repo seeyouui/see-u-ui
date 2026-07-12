@@ -85,6 +85,7 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
    */
   const handleTouchStart = (e: TouchEvent) => {
     const touch = e.touches[0]
+    if (!touch) return
     startPoint = {
       x: touch.clientX,
       y: touch.clientY,
@@ -111,6 +112,7 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
     if (!startPoint) return
 
     const touch = e.touches[0]
+    if (!touch) return
     const deltaX = touch.clientX - startPoint.x
     const deltaY = touch.clientY - startPoint.y
     const absX = Math.abs(deltaX)
@@ -158,15 +160,17 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
     // 结束滑动
     if (isGestureActive) {
       const touch = e.changedTouches[0]
-      const deltaX = touch.clientX - startPoint.x
-      const deltaY = touch.clientY - startPoint.y
-      const swipeDir = getSwipeDirection(deltaX, deltaY)
-      const distance =
-        direction === 'horizontal' ? Math.abs(deltaX) : direction === 'vertical' ? Math.abs(deltaY) : Math.max(Math.abs(deltaX), Math.abs(deltaY))
+      if (touch) {
+        const deltaX = touch.clientX - startPoint.x
+        const deltaY = touch.clientY - startPoint.y
+        const swipeDir = getSwipeDirection(deltaX, deltaY)
+        const distance =
+          direction === 'horizontal' ? Math.abs(deltaX) : direction === 'vertical' ? Math.abs(deltaY) : Math.max(Math.abs(deltaX), Math.abs(deltaY))
 
-      if (distance > threshold) {
-        onSwipe?.(swipeDir, distance)
-        onSwipeEnd?.(swipeDir, distance)
+        if (distance > threshold) {
+          onSwipe?.(swipeDir, distance)
+          onSwipeEnd?.(swipeDir, distance)
+        }
       }
 
       isSwiping.value = false
@@ -193,7 +197,11 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
   let boundElement: HTMLElement | null = null
 
   // 绑定事件到目标元素
+  // 说明：本 Hook 基于 DOM addEventListener，仅 H5 端有效。
+  // 非 H5 端（小程序/App）elementRef 并非 HTMLElement，绑定会静默失效，
+  // 故用条件编译包裹，非 H5 端安全跳过（不崩溃）。
   const bindEvents = () => {
+    // #ifdef H5
     const el = elementRef.value
     if (!el) return
 
@@ -205,10 +213,12 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
     el.addEventListener('touchend', handleTouchEnd, { passive: true })
     el.addEventListener('touchcancel', handleTouchEnd, { passive: true })
     boundElement = el
+    // #endif
   }
 
   // 解绑事件
   const unbindEvents = () => {
+    // #ifdef H5
     const el = boundElement
     if (!el) return
 
@@ -217,6 +227,7 @@ export function useGesture(elementRef: Ref<HTMLElement | null>, options: UseGest
     el.removeEventListener('touchend', handleTouchEnd)
     el.removeEventListener('touchcancel', handleTouchEnd)
     boundElement = null
+    // #endif
   }
 
   // 组件销毁时清理
