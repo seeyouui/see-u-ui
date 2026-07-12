@@ -32,6 +32,7 @@
         ]"
         :hover-class="getHoverClass"
         :disabled="props.isDisabled || props.loading"
+        @click="onClick($event)"
       >
         <text :style="{ color: props.textColor }" class="title">{{ displayText }}</text>
         <slot></slot>
@@ -87,7 +88,7 @@
  */
 import { ref, computed, nextTick, getCurrentInstance } from 'vue'
 import { useI18n } from '../../locale'
-import type { TouchEvent, ClientRectData, RippleItem } from './type'
+import type { TouchEvent, ClientRectData } from './type'
 
 defineOptions({
   name: 'SeeButton'
@@ -142,7 +143,7 @@ const props = withDefaults(
 
 /** ---------- emits ---------- */
 const emit = defineEmits<{
-  (e: 'onTap'): void
+  (e: 'onTap', event: any): void
 }>()
 
 /** ---------- state ---------- */
@@ -163,10 +164,6 @@ const displayText = computed(() => {
   }
   return props.title
 })
-
-/** 水波动画队列 */
-let rippleUniqueId = 0
-const rippleQueue = ref<RippleItem[]>([])
 
 /** ---------- methods ---------- */
 /**
@@ -198,6 +195,17 @@ const onTouchstart = (e: TouchEvent) => {
 }
 
 /**
+ * @title 按钮点击
+ * @description 内层 button 点击时触发 onTap；禁用/loading 状态下不触发。
+ *
+ * @param {Event} e 点击事件对象
+ */
+const onClick = (e: any) => {
+  if (props.isDisabled || props.loading) return
+  emit('onTap', e)
+}
+
+/**
  * @title 启动水波纹效果
  * @description 根据触点坐标与按钮尺寸计算水波纹的位置与直径，然后启动动画。
  *
@@ -217,9 +225,24 @@ const activeWaves = (e: TouchEvent) => {
 
     field.value = data
 
-    let touchesX: number
-    let touchesY: number
+    let touchesX = 0
+    let touchesY = 0
 
+    // #ifdef H5
+    // H5 走 click，无 touches，取 clientX/clientY，changedTouches 兜底
+    if (typeof e.clientX === 'number') {
+      touchesX = e.clientX
+      touchesY = e.clientY as number
+    } else if (e.changedTouches && e.changedTouches[0]) {
+      touchesX = e.changedTouches[0].clientX
+      touchesY = e.changedTouches[0].clientY
+    } else if (e.touches && e.touches[0]) {
+      touchesX = e.touches[0].clientX
+      touchesY = e.touches[0].clientY
+    }
+    // #endif
+
+    // #ifndef H5
     // #ifdef MP-BAIDU
     touchesX = e.changedTouches[0].clientX
     touchesY = e.changedTouches[0].clientY
@@ -236,25 +259,13 @@ const activeWaves = (e: TouchEvent) => {
     touchesY = e.touches[0].clientY
     // #endif
     // #endif
+    // #endif
 
     rippleTop.value = touchesY - data.top - data.finalWidth / 2
     rippleLeft.value = touchesX - data.left - data.finalWidth / 2
 
     nextTick(() => (active.value = true))
-
-    rippleQueue.value.push({
-      id: rippleUniqueId++,
-      x: touchesX - data.left - data.finalWidth / 2,
-      y: touchesY - data.top - data.finalWidth / 2,
-      size: data.finalWidth
-    })
   })
-}
-
-// 新增：动画结束回调，替代 setTimeout
-const removeRipple = (id: number) => {
-  const index = rippleQueue.value.findIndex((item) => item.id === id)
-  if (index > -1) rippleQueue.value.splice(index, 1)
 }
 
 /**

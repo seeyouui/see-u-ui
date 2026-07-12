@@ -10,7 +10,7 @@
 
     <!-- 内容区域 -->
     <view class="see-form-item__content">
-      <view class="see-form-item__control">
+      <view class="see-form-item__control" @blur.capture="handleFieldBlur">
         <slot></slot>
       </view>
       <!-- 错误信息 -->
@@ -29,7 +29,7 @@
  * @description 表单中的每一项，配合 Form 使用，提供标签、校验、错误提示等功能
  * @tutorial https://www.seeuui.cn/components/form/
  */
-import { computed, inject } from 'vue'
+import { computed, inject, watch } from 'vue'
 import { useField } from '../../utils/hooks/useField'
 import { formKey } from '../../utils/shared/form-keys'
 import type { FormRule, FormContext } from '../../utils/shared/form-types'
@@ -85,13 +85,43 @@ const {
   isShowMessage: hookIsShowMessage,
   validate,
   resetField,
-  clearValidate
+  clearValidate,
+  handleChange,
+  handleBlur
 } = useField({
   field: props.field,
   getValue: () => form?.model[props.field],
   trigger: 'change',
   rules: props.rules
 })
+
+/** ---------- 自动校验接线 ---------- */
+/**
+ * 监听绑定字段值变化触发 change 校验（输入即校验）
+ * 仅在存在字段名与 Form 上下文时监听；初始不触发，避免首屏误报与死循环
+ * （校验只写 validateStatus/validateMessage，不回写 model，故不会递归触发本 watch）
+ */
+if (props.field && form) {
+  watch(
+    () => form.model[props.field],
+    (value) => {
+      handleChange(value)
+    }
+  )
+}
+
+/**
+ * @title 处理失焦校验
+ * @description 捕获内容区子控件冒泡的 blur 事件，触发 blur 校验
+ */
+const handleFieldBlur = () => {
+  // useField 的 trigger 为 change，handleBlur 内部按 blur 触发无效，
+  // 这里直接按 blur 触发方式跑规则（validate 会自行过滤 trigger）
+  if (props.field) {
+    validate('blur')
+  }
+  handleBlur()
+}
 
 /** ---------- computed ---------- */
 

@@ -5,6 +5,9 @@ export type TouchEvent = {
     clientX?: number
     clientY?: number
   }
+  // H5 click (MouseEvent) 直接携带坐标
+  clientX?: number
+  clientY?: number
 }
 
 export type ClientRectData = {

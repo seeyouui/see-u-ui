@@ -210,7 +210,8 @@ export function sanitizeHtml(input: string): string {
   // 移除 HTML 注释
   s = s.replace(/<!--[\s\S]*?-->/g, '')
   // 移除标签内的 on* 事件属性（容忍单/双引号、无引号）
-  s = s.replace(/\s+on[a-zA-Z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+  // 前置分隔符放宽为「空白 或 /」，防止 <img/onerror=alert(1) src=x> 这类用 / 分隔的绕过
+  s = s.replace(/[\s/]+on[a-zA-Z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
   return s
 }
 
@@ -384,6 +385,49 @@ export function parseHtml(html: string, options: UseHtmlParserOptions = {}): Par
   }
 
   return root.children
+}
+
+// ==================== 安全 HTML 序列化（供 H5 v-html 使用） ====================
+/** 文本节点转义（内容已 decode，序列化时重新转义防注入） */
+function escapeText(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/** 属性值转义 */
+function escapeAttr(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+/** 把已过滤的 nodes 树序列化回安全 HTML 字符串 */
+function nodesToHtml(nodes: ParseNode[]): string {
+  let html = ''
+  for (const node of nodes) {
+    if (node.type === 'text') {
+      html += escapeText(node.text)
+      continue
+    }
+    const name = node.name
+    let attrStr = ''
+    for (const key of Object.keys(node.attrs)) {
+      const val = node.attrs[key]
+      if (val === undefined) continue
+      attrStr += ` ${key}="${escapeAttr(String(val))}"`
+    }
+    if (VOID_TAGS.has(name)) {
+      html += `<${name}${attrStr}/>`
+    } else {
+      html += `<${name}${attrStr}>${nodesToHtml(node.children)}</${name}>`
+    }
+  }
+  return html
+}
+
+/**
+ * 解析 HTML 并输出经白名单/属性过滤/协议校验后的安全 HTML 字符串。
+ * 用于 H5 v-html 渲染，确保与 rich-text 平台一致的安全策略。
+ */
+export function parseHtmlToSafeString(html: string, options: UseHtmlParserOptions = {}): string {
+  return nodesToHtml(parseHtml(html, options))
 }
 
 /**

@@ -24,16 +24,29 @@
 <script lang="ts" setup>
 defineOptions({ name: 'SeeConfig' })
 
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 
 // #ifdef MP
 import { onShow, onUnload } from '@dcloudio/uni-app'
 
-onShow(() => {
+const registerEvents = () => {
+  // 先注销再注册，防止 hide/show 往返时重复叠加监听导致内存泄漏
+  unregisterEvents()
   uni.$on('mp-theme-change', handleThemeChange)
   uni.$on('see-css-vars-change', handleCssVarsChange)
   uni.$on('see-skeleton-global-show', handleSkeletonShow)
   uni.$on('see-skeleton-global-hide', handleSkeletonHide)
+}
+
+const unregisterEvents = () => {
+  uni.$off('mp-theme-change', handleThemeChange)
+  uni.$off('see-css-vars-change', handleCssVarsChange)
+  uni.$off('see-skeleton-global-show', handleSkeletonShow)
+  uni.$off('see-skeleton-global-hide', handleSkeletonHide)
+}
+
+onShow(() => {
+  registerEvents()
   if (uni.getStorageSync('mp-theme')) {
     handleThemeChange({ theme: uni.getStorageSync('mp-theme') })
   }
@@ -52,10 +65,11 @@ onShow(() => {
 })
 
 onUnload(() => {
-  uni.$off('mp-theme-change', handleThemeChange)
-  uni.$off('see-css-vars-change', handleCssVarsChange)
-  uni.$off('see-skeleton-global-show', handleSkeletonShow)
-  uni.$off('see-skeleton-global-hide', handleSkeletonHide)
+  unregisterEvents()
+})
+
+onUnmounted(() => {
+  unregisterEvents()
 })
 
 const themeClass = ref('')

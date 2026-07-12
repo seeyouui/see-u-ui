@@ -11,7 +11,7 @@
     <!-- 导航栏主体 -->
     <view class="see-navbar__content" :style="contentStyle">
       <!-- 左侧区域 -->
-      <view class="see-navbar__left" @tap="handleLeftClick">
+      <view v-if="isShowLeft" class="see-navbar__left" @tap="handleLeftClick">
         <slot name="left">
           <view v-if="leftArrow" class="see-navbar__arrow">
             <text class="see-navbar__arrow-icon">‹</text>
@@ -41,7 +41,7 @@
       </view>
 
       <!-- 右侧区域 -->
-      <view class="see-navbar__right" @tap="handleRightClick">
+      <view v-if="isShowRight" class="see-navbar__right" @tap="handleRightClick">
         <slot name="right">
           <text v-if="displayRightText" class="see-navbar__right-text">{{ displayRightText }}</text>
           <text v-if="rightIcon" class="see-navbar__right-icon">{{ rightIcon }}</text>

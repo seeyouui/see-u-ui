@@ -122,7 +122,7 @@
  * @property {String}            uploadText          上传按钮文字
  * @property {String}            uploadIcon          上传图标
  */
-import { computed, inject, onBeforeUnmount } from 'vue'
+import { computed, inject, onBeforeUnmount, ref, watch } from 'vue'
 import { formKey } from '../../utils/shared/form-keys'
 import { useI18n } from '../../locale'
 import type { UploadFileItem, UploadAccept, UploadSize, ImageSizeType, ImageSourceType } from './type'
@@ -246,8 +246,24 @@ const mergedSize = computed(() => {
   return props.size || formContext?.props?.size || 'default'
 })
 
-/** 文件列表 */
-const fileList = computed(() => props.modelValue || [])
+/**
+ * 组件内部文件列表副本
+ * @description 作为上传过程中的"单一数据源"，避免依赖 prop（modelValue）异步回流。
+ * emit update:modelValue 后 prop 不会同步更新，若直接读 prop 会读到旧列表，
+ * 导致上传状态/进度/url 丢失。所有变更先写内部副本，再统一 emit。
+ */
+const innerList = ref<UploadFileItem[]>([...(props.modelValue || [])])
+
+/** 外部 modelValue 变化时同步内部副本（如父组件主动重置列表） */
+watch(
+  () => props.modelValue,
+  (val) => {
+    innerList.value = [...(val || [])]
+  }
+)
+
+/** 文件列表（模板渲染以内部副本为准） */
+const fileList = computed(() => innerList.value)
 
 /** 是否显示上传按钮 */
 const isShowUpload = computed(() => {
@@ -353,17 +369,23 @@ function matchesAccept(file: UploadFileItem): boolean {
   return true
 }
 
-/** 更新文件列表并触发事件 */
+/** 更新文件列表并触发事件（先写内部副本，再 emit） */
 function updateFileList(list: UploadFileItem[]) {
+  innerList.value = list
   emit('update:modelValue', list)
   emit('onChange', list)
 }
 
-/** 更新单个文件的状态 */
-function updateFileStatus(index: number, updates: Partial<UploadFileItem>) {
-  const list = [...fileList.value]
-  if (list[index]) {
-    list[index] = { ...list[index], ...updates }
+/**
+ * 按 id 更新单个文件的状态
+ * @description 用 id 定位而非索引，避免上传过程中删除靠前项导致的索引错位，
+ * 且始终基于内部副本读写，不受 prop 异步回流影响。
+ */
+function updateFileStatusById(id: string, updates: Partial<UploadFileItem>) {
+  const list = [...innerList.value]
+  const idx = list.findIndex((f) => f.id === id)
+  if (idx !== -1) {
+    list[idx] = { ...list[idx], ...updates }
     updateFileList(list)
   }
 }
@@ -644,14 +666,17 @@ function getFileAccept(): string {
  * @title 执行上传
  * @description 调用自定义上传函数，更新文件状态和进度
  */
-async function performUpload(file: UploadFileItem, index: number): Promise<void> {
+async function performUpload(file: UploadFileItem): Promise<void> {
   if (!props.upload) return
 
-  updateFileStatus(index, { status: 'uploading', progress: 0, message: '' })
+  const id = file.id
+  if (!id) return
+
+  updateFileStatusById(id, { status: 'uploading', progress: 0, message: '' })
 
   try {
     const url = await props.upload(file)
-    updateFileStatus(index, {
+    updateFileStatusById(id, {
       status: 'done',
       url,
       progress: 100,
@@ -659,7 +684,7 @@ async function performUpload(file: UploadFileItem, index: number): Promise<void>
     })
   } catch (err) {
     const error = err instanceof Error ? err : new Error(String(err))
-    updateFileStatus(index, {
+    updateFileStatusById(id, {
       status: 'error',
       message: error.message || t('upload.fail')
     })
@@ -702,22 +727,19 @@ async function processFiles(selectedFiles: UploadFileItem[]) {
 
   if (validFiles.length === 0) return
 
-  // 合并到文件列表，记录新增文件的起始索引
-  const startIndex = fileList.value.length
-  const newList = [...fileList.value, ...validFiles]
+  // 合并到内部文件列表副本
+  const newList = [...innerList.value, ...validFiles]
   updateFileList(newList)
 
-  // 对每个新文件执行上传，使用计算好的索引 + 偏移量定位
-  for (let i = 0; i < validFiles.length; i++) {
-    const file = validFiles[i]
-    const currentIndex = startIndex + i
+  // 对每个新文件执行上传，全程用 id 定位，不受回流/删除导致的索引错位影响
+  for (const file of validFiles) {
+    // 执行上传（内部按 id 更新状态/进度/url）
+    await performUpload(file)
 
-    // 执行上传
-    await performUpload(file, currentIndex)
-
-    // afterRead 回调
+    // afterRead 回调，读取内部副本中最新的文件状态
     if (props.afterRead) {
-      props.afterRead(newList[currentIndex] || file)
+      const latest = file.id ? innerList.value.find((f) => f.id === file.id) : undefined
+      props.afterRead(latest || file)
     }
   }
 }

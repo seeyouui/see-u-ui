@@ -419,11 +419,8 @@ function handleOptionClick(node: CascaderNode): void {
   // 移除后续层级面板
   panels.value.splice(node.level + 1)
 
-  // 构建当前选中值路径
-  const selectedPath = panels.value.map((p) => p.selectedValue!).filter((v) => v != null)
-  emit('update:modelValue', selectedPath)
-  emit('onChange', selectedPath)
-
+  // 中间层点击仅更新内部 panels，不改写外部 modelValue；
+  // 仅在叶子确认或点击「确定」时才 emit（见 onConfirm）。
   if (node.isLeaf) {
     // 叶子节点，选中后直接确认
     nextTick(() => {
@@ -495,14 +492,18 @@ function handleTabClick(index: number): void {
 function onConfirm(): void {
   const selectedPath = panels.value.map((p) => p.selectedValue!).filter((v) => v != null)
   emit('update:modelValue', selectedPath)
+  emit('onChange', selectedPath)
   emit('onConfirm', selectedPath)
   close()
 }
 
 /**
  * 取消选择
+ * 中间层点击不会改写外部 modelValue，取消时按当前 modelValue 还原内部 panels，
+ * 丢弃打开期间的临时导航状态。
  */
 function onCancel(): void {
+  initPanelsFromValue()
   emit('onCancel')
   close()
 }
@@ -514,11 +515,22 @@ function onCancel(): void {
 watch(
   () => props.options,
   () => {
-    if (visible.value) {
-      initPanelsFromValue()
-    }
+    initPanelsFromValue()
   },
   { deep: false }
+)
+
+/**
+ * 监听 modelValue 变化，同步内部 panels/displayText。
+ * immediate: true 使组件挂载时即根据预设 modelValue 完成首屏回显；
+ * 关闭状态下外部改写 modelValue 也会同步触发区文案与内部状态。
+ */
+watch(
+  () => props.modelValue,
+  () => {
+    initPanelsFromValue()
+  },
+  { immediate: true, deep: false }
 )
 </script>
 

@@ -40,7 +40,7 @@
  * @event {Function} onClick 点击通知时触发
  * @event {Function} onClose 关闭时触发
  */
-import { computed, ref, watch, onUnmounted, nextTick } from 'vue'
+import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import type { SeeNotifyProps, SeeNotifyEmits, NotifyType } from './type'
 import { notifyManager } from './notify-manager'
 
@@ -69,6 +69,8 @@ let closeTimer: ReturnType<typeof setTimeout> | null = null
 let exitTimer: ReturnType<typeof setTimeout> | null = null
 /** 标记当前是否为命令式（manager）模式 */
 let isManagerMode = false
+/** 当前实例在 manager 中的注册 id */
+let instanceId = 0
 
 // ==================== 当前状态（支持命令式和组件式） ====================
 
@@ -229,9 +231,11 @@ watch(
 )
 
 // 监听 notifyManager.show（命令式调用）
+// 仅激活实例响应，避免多页面/常驻实例重复弹出
 watch(
   () => notifyManager.show.value,
   (val) => {
+    if (notifyManager.activeId.value !== instanceId) return
     if (val) {
       open(true) // 标记为命令式调用
     } else if (visible.value && isManagerMode) {
@@ -243,8 +247,13 @@ watch(
 
 // ==================== 生命周期 ====================
 
+onMounted(() => {
+  instanceId = notifyManager.register()
+})
+
 onUnmounted(() => {
   cleanupTimer()
+  notifyManager.unregister(instanceId)
 })
 
 // ==================== Expose ====================

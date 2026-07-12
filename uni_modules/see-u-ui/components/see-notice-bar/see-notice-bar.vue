@@ -90,7 +90,7 @@ const props = withDefaults(defineProps<SeeNoticeBarProps>(), {
   delay: 1000,
   isClosable: false,
   isShowIcon: true,
-  icon: 'volume',
+  icon: '',
   rightIcon: '',
   isShow: true,
   isPauseOnTouch: true,
@@ -113,7 +113,18 @@ let startTimer: ReturnType<typeof setTimeout> | null = null
 
 // ==================== 计算属性 ====================
 
-const iconName = computed(() => props.icon)
+// ==================== 图标映射 ====================
+
+const typeIconMap: Record<string, string> = {
+  info: 'i',
+  warning: '!',
+  error: '✕'
+}
+
+const iconName = computed(() => {
+  if (props.icon) return props.icon
+  return typeIconMap[props.type] || ''
+})
 
 const currentMessage = computed(() => {
   if (props.messages.length === 0) return props.text

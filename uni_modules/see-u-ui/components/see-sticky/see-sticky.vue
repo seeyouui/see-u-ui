@@ -1,6 +1,9 @@
 <template>
-  <view :class="['see-sticky', { 'see-sticky--fixed': isFixed }]" :style="stickyStyle">
-    <slot />
+  <!-- 占位容器：始终留在文档流中，fixed 时用它撑起原始高度，避免布局跳动 -->
+  <view class="see-sticky__placeholder" :style="placeholderStyle">
+    <view :class="['see-sticky', { 'see-sticky--fixed': isFixed }]" :style="stickyStyle">
+      <slot />
+    </view>
   </view>
 </template>
 
@@ -30,6 +33,8 @@ const emit = defineEmits<SeeStickyEmits>()
 
 const isFixed = ref(false)
 const scrollTop = ref(0)
+// 内容高度：fixed 时占位元素用它撑起原始高度，避免布局塌陷
+const contentHeight = ref(0)
 let ticking = false
 
 const stickyStyle = computed(() => {
@@ -44,17 +49,33 @@ const stickyStyle = computed(() => {
   }
 })
 
+// fixed 时占位元素保留原始高度，非 fixed 时高度由内容自然撑开
+const placeholderStyle = computed(() => {
+  if (!isFixed.value || contentHeight.value === 0) return {}
+  return { height: `${contentHeight.value}px` }
+})
+
 // 统一的滚动处理函数（使用 requestAnimationFrame 节流）
+// 关键：始终以占位元素(.see-sticky__placeholder)测量原始位置。
+// 内容切 fixed 后其自身 top 恒等于 offsetTop，无法用于判断退出吸顶；
+// 占位元素留在文档流中，其 top 能真实反映滚动位置，据此判断进入/退出。
 const handleScroll = (scrollPos?: number) => {
   if (!props.isEnabled || ticking) return
   ticking = true
   requestAnimationFrame(() => {
     const query = uni.createSelectorQuery()
+    query.select('.see-sticky__placeholder').boundingClientRect()
     query.select('.see-sticky').boundingClientRect()
     query.exec((res) => {
-      if (res && res[0]) {
-        const shouldFix = res[0].top <= props.offsetTop
-        scrollTop.value = scrollPos ?? res[0].top
+      const placeholderRect = res && res[0]
+      const contentRect = res && res[1]
+      if (placeholderRect) {
+        // 记录内容原始高度（未 fixed 时占位=内容高度）
+        if (!isFixed.value && contentRect && contentRect.height) {
+          contentHeight.value = contentRect.height
+        }
+        const shouldFix = placeholderRect.top <= props.offsetTop
+        scrollTop.value = scrollPos ?? placeholderRect.top
         if (shouldFix !== isFixed.value) {
           isFixed.value = shouldFix
           emit('onScroll', { isFixed: isFixed.value, scrollTop: scrollTop.value })
@@ -103,6 +124,10 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.see-sticky__placeholder {
+  box-sizing: border-box;
+}
+
 .see-sticky {
   box-sizing: border-box;
 

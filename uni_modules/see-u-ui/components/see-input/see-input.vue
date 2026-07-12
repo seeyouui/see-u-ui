@@ -209,6 +209,8 @@ const focused = ref(false)
 const passwordVisible = ref(false)
 /** 内部格式化后的显示值（formatter 存在时使用） */
 const formattedValue = ref('')
+/** number/digit 类型下用户原始输入串（保留 "1." "1.0" 等中间态，避免 Number 转换吞掉小数点） */
+const numericInputRaw = ref('')
 /** 控制 focus 属性的响应式标记（用于手动聚焦） */
 const needFocus = ref(false)
 
@@ -236,6 +238,16 @@ const mergedSize = computed(() => {
 const displayValue = computed(() => {
   if (props.formatter) {
     return formattedValue.value
+  }
+  // number/digit：优先展示用户原始输入串，保留 "1." "1.0" 等中间态
+  // 仅当原始串与当前 modelValue 字符串化后一致时才复用（handleInput 保证：
+  // 中间态时 modelValue 即原始串本身，完整数值时 String(number) 恰好等于原始串）；
+  // 若 modelValue 被外部改写则两者不等，自动回退到 String(modelValue)
+  if (props.type === 'number' || props.type === 'digit') {
+    const raw = numericInputRaw.value
+    if (raw !== '' && String(props.modelValue) === raw) {
+      return raw
+    }
   }
   return props.modelValue != null ? String(props.modelValue) : ''
 })
@@ -328,9 +340,13 @@ const handleInput = (event: InputEvent) => {
 
   // 数字类型转换
   if (props.type === 'number' || props.type === 'digit') {
-    if (value !== '' && value !== '-') {
+    // 记录用户原始输入串，供 displayValue 保留中间态（"1." "1.0" 等）
+    numericInputRaw.value = String(value)
+    // 仅当输入是完整、可解析的数值时才数值化对外 emit；
+    // 中间态（如 ""、"-"、"1."、"1.0"）保持字符串，避免 Number 转换吞掉小数点
+    if (value !== '' && value !== '-' && !/\.$/.test(String(value))) {
       const numVal = Number(value)
-      if (!isNaN(numVal)) {
+      if (!isNaN(numVal) && String(value) === String(numVal)) {
         value = numVal
       }
     }
@@ -400,6 +416,8 @@ const handleClear = () => {
   if (props.formatter) {
     formattedValue.value = ''
   }
+  // number/digit：清空原始输入串，避免残留中间态
+  numericInputRaw.value = ''
 
   // 清除后重新聚焦
   nextTick(() => {

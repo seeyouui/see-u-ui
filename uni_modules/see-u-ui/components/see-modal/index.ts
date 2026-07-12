@@ -1,4 +1,4 @@
-import { createApp, ref } from 'vue'
+import { createApp, h, ref } from 'vue'
 import { t } from '../../locale'
 import SeeModal from './see-modal.vue'
 import type { ModalOptions, ModalResult } from './type'
@@ -18,27 +18,33 @@ function showModal(options: ModalOptions): Promise<ModalResult> {
     document.body.appendChild(container)
 
     const visible = ref(true)
-    const app = createApp(SeeModal, {
-      show: visible.value,
-      'onUpdate:show': (val: boolean) => {
-        visible.value = val
-        if (!val) {
-          setTimeout(() => {
-            app.unmount()
-            container.remove()
-          }, 300)
-        }
-      },
-      title: options.title || '',
-      content: options.content || '',
-      confirmText: options.confirmText || t('modal.confirm'),
-      cancelText: options.cancelText || t('modal.cancel'),
-      isShowCancelBtn: options.isShowCancelBtn !== false,
-      confirmType: options.confirmType || 'primary',
-      beforeClose: options.beforeClose,
-      onConfirm: () => resolve({ confirm: true, cancel: false }),
-      onCancel: () => resolve({ confirm: false, cancel: true }),
-      isCloseOnClickOverlay: options.isCloseOnClickOverlay
+    // 用渲染函数包裹，使 show 响应式驱动：
+    // 关闭时 visible 置 false 会真正更新组件 show prop，从而播放关闭动画，动画结束后再卸载
+    const app = createApp({
+      render() {
+        return h(SeeModal, {
+          show: visible.value,
+          'onUpdate:show': (val: boolean) => {
+            visible.value = val
+            if (!val) {
+              setTimeout(() => {
+                app.unmount()
+                container.remove()
+              }, 300)
+            }
+          },
+          title: options.title || '',
+          content: options.content || '',
+          confirmText: options.confirmText || t('modal.confirm'),
+          cancelText: options.cancelText || t('modal.cancel'),
+          isShowCancelBtn: options.isShowCancelBtn !== false,
+          confirmType: options.confirmType || 'primary',
+          beforeClose: options.beforeClose,
+          onConfirm: () => resolve({ confirm: true, cancel: false }),
+          onCancel: () => resolve({ confirm: false, cancel: true }),
+          isCloseOnClickOverlay: options.isCloseOnClickOverlay
+        })
+      }
     })
 
     app.mount(container)

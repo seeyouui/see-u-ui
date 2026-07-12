@@ -55,6 +55,8 @@ const emit = defineEmits<SeeWaterfallEmits>()
 
 let observer: ReturnType<typeof uni.createIntersectionObserver> | null = null
 const instance = getCurrentInstance()
+// 加载中标志，用于防抖，避免 footer 持续可见时重复触发 onLoadMore
+let loading = false
 
 // 将数据按列分配（按索引轮询分配）
 const columnData = computed(() => {
@@ -82,6 +84,8 @@ const columnStyle = computed(() => ({
 // 使用 IntersectionObserver 监测 footer 是否进入视口，触发 onLoadMore
 const setupIntersectionObserver = () => {
   if (!props.hasMore || !instance) return
+  // 先断开旧的，避免重复 observe
+  cleanupIntersectionObserver()
 
   nextTick(() => {
     observer = uni.createIntersectionObserver(instance.proxy, {
@@ -91,21 +95,33 @@ const setupIntersectionObserver = () => {
     observer.relativeToViewport({ bottom: 100 })
 
     observer.observe('.see-waterfall__footer', (res) => {
-      if (res.intersectionRatio > 0) {
+      // 用 loading 标志防抖：命中后不断开 observer，仅在非加载中时触发一次
+      if (res.intersectionRatio > 0 && !loading) {
+        loading = true
         emit('onLoadMore')
-        // 触发后断开 observer，避免重复触发
-        cleanupIntersectionObserver()
       }
     })
   })
 }
 
-// 监听 hasMore 变化，重新 setup IntersectionObserver
+// 监听 hasMore 变化：为 true 时（重新）建立观察，为 false 时断开
 watch(
   () => props.hasMore,
   (val) => {
-    cleanupIntersectionObserver()
     if (val) {
+      setupIntersectionObserver()
+    } else {
+      cleanupIntersectionObserver()
+    }
+  }
+)
+
+// 数据或列变化视为本次加载完成：重置 loading 标志并重新观察，使持续下拉可连续加载
+watch(
+  () => [props.list.length, props.columns],
+  () => {
+    loading = false
+    if (props.hasMore) {
       setupIntersectionObserver()
     }
   }

@@ -23,12 +23,41 @@ class NotifyManager {
   /** 是否可关闭 */
   readonly isClosable: Ref<boolean> = ref(false)
 
+  /** 当前激活实例 id（仅该实例响应命令式调用，避免多实例重复弹出） */
+  readonly activeId: Ref<number> = ref(0)
+
   /** 点击回调 */
   private onClickCallback: (() => void) | null = null
   /** 关闭回调 */
   private onCloseCallback: (() => void) | null = null
   /** 自动关闭定时器 */
   private timer: ReturnType<typeof setTimeout> | null = null
+  /** 已挂载实例 id 栈（后进先出，最新挂载的为激活实例） */
+  private instanceStack: number[] = []
+  /** 实例 id 自增计数 */
+  private idSeed = 0
+
+  /**
+   * 注册组件实例，返回唯一 id，并将其设为激活实例
+   */
+  register(): number {
+    const id = ++this.idSeed
+    this.instanceStack.push(id)
+    this.activeId.value = id
+    return id
+  }
+
+  /**
+   * 注销组件实例，激活实例回退到栈中上一个
+   * @param id 实例 id
+   */
+  unregister(id: number) {
+    const idx = this.instanceStack.lastIndexOf(id)
+    if (idx !== -1) {
+      this.instanceStack.splice(idx, 1)
+    }
+    this.activeId.value = this.instanceStack[this.instanceStack.length - 1] ?? 0
+  }
 
   /**
    * 清除定时器

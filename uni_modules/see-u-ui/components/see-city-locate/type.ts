@@ -60,4 +60,6 @@ export interface SeeCityLocateEmits {
   (e: 'onLocate', city: CityInfo): void
   /** 定位失败 */
   (e: 'onLocateError', error: string): void
+  /** v-model 更新 */
+  (e: 'update:modelValue', city: CityInfo): void
 }
