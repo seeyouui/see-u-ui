@@ -1,3 +1,11 @@
+## 1.3.2（2026-07-13）
+
+> > - <Badge type="warning" text="修复" /> 安全：修复 Parse（H5 v-html 接入白名单+协议校验）、useHtmlParser（on\* 属性绕过）、Markdown（highlight 回调注入）三处 XSS
+> > - <Badge type="warning" text="修复" /> 跨端崩溃：Popup（document/rAF 守卫）、IndexList（rAF）、Modal（命令式响应式）、useGesture（H5 守卫）
+> > - <Badge type="warning" text="修复" /> v-model/受控：Cascader、Tree、CityLocate 接线与回显
+> > - <Badge type="warning" text="修复" /> 表单校验：useForm 误置 success、FormItem change/blur 自动校验、CheckboxGroup/RadioGroup formContext.props 路径
+> > - <Badge type="warning" text="修复" /> Input 小数输入、Navbar 显隐、Tabbar 安全区占位、Sticky 吸顶卡死、Tabs 指示器偏移、NoticeBar 图标、Toast/Notify 单例重复弹、Button onTap+ripple、Config 监听器泄漏、Upload 状态机、Image src 重置、Waterfall 加载更多
+
 ## 1.3.1（2026-06-11）
 
 > > - <Badge type="tip" text="新增" /> Parse 富文本解析器组件（跨平台 HTML 富文本解析与渲染，内置 XSS 安全过滤/图片预览/链接拦截/tagStyle 注入；H5 使用 v-html 直接渲染，App/小程序使用 rich-text + parsed nodes）
