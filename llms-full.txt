@@ -1,0 +1,3300 @@
+# SeeYouUI 完整组件 API (see-u-ui v1.3.2)
+
+基于 uni-app + Vue3 + TypeScript 的跨端组件库。以下为全部 84 个组件的属性、事件、插槽与示例。
+
+## 基础组件
+
+### Badge badge `<see-badge>`
+
+徽标数组件，用于显示未读消息数量、状态提示等，支持圆点/数字两种形式、主题色、最大值溢出、绝对定位与显隐动画
+文档: https://www.seeuui.cn/components/badge/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| value | `string \| number` | 否 |  |
+| type | `'info' \| 'primary' \| 'error' \| 'warning' \| 'success'` | 否 |  |
+| color | `string` | 否 |  |
+| bgColor | `string` | 否 |  |
+| max | `string \| number` | 否 |  |
+| isDot | `boolean` | 否 |  |
+| show | `boolean` | 否 |  |
+| showZero | `boolean` | 否 |  |
+| shape | `'circle' \| 'horn'` | 否 |  |
+| numberType | `'overflow' \| 'ellipsis' \| 'limit'` | 否 |  |
+| offset | `[number, number]` | 否 |  |
+| absolute | `boolean` | 否 |  |
+| inverted | `boolean` | 否 |  |
+| size | `number` | 否 |  |
+| dotSize | `number` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onClick | `-` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-badge :value="5" type="error"></see-badge>
+```
+```html
+<view style="position: relative;">
+  <see-icon />
+  <see-badge :isDot="true" type="success" :absolute="true" :offset="[0, 0]"></see-badge>
+</view>
+```
+
+### Button 按钮 `<see-button>`
+
+基于 uni-app button 二次封装，支持 5 种预置类型、4 种尺寸、镂空、水波纹与自定义颜色。
+文档: https://www.seeuui.cn/components/button/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| title | `string` | 否 | 按钮文本内容 |
+| loading | `boolean` | 否 | 是否加载中状态 |
+| loadingText | `string` | 否 | 加载中文案（默认跟随语言） |
+| size | `'default' \| 'large' \| 'small' \| 'mini'` | 否 | 按钮尺寸 |
+| type | `'info' \| 'primary' \| 'error' \| 'warning' \| 'success'` | 否 | 按钮预置样式类型 |
+| color | `string` | 否 | 自定义背景色（会覆盖 type 的默认颜色） |
+| textColor | `string` | 否 | 文本颜色 |
+| isRipple | `boolean` | 否 | 是否启用水波纹点击效果 |
+| rippleTime | `number` | 否 | 水波纹扩散动画时长（毫秒） |
+| maskTime | `number` | 否 | 水波纹淡出遮罩时长（毫秒，建议为 rippleTime 的 2 倍） |
+| isHollow | `boolean` | 否 | 是否为镂空按钮（反色按钮） |
+| rippleColor | `string` | 否 | 点击产生的涟漪颜色 |
+| rippleStyle | `CSSProperties \| null` | 否 | 涟漪的自定义 style |
+| customStyle | `CSSProperties \| null` | 否 | 自定义按钮 style |
+| hoverClass | `string \| null` | 否 | 点击时的 hover 样式 class（H5 & 小程序有效） |
+| border | `1 \| 0` | 否 | 边框开关（1 有边框，0 无边框） |
+| isDisabled | `boolean` | 否 | 是否禁用按钮 |
+| radius | `number` | 否 | 按钮圆角（px） |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| click | `event: unknown` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-button title="默认按钮" />
+```
+```html
+<see-button title="主要按钮" type="primary" @click="onClick" />
+```
+```html
+<see-button title="镂空" type="primary" isHollow />
+<see-button title="禁用" type="primary" isDisabled />
+```
+
+### Config config `<see-config>`
+
+全局配置注入组件，作为应用根容器提供主题（明暗）、主题色 CSS 变量与全局骨架屏能力，内容通过默认插槽渲染
+文档: https://www.seeuui.cn/components/config/
+
+**Slots**: `skeleton`, `default`
+
+**示例**
+
+```html
+<see-config>
+  <!-- 页面内容 -->
+  <slot></slot>
+</see-config>
+```
+
+### Icon 图标 `<see-icon>`
+
+图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现
+文档: https://www.seeuui.cn/components/icon/
+
+**示例**
+
+```html
+<see-icon />
+```
+
+### Image 图片 `<see-image>`
+
+基于 uni-app image 二次封装的图片组件，集成加载动画、错误占位、点击预览、遮罩层与淡入效果
+文档: https://www.seeuui.cn/components/image/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| src | `string` | 是 |  |
+| width | `string` | 否 |  |
+| height | `string` | 否 |  |
+| radius | `number` | 否 |  |
+| lazyLoad | `boolean` | 否 |  |
+| previewMode | `boolean` | 否 |  |
+| showMask | `boolean` | 否 |  |
+| maskColor | `string` | 否 |  |
+| maskOpacity | `number` | 否 |  |
+| fadeInDuration | `number` | 否 |  |
+| loadingText | `string` | 否 |  |
+| showErrorImage | `boolean` | 否 |  |
+| errorImage | `string` | 否 |  |
+| errorText | `string` | 否 |  |
+| showMenuByLongpress | `boolean` | 否 |  |
+| customStyle | `Record<string, any> \| null` | 否 |  |
+| previewTip | `string` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onLoad | `-` |  |
+| onError | `-` |  |
+| onClick | `-` |  |
+| onLongpress | `-` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-image src="https://www.seeuui.cn/logo.png" width="80px" height="80px" :radius="8" />
+```
+```html
+<see-image
+  src="https://www.seeuui.cn/logo.png"
+  width="120px"
+  height="120px"
+  :previewMode="true"
+  :showErrorImage="true"
+  errorImage="/static/error.png"
+  @on-click="onClick"
+/>
+```
+
+### Link 链接 `<see-link>`
+
+超链接文本组件，支持预置主题色、自定义颜色与下划线，点击可跳转 http/tel/mailto（小程序端复制链接到剪贴板）
+文档: https://www.seeuui.cn/components/link/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| text | `string \| number` | 否 |  |
+| type | `'info' \| 'primary' \| 'error' \| 'warning' \| 'success'` | 否 |  |
+| color | `string` | 否 |  |
+| href | `string` | 否 |  |
+| isLine | `boolean` | 否 |  |
+| lineColor | `string` | 否 |  |
+| size | `string \| number` | 是 |  |
+
+**示例**
+
+```html
+<see-link text="这是SeeYouUI的官方文档" type="primary" href="https://www.seeuui.cn" />
+<see-link text="自定义文字颜色" color="#52f7bd" href="https://www.seeuui.cn" />
+```
+```html
+<see-link text="带下划线的链接" type="primary" :isLine="true" :size="18" @on-click="onClick" />
+```
+
+### Tag 标签 `<see-tag>`
+
+标签组件，用于标记与分类，支持 6 种主题类型、dark/light/plain 三种效果、大小、圆角、可关闭与自定义颜色，文本通过默认插槽传入
+文档: https://www.seeuui.cn/components/tag/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| type | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | 否 |  |
+| size | `'small' \| 'default' \| 'large'` | 否 |  |
+| effect | `'dark' \| 'light' \| 'plain'` | 否 |  |
+| closable | `boolean` | 否 |  |
+| round | `boolean` | 否 |  |
+| color | `string` | 否 |  |
+| bgColor | `string` | 否 |  |
+| textColor | `string` | 否 |  |
+| borderColor | `string` | 否 |  |
+| isDisabled | `boolean` | 否 |  |
+| mark | `boolean` | 否 |  |
+| hit | `boolean` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onClick | `event: Event` |  |
+| onClose | `event: Event` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-tag>默认</see-tag>
+<see-tag type="primary">主要</see-tag>
+<see-tag type="success">成功</see-tag>
+<see-tag type="warning">警告</see-tag>
+<see-tag type="danger">危险</see-tag>
+<see-tag type="info">信息</see-tag>
+```
+```html
+<see-tag type="primary" effect="plain" :round="true" :closable="true" @on-close="onClose">标签</see-tag>
+```
+
+### Text 文本 `<see-text>`
+
+多功能文本组件，通过 mode 处理普通文本/链接/电话/日期/时间距今/金额，并支持数字滚动与打字机效果
+文档: https://www.seeuui.cn/components/text/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| text | `string \| number` | 否 |  |
+| type | `'info' \| 'primary' \| 'error' \| 'warning' \| 'success'` | 否 |  |
+| mode | `'text' \| 'link' \| 'phone' \| 'date' \| 'timeago' \| 'price'` | 否 |  |
+| color | `string` | 否 |  |
+| href | `string` | 否 |  |
+| phoneNumber | `string` | 否 |  |
+| date | `string \| number \| Date` | 否 |  |
+| dateFormat | `string` | 否 |  |
+| size | `string \| number` | 否 |  |
+| isCountUp | `boolean` | 否 |  |
+| countUp | `{` | 否 |  |
+| duration | `number` | 否 |  |
+| animateDuration | `number` | 否 |  |
+| decimals | `number` | 否 |  |
+| thousand | `boolean` | 否 |  |
+| isTextUp | `boolean` | 否 |  |
+| textUp | `{` | 否 |  |
+| speed | `number` | 否 |  |
+| showCursor | `boolean` | 否 |  |
+| autoStart | `boolean` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onClick | `-` |  |
+| onTextUpComplete | `-` |  |
+| onTextUpTyping | `currentText: string` |  |
+
+**示例**
+
+```html
+<see-text text="我的愿望是世界上没有加班" type="primary"></see-text>
+```
+```html
+<see-text :text="1299.99" mode="price" :isCountUp="true"></see-text>
+<see-text text="13800138000" mode="phone" type="primary"></see-text>
+```
+
+## 表单组件
+
+### Calendar 日历 `<see-calendar>`
+
+日历,支持单选/多选/范围三种选择模式,可设最小最大日期、自定义格子文案、月份水印及底部确认按钮
+文档: https://www.seeuui.cn/components/calendar/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `Date \| string \| number \| Date[] \| string[] \| number[] \| null \| undefined \| ''` | 否 |  |
+| mode | `'single' \| 'multiple' \| 'range'` | 否 |  |
+| minDate | `Date \| string \| number` | 否 |  |
+| maxDate | `Date \| string \| number` | 否 |  |
+| defaultDate | `Date \| string \| number` | 否 |  |
+| firstDayOfWeek | `FirstDayOfWeek` | 否 |  |
+| formatter | `(day: CalendarDay) => CalendarDay` | 否 |  |
+| maxRange | `number` | 否 |  |
+| allowSameDay | `boolean` | 否 |  |
+| rowHeight | `number \| string` | 否 |  |
+| isShowMark | `boolean` | 否 |  |
+| isShowTitle | `boolean` | 否 |  |
+| isShowSubtitle | `boolean` | 否 |  |
+| isReadonly | `boolean` | 否 |  |
+| name | `string` | 否 |  |
+| title | `string` | 否 |  |
+| subtitle | `string` | 否 |  |
+| confirmText | `string` | 否 |  |
+| confirmDisabledText | `string` | 否 |  |
+| isShowConfirm | `boolean` | 否 |  |
+| monthsCount | `number` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: Date \| Date[]` |  |
+| onSelect | `value: Date \| Date[]` |  |
+| onConfirm | `value: Date \| Date[]` |  |
+| onClickDay | `day: CalendarDay` |  |
+| onOverRange | `-` |  |
+| onMonthShow | `info: { year: number; month: number }` |  |
+
+**Slots**: `title`, `subtitle`, `footer`
+
+**示例**
+
+```html
+<see-calendar v-model="date" mode="single" @on-confirm="handleConfirm" />
+```
+```html
+<see-calendar v-model="range" mode="range" :max-range="7" is-show-confirm />
+```
+
+### Cascader 级联选择器 `<see-cascader>`
+
+级联选择器,逐级选择有层级关系的选项,v-model 绑定值路径数组,支持懒加载、自定义键名、toolbar 与标签页切换
+文档: https://www.seeuui.cn/components/cascader/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `(string \| number)[]` | 否 | 选中值路径数组（v-model） |
+| options | `CascaderOption[]` | 否 | 选项数据（树形结构） |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isShowToolbar | `boolean` | 否 | 是否显示 toolbar |
+| toolbarTitle | `string` | 否 | toolbar 标题 |
+| confirmText | `string` | 否 | 确认按钮文字 |
+| cancelText | `string` | 否 | 取消按钮文字 |
+| valueKey | `string` | 否 | 值键名 |
+| labelKey | `string` | 否 | 标签键名 |
+| childrenKey | `string` | 否 | 子选项键名 |
+| isLazy | `boolean` | 否 | 是否懒加载子选项 |
+| lazyLoad | `(node: CascaderOption) => Promise<CascaderOption[]>` | 否 | 懒加载函数 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| name | `string` | 否 | 表单字段名 |
+| isShowTab | `boolean` | 否 | 是否显示标签页 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: (string \| number)[]` | 值变化时触发 |
+| onConfirm | `value: (string \| number)[]` | 确认时触发 |
+| onCancel | `-` | 取消时触发 |
+| onTabChange | `index: number` | 切换层级 tab 时触发 |
+| update:modelValue | `value: (string \| number)[]` | v-model 更新 |
+
+**示例**
+
+```html
+<see-cascader v-model="value" :options="options" @on-confirm="handleConfirm" />
+```
+```html
+<see-cascader v-model="value" :options="options" is-lazy :lazy-load="loadChildren" />
+```
+
+### Checkbox 复选框 `<see-checkbox>`
+
+复选框,可单独使用绑定布尔值,也可置于 see-checkbox-group 内多选,支持半选、边框、选中色与尺寸
+文档: https://www.seeuui.cn/components/checkbox/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `boolean` | 否 | 绑定值（v-model） |
+| label | `string \| number \| boolean` | 否 | 选中状态的值（用于 CheckboxGroup） |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isIndeterminate | `boolean` | 否 | 半选状态（全选场景） |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| checkedColor | `string` | 否 | 选中时颜色 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| update:modelValue | `value: boolean` | v-model 更新 |
+| onChange | `value: boolean` | 状态变化时触发 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-checkbox v-model="checked">同意协议</see-checkbox>
+```
+```html
+<see-checkbox-group v-model="list">
+  <see-checkbox label="a">选项A</see-checkbox>
+  <see-checkbox label="b">选项B</see-checkbox>
+</see-checkbox-group>
+```
+
+### Checkbox 复选框 `<see-checkbox-group>`
+
+复选框组容器,统一管理内部 see-checkbox 的多选状态,v-model 绑定数组,支持最多/最少可选数量、整组禁用与行内排列
+文档: https://www.seeuui.cn/components/checkbox/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `(string \| number \| boolean)[]` | 否 | 绑定值数组（v-model） |
+| isDisabled | `boolean` | 否 | 是否禁用整组 |
+| isReadonly | `boolean` | 否 | 是否只读整组 |
+| max | `number` | 否 | 最多可选数量 |
+| min | `number` | 否 | 最少可选数量 |
+| size | `CheckboxSize` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| isInline | `boolean` | 否 | 是否行内排列 |
+| checkedColor | `string` | 否 | 选中时颜色 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `values: (string \| number \| boolean)[]` | 值变化时触发 |
+| update:modelValue | `values: (string \| number \| boolean)[]` | v-model 更新 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-checkbox-group v-model="list" @on-change="handleChange">
+  <see-checkbox label="a">选项A</see-checkbox>
+  <see-checkbox label="b">选项B</see-checkbox>
+</see-checkbox-group>
+```
+```html
+<see-checkbox-group v-model="list" :max="2">
+  <see-checkbox label="a">A</see-checkbox>
+  <see-checkbox label="b">B</see-checkbox>
+  <see-checkbox label="c">C</see-checkbox>
+</see-checkbox-group>
+```
+
+### Code 验证码输入框 `<see-code>`
+
+验证码/短密码输入框,固定格数分格显示,支持 box/line/bottom 样式、遮罩圆点、数字或文本键盘及输入完成回调
+文档: https://www.seeuui.cn/components/code/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string` | 否 | 绑定值（v-model） |
+| length | `number` | 否 | 验证码长度 |
+| isFocus | `boolean` | 否 | 是否自动聚焦 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| type | `'box' \| 'line' \| 'bottom'` | 否 | 显示类型：方框/底线/下划线 |
+| isMask | `boolean` | 否 | 输入时是否遮罩（显示为圆点） |
+| gap | `number` | 否 | 格子间距，单位 rpx |
+| name | `string` | 否 | 表单字段名 |
+| keyboard | `'number' \| 'text'` | 否 | 键盘类型 |
+| isCursor | `boolean` | 否 | 是否显示光标闪烁动画 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: string` | 值变化时触发 |
+| onComplete | `value: string` | 输入完成时触发（达到指定长度） |
+| onFocus | `-` | 聚焦时触发 |
+| onBlur | `-` | 失焦时触发 |
+| update:modelValue | `value: string` | v-model 更新 |
+
+**示例**
+
+```html
+<see-code v-model="code" :length="4" @on-complete="handleComplete" />
+```
+```html
+<see-code v-model="code" :length="6" is-mask type="line" />
+```
+
+### DatetimePicker 日期选择器 `<see-datetime-picker>`
+
+日期时间选择器,滚轮选择,支持 date/time/datetime/year-month/month-day 类型,可限定最小最大日期时间与秒显示
+文档: https://www.seeuui.cn/components/datetime-picker/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `Date \| string \| number` | 否 | 绑定值 |
+| type | `'date' \| 'time' \| 'datetime' \| 'year-month' \| 'month-day'` | 否 | 选择器类型 |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isShowToolbar | `boolean` | 否 | 是否显示 toolbar |
+| toolbarTitle | `string` | 否 | toolbar 标题 |
+| confirmText | `string` | 否 | 确认按钮文字 |
+| cancelText | `string` | 否 | 取消按钮文字 |
+| minDate | `Date \| string \| number` | 否 | 最小日期 |
+| maxDate | `Date \| string \| number` | 否 | 最大日期 |
+| minHour | `number` | 否 | 最小小时 |
+| maxHour | `number` | 否 | 最大小时 |
+| minMinute | `number` | 否 | 最小分钟 |
+| maxMinute | `number` | 否 | 最大分钟 |
+| isShowSeconds | `boolean` | 否 | 是否显示秒 |
+| formatter | `(type: ColumnType, value: string) => string` | 否 | 自定义格式化函数 |
+| filter | `(type: ColumnType, values: string[]) => string[]` | 否 | 自定义过滤函数 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: Date` | 值变化时触发 |
+| onConfirm | `value: Date` | 确认时触发 |
+| onCancel | `-` | 取消时触发 |
+| update:modelValue | `value: Date` | v-model 更新 |
+
+**示例**
+
+```html
+<see-datetime-picker v-model="value" type="date" @on-confirm="handleConfirm" />
+```
+```html
+<see-datetime-picker v-model="value" type="datetime" :min-date="minDate" :max-date="maxDate" />
+```
+
+### Form 表单 `<see-form>`
+
+表单容器,通过 model 绑定数据、rules 定义校验规则,统一管理内部 see-form-item 的标签位置、尺寸、禁用与整体校验/重置
+文档: https://www.seeuui.cn/components/form/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| model | `Record<string, unknown>` | 是 | 表单数据对象（必填） |
+| rules | `Record<string, FormRule \| FormRule[]>` | 否 | 校验规则 |
+| labelPosition | `'left' \| 'right' \| 'top'` | 否 | 标签位置 |
+| labelWidth | `string \| number` | 否 | 标签宽度 |
+| isDisabled | `boolean` | 否 | 是否禁用整组 |
+| isReadonly | `boolean` | 否 | 是否只读整组 |
+| isRequiredAsterisk | `boolean` | 否 | 是否显示必填星号 |
+| isShowMessage | `boolean` | 否 | 是否显示校验错误信息 |
+| isInline | `boolean` | 否 | 是否行内模式 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| validate | `result: ValidateResult` | 全表单校验完成后触发 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-form :model="formData" :rules="rules" ref="formRef">
+  <see-form-item label="用户名" field="username">
+    <see-input v-model="formData.username" placeholder="请输入用户名" />
+  </see-form-item>
+</see-form>
+```
+
+### Form 表单 `<see-form-item>`
+
+表单项,配合 see-form 使用,通过 field 关联字段,提供标签、必填星号、校验错误提示,支持覆盖标签宽度/位置与自定义规则
+文档: https://www.seeuui.cn/components/form/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| label | `string` | 否 | 标签文本 |
+| field | `string` | 否 | 字段名（用于校验和重置） |
+| labelWidth | `string \| number` | 否 | 标签宽度（覆盖 Form 级别） |
+| labelPosition | `LabelPosition` | 否 | 标签位置（覆盖 Form 级别） |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| rules | `FormRule \| FormRule[]` | 否 | 该字段的校验规则（覆盖 Form 级别） |
+| isShowMessage | `boolean` | 否 | 是否显示错误信息 |
+| isRequired | `boolean` | 否 | 是否必填（覆盖自动检测） |
+
+**Slots**: `label`, `default`, `error`
+
+**示例**
+
+```html
+<see-form-item label="用户名" field="username">
+  <see-input v-model="formData.username" placeholder="请输入用户名" />
+</see-form-item>
+```
+```html
+<see-form-item label="手机号" field="phone" :rules="phoneRules" is-required>
+  <see-input v-model="formData.phone" />
+</see-form-item>
+```
+
+### Input 输入框 `<see-input>`
+
+文本输入框，支持 text/number/password 等类型、清除按钮、字数统计、前后缀图标、密码切换及格式化，可接入表单校验
+文档: https://www.seeuui.cn/components/input/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number` | 否 | 绑定值 |
+| type | `'text' \| 'number' \| 'password' \| 'digit' \| 'tel' \| 'idcard'` | 否 | 输入类型 |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isClearable | `boolean` | 否 | 是否显示清除按钮 |
+| maxlength | `number` | 否 | 最大输入长度 |
+| isShowWordLimit | `boolean` | 否 | 是否显示字数统计 |
+| prefixIcon | `string` | 否 | 前缀图标 |
+| suffixIcon | `string` | 否 | 后缀图标 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| isFocus | `boolean` | 否 | 是否自动聚焦 |
+| inputStyle | `CSSProperties` | 否 | 自定义输入框样式 |
+| name | `string` | 否 | 表单字段名 |
+| formatter | `(value: string) => string` | 否 | 输入格式化函数 |
+| parser | `(value: string) => string` | 否 | 格式化内容解析函数 |
+| isShowPassword | `boolean` | 否 | 是否显示密码切换按钮 |
+| autocomplete | `string` | 否 | 自动完成（H5） |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onInput | `value: string \| number` | 输入时触发 |
+| onFocus | `event: InputEvent` | 聚焦时触发 |
+| onBlur | `event: InputEvent` | 失焦时触发 |
+| onClear | `-` | 清除时触发 |
+| onChange | `value: string \| number` | 值变化时触发（失焦后） |
+| onConfirm | `value: string \| number` | 键盘确认时触发 |
+| onKeyboardHeightChange | `height: number` | 键盘高度变化时触发 |
+| update:modelValue | `value: string \| number` | v-model 更新 |
+
+**Slots**: `prefix`, `suffix`
+
+**示例**
+
+```html
+<see-input v-model="value" placeholder="请输入内容" />
+```
+```html
+<see-input v-model="pwd" type="password" is-show-password is-clearable placeholder="请输入密码" />
+```
+
+### Keyboard 键盘 `<see-keyboard>`
+
+自定义弹出键盘,支持 number/card/idcard/text 类型、安全随机排列、toolbar、确认删除按钮及遮罩安全区适配
+文档: https://www.seeuui.cn/components/keyboard/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `boolean` | 否 | 是否显示键盘（v-model） |
+| type | `'number' \| 'card' \| 'idcard' \| 'text'` | 否 | 键盘类型 |
+| isShowToolbar | `boolean` | 否 | 是否显示顶部 toolbar |
+| confirmText | `string` | 否 | 确认按钮文字 |
+| isShowConfirm | `boolean` | 否 | 是否显示确认按钮 |
+| isShowDelete | `boolean` | 否 | 是否显示删除按钮 |
+| isRandom | `boolean` | 否 | 数字是否随机排列（安全键盘） |
+| isOverlay | `boolean` | 否 | 是否显示遮罩层 |
+| overlayStyle | `CSSProperties` | 否 | 遮罩层自定义样式 |
+| isCloseOnClickOverlay | `boolean` | 否 | 点击遮罩是否关闭 |
+| isSafeArea | `boolean` | 否 | 是否适配底部安全区域 |
+| title | `string` | 否 | toolbar 标题 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onInput | `key: string` | 按键输入时触发 |
+| onDelete | `-` | 删除时触发 |
+| onConfirm | `-` | 确认时触发 |
+| onClose | `-` | 关闭时触发 |
+| onOpen | `-` | 打开时触发 |
+| update:modelValue | `value: boolean` | v-model 更新 |
+
+**Slots**: `toolbar`
+
+**示例**
+
+```html
+<see-keyboard v-model="show" type="number" @on-input="handleInput" @on-delete="handleDelete" />
+```
+```html
+<see-keyboard v-model="show" type="idcard" is-show-confirm confirm-text="完成" @on-confirm="handleConfirm" />
+```
+
+### NumberBox 步进器 `<see-number-box>`
+
+数字步进器，通过加减按钮或输入调整数值，支持最小/最大值、步长、小数位数、异步模式与尺寸
+文档: https://www.seeuui.cn/components/number-box/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `number` | 否 | 绑定值 |
+| min | `number` | 否 | 最小值 |
+| max | `number` | 否 | 最大值 |
+| step | `number` | 否 | 步长 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isDisabledInput | `boolean` | 否 | 是否禁用输入框（仅禁用输入，按钮可用） |
+| isDisabledPlus | `boolean` | 否 | 是否禁用增加按钮 |
+| isDisabledMinus | `boolean` | 否 | 是否禁用减少按钮 |
+| decimalLength | `number` | 否 | 保留小数位数 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| inputWidth | `number` | 否 | 输入框宽度，单位 rpx |
+| isAsync | `boolean` | 否 | 是否异步模式（外部控制值） |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: number` | 值变化时触发 |
+| onOverlimit | `-` | 超出限制时触发 |
+| onPlus | `-` | 点击增加按钮触发 |
+| onMinus | `-` | 点击减少按钮触发 |
+| onFocus | `-` | 输入框聚焦触发 |
+| onBlur | `-` | 输入框失焦触发 |
+| update:modelValue | `value: number` | v-model 更新 |
+
+**示例**
+
+```html
+<see-number-box v-model="value" />
+```
+```html
+<see-number-box v-model="value" :min="1" :max="10" :step="2" @on-change="handleChange" />
+```
+
+### Picker 选择器 `<see-picker>`
+
+滚轮选择器,支持单列、多列及联动三种模式,通过 columns 传选项,可自定义键名、toolbar 与可见项数
+文档: https://www.seeuui.cn/components/picker/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number \| (string \| number)[]` | 否 | 绑定值（v-model） |
+| columns | `PickerColumn[] \| PickerOption[]` | 否 | 选项数据（单列传 PickerOption[]，多列传 PickerOption[][]） |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isShowToolbar | `boolean` | 否 | 是否显示顶部 toolbar |
+| toolbarTitle | `string` | 否 | toolbar 标题 |
+| confirmText | `string` | 否 | 确认按钮文字 |
+| cancelText | `string` | 否 | 取消按钮文字 |
+| isCascade | `boolean` | 否 | 是否联动模式 |
+| valueKey | `string` | 否 | 值键名 |
+| labelKey | `string` | 否 | 标签键名 |
+| childrenKey | `string` | 否 | 子选项键名 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| name | `string` | 否 | 表单字段名 |
+| visibleItemCount | `number` | 否 | 可见选项数 |
+| isAsync | `boolean` | 否 | 是否异步加载 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: string \| number \| (string \| number)[], index: number` | 选中值变化时触发 |
+| onConfirm | `value: string \| number \| (string \| number)[]` | 确认时触发 |
+| onCancel | `-` | 取消时触发 |
+| onColumnChange | `index: number` | 列变化时触发（联动模式） |
+| update:modelValue | `value: string \| number \| (string \| number)[]` | v-model 更新 |
+
+**示例**
+
+```html
+<see-picker v-model="value" :columns="columns" @on-confirm="handleConfirm" />
+```
+```html
+<see-picker v-model="value" :columns="columns" is-cascade />
+```
+
+### Radio 单选框 `<see-radio>`
+
+单选框,通过 label 指定选项值,通常置于 see-radio-group 内实现单选,支持边框、选中色与尺寸
+文档: https://www.seeuui.cn/components/radio/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| label | `string \| number \| boolean` | 否 | 选项值 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| checkedColor | `string` | 否 | 选中时颜色 |
+| name | `string` | 否 | 表单字段名 |
+| modelValue | `string \| number \| boolean` | 否 | v-model 绑定值（独立使用时） |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-radio-group v-model="selected">
+  <see-radio label="a">选项一</see-radio>
+  <see-radio label="b">选项二</see-radio>
+</see-radio-group>
+```
+
+### Radio 单选框 `<see-radio-group>`
+
+单选框组容器,统一管理内部 see-radio 的单选状态,v-model 绑定选中值,支持整组禁用/只读、行内排列与选中色
+文档: https://www.seeuui.cn/components/radio/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number \| boolean` | 否 | 绑定值（v-model） |
+| isDisabled | `boolean` | 否 | 是否禁用整组 |
+| isReadonly | `boolean` | 否 | 是否只读整组 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| isInline | `boolean` | 否 | 是否行内排列 |
+| checkedColor | `string` | 否 | 选中时颜色 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: string \| number \| boolean` | 值变化时触发 |
+| update:modelValue | `value: string \| number \| boolean` | v-model 更新 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-radio-group v-model="selected" @on-change="handleChange">
+  <see-radio label="a">选项一</see-radio>
+  <see-radio label="b">选项二</see-radio>
+</see-radio-group>
+```
+
+### Rate 评分 `<see-rate>`
+
+星级评分，支持自定义星星数量、半星、颜色、图标、间距，可只读展示或点击清除
+文档: https://www.seeuui.cn/components/rate/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `number` | 否 | 绑定值 |
+| count | `number` | 否 | 星星总数 |
+| size | `number` | 否 | 星星大小，单位 px |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| allowHalf | `boolean` | 否 | 是否允许半星 |
+| isClearable | `boolean` | 否 | 是否允许再次点击清除 |
+| color | `string` | 否 | 选中颜色 |
+| voidColor | `string` | 否 | 未选中颜色 |
+| icon | `string` | 否 | 选中图标 |
+| voidIcon | `string` | 否 | 未选中图标 |
+| gap | `number` | 否 | 星星间距，单位 px |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: number` |  |
+| update:modelValue | `value: number` |  |
+
+**示例**
+
+```html
+<see-rate v-model="value" />
+```
+```html
+<see-rate v-model="value" :count="5" allow-half @on-change="handleChange" />
+```
+
+### Search 搜索 `<see-search>`
+
+搜索框，支持占位提示、清除按钮、右侧操作按钮、round/square 形状及尺寸，键盘确认触发搜索
+文档: https://www.seeuui.cn/components/search/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string` | 否 | 绑定值 |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isClearable | `boolean` | 否 | 是否显示清除按钮 |
+| isShowAction | `boolean` | 否 | 是否显示右侧操作按钮 |
+| actionText | `string` | 否 | 操作按钮文字 |
+| isFocus | `boolean` | 否 | 是否自动聚焦 |
+| shape | `'round' \| 'square'` | 否 | 搜索框形状 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| bgColor | `string` | 否 | 搜索框背景色 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onInput | `value: string` | 输入时触发 |
+| onChange | `value: string` | 值变化时触发 |
+| onFocus | `event: { detail?: { value?: string } }` | 聚焦时触发 |
+| onBlur | `event: { detail?: { value?: string } }` | 失焦时触发 |
+| onClear | `-` | 清除时触发 |
+| onSearch | `value: string` | 搜索时触发（键盘确认） |
+| onCancel | `-` | 取消时触发 |
+| update:modelValue | `value: string` | v-model 更新 |
+
+**Slots**: `left`, `right`
+
+**示例**
+
+```html
+<see-search v-model="value" placeholder="请输入搜索内容" @on-search="handleSearch" />
+```
+```html
+<see-search v-model="value" is-show-action action-text="搜索" @on-cancel="handleCancel" />
+```
+
+### Select 经典下拉框 `<see-select>`
+
+下拉选择器,支持单选/多选、搜索过滤、远程搜索、分组、清除及标签数限制,options 用 label/value 结构
+文档: https://www.seeuui.cn/components/select/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number \| (string \| number)[]` | 否 | 绑定值（v-model） |
+| options | `SelectOption[]` | 否 | 选项列表 |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isClearable | `boolean` | 否 | 是否可清除 |
+| isMultiple | `boolean` | 否 | 是否多选 |
+| isFilterable | `boolean` | 否 | 是否可搜索 |
+| filterMethod | `(query: string, option: SelectOption) => boolean` | 否 | 自定义过滤方法 |
+| isRemote | `boolean` | 否 | 是否远程搜索 |
+| remoteMethod | `(query: string) => void` | 否 | 远程搜索方法 |
+| loading | `boolean` | 否 | 是否加载中 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| maxTagCount | `number` | 否 | 多选时最多显示标签数 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| name | `string` | 否 | 表单字段名 |
+| valueKey | `string` | 否 | 选项值的键名 |
+| labelKey | `string` | 否 | 选项标签的键名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: string \| number \| (string \| number)[]` | 值变化时触发 |
+| onVisibleChange | `visible: boolean` | 下拉框显示/隐藏时触发 |
+| onRemoveTag | `value: string \| number` | 多选移除标签时触发 |
+| onClear | `-` | 清除时触发 |
+| onSearch | `query: string` | 搜索时触发 |
+| update:modelValue | `value: string \| number \| (string \| number)[]` | v-model 更新 |
+
+**Slots**: `prefix`, `default`, `empty`
+
+**示例**
+
+```html
+<see-select v-model="value" :options="options" placeholder="请选择" @on-change="handleChange" />
+```
+```html
+<see-select v-model="list" :options="options" is-multiple is-filterable is-clearable />
+```
+
+### Slider 滑动选择器 `<see-slider>`
+
+滑动选择器，拖动滑块选择数值，支持范围选择、垂直模式、步长刻度、值展示与自定义颜色
+文档: https://www.seeuui.cn/components/slider/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `number \| number[]` | 否 | 绑定值 |
+| min | `number` | 否 | 最小值 |
+| max | `number` | 否 | 最大值 |
+| step | `number` | 否 | 步长 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isRange | `boolean` | 否 | 是否范围选择 |
+| isVertical | `boolean` | 否 | 是否垂直模式 |
+| barHeight | `number` | 否 | 进度条高度，单位 px |
+| activeColor | `string` | 否 | 已选部分颜色 |
+| inactiveColor | `string` | 否 | 未选部分颜色 |
+| isShowValue | `boolean` | 否 | 是否显示当前值 |
+| isShowStep | `boolean` | 否 | 是否显示步长刻度 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: number \| number[]` | 值变化时触发 |
+| onDragStart | `-` | 开始拖动时触发 |
+| onDragEnd | `-` | 结束拖动时触发 |
+| update:modelValue | `value: number \| number[]` | v-model 更新 |
+
+**示例**
+
+```html
+<see-slider v-model="value" :min="0" :max="100" />
+```
+```html
+<see-slider v-model="range" is-range is-show-value @on-change="handleChange" />
+```
+
+### Switch 开关选择器 `<see-switch>`
+
+开关选择器，在开/关两种对立状态间切换，支持自定义选中值、颜色、文字描述与 small/default/large 尺寸
+文档: https://www.seeuui.cn/components/switch/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `boolean \| string \| number` | 否 | 绑定值 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| activeColor | `string` | 否 | 选中时背景色 |
+| inactiveColor | `string` | 否 | 未选中时背景色 |
+| activeValue | `boolean \| string \| number` | 否 | 选中时的值 |
+| inactiveValue | `boolean \| string \| number` | 否 | 未选中时的值 |
+| activeText | `string` | 否 | 选中时的文字描述 |
+| inactiveText | `string` | 否 | 未选中时的文字描述 |
+| name | `string` | 否 | 表单字段名 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `value: boolean \| string \| number` | 状态变化时触发 |
+| onClick | `-` | 点击时触发 |
+| update:modelValue | `value: boolean \| string \| number` | v-model 更新 |
+
+**Slots**: `active`, `inactive`
+
+**示例**
+
+```html
+<see-switch v-model="value" />
+```
+```html
+<see-switch v-model="value" active-text="开" inactive-text="关" active-color="#07c160" @on-change="handleChange" />
+```
+
+### Textarea 文本域 `<see-textarea>`
+
+多行文本域，支持字数统计、自动增高、指定行数、清除按钮及键盘确认类型，可接入表单校验
+文档: https://www.seeuui.cn/components/textarea/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string` | 否 | 绑定值（v-model） |
+| placeholder | `string` | 否 | 占位符 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| maxlength | `number` | 否 | 最大输入长度（-1 表示不限制） |
+| isShowWordLimit | `boolean` | 否 | 是否显示字数统计 |
+| rows | `number` | 否 | 行数 |
+| isAutoHeight | `boolean` | 否 | 是否自动增高 |
+| isBorder | `boolean` | 否 | 是否显示边框 |
+| isFocus | `boolean` | 否 | 是否自动聚焦 |
+| isClearable | `boolean` | 否 | 是否显示清除按钮 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| name | `string` | 否 | 表单字段名 |
+| inputStyle | `CSSProperties` | 否 | 自定义输入框样式 |
+| confirmType | `'return' \| 'send' \| 'search' \| 'next' \| 'go'` | 否 | 键盘右下角按钮文字 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onInput | `value: string` | 输入时触发 |
+| onFocus | `event: TextareaInputEvent` | 聚焦时触发 |
+| onBlur | `event: TextareaInputEvent` | 失焦时触发 |
+| onClear | `-` | 清除时触发 |
+| onChange | `value: string` | 值变化时触发（失焦后） |
+| onConfirm | `value: string` | 键盘确认时触发 |
+| onKeyboardHeightChange | `height: number` | 键盘高度变化时触发 |
+| onLineChange | `lines: number` | 行数变化时触发 |
+| update:modelValue | `value: string` | v-model 更新 |
+
+**示例**
+
+```html
+<see-textarea v-model="value" placeholder="请输入内容" />
+```
+```html
+<see-textarea v-model="value" :maxlength="200" is-show-word-limit is-auto-height />
+```
+
+### Upload 上传 `<see-upload>`
+
+文件上传,v-model 绑定文件列表,支持图片/视频/文件类型、多选、数量与大小限制、预览、删除、压缩及自定义上传函数
+文档: https://www.seeuui.cn/components/upload/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `UploadFileItem[]` | 否 | 文件列表（v-model） |
+| accept | `'image' \| 'video' \| 'file' \| 'media'` | 否 | 接受的文件类型 |
+| isMultiple | `boolean` | 否 | 是否支持多选 |
+| maxCount | `number` | 否 | 最大文件数量 |
+| maxSize | `number` | 否 | 单个文件大小限制，单位 MB |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| isReadonly | `boolean` | 否 | 是否只读 |
+| isDeletable | `boolean` | 否 | 是否显示删除按钮 |
+| isPreview | `boolean` | 否 | 是否支持预览 |
+| isCompress | `boolean` | 否 | 是否压缩图片 |
+| compressQuality | `number` | 否 | 压缩质量 0-100 |
+| isCapture | `boolean` | 否 | 是否直接调用摄像头 |
+| isCamera | `boolean` | 否 | 是否使用前置摄像头 |
+| sizeType | `ImageSizeType[]` | 否 | 图片压缩类型 |
+| sourceType | `ImageSourceType[]` | 否 | 图片来源 |
+| upload | `(file: UploadFileItem) => Promise<string>` | 否 | 自定义上传函数 |
+| beforeRead | `(file: UploadFileItem) => boolean \| Promise<boolean>` | 否 | 上传前校验 |
+| afterRead | `(file: UploadFileItem) => void` | 否 | 上传后回调 |
+| isPreviewImage | `boolean` | 否 | 是否支持图片预览 |
+| name | `string` | 否 | 表单字段名 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| uploadText | `string` | 否 | 上传按钮文字 |
+| uploadIcon | `string` | 否 | 上传图标 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `fileList: UploadFileItem[]` | 文件列表变化时触发 |
+| onOversize | `file: UploadFileItem` | 文件超出大小限制时触发 |
+| onDelete | `file: UploadFileItem` | 删除文件时触发 |
+| onPreview | `file: UploadFileItem` | 预览文件时触发 |
+| onClickUpload | `-` | 点击上传区域时触发 |
+| onError | `error: Error` | 上传失败时触发 |
+| update:modelValue | `fileList: UploadFileItem[]` | v-model 更新 |
+
+**Slots**: `preview`, `preview-delete`, `default`
+
+**示例**
+
+```html
+<see-upload v-model="fileList" accept="image" :max-count="9" @on-change="handleChange" />
+```
+```html
+<see-upload v-model="fileList" :max-size="5" :upload="customUpload" @on-oversize="handleOversize" />
+```
+
+## 布局组件
+
+### Box 盒子 `<see-box>`
+
+基础布局容器，通过属性快捷配置内边距、外边距、背景色、圆角、阴影、边框，并内置 Flex 布局（方向/对齐/换行/间距）。
+文档: https://www.seeuui.cn/components/box/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| padding | `string` | 否 | @default '0' |
+| margin | `string` | 否 | @default '0' |
+| bgColor | `string` | 否 | 背景色，支持 CSS 颜色值 |
+| width | `string` | 否 | @default '100%' |
+| height | `string` | 否 | 高度，支持 CSS 高度值 |
+| radius | `string` | 否 | @default '0' |
+| shadow | `'small' \| 'medium' \| 'large'` | 否 | 阴影大小：small / medium / large |
+| border | `string` | 否 | @default '0' |
+| borderColor | `string` | 否 | 边框颜色 |
+| direction | `'row' \| 'column'` | 否 | Flex 方向 |
+| wrap | `'nowrap' \| 'wrap' \| 'wrap-reverse'` | 否 | Flex 换行 |
+| justify | `'flex-start' \| 'flex-end' \| 'center' \| 'space-between' \| 'space-around' \| 'space-evenly'` | 否 | Flex justify-content |
+| align | `'flex-start' \| 'flex-end' \| 'center' \| 'stretch' \| 'baseline'` | 否 | Flex align-items |
+| gap | `string` | 否 | Flex 子项间距 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-box padding="20rpx" bg-color="#f5f5f5" radius="16rpx" shadow="medium">
+  <text>带内边距、背景色、圆角和阴影的盒子</text>
+</see-box>
+```
+```html
+<see-box direction="row" justify="space-between" align="center" gap="20rpx">
+  <text>左</text>
+  <text>右</text>
+</see-box>
+```
+
+### Card 卡片 `<see-card>`
+
+卡片容器组件，支持标题、副标题、头部/底部插槽，可配置阴影、圆角、边框，并提供点击事件。
+文档: https://www.seeuui.cn/components/card/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| title | `string` | 否 | 卡片标题 |
+| subTitle | `string` | 否 | 副标题 |
+| shadow | `'never' \| 'always' \| 'hover'` | 否 | @default 'always' |
+| padding | `string` | 否 | @default '30rpx' |
+| radius | `string` | 否 | @default '16rpx' |
+| margin | `string` | 否 | @default '30rpx' |
+| border | `boolean` | 否 | @default true |
+| width | `string` | 否 | @default '100%' |
+
+**Slots**: `header`, `default`, `footer`
+
+**示例**
+
+```html
+<see-card title="卡片标题" sub-title="副标题">
+  <text>这是卡片的内容区域</text>
+</see-card>
+```
+```html
+<see-card title="卡片标题" shadow="hover" @on-click="handleClick">
+  <text>卡片内容</text>
+  <template #footer>
+    <text>底部区域</text>
+  </template>
+</see-card>
+```
+
+### Cell 单元格 `<see-cell>`
+
+列表单元格组件，支持图标、标题、描述、右侧值、箭头，可设必填星号、跳转链接及点击反馈。
+文档: https://www.seeuui.cn/components/cell/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| title | `string` | 否 | 标题 |
+| value | `string` | 否 | 值/右侧文字 |
+| label | `string` | 否 | 描述/副标题 |
+| icon | `string` | 否 | 左侧图标名称 |
+| iconSize | `string` | 否 | @default '40rpx' |
+| isLink | `boolean` | 否 | @default false |
+| to | `string` | 否 | 跳转 URL（设置后点击自动跳转） |
+| isRequired | `boolean` | 否 | @default false |
+| border | `boolean` | 否 | @default true |
+| height | `string` | 否 | 单元格高度 |
+| clickEffect | `'background' \| 'opacity' \| 'none'` | 否 | @default 'background' |
+| titleWidth | `string` | 否 | @default 'auto' |
+| isCenter | `boolean` | 否 | @default false |
+
+**Slots**: `icon`, `title`, `value`, `right`
+
+**示例**
+
+```html
+<see-cell title="标题" value="内容" />
+<see-cell title="标题" label="描述文字" value="带箭头" is-link />
+```
+```html
+<see-cell title="设置" icon="⚙" is-required to="/pages/setting/index" @on-click="handleClick" />
+```
+
+### Grid 宫格布局 `<see-grid>`
+
+宫格布局容器，搭配 see-grid-item 使用，可配置列数、间距、边框、正方形及点击反馈，子项支持图标、文字与跳转。
+文档: https://www.seeuui.cn/components/grid/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| columns | `number` | 否 | @default 4 |
+| gap | `number \| string` | 否 | @default 0 |
+| border | `boolean` | 否 | @default false |
+| borderColor | `string` | 否 | @default 'var(--see-border-color)' |
+| isSquare | `boolean` | 否 | @default false |
+| isClickable | `boolean` | 否 | @default false |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-grid :columns="4" :border="true">
+  <see-grid-item text="宫格1" icon="📱" />
+  <see-grid-item text="宫格2" icon="⭐" />
+  <see-grid-item text="宫格3" icon="📌" />
+  <see-grid-item text="宫格4" icon="🎨" />
+</see-grid>
+```
+```html
+<see-grid :columns="3" :gap="20" is-square is-clickable>
+  <see-grid-item text="设置" icon="⚙" to="/pages/setting/index" @on-click="handleClick" />
+</see-grid>
+```
+
+### Layout 布局 `<see-layout>`
+
+基于 Flex 的 24 列栅格布局容器，搭配 see-layout-item 使用，子项通过 span 占列、offset 偏移或自定义 flex。
+文档: https://www.seeuui.cn/components/layout/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| direction | `'row' \| 'column'` | 否 | @default 'row' |
+| wrap | `'nowrap' \| 'wrap' \| 'wrap-reverse'` | 否 | @default 'wrap' |
+| justify | `'flex-start' \| 'flex-end' \| 'center' \| 'space-between' \| 'space-around' \| 'space-evenly'` | 否 | @default 'flex-start' |
+| align | `'flex-start' \| 'flex-end' \| 'center' \| 'stretch' \| 'baseline'` | 否 | @default 'flex-start' |
+| gap | `number \| string` | 否 | @default 0 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-layout :gap="20">
+  <see-layout-item :span="8">
+    <view>span=8</view>
+  </see-layout-item>
+  <see-layout-item :span="8">
+    <view>span=8</view>
+  </see-layout-item>
+  <see-layout-item :span="8">
+    <view>span=8</view>
+  </see-layout-item>
+</see-layout>
+```
+```html
+<see-layout>
+  <see-layout-item :span="8">
+    <view>span=8</view>
+  </see-layout-item>
+  <see-layout-item :span="8" :offset="8">
+    <view>span=8 offset=8</view>
+  </see-layout-item>
+</see-layout>
+```
+
+### Line 线条 `<see-line>`
+
+水平或垂直分割线，支持实线/虚线、自定义颜色、粗细、长度和外边距。
+文档: https://www.seeuui.cn/components/line/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| direction | `'horizontal' \| 'vertical'` | 否 | @default 'horizontal' |
+| color | `string` | 否 | @default 'var(--see-border-color)' |
+| size | `string` | 否 | @default '1px' |
+| margin | `string` | 否 | 外边距 |
+| isDashed | `boolean` | 否 | @default false |
+| length | `string` | 否 | @default '100%' |
+
+**示例**
+
+```html
+<see-line color="#e5e5e5" margin="20rpx 0" />
+```
+```html
+<see-line is-dashed color="#999" />
+<see-line direction="vertical" length="40rpx" size="2px" />
+```
+
+### LoadingIcon 加载动画 `<see-loading-icon>`
+
+加载动画图标，支持 spinner / circular / dots / pulse 四种类型，可自定义尺寸、颜色和动画速度。
+文档: https://www.seeuui.cn/components/loading-icon/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| type | `'spinner' \| 'circular' \| 'dots' \| 'pulse'` | 否 | @default 'spinner' |
+| size | `string` | 否 | @default '60rpx' |
+| color | `string` | 否 | @default 'var(--see-primary)' |
+| speed | `number` | 否 | @default 0.8 |
+
+**示例**
+
+```html
+<see-loading-icon type="spinner" size="60rpx" color="#3c9cff" />
+```
+```html
+<see-loading-icon type="dots" :speed="1" />
+```
+
+### LoadingPage 加载页 `<see-loading-page>`
+
+页面/区域加载状态遮罩，内置加载动画与提示文字，可选全屏，支持自定义图标类型、大小、背景和层级。
+文档: https://www.seeuui.cn/components/loading-page/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| loading | `boolean` | 否 | @default true |
+| message | `string` | 否 | @default '加载中...' |
+| iconType | `LoadingIconType` | 否 | @default 'spinner' |
+| iconSize | `string` | 否 | @default '80rpx' |
+| isFullscreen | `boolean` | 否 | @default false |
+| background | `string` | 否 | 背景色 |
+| zIndex | `number` | 否 | @default 999 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-loading-page :loading="isLoading" message="加载中...">
+  <view>内容区域</view>
+</see-loading-page>
+```
+```html
+<see-loading-page :loading="isLoading" is-fullscreen icon-type="circular" icon-size="100rpx" />
+```
+
+### NoNetwork 无网络提示 `<see-no-network>`
+
+无网络提示组件，可自动监听设备网络状态并在断网时显示提示，支持手动重试、全屏及自定义文案。
+文档: https://www.seeuui.cn/components/no-network/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| text | `string` | 否 | 提示文案（默认来自 i18n: noNetwork.title） |
+| retryText | `string` | 否 | 重试按钮文案（默认来自 i18n: noNetwork.retry） |
+| isFullscreen | `boolean` | 否 | @default false |
+| icon | `string` | 否 | 图标名称 |
+| autoCheck | `boolean` | 否 | @default true |
+| retryInterval | `number` | 否 | @default 0 |
+
+**示例**
+
+```html
+<see-no-network @on-retry="handleRetry" @on-network-change="handleChange" />
+```
+```html
+<see-no-network v-model:show="show" :auto-check="false" text="网络连接已断开" retry-text="重新加载" />
+```
+
+### Overlay 遮罩层 `<see-overlay>`
+
+全屏半透明遮罩层，常用于弹窗、抽屉的背景，支持点击关闭、渐显动画、自定义背景色、透明度与层级。
+文档: https://www.seeuui.cn/components/overlay/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| zIndex | `number` | 否 | @default 1000 |
+| background | `string` | 否 | @default 'rgba(0, 0, 0, 0.6)' |
+| opacity | `number` | 否 | @default 1 |
+| clickable | `boolean` | 否 | @default true |
+| isAnimated | `boolean` | 否 | @default true |
+| duration | `number` | 否 | @default 300 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-overlay v-model:show="show" @on-click="show = false" />
+```
+```html
+<see-overlay v-model:show="show" :opacity="0.5" :duration="300">
+  <view>遮罩上的内容</view>
+</see-overlay>
+```
+
+### ScrollList 横向滚动列表 `<see-scroll-list>`
+
+横向滚动列表，基于数据数组渲染列表项，支持自定义项内容、项间距、滚动条及触底/触顶加载更多事件。
+文档: https://www.seeuui.cn/components/scroll-list/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| list | `unknown[]` | 否 | 数据列表 |
+| scrollX | `boolean` | 否 | @default true |
+| scrollY | `boolean` | 否 | @default false |
+| showScrollbar | `boolean` | 否 | @default false |
+| isAnimated | `boolean` | 否 | @default true |
+| paddingLeft | `string` | 否 | @default '30rpx' |
+| itemGap | `string` | 否 | @default '20rpx' |
+| loadMoreThreshold | `number` | 否 | @default 50 |
+
+**Slots**: `item`, `footer`
+
+**示例**
+
+```html
+<see-scroll-list :list="['推荐', '热门', '关注', '科技', '财经']">
+  <template #item="{ item }">
+    <view>{{ item }}</view>
+  </template>
+</see-scroll-list>
+```
+```html
+<see-scroll-list :list="list" item-gap="30rpx" @on-scroll-to-lower="loadMore">
+  <template #item="{ item, index }">
+    <view>{{ index }} - {{ item }}</view>
+  </template>
+</see-scroll-list>
+```
+
+### Skeleton 骨架屏 `<see-skeleton>`
+
+骨架屏占位组件，加载时按配置显示头像、标题、多行占位块，支持行数/行宽/形状及闪烁动画，加载完成显示插槽内容。
+文档: https://www.seeuui.cn/components/skeleton/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| loading | `boolean` | 否 | @default true |
+| rows | `number` | 否 | @default 3 |
+| rowWidth | `string \| string[]` | 否 | 每行的宽度（单行统一宽度，或数组每行不同宽度） |
+| rowHeight | `string` | 否 | @default '32rpx' |
+| rowGap | `string` | 否 | @default '20rpx' |
+| avatar | `boolean` | 否 | @default false |
+| avatarSize | `string` | 否 | @default '80rpx' |
+| avatarShape | `'circle' \| 'square'` | 否 | @default 'circle' |
+| title | `boolean` | 否 | @default false |
+| isAnimate | `boolean` | 否 | @default true |
+| skeletonBgColor | `string` | 否 | @default 'var(--see-info)' |
+| highlightColor | `string` | 否 | @default 'var(--see-bg-color)' |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-skeleton :loading="isLoading" :rows="3">
+  <text>加载完成的内容</text>
+</see-skeleton>
+```
+```html
+<see-skeleton :loading="isLoading" avatar title :rows="4" avatar-shape="circle">
+  <view>内容区域</view>
+</see-skeleton>
+```
+
+### SkeletonGlobal 全局骨架屏 `<see-skeleton-global>`
+
+全局全屏骨架屏，内置导航栏+卡片预设布局，由 useSkeletonGlobal 的 show/hide 控制显隐，可自定义行数、动画与颜色。
+文档: https://www.seeuui.cn/components/skeleton-global/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| rows | `number` | 否 | @default 5 |
+| animate | `boolean` | 否 | @default true |
+| bgColor | `string` | 否 | @default 'var(--see-skeleton-bg, #f0f0f0)' |
+| highlightColor | `string` | 否 | @default 'var(--see-skeleton-highlight, #e0e0e0)' |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<template>
+  <see-skeleton-global />
+  <view class="content">页面内容</view>
+</template>
+
+<script setup>
+import { useSkeletonGlobal } from '@/uni_modules/see-u-ui'
+const { show, hide } = useSkeletonGlobal()
+show()
+// 数据加载完成后调用 hide()
+</script>
+```
+```html
+<see-skeleton-global :rows="6" :animate="true">
+  <view>自定义骨架内容</view>
+</see-skeleton-global>
+```
+
+### Sticky 吸顶 `<see-sticky>`
+
+吸顶组件，滚动时将内容固定在距顶部指定位置，常用于导航栏、标题栏，支持自定义偏移、层级并可开关。
+文档: https://www.seeuui.cn/components/sticky/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| offsetTop | `number` | 否 | @default 0 |
+| zIndex | `number` | 否 | @default 99 |
+| isEnabled | `boolean` | 否 | @default true |
+| container | `string` | 否 | 容器选择器（指定容器边界） |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-sticky :offset-top="0">
+  <view>吸顶内容</view>
+</see-sticky>
+```
+```html
+<see-sticky :offset-top="44" :z-index="100" @on-scroll="handleScroll">
+  <view>标题栏</view>
+</see-sticky>
+```
+
+### Swiper 轮播图 `<see-swiper>`
+
+轮播图组件，基于数据渲染图片/自定义内容，支持自动播放、循环、dots/digital 指示器及切换、点击事件。
+文档: https://www.seeuui.cn/components/swiper/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| list | `SwiperItemData[]` | 否 | 轮播数据 |
+| height | `string` | 否 | @default '300rpx' |
+| autoplay | `boolean` | 否 | @default true |
+| interval | `number` | 否 | @default 3000 |
+| duration | `number` | 否 | @default 300 |
+| loop | `boolean` | 否 | @default true |
+| indicatorType | `'dots' \| 'digital' \| 'none'` | 否 | @default 'dots' |
+| activeColor | `string` | 否 | @default 'var(--see-primary)' |
+| inactiveColor | `string` | 否 | @default 'rgba(255,255,255,0.5)' |
+| current | `number` | 否 | @default 0 |
+
+**Slots**: `item`
+
+**示例**
+
+```html
+<see-swiper :list="list" height="300rpx" @on-click="onItemClick" @on-change="onChange" />
+```
+```html
+<see-swiper :list="list" indicator-type="digital" :autoplay="true" :interval="3000">
+  <template #item="{ item }">
+    <image :src="item.image" mode="aspectFill" />
+  </template>
+</see-swiper>
+```
+
+### Waterfall 瀑布流 `<see-waterfall>`
+
+瀑布流布局组件，将数据按索引轮询分配到多列不等高排列，支持自定义项内容、列数、间距及触底加载更多。
+文档: https://www.seeuui.cn/components/waterfall/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| list | `WaterfallItem[]` | 否 | 瀑布流数据 |
+| columns | `number` | 否 | @default 2 |
+| gap | `string` | 否 | @default '16rpx' |
+| hasMore | `boolean` | 否 | @default false |
+
+**Slots**: `item`, `footer`
+
+**示例**
+
+```html
+<see-waterfall :list="list" :columns="2" gap="16rpx" @on-click="handleClick" />
+```
+```html
+<see-waterfall :list="list" :columns="2" :has-more="hasMore" @on-load-more="loadMore">
+  <template #item="{ item, index }">
+    <image :src="item.image" mode="widthFix" />
+    <text>{{ item.title }}</text>
+  </template>
+</see-waterfall>
+```
+
+## 数据组件
+
+### CountDown 倒计时 `<see-count-down>`
+
+倒计时组件，用于验证码、活动、支付剩余时间与订单超时场景，支持自定义格式、毫秒级、服务端时间校准与作用域插槽
+文档: https://www.seeuui.cn/components/count-down/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| time | `number` | 否 |  |
+| format | `string` | 否 |  |
+| autoStart | `boolean` | 否 |  |
+| millisecond | `boolean` | 否 |  |
+| interval | `number` | 否 |  |
+| serverTime | `number` | 否 |  |
+| endTime | `number` | 否 |  |
+| separator | `string` | 否 |  |
+| showDays | `boolean` | 否 |  |
+| zeroPad | `boolean` | 否 |  |
+| textColor | `string` | 否 |  |
+| fontSize | `string` | 否 |  |
+| block | `boolean` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `timeData: CountdownTimeData` |  |
+| onFinish | `-` |  |
+| onStart | `-` |  |
+| onPause | `-` |  |
+| onReset | `-` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-count-down :time="60000" @on-finish="onFinish" />
+```
+```html
+<see-count-down :time="90061000" :showDays="true" format="DD 天 HH:mm:ss" @on-change="onChange" />
+```
+
+### CountTo 数字滚动 `<see-count-to>`
+
+数字滚动组件，用于统计卡片、金额变化与数据大屏，支持起止值、缓动动画、小数位、千分位分隔与前后缀
+文档: https://www.seeuui.cn/components/count-to/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| startVal | `number` | 否 |  |
+| endVal | `number` | 否 |  |
+| duration | `number` | 否 |  |
+| autoplay | `boolean` | 否 |  |
+| decimals | `number` | 否 |  |
+| decimal | `string` | 否 |  |
+| separator | `string` | 否 |  |
+| prefix | `string` | 否 |  |
+| suffix | `string` | 否 |  |
+| useEasing | `boolean` | 否 |  |
+| easingFn | `(t: number, b: number, c: number, d: number) => number` | 否 |  |
+| color | `string` | 否 |  |
+| fontSize | `string` | 否 |  |
+| fontWeight | `string \| number` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onStart | `-` |  |
+| onChange | `value: number` |  |
+| onFinish | `-` |  |
+| onReset | `-` |  |
+
+**Slots**: `prefix`, `default`, `suffix`
+
+**示例**
+
+```html
+<see-count-to :startVal="0" :endVal="2024" />
+```
+```html
+<see-count-to :startVal="0" :endVal="88888.88" :decimals="2" separator="," prefix="￥" :duration="3000" @on-finish="onFinish" />
+```
+
+### LineProgress 线形进度条 `<see-line-progress>`
+
+线形进度条组件，用于任务/上传/步骤进度展示，支持 normal/success/warning/error 状态、条纹动画、内外文本与圆角
+文档: https://www.seeuui.cn/components/line-progress/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| percentage | `number` | 否 |  |
+| max | `number` | 否 |  |
+| strokeWidth | `string` | 否 |  |
+| trackColor | `string` | 否 |  |
+| activeColor | `string \| string[]` | 否 |  |
+| status | `'normal' \| 'success' \| 'warning' \| 'error'` | 否 |  |
+| striped | `boolean` | 否 |  |
+| animated | `boolean` | 否 |  |
+| showText | `boolean` | 否 |  |
+| textInside | `boolean` | 否 |  |
+| format | `(percentage: number) => string` | 否 |  |
+| round | `boolean` | 否 |  |
+| inactive | `boolean` | 否 |  |
+| duration | `number` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onChange | `percentage: number` |  |
+| onComplete | `-` |  |
+
+**Slots**: `text`, `default`
+
+**示例**
+
+```html
+<see-line-progress :percentage="50" />
+```
+```html
+<see-line-progress :percentage="80" status="success" :striped="true" :animated="true" :textInside="true" @on-complete="onComplete" />
+```
+
+### List 列表 `<see-list>`
+
+基础数据列表容器，统一处理加载/空/错误/完成状态、上拉加载更多、分组与分割线，列表项通过 item 插槽渲染
+文档: https://www.seeuui.cn/components/list/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| list | `T[]` | 否 | 数据列表 |
+| keyField | `string` | 否 | 唯一标识字段名 |
+| loading | `boolean` | 否 | 是否加载中 |
+| finished | `boolean` | 否 | 是否全部加载完成 |
+| error | `boolean` | 否 | 是否加载出错 |
+| emptyText | `string` | 否 | 空状态文字 |
+| errorText | `string` | 否 | 错误状态文字 |
+| loadingText | `string` | 否 | 加载中文字 |
+| finishedText | `string` | 否 | 加载完成文字 |
+| immediateCheck | `boolean` | 否 | 是否立即检查加载更多（当内容不足一屏时自动触发 loadMore） |
+| offset | `number` | 否 | 触发加载更多的距离阈值（px） |
+| direction | `'vertical' \| 'horizontal'` | 否 | 列表方向 |
+| border | `boolean` | 否 | 是否显示边框 |
+| divided | `boolean` | 否 | 是否显示分割线 |
+| itemGap | `string` | 否 | 列表项间距 |
+| padding | `string` | 否 | 内边距 |
+| groupBy | `string \| ((item: T, index: number) => string)` | 否 | 分组字段名或函数 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onLoadMore | `-` |  |
+| onRefresh | `-` |  |
+| onRetry | `-` |  |
+| onClickItem | `item: unknown, index: number` |  |
+
+**Slots**: `header`, `loading`, `error`, `empty`, `group`, `item`, `finished`, `footer`
+
+**示例**
+
+```html
+<see-list :list="['苹果', '香蕉', '橙子']">
+  <template #item="{ item }">
+    <view style="padding: 20rpx;">{{ item }}</view>
+  </template>
+</see-list>
+```
+```html
+<see-list :list="list" :loading="loading" :finished="finished" :divided="true" @on-load-more="onLoadMore">
+  <template #item="{ item, index }">
+    <view style="padding: 20rpx;">{{ index }} - {{ item.title }}</view>
+  </template>
+</see-list>
+```
+
+### Table 表格 `<see-table>`
+
+功能完整的表格组件，支持列配置、边框斑马纹、固定表头/列、排序、多选、行展开、树形数据、分页与虚拟滚动
+文档: https://www.seeuui.cn/components/table/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| data | `T[]` | 否 | 表格数据 |
+| columns | `SeeTableColumn<T>[]` | 否 | 列配置 |
+| rowKey | `string \| ((row: T, index: number) => string \| number)` | 否 | 行唯一标识字段名或函数 |
+| loading | `boolean` | 否 | 是否加载中 |
+| error | `boolean` | 否 | 是否加载出错 |
+| emptyText | `string` | 否 | 空状态文字 |
+| border | `boolean` | 否 | 是否显示边框 |
+| stripe | `boolean` | 否 | 是否显示斑马纹 |
+| size | `'small' \| 'medium' \| 'large'` | 否 | 表格尺寸 |
+| height | `string \| number` | 否 | 表格固定高度（启用纵向滚动） |
+| maxHeight | `string \| number` | 否 | 表格最大高度（启用纵向滚动） |
+| showHeader | `boolean` | 否 | 是否显示表头 |
+| stickyHeader | `boolean` | 否 | 吸顶表头（Phase 4） |
+| selectable | `boolean` | 否 | 是否可选择行（Phase 4） |
+| selectedKeys | `Array<string \| number>` | 否 | 选中行的 key 列表（Phase 4） |
+| defaultSelectedKeys | `Array<string \| number>` | 否 | 默认选中行的 key 列表（Phase 4） |
+| sortable | `boolean` | 否 | 是否可排序（Phase 4） |
+| sortKey | `string` | 否 | 排序字段（Phase 4） |
+| sortOrder | `'asc' \| 'desc' \| ''` | 否 | 排序方向（Phase 4） |
+| expandable | `boolean` | 否 | 是否可展开行（Phase 4） |
+| expandedKeys | `Array<string \| number>` | 否 | 展开行的 key 列表（Phase 4） |
+| tree | `boolean` | 否 | 是否为树形数据（Phase 4） |
+| childrenField | `string` | 否 | 子节点字段名（Phase 4） |
+| indent | `number` | 否 | 树形缩进量（Phase 4） |
+| defaultExpandAll | `boolean` | 否 | 是否默认展开所有（Phase 4） |
+| pagination | `false \| SeeTablePagination` | 否 | 分页配置（Phase 4） |
+| virtual | `boolean` | 否 | 是否开启虚拟行（Phase 5） |
+| virtualX | `boolean` | 否 | 是否开启虚拟列（Phase 5） |
+| rowHeight | `number` | 否 | 行高，虚拟滚动时必填（Phase 5） |
+| estimatedRowHeight | `number` | 否 | 预估行高，动态高度虚拟滚动使用（Phase 5） |
+| buffer | `number` | 否 | 虚拟滚动缓冲行数（Phase 5） |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onRowClick | `row: unknown, rowIndex: number` |  |
+| onCellClick | `row: unknown, column: SeeTableColumn, rowIndex: number` |  |
+| onSortChange | `data: { key: string; order: string; column: SeeTableColumn }` |  |
+| onSelectionChange | `selectedKeys: Array<string \| number>, selectedRows: unknown[]` |  |
+| onExpandChange | `expandedKeys: Array<string \| number>, row: unknown` |  |
+| onPageChange | `data: { current: number; pageSize: number }` |  |
+| onScroll | `event: unknown` |  |
+| onRangeChange | `data: { rowStart: number; rowEnd: number; colStart: number; colEnd: number }` |  |
+
+**Slots**: `loading`, `error`, `empty`, ``header-${column.key}``, ``cell-${column.key}``, `expand`, `footer`
+
+**示例**
+
+```html
+<see-table :columns="columns" :data="data" rowKey="id" :border="true" :stripe="true" />
+```
+```html
+<see-table
+  :columns="columns"
+  :data="data"
+  rowKey="id"
+  :selectable="true"
+  :sortable="true"
+  @on-selection-change="onSelectionChange"
+  @on-sort-change="onSortChange"
+  @on-row-click="onRowClick"
+/>
+```
+
+### VirtualList 虚拟列表 `<see-virtual-list>`
+
+虚拟列表组件，仅渲染可视区域项以承载海量数据，支持固定/动态高度、横向滚动、缓冲区与触底加载
+文档: https://www.seeuui.cn/components/virtual-list/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| list | `T[]` | 否 | 数据列表 |
+| itemHeight | `number` | 是 | 列表项高度（px），固定高度模式必填 |
+| height | `number \| string` | 否 | 可视区域高度（px 或 CSS 值），默认 '100%' |
+| keyField | `string` | 否 | 唯一标识字段名 |
+| buffer | `number` | 否 | 上下缓冲项目数，默认 5 |
+| scrollTop | `number` | 否 | 初始滚动偏移量（px） |
+| scrollIntoIndex | `number` | 否 | 跳转到指定索引 |
+| horizontal | `boolean` | 否 | 是否横向滚动 |
+| itemGap | `number` | 否 | 列表项间距（px） |
+| estimatedItemHeight | `number` | 否 | 预估列表项高度（px），动态高度模式使用 |
+| dynamic | `boolean` | 否 | 是否启用动态高度，默认 false |
+| lowerThreshold | `number` | 否 | 触发加载更多的距离阈值（px） |
+| upperThreshold | `number` | 否 | 触发加载更少的距离阈值（px） |
+| showScrollbar | `boolean` | 否 | 是否显示滚动条 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onScroll | `event: SeeVirtualListScrollEvent` |  |
+| onRangeChange | `range: SeeVirtualListRangeChange` |  |
+| onScrollToLower | `-` |  |
+| onScrollToUpper | `-` |  |
+| onItemClick | `item: unknown, index: number` |  |
+
+**Slots**: `empty`, `header`, `item`, `footer`
+
+**示例**
+
+```html
+<see-virtual-list :list="list" :itemHeight="50" height="400px">
+  <template #item="{ item, index }">
+    <view style="padding: 12rpx 24rpx;">{{ index }}. {{ item }}</view>
+  </template>
+</see-virtual-list>
+```
+```html
+<see-virtual-list :list="list" :itemHeight="60" height="500px" :buffer="8" @on-scroll-to-lower="onLoadMore">
+  <template #item="{ item }">
+    <view style="padding: 20rpx;">{{ item.title }}</view>
+  </template>
+</see-virtual-list>
+```
+
+## 反馈组件
+
+### ActionSheet 操作菜单 `<see-action-sheet>`
+
+从底部弹出的操作菜单，通过 actions 配置选项列表（支持图标、描述、禁用、加载态），v-model 控制显隐，可选带取消按钮
+文档: https://www.seeuui.cn/components/action-sheet/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| title | `string` | 否 | @default '' |
+| description | `string` | 否 | @default '' |
+| actions | `ActionSheetAction[]` | 否 | @default [] |
+| cancelText | `string` | 否 | @default '取消' |
+| isShowCancelBtn | `boolean` | 否 | @default true |
+| zIndex | `number` | 否 | @default 1001 |
+| duration | `number` | 否 | @default 300 |
+| isCloseOnClickOverlay | `boolean` | 否 | @default true |
+| isRound | `boolean` | 否 | @default true |
+| isSafeArea | `boolean` | 否 | @default true |
+| beforeClose | `(() => boolean \| Promise<boolean>) \| null` | 否 | @default null |
+
+**Slots**: `header`, `default`, `action`
+
+**示例**
+
+```html
+<see-action-sheet v-model:show="show" :actions="actions" @on-select="onSelect" />
+// actions: [{ name: '选项一' }, { name: '选项二', color: '#ee0a24' }]
+```
+```html
+<see-action-sheet v-model:show="show" title="标题" description="这是一段描述文字" :actions="actions" @on-cancel="onCancel" />
+```
+
+### Alert 警告提示 `<see-alert>`
+
+页面内联的警告提示条，支持 success/error/warning/info 四种类型与 light/dark/border 三种效果，可选图标、可关闭、可折叠长内容
+文档: https://www.seeuui.cn/components/alert/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| type | `'success' \| 'error' \| 'warning' \| 'info'` | 否 | @default 'info' |
+| title | `string` | 否 | @default '' |
+| content | `string` | 否 | @default '' |
+| effect | `'light' \| 'dark' \| 'border'` | 否 | @default 'light' |
+| isClosable | `boolean` | 否 | @default false |
+| isShowIcon | `boolean` | 否 | @default true |
+| icon | `string` | 否 | @default '' |
+| isCollapsible | `boolean` | 否 | @default false |
+| isCollapsed | `boolean` | 否 | @default false |
+| actionText | `string` | 否 | @default '' |
+| isCenter | `boolean` | 否 | @default false |
+| isShow | `boolean` | 否 | @default true |
+| isAnimated | `boolean` | 否 | @default true |
+
+**Slots**: `icon`, `default`, `title`
+
+**示例**
+
+```html
+<see-alert type="info" title="信息提示" content="这是一条信息提示" />
+<see-alert type="success" title="成功提示" content="这是一条成功提示" />
+<see-alert type="warning" title="警告提示" content="这是一条警告提示" />
+<see-alert type="error" title="错误提示" content="这是一条错误提示" />
+```
+```html
+<see-alert type="warning" effect="border" title="提示" content="点击右侧可关闭" :is-closable="true" @on-close="onClose" />
+```
+
+### Collapse 折叠面板 `<see-collapse>`
+
+折叠面板容器，配合 see-collapse-item 子项使用，v-model 绑定展开项 name 数组，支持手风琴模式（isAccordion）与子项图标、禁用、懒加载
+文档: https://www.seeuui.cn/components/collapse/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `(string \| number)[]` | 否 | @default [] |
+| isAccordion | `boolean` | 否 | @default false |
+| isShowBorder | `boolean` | 否 | @default true |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-collapse v-model="activeNames" @on-change="onChange">
+  <see-collapse-item name="1" title="标题一">内容一</see-collapse-item>
+  <see-collapse-item name="2" title="标题二">内容二</see-collapse-item>
+</see-collapse>
+```
+```html
+<see-collapse v-model="activeNames" :is-accordion="true">
+  <see-collapse-item name="1" title="标题一" icon="star">内容一</see-collapse-item>
+  <see-collapse-item name="2" title="标题二" :is-disabled="true">内容二</see-collapse-item>
+</see-collapse>
+```
+
+### Copy 复制 `<see-copy>`
+
+点击即复制文本到剪贴板的包裹容器，通过 text 指定内容，复制成功可自动弹 Toast 提示，支持成功/失败事件回调
+文档: https://www.seeuui.cn/components/copy/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| text | `string` | 否 | @default '' |
+| isShowToast | `boolean` | 否 | @default true |
+| toastMessage | `string` | 否 | @default '复制成功' |
+| toastDuration | `number` | 否 | @default 1500 |
+| isDisabled | `boolean` | 否 | @default false |
+| isHighlight | `boolean` | 否 | @default false |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-copy text="要复制的文字内容" @on-success="onSuccess">
+  <see-button>点击复制</see-button>
+</see-copy>
+```
+```html
+<see-copy text="13800138000" toast-message="手机号已复制">
+  <text>13800138000</text>
+</see-copy>
+```
+
+### Modal 模态框 `<see-modal>`
+
+居中弹出的模态对话框，v-model:show 控制显隐，支持标题/内容/确认取消按钮、确认按钮类型与加载态、beforeClose 钩子；同时提供命令式 API modal.confirm() / modal.alert() 返回 Promise
+文档: https://www.seeuui.cn/components/modal/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| title | `string` | 否 | @default '' |
+| content | `string` | 否 | @default '' |
+| isShowHeader | `boolean` | 否 | @default true |
+| isShowFooter | `boolean` | 否 | @default true |
+| confirmText | `string` | 否 | @default '确认' |
+| cancelText | `string` | 否 | @default '取消' |
+| isShowCancelBtn | `boolean` | 否 | @default true |
+| confirmType | `'primary' \| 'danger' \| 'warning'` | 否 | @default 'primary' |
+| isConfirmLoading | `boolean` | 否 | @default false |
+| isConfirmDisabled | `boolean` | 否 | @default false |
+| width | `string` | 否 | @default '600rpx' |
+| zIndex | `number` | 否 | @default 1001 |
+| duration | `number` | 否 | @default 300 |
+| isCloseOnClickOverlay | `boolean` | 否 | @default false |
+| isLockScroll | `boolean` | 否 | @default true |
+| beforeClose | `((action: 'confirm' \| 'cancel') => boolean \| Promise<boolean>) \| null` | 否 | @default null |
+
+**Slots**: `header`, `default`, `footer`
+
+**示例**
+
+```html
+<see-modal v-model:show="show" title="提示" content="确认删除该数据？" confirm-type="danger" @on-confirm="onConfirm" @on-cancel="onCancel" />
+```
+```html
+import { modal } from '@/uni_modules/see-u-ui'
+const res = await modal.confirm({ title: '提示', content: '确认删除？' })
+if (res.confirm) { /* 用户点击了确认 */ }
+```
+
+### NoticeBar 滚动通知 `<see-notice-bar>`
+
+横向滚动的通知栏，内容超长时自动跑马灯滚动，支持 info/warning/error 类型、左右图标、可关闭，以及 vertical 多条消息垂直轮播
+文档: https://www.seeuui.cn/components/notice-bar/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| text | `string` | 否 | @default '' |
+| type | `'info' \| 'warning' \| 'error'` | 否 | @default 'info' |
+| speed | `number` | 否 | @default 50 |
+| isScrollable | `boolean` | 否 | @default true |
+| delay | `number` | 否 | @default 1000 |
+| isClosable | `boolean` | 否 | @default false |
+| isShowIcon | `boolean` | 否 | @default true |
+| icon | `string` | 否 | @default '' |
+| rightIcon | `string` | 否 | @default '' |
+| isShow | `boolean` | 否 | @default true |
+| isPauseOnTouch | `boolean` | 否 | @default true |
+| vertical | `boolean` | 否 | @default false |
+| messages | `string[]` | 否 | @default [] |
+| verticalInterval | `number` | 否 | @default 3000 |
+
+**Slots**: `left-icon`, `default`, `right-icon`
+
+**示例**
+
+```html
+<see-notice-bar text="这是一条通知消息，内容超出时会自动滚动" type="warning" :is-closable="true" @on-close="onClose" />
+```
+```html
+<see-notice-bar :vertical="true" :messages="['第一条消息', '第二条消息', '第三条消息']" />
+```
+
+### Notify 消息提示 `<see-notify>`
+
+从顶部滑入的全局消息通知条，支持 success/error/warning/info 四种类型、自定义颜色与时长；主要通过命令式 API notify.success() / notify.error() 等调用
+文档: https://www.seeuui.cn/components/notify/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| message | `string` | 否 | @default '' |
+| type | `'success' \| 'error' \| 'warning' \| 'info'` | 否 | @default 'info' |
+| duration | `number` | 否 | @default 3000 |
+| icon | `string` | 否 | @default '' |
+| color | `string` | 否 | @default '' |
+| background | `string` | 否 | @default '' |
+| isClosable | `boolean` | 否 | @default false |
+| zIndex | `number` | 否 | @default 2000 |
+| isSafeArea | `boolean` | 否 | @default true |
+
+**Slots**: `icon`
+
+**示例**
+
+```html
+import { notify } from '@/uni_modules/see-u-ui'
+notify.success('操作成功')
+notify.error('操作失败', 5000)
+notify.show({ message: '自定义通知', type: 'warning', isClosable: true })
+```
+```html
+<see-notify v-model:show="show" message="这是一条通知消息" type="success" />
+```
+
+### Popover 弹窗提示 `<see-popover>`
+
+依附于触发元素的气泡卡片，默认插槽为触发器、#content 插槽为气泡内容，支持 12 个弹出方位、click/hover/manual 触发方式与箭头、关闭按钮
+文档: https://www.seeuui.cn/components/popover/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| position | `\| 'top'` | 否 | @default 'bottom' |
+| trigger | `'click' \| 'hover' \| 'manual'` | 否 | @default 'click' |
+| title | `string` | 否 | @default '' |
+| width | `string` | 否 | @default 'auto' |
+| maxWidth | `string` | 否 | @default '500rpx' |
+| offset | `number` | 否 | @default 12 |
+| zIndex | `number` | 否 | @default 2000 |
+| isShowArrow | `boolean` | 否 | @default true |
+| isShowCloseBtn | `boolean` | 否 | @default false |
+| isCloseOnClickOutside | `boolean` | 否 | @default true |
+| isCloseOnClickContent | `boolean` | 否 | @default false |
+| isDisabled | `boolean` | 否 | @default false |
+| isAnimated | `boolean` | 否 | @default true |
+| duration | `number` | 否 | @default 250 |
+
+**Slots**: `default`, `title`, `content`, `footer`
+
+**示例**
+
+```html
+<see-popover v-model:show="show" position="bottom" trigger="click">
+  <see-button title="点击弹出" />
+  <template #content>
+    <view style="padding: 20rpx;">弹出框内容</view>
+  </template>
+</see-popover>
+```
+```html
+<see-popover v-model:show="show" position="top" title="提示" :is-show-arrow="true">
+  <text>悬浮查看</text>
+  <template #content><text>详细说明内容</text></template>
+</see-popover>
+```
+
+### Popup 弹出层 `<see-popup>`
+
+基础弹出层容器，v-model:show 控制显隐，支持 top/bottom/left/right/center 五个弹出方向、遮罩、圆角、关闭按钮与安全区适配，是多数弹层组件的底层实现
+文档: https://www.seeuui.cn/components/popup/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| position | `'top' \| 'bottom' \| 'left' \| 'right' \| 'center'` | 否 | @default 'bottom' |
+| zIndex | `number` | 否 | @default 1000 |
+| duration | `number` | 否 | @default 300 |
+| isOverlay | `boolean` | 否 | @default true |
+| overlayBackground | `string` | 否 | @default 'var(--see-overlay-bg)' |
+| overlayOpacity | `number` | 否 | @default 1 |
+| isCloseOnClickOverlay | `boolean` | 否 | @default true |
+| isLockScroll | `boolean` | 否 | @default true |
+| isShowCloseBtn | `boolean` | 否 | @default false |
+| closeBtnPosition | `string` | 否 | @default 'top-right' |
+| isRound | `boolean` | 否 | @default true |
+| borderRadius | `string` | 否 | @default '32rpx 32rpx 0 0' |
+| isSafeArea | `boolean` | 否 | @default true |
+| isShowHeader | `boolean` | 否 | @default false |
+| title | `string` | 否 | @default '' |
+| transitionName | `string` | 否 | @default 'see-popup' |
+| isCloseOnPressBack | `boolean` | 否 | @default true |
+| beforeClose | `(() => boolean \| Promise<boolean>) \| null` | 否 | @default null |
+
+**Slots**: `header`, `close-btn`, `default`
+
+**示例**
+
+```html
+<see-popup v-model:show="show" position="bottom">
+  <view style="padding: 40rpx;">弹出层内容</view>
+</see-popup>
+```
+```html
+<see-popup v-model:show="show" position="center" :is-show-close-btn="true" @on-close="onClose">
+  <view style="padding: 40rpx;">居中内容</view>
+</see-popup>
+```
+
+### SwipeAction 滑动单元格 `<see-swipe-action>`
+
+滑动单元格，左右滑动内容区露出操作按钮，通过 leftActions/rightActions 配置按钮（支持样式、图标、背景色），常用于列表项的删除、置顶等操作
+文档: https://www.seeuui.cn/components/swipe-action/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| leftActions | `SwipeActionItem[]` | 否 | @default [] |
+| rightActions | `SwipeActionItem[]` | 否 | @default [] |
+| isDisabled | `boolean` | 否 | @default false |
+| threshold | `number` | 否 | @default 0.3 |
+| swipeWidth | `number` | 否 | @default 0 |
+| isCloseOnClick | `boolean` | 否 | @default true |
+| isCloseOnTouchOutside | `boolean` | 否 | @default true |
+| name | `string \| number` | 否 | @default '' |
+| isAnimated | `boolean` | 否 | @default true |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-swipe-action :right-actions="actions" @on-click="onClick">
+  <view style="padding: 32rpx;">左滑显示操作</view>
+</see-swipe-action>
+// actions: [{ text: '删除', style: 'danger' }, { text: '置顶' }]
+```
+```html
+<see-swipe-action :left-actions="[{ text: '标记', style: 'success' }]" :right-actions="[{ text: '删除', style: 'danger' }]">
+  <view style="padding: 32rpx;">列表项内容</view>
+</see-swipe-action>
+```
+
+### Toast 消息提示 `<see-toast>`
+
+轻量的全局消息轻提示，支持 success/error/warning/info/loading 类型与 top/center/bottom 位置；主要通过命令式 API toast.success() / toast.loading() 等调用
+文档: https://www.seeuui.cn/components/toast/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| show | `boolean` | 否 | @default false |
+| message | `string` | 否 | @default '' |
+| type | `'success' \| 'error' \| 'warning' \| 'info' \| 'loading' \| 'default'` | 否 | @default 'default' |
+| icon | `string` | 否 | @default '' |
+| duration | `number` | 否 | @default 2000 |
+| position | `'center' \| 'top' \| 'bottom'` | 否 | @default 'center' |
+| isOverlay | `boolean` | 否 | @default false |
+| zIndex | `number` | 否 | @default 2000 |
+| isCloseOnClickOverlay | `boolean` | 否 | @default false |
+
+**Slots**: `icon`, `default`
+
+**示例**
+
+```html
+import { toast } from '@/uni_modules/see-u-ui'
+toast.success('保存成功')
+toast.loading('加载中...')
+toast.show({ message: '自定义提示', type: 'info', position: 'top' })
+```
+```html
+<see-toast v-model:show="show" message="这是一条提示消息" type="success" position="center" />
+```
+
+### Tooltip 长按提示 `<see-tooltip>`
+
+轻量文字提示气泡，默认插槽为触发元素、content 属性为提示文字，支持 12 个方位、longpress/hover/click/manual 触发方式与 dark/light 两种效果
+文档: https://www.seeuui.cn/components/tooltip/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| content | `string` | 否 | @default '' |
+| position | `\| 'top'` | 否 | @default 'top' |
+| trigger | `'hover' \| 'click' \| 'longpress' \| 'manual'` | 否 | @default 'longpress' |
+| show | `boolean` | 否 | @default false |
+| delay | `number` | 否 | @default 200 |
+| hideDelay | `number` | 否 | @default 200 |
+| maxWidth | `string` | 否 | @default '400rpx' |
+| effect | `'dark' \| 'light'` | 否 | @default 'dark' |
+| offset | `number` | 否 | @default 8 |
+| zIndex | `number` | 否 | @default 2000 |
+| isDisabled | `boolean` | 否 | @default false |
+| isShowArrow | `boolean` | 否 | @default true |
+| isAnimated | `boolean` | 否 | @default true |
+| duration | `number` | 否 | @default 200 |
+
+**Slots**: `default`, `content`
+
+**示例**
+
+```html
+<see-tooltip content="这是一段提示文字" position="top">
+  <see-button title="长按触发" />
+</see-tooltip>
+```
+```html
+<see-tooltip content="帮助说明" trigger="hover" effect="light" position="right">
+  <text>?</text>
+</see-tooltip>
+```
+
+## 导航组件
+
+### BackTop 返回顶部 `<see-backtop>`
+
+返回顶部按钮，页面滚动超过阈值时浮现，点击平滑滚动回顶部，支持自定义位置、层级与图标插槽
+文档: https://www.seeuui.cn/components/backtop/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| visibilityHeight | `number` | 否 | 显示阈值（px），滚动超过此值显示按钮 |
+| right | `number` | 否 | 距离右边的距离（px） |
+| bottom | `number` | 否 | 距离底部的距离（px） |
+| zIndex | `number` | 否 | 层级 |
+| duration | `number` | 否 | 滚动动画时长（ms） |
+| target | `string` | 否 | 指定滚动容器选择器 |
+| isCustom | `boolean` | 否 | 是否使用自定义插槽 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<template>
+  <see-backtop />
+</template>
+```
+```html
+<template>
+  <see-backtop :visibility-height="300" :right="30" :bottom="100" @on-click="handleClick" />
+</template>
+```
+
+### CityLocate 城市定位选择 `<see-city-locate>`
+
+城市选择器，内置城市数据按首字母分组，支持搜索、GPS 定位、热门城市、最近访问历史与右侧字母索引导航
+文档: https://www.seeuui.cn/components/city-locate/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `CityInfo \| null` | 否 | 当前选中的城市 |
+| hotCities | `CityInfo[]` | 否 | 热门城市列表 |
+| cities | `CityInfo[]` | 否 | 城市数据列表 |
+| isShowSearch | `boolean` | 否 | 是否显示搜索框 |
+| isShowLocation | `boolean` | 否 | 是否显示定位功能 |
+| isShowHistory | `boolean` | 否 | 是否显示最近访问 |
+| isInternational | `boolean` | 否 | 是否支持国际城市 |
+| maxHistory | `number` | 否 | 最近访问最大数量 |
+| searchPlaceholder | `string` | 否 | 搜索框占位文字 |
+| locateText | `string` | 否 | 定位按钮文字 |
+
+**示例**
+
+```html
+<template>
+  <see-city-locate v-model="city" @on-select="onSelect" />
+</template>
+```
+```html
+<template>
+  <see-city-locate
+    v-model="city"
+    :is-show-history="true"
+    :max-history="8"
+    @on-select="onSelect"
+    @on-locate="onLocate"
+    @on-locate-error="onError"
+  />
+</template>
+```
+
+### Dropdown 下拉菜单 `<see-dropdown>`
+
+下拉菜单容器，通过 #menu 插槽放置菜单项、#panels 插槽放置面板，管理面板展开/收起、遮罩与选项变更事件
+文档: https://www.seeuui.cn/components/dropdown/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `Record<string, any>` | 否 | 当前选中值（各 item 的值） |
+| zIndex | `number` | 否 | 层级 |
+| duration | `number` | 否 | 动画时长（ms） |
+| isOverlay | `boolean` | 否 | 是否显示遮罩 |
+| closeOnClickOverlay | `boolean` | 否 | 点击遮罩是否关闭 |
+
+**Slots**: `menu`, `panels`
+
+**示例**
+
+```html
+<template>
+  <see-dropdown @on-change="onChange">
+    <template #menu>
+      <see-dropdown-item name="sort" title="排序" />
+      <see-dropdown-item name="filter" title="筛选" />
+    </template>
+    <template #panels>
+      <see-dropdown-panel name="sort">排序内容</see-dropdown-panel>
+      <see-dropdown-panel name="filter">筛选内容</see-dropdown-panel>
+    </template>
+  </see-dropdown>
+</template>
+```
+
+### Dropdown 下拉菜单 `<see-dropdown-item>`
+
+下拉菜单项，作为 see-dropdown 的 #menu 子组件，通过 name 与面板关联，显示标题与展开箭头，支持禁用
+文档: https://www.seeuui.cn/components/dropdown/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | `string` | 是 | 唯一标识 |
+| title | `string` | 否 | 显示标题 |
+| menuType | `DropdownMenuType` | 否 | 菜单类型 |
+| options | `DropdownOption[]` | 否 | 选项列表 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| placeholder | `string` | 否 | 占位文字 |
+
+**示例**
+
+```html
+<template>
+  <see-dropdown>
+    <template #menu>
+      <see-dropdown-item name="sort" title="排序" />
+      <see-dropdown-item name="filter" title="筛选" :is-disabled="true" />
+    </template>
+  </see-dropdown>
+</template>
+```
+
+### Dropdown 下拉菜单 `<see-dropdown-panel>`
+
+下拉菜单面板，作为 see-dropdown 的 #panels 子组件，通过 name 与菜单项关联,对应项激活时展示插槽内容
+文档: https://www.seeuui.cn/components/dropdown/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | `string` | 是 | 对应的 dropdown-item 的 name |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<template>
+  <see-dropdown>
+    <template #panels>
+      <see-dropdown-panel name="sort">
+        <view>排序面板内容</view>
+      </see-dropdown-panel>
+    </template>
+  </see-dropdown>
+</template>
+```
+
+### Empty 空状态 `<see-empty>`
+
+空状态占位，内置默认/搜索/网络/错误/404 多种预设图标与文案，支持自定义图片、标题、描述及操作按钮
+文档: https://www.seeuui.cn/components/empty/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| type | `'default' \| 'search' \| 'network' \| 'error' \| '404' \| 'custom'` | 否 | 空状态类型 |
+| image | `string` | 否 | 自定义图片 |
+| title | `string` | 否 | 标题文字 |
+| description | `string` | 否 | 描述文字 |
+| actionText | `string` | 否 | 操作按钮文字 |
+| isShowAction | `boolean` | 否 | 是否显示操作按钮 |
+| imageSize | `string` | 否 | 图片尺寸 |
+
+**Slots**: `image`, `action`
+
+**示例**
+
+```html
+<template>
+  <see-empty type="search" />
+</template>
+```
+```html
+<template>
+  <see-empty
+    type="network"
+    title="网络异常"
+    description="请检查网络后重试"
+    action-text="重新加载"
+    :is-show-action="true"
+    @on-action="reload"
+  />
+</template>
+```
+
+### IndexList 索引列表 `<see-index-list>`
+
+索引列表，将数据按索引字段分组展示，支持吸顶分组标题、右侧字母导航、搜索与拼音索引
+文档: https://www.seeuui.cn/components/index-list/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| data | `IndexListItem[]` | 否 | 数据列表 |
+| indexList | `string[]` | 否 | 自定义索引列表 |
+| indexKey | `string` | 否 | 索引字段名 |
+| isPinyin | `boolean` | 否 | 是否启用拼音索引 |
+| isShowSearch | `boolean` | 否 | 是否显示搜索框 |
+| isStickyHeader | `boolean` | 否 | 分组标题是否吸顶 |
+| height | `string \| number` | 否 | 列表高度 |
+| isVirtual | `boolean` | 否 | 是否启用虚拟滚动 |
+
+**示例**
+
+```html
+<template>
+  <see-index-list :data="data" @on-select="onSelect" />
+</template>
+```
+```html
+<template>
+  <see-index-list
+    :data="data"
+    :is-show-search="true"
+    :is-pinyin="true"
+    :is-sticky-header="true"
+    @on-select="onSelect"
+    @on-index-change="onIndexChange"
+  />
+</template>
+```
+
+### Navbar 自定义导航栏 `<see-navbar>`
+
+自定义导航栏，支持标题、左右按钮、返回箭头、搜索模式、毛玻璃、安全区适配与 fixed 固定占位
+文档: https://www.seeuui.cn/components/navbar/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| title | `string` | 否 | 导航栏标题 |
+| isFixed | `boolean` | 否 | 是否固定在顶部 |
+| isShowLeft | `boolean` | 否 | 是否显示左侧区域 |
+| isShowRight | `boolean` | 否 | 是否显示右侧区域 |
+| leftText | `string` | 否 | 左侧文字 |
+| leftArrow | `boolean` | 否 | 左侧是否显示箭头 |
+| rightText | `string` | 否 | 右侧文字 |
+| rightIcon | `string` | 否 | 右侧图标名称 |
+| isSearch | `boolean` | 否 | 是否为搜索模式 |
+| searchPlaceholder | `string` | 否 | 搜索栏占位文字 |
+| isFrosted | `boolean` | 否 | 是否启用毛玻璃效果 |
+| zIndex | `number` | 否 | 层级 |
+| safeAreaInsetTop | `boolean` | 否 | 是否适配顶部安全区 |
+| bgColor | `string` | 否 | 自定义背景色 |
+| titleColor | `string` | 否 | 自定义标题颜色 |
+| border | `boolean` | 否 | 是否显示底部边框 |
+| placeholder | `boolean` | 否 | fixed 定位时是否生成占位元素 |
+
+**Slots**: `left`, `center`, `right`
+
+**示例**
+
+```html
+<template>
+  <see-navbar title="页面标题" :left-arrow="true" @on-back="onBack" />
+</template>
+```
+```html
+<template>
+  <see-navbar :is-search="true" search-placeholder="搜索商品" @on-search="onSearch" @on-right-click="onRight" />
+</template>
+```
+
+### NavbarMini 迷你导航栏 `<see-navbar-mini>`
+
+迷你导航栏，轻量版标题栏，支持返回按钮、自定义高度与背景色,适用于子页面顶部导航
+文档: https://www.seeuui.cn/components/navbar-mini/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| title | `string` | 否 | 导航栏标题 |
+| isShowBack | `boolean` | 否 | 是否显示返回按钮 |
+| height | `string` | 否 | 自定义高度 |
+| bgColor | `string` | 否 | 自定义背景色 |
+
+**Slots**: `left`, `center`, `right`
+
+**示例**
+
+```html
+<template>
+  <see-navbar-mini title="子页面标题" :is-show-back="true" @on-back="onBack" />
+</template>
+```
+
+### Pagination 分页器 `<see-pagination>`
+
+分页器，支持 button/simple/number 三种模式，可显示总数、每页条数选择器,v-model 绑定当前页
+文档: https://www.seeuui.cn/components/pagination/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `number` | 否 | 当前页码 |
+| total | `number` | 否 | 总条数 |
+| pageSize | `number` | 否 | 每页条数 |
+| mode | `'button' \| 'simple' \| 'number'` | 否 | 显示模式 |
+| maxPages | `number` | 否 | 最多显示页码数 |
+| isShowTotal | `boolean` | 否 | 是否显示总数 |
+| isShowSizeChanger | `boolean` | 否 | 是否显示每页条数选择器 |
+| pageSizeOptions | `number[]` | 否 | 每页条数选项 |
+| prevText | `string` | 否 | 上一页文字 |
+| nextText | `string` | 否 | 下一页文字 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+
+**示例**
+
+```html
+<template>
+  <see-pagination v-model="page" :total="200" :page-size="10" @on-change="onChange" />
+</template>
+```
+```html
+<template>
+  <see-pagination
+    v-model="page"
+    :total="200"
+    :page-size="10"
+    mode="number"
+    :is-show-total="true"
+    @on-change="onChange"
+  />
+</template>
+```
+
+### Steps 步骤条 `<see-steps>`
+
+步骤条，展示流程进度，支持横向/纵向、圆点样式、步骤状态(等待/进行/完成/错误)与点击跳转
+文档: https://www.seeuui.cn/components/steps/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `number` | 否 | 当前步骤索引 |
+| steps | `StepItem[]` | 否 | 步骤列表 |
+| direction | `'horizontal' \| 'vertical'` | 否 | 方向 |
+| activeColor | `string` | 否 | 激活时颜色 |
+| inactiveColor | `string` | 否 | 未激活时颜色 |
+| isDotStyle | `boolean` | 否 | 是否使用圆点样式 |
+| isClickable | `boolean` | 否 | 是否可点击切换 |
+| isFreeJump | `boolean` | 否 | 是否允许自由跳转（默认 false：只允许回退到已完成步骤） |
+
+**示例**
+
+```html
+<template>
+  <see-steps v-model="current" :steps="steps" @on-change="onChange" />
+</template>
+```
+```html
+<template>
+  <see-steps
+    v-model="current"
+    :steps="steps"
+    direction="vertical"
+    :is-clickable="true"
+    @on-change="onChange"
+  />
+</template>
+```
+
+### Subsection 分段器 `<see-subsection>`
+
+分段选择器,在若干互斥选项间单选切换,支持 default/button/pill 三种样式、多种尺寸与自定义选中色
+文档: https://www.seeuui.cn/components/subsection/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number` | 否 | 当前选中的值 |
+| options | `SubsectionOption[]` | 否 | 选项列表 |
+| type | `'default' \| 'button' \| 'pill'` | 否 | 样式类型 |
+| size | `'small' \| 'default' \| 'large'` | 否 | 尺寸 |
+| activeColor | `string` | 否 | 选中时背景色 |
+| isDisabled | `boolean` | 否 | 是否全部禁用 |
+| isFullWidth | `boolean` | 否 | 是否占满整行宽度 |
+
+**示例**
+
+```html
+<template>
+  <see-subsection v-model="active" :options="options" @on-change="onChange" />
+</template>
+```
+```html
+<template>
+  <see-subsection v-model="active" :options="options" type="pill" size="large" @on-change="onChange" />
+</template>
+```
+
+### Tabs 标签页 `<see-tab-pane>`
+
+标签页面板,作为 see-tabs 的子组件,通过 name 关联标签,支持标题、图标、徽标、红点、禁用与可关闭
+文档: https://www.seeuui.cn/components/tabs/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | `string \| number` | 是 | 唯一标识 |
+| title | `string` | 否 | 标签标题 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| badge | `string \| number` | 否 | 徽标内容 |
+| dot | `boolean` | 否 | 是否显示红点 |
+| icon | `string` | 否 | 图标名称 |
+| closable | `boolean` | 否 | 是否可关闭 |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<template>
+  <see-tabs v-model="activeTab">
+    <see-tab-pane name="tab1" title="标签一">内容一</see-tab-pane>
+    <see-tab-pane name="tab2" title="标签二" :dot="true" :is-disabled="true">内容二</see-tab-pane>
+  </see-tabs>
+</template>
+```
+
+### Tabbar 底部导航栏 `<see-tabbar>`
+
+底部导航栏,通过 tabs 数组配置标签,支持徽标/红点、中央凸起按钮、毛玻璃、路由模式与底部安全区适配
+文档: https://www.seeuui.cn/components/tabbar/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number` | 否 | 当前选中的 tab name |
+| tabs | `TabbarItem[]` | 否 | tab 列表 |
+| isFixed | `boolean` | 否 | 是否固定在底部 |
+| isFrosted | `boolean` | 否 | 是否启用毛玻璃效果 |
+| zIndex | `number` | 否 | 层级 |
+| safeAreaInsetBottom | `boolean` | 否 | 是否适配底部安全区 |
+| activeColor | `string` | 否 | 选中时颜色 |
+| inactiveColor | `string` | 否 | 未选中时颜色 |
+| bgColor | `string` | 否 | 自定义背景色 |
+| border | `boolean` | 否 | 是否显示顶部边框 |
+| route | `boolean` | 否 | 是否为路由模式 |
+| placeholder | `boolean` | 否 | fixed 定位时是否生成占位元素 |
+
+**示例**
+
+```html
+<template>
+  <see-tabbar v-model="activeTab" :tabs="tabs" @on-change="onChange" />
+</template>
+```
+```html
+<template>
+  <see-tabbar
+    v-model="activeTab"
+    :tabs="tabs"
+    :is-frosted="true"
+    @on-change="onChange"
+    @on-center-click="onCenterClick"
+  />
+</template>
+```
+
+### Tabs 标签页 `<see-tabs>`
+
+标签页容器,内嵌 see-tab-pane 子组件,支持 line/card/button 样式、滑动切换、吸顶、滚动标签栏、懒加载与徽标
+文档: https://www.seeuui.cn/components/tabs/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| modelValue | `string \| number` | 否 | 当前选中的 tab name |
+| type | `'line' \| 'card' \| 'button'` | 否 | 标签样式类型 |
+| isSwipeable | `boolean` | 否 | 是否可滑动切换 |
+| isSticky | `boolean` | 否 | 是否使用粘性布局 |
+| stickyOffsetTop | `number` | 否 | 粘性布局偏移量 |
+| duration | `number` | 否 | 切换动画时长（ms） |
+| isScrollable | `boolean` | 否 | 标签栏是否可滚动 |
+| lineWidth | `number` | 否 | 指示器宽度（px） |
+| lineHeight | `number` | 否 | 指示器高度（px） |
+| activeColor | `string` | 否 | 选中时颜色 |
+| inactiveColor | `string` | 否 | 未选中时颜色 |
+| bgColor | `string` | 否 | 自定义背景色 |
+| isLazy | `boolean` | 否 | 是否启用懒加载 |
+| isCache | `boolean` | 否 | 是否启用缓存（KeepAlive） |
+| isShowBadge | `boolean` | 否 | 是否显示 Badge |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<template>
+  <see-tabs v-model="activeTab" @on-change="onChange">
+    <see-tab-pane name="tab1" title="标签一">内容一</see-tab-pane>
+    <see-tab-pane name="tab2" title="标签二">内容二</see-tab-pane>
+  </see-tabs>
+</template>
+```
+```html
+<template>
+  <see-tabs v-model="activeTab" type="card" :is-swipeable="true" :is-sticky="true">
+    <see-tab-pane name="a" title="推荐">推荐内容</see-tab-pane>
+    <see-tab-pane name="b" title="关注" :badge="5">关注内容</see-tab-pane>
+  </see-tabs>
+</template>
+```
+
+### Tree 树形组件 `<see-tree>`
+
+树形控件,展示层级数据,支持单选/多选/级联勾选、手风琴、连接线、搜索过滤、懒加载与虚拟滚动
+文档: https://www.seeuui.cn/components/tree/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| data | `import('../../utils/hooks/useTree').TreeNode[]` | 否 | 树形数据 |
+| modelValue | `(string \| number)[]` | 否 | 选中的节点 key 列表 |
+| selectMode | `'single' \| 'multiple' \| 'check-cascade'` | 否 | 选择模式 |
+| childrenField | `string` | 否 | 子节点字段名 |
+| labelField | `string` | 否 | 标签字段名 |
+| keyField | `string` | 否 | 主键字段名 |
+| isAccordion | `boolean` | 否 | 是否启用手风琴模式 |
+| isShowConnector | `boolean` | 否 | 是否显示连接线 |
+| isCheckable | `boolean` | 否 | 是否显示复选框 |
+| isExpandAll | `boolean` | 否 | 是否默认展开所有节点 |
+| isFilterable | `boolean` | 否 | 是否可搜索 |
+| isLazy | `boolean` | 否 | 是否启用懒加载 |
+| isVirtual | `boolean` | 否 | 是否启用虚拟滚动 |
+| virtualHeight | `number` | 否 | 虚拟滚动可视区域高度 |
+| nodeHeight | `number` | 否 | 节点高度（虚拟滚动用） |
+| indent | `number` | 否 | 缩进量（px） |
+| emptyText | `string` | 否 | 空数据提示文字 |
+
+**示例**
+
+```html
+<template>
+  <see-tree :data="data" @on-node-click="onNodeClick" />
+</template>
+```
+```html
+<template>
+  <see-tree
+    v-model="checkedKeys"
+    :data="data"
+    :is-checkable="true"
+    select-mode="check-cascade"
+    :is-filterable="true"
+    @on-check-change="onCheckChange"
+  />
+</template>
+```
+
+## 内容解析
+
+### Markdown 文本解析 `<see-markdown>`
+
+Markdown 渲染组件，将 Markdown 文本解析为富文本，支持 GFM 表格/删除线/任务列表、代码高亮、图片预览与链接点击
+文档: https://www.seeuui.cn/components/markdown/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| content | `string` | 否 |  |
+| breaks | `boolean` | 否 |  |
+| linkify | `boolean` | 否 |  |
+| gfm | `boolean` | 否 |  |
+| highlight | `(code: string, lang: string) => string` | 否 |  |
+| tagStyle | `Record<string, string>` | 否 |  |
+| selectable | `boolean` | 否 |  |
+| previewImage | `boolean` | 否 |  |
+| imageUrls | `string[]` | 否 |  |
+| emptyText | `string` | 否 |  |
+| lazyLoad | `boolean` | 否 |  |
+| containerClass | `string` | 否 |  |
+| containerStyle | `string \| Record<string, string \| number>` | 否 |  |
+| allowedTags | `string[]` | 否 |  |
+| allowedAttrs | `string[]` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onLoad | `html: string, nodes: any[]` |  |
+| onError | `err: Error` |  |
+| onClick | `event: any` |  |
+| onLinkTap | `href: string, event: any` |  |
+| onImgTap | `src: string, urls: string[], event: any` |  |
+| onReady | `-` |  |
+
+**示例**
+
+```html
+<see-markdown :content="md" />
+```
+```html
+<see-markdown :content="md" :gfm="true" :breaks="true" :previewImage="true" @on-link-tap="onLinkTap" @on-img-tap="onImgTap" />
+```
+
+### Parse 富文本解析器 `<see-parse>`
+
+富文本解析组件，将 HTML 字符串安全渲染为原生节点，支持标签样式注入、标签/属性白名单、图片点击预览与链接拦截
+文档: https://www.seeuui.cn/components/parse/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| content | `string` | 否 |  |
+| tagStyle | `Record<string, string>` | 否 |  |
+| selectable | `boolean` | 否 |  |
+| previewImage | `boolean` | 否 |  |
+| imageUrls | `string[]` | 否 |  |
+| emptyText | `string` | 否 |  |
+| lazyLoad | `boolean` | 否 |  |
+| preserveNewline | `boolean` | 否 |  |
+| containerClass | `string` | 否 |  |
+| containerStyle | `string \| Record<string, string \| number>` | 否 |  |
+| space | `'' \| 'ensp' \| 'emsp' \| 'nbsp'` | 否 |  |
+| allowedTags | `string[]` | 否 |  |
+| allowedAttrs | `string[]` | 否 |  |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onLoad | `nodes: ParseNode[]` |  |
+| onError | `err: Error` |  |
+| onClick | `event: any` |  |
+| onLinkTap | `href: string, event: any` |  |
+| onImgTap | `src: string, urls: string[], event: any` |  |
+| onReady | `-` |  |
+
+**示例**
+
+```html
+<see-parse content="<h3>标题</h3><p>这是一段<b>富文本内容</b></p>" />
+```
+```html
+<see-parse :content="html" :tagStyle="{ p: 'color: #666', img: 'max-width: 100%' }" :previewImage="true" @on-img-tap="onImgTap" @on-link-tap="onLinkTap" />
+```
+
+## 业务组件
+
+### Coupon 优惠券 `<see-coupon>`
+
+优惠券卡片组件，支持满减/折扣两种券面、四种主题色、可用/已领/已用/过期状态与领取按钮
+文档: https://www.seeuui.cn/components/coupon/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| amount | `string \| number` | 否 | 主金额 |
+| unit | `string` | 否 | 金额单位前缀 |
+| discountText | `string` | 否 | 折扣文案（与 amount 互斥，优先于 amount） |
+| condition | `string` | 否 | 使用条件 |
+| title | `string` | 否 | 主标题 |
+| description | `string` | 否 | 描述 |
+| validDate | `string` | 否 | 有效期文案 |
+| buttonText | `string` | 否 | 按钮文字 |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| status | `'available' \| 'received' \| 'used' \| 'expired'` | 否 | 状态 |
+| type | `'primary' \| 'warning' \| 'success' \| 'error'` | 否 | 主题色 |
+| tag | `string` | 否 | 右上角标签 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onClick | `payload: { amount?: string \| number; status?: CouponStatus }` |  |
+| onButtonClick | `payload: { amount?: string \| number; status?: CouponStatus }` |  |
+
+**Slots**: `amount`, `title`, `description`, `button`, `stamp`
+
+**示例**
+
+```html
+<see-coupon :amount="10" unit="¥" condition="满 100 元可用" title="新人专享券" validDate="2026-12-31 到期" buttonText="立即领取" @on-button-click="onReceive" />
+```
+```html
+<see-coupon discountText="8.5折" title="会员折扣券" type="warning" status="received" tag="限量" />
+```
+
+### ScratchCard 刮刮卡 `<see-scratch-card>`
+
+基于 Canvas 的刮刮卡组件，覆盖层可用纯色/图片/文字，可配笔刷大小与揭晓阈值，达到阈值自动揭晓奖品插槽内容
+文档: https://www.seeuui.cn/components/scratch-card/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| width | `number \| string` | 否 | 宽度（数值默认 rpx） |
+| height | `number \| string` | 否 | 高度（数值默认 rpx） |
+| coverColor | `string` | 否 | 覆盖层纯色 |
+| coverImage | `string` | 否 | 覆盖图片地址（优先于 coverColor） |
+| coverText | `string` | 否 | 覆盖层文字 |
+| coverTextColor | `string` | 否 | 覆盖层文字颜色 |
+| coverTextSize | `number` | 否 | 覆盖层文字字号（rpx） |
+| brushSize | `number` | 否 | 笔刷半径（rpx） |
+| threshold | `number` | 否 | 揭晓阈值（百分比，0-100） |
+| isDisabled | `boolean` | 否 | 是否禁用 |
+| autoReveal | `boolean` | 否 | 达到阈值是否自动揭晓（清除全部覆盖） |
+| canvasId | `string` | 否 | Canvas ID（多实例时需唯一） |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onStart | `-` |  |
+| onProgress | `percent: number` |  |
+| onComplete | `percent: number` |  |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-scratch-card :width="300" :height="160" coverText="刮一刮">
+  <view class="prize">恭喜获得 10 元红包</view>
+</see-scratch-card>
+```
+```html
+<see-scratch-card :width="400" :height="200" coverColor="#c0c0c0" :brushSize="40" :threshold="60" :autoReveal="true" @on-complete="onComplete">
+  <view class="prize">谢谢参与</view>
+</see-scratch-card>
+```
+
+### Watermark 水印 `<see-watermark>`
+
+水印组件，在内容区平铺文字水印，支持单行/多行内容、间距、旋转角度、字体样式、层级与全屏 fixed 覆盖
+文档: https://www.seeuui.cn/components/watermark/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| content | `string \| string[]` | 否 | 水印内容，单行字符串或多行数组 |
+| gap | `[number, number]` | 否 | 水印间距 [x, y]（rpx） |
+| offset | `[number, number]` | 否 | 起始偏移 [x, y]（rpx） |
+| rotate | `number \| string` | 否 | 旋转角度（deg） |
+| fontSize | `number \| string` | 否 | 字号（数值默认拼 rpx，字符串原样） |
+| fontColor | `string` | 否 | 字色 |
+| fontWeight | `string \| number` | 否 | 字重 |
+| fontFamily | `string` | 否 | 字体 |
+| zIndex | `number` | 否 | 层级 |
+| fullScreen | `boolean` | 否 | 是否全屏覆盖（fixed 定位） |
+| width | `number \| string` | 否 | 容器宽度（数值拼 rpx） |
+| height | `number \| string` | 否 | 容器高度（数值拼 rpx） |
+
+**Slots**: `default`
+
+**示例**
+
+```html
+<see-watermark content="SeeYouUI">
+  <view class="your-content">敏感信息区域</view>
+</see-watermark>
+```
+```html
+<see-watermark :content="['SeeYouUI', '机密文件']" :rotate="-30" :gap="[40, 40]" fontColor="rgba(0,0,0,0.1)">
+  <view style="height: 600rpx;">页面内容</view>
+</see-watermark>
+```

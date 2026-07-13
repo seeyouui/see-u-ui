@@ -84,11 +84,13 @@
  * @property {Boolean}												isDisabled		是否禁用状态
  * @property {Number}												radius			圆角（默认4px）
  *
- * @example
+ * @event {Function} click 点击按钮时触发（禁用/loading 状态下不触发），回调参数为事件对象
+ *
+ * @example <see-button title="主要按钮" type="primary" @click="onClick" />
  */
 import { ref, computed, nextTick, getCurrentInstance } from 'vue'
 import { useI18n } from '../../locale'
-import type { TouchEvent, ClientRectData } from './type'
+import type { TouchEvent, ClientRectData, SeeButtonProps } from './type'
 
 defineOptions({
   name: 'SeeButton'
@@ -98,52 +100,30 @@ let globalId = 0
 const instance = getCurrentInstance()
 
 /** ---------- props ---------- */
-const props = withDefaults(
-  defineProps<{
-    title?: string
-    loading?: boolean
-    loadingText?: string
-    size?: 'default' | 'large' | 'small' | 'mini'
-    type?: 'info' | 'primary' | 'error' | 'warning' | 'success'
-    color?: string
-    textColor?: string
-    isRipple?: boolean
-    rippleTime?: number
-    maskTime?: number
-    isHollow?: boolean
-    rippleColor?: string
-    rippleStyle?: import('vue').CSSProperties | null
-    customStyle?: import('vue').CSSProperties | null
-    hoverClass?: string | null
-    border?: 1 | 0
-    isDisabled?: boolean
-    radius?: number
-  }>(),
-  {
-    title: '',
-    loading: false,
-    loadingText: '',
-    size: 'default',
-    type: 'info',
-    color: '',
-    textColor: '',
-    isRipple: false,
-    rippleTime: 500,
-    maskTime: 1000,
-    isHollow: false,
-    rippleColor: 'rgba(0, 0, 0, .15)',
-    rippleStyle: null,
-    customStyle: null,
-    hoverClass: '',
-    border: 1,
-    isDisabled: false,
-    radius: 4
-  }
-)
+const props = withDefaults(defineProps<SeeButtonProps>(), {
+  title: '',
+  loading: false,
+  loadingText: '',
+  size: 'default',
+  type: 'info',
+  color: '',
+  textColor: '',
+  isRipple: false,
+  rippleTime: 500,
+  maskTime: 1000,
+  isHollow: false,
+  rippleColor: 'rgba(0, 0, 0, .15)',
+  rippleStyle: null,
+  customStyle: null,
+  hoverClass: '',
+  border: 1,
+  isDisabled: false,
+  radius: 4
+})
 
 /** ---------- emits ---------- */
 const emit = defineEmits<{
-  (e: 'onTap', event: any): void
+  (e: 'click', event: unknown): void
 }>()
 
 /** ---------- state ---------- */
@@ -196,13 +176,13 @@ const onTouchstart = (e: TouchEvent) => {
 
 /**
  * @title 按钮点击
- * @description 内层 button 点击时触发 onTap；禁用/loading 状态下不触发。
+ * @description 内层 button 点击时触发 click；禁用/loading 状态下不触发。
  *
  * @param {Event} e 点击事件对象
  */
-const onClick = (e: any) => {
+const onClick = (e: unknown) => {
   if (props.isDisabled || props.loading) return
-  emit('onTap', e)
+  emit('click', e)
 }
 
 /**

@@ -1,0 +1,110 @@
+# SeeYouUI (see-u-ui)
+
+> 一个基于 uni-app + Vue3 + TypeScript 的跨端组件库，支持 H5、小程序、App。组件标签以 `see-` 为前缀。
+
+版本: 1.3.2 | 组件数: 84
+
+## 使用约定
+- 组件标签前缀 `see-`，如 `<see-button>`；PascalCase 组件名如 `SeeButton`。
+- 事件模板绑定统一 kebab-case：内部 emit `onChange` 对应模板 `@on-change`（个别如 button 为 `@click`）。布尔属性用 `is` 前缀（如 `isDisabled`）。
+- 全局注册：`app.use(SeeYouUI)`；按需引入：`import { SeeButton } from "see-u-ui"`。
+
+## 基础组件
+- `<see-badge>` Badge badge：徽标数组件，用于显示未读消息数量、状态提示等，支持圆点/数字两种形式、主题色、最大值溢出、绝对定位与显隐动画 [文档](https://www.seeuui.cn/components/badge/)
+- `<see-button>` Button 按钮：基于 uni-app button 二次封装，支持 5 种预置类型、4 种尺寸、镂空、水波纹与自定义颜色。 [文档](https://www.seeuui.cn/components/button/)
+- `<see-config>` Config config：全局配置注入组件，作为应用根容器提供主题（明暗）、主题色 CSS 变量与全局骨架屏能力，内容通过默认插槽渲染 [文档](https://www.seeuui.cn/components/config/)
+- `<see-icon>` Icon 图标：图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现 [文档](https://www.seeuui.cn/components/icon/)
+- `<see-image>` Image 图片：基于 uni-app image 二次封装的图片组件，集成加载动画、错误占位、点击预览、遮罩层与淡入效果 [文档](https://www.seeuui.cn/components/image/)
+- `<see-link>` Link 链接：超链接文本组件，支持预置主题色、自定义颜色与下划线，点击可跳转 http/tel/mailto（小程序端复制链接到剪贴板） [文档](https://www.seeuui.cn/components/link/)
+- `<see-tag>` Tag 标签：标签组件，用于标记与分类，支持 6 种主题类型、dark/light/plain 三种效果、大小、圆角、可关闭与自定义颜色，文本通过默认插槽传入 [文档](https://www.seeuui.cn/components/tag/)
+- `<see-text>` Text 文本：多功能文本组件，通过 mode 处理普通文本/链接/电话/日期/时间距今/金额，并支持数字滚动与打字机效果 [文档](https://www.seeuui.cn/components/text/)
+
+## 表单组件
+- `<see-calendar>` Calendar 日历：日历,支持单选/多选/范围三种选择模式,可设最小最大日期、自定义格子文案、月份水印及底部确认按钮 [文档](https://www.seeuui.cn/components/calendar/)
+- `<see-cascader>` Cascader 级联选择器：级联选择器,逐级选择有层级关系的选项,v-model 绑定值路径数组,支持懒加载、自定义键名、toolbar 与标签页切换 [文档](https://www.seeuui.cn/components/cascader/)
+- `<see-checkbox>` Checkbox 复选框：复选框,可单独使用绑定布尔值,也可置于 see-checkbox-group 内多选,支持半选、边框、选中色与尺寸 [文档](https://www.seeuui.cn/components/checkbox/)
+- `<see-checkbox-group>` Checkbox 复选框：复选框组容器,统一管理内部 see-checkbox 的多选状态,v-model 绑定数组,支持最多/最少可选数量、整组禁用与行内排列 [文档](https://www.seeuui.cn/components/checkbox/)
+- `<see-code>` Code 验证码输入框：验证码/短密码输入框,固定格数分格显示,支持 box/line/bottom 样式、遮罩圆点、数字或文本键盘及输入完成回调 [文档](https://www.seeuui.cn/components/code/)
+- `<see-datetime-picker>` DatetimePicker 日期选择器：日期时间选择器,滚轮选择,支持 date/time/datetime/year-month/month-day 类型,可限定最小最大日期时间与秒显示 [文档](https://www.seeuui.cn/components/datetime-picker/)
+- `<see-form>` Form 表单：表单容器,通过 model 绑定数据、rules 定义校验规则,统一管理内部 see-form-item 的标签位置、尺寸、禁用与整体校验/重置 [文档](https://www.seeuui.cn/components/form/)
+- `<see-form-item>` Form 表单：表单项,配合 see-form 使用,通过 field 关联字段,提供标签、必填星号、校验错误提示,支持覆盖标签宽度/位置与自定义规则 [文档](https://www.seeuui.cn/components/form/)
+- `<see-input>` Input 输入框：文本输入框，支持 text/number/password 等类型、清除按钮、字数统计、前后缀图标、密码切换及格式化，可接入表单校验 [文档](https://www.seeuui.cn/components/input/)
+- `<see-keyboard>` Keyboard 键盘：自定义弹出键盘,支持 number/card/idcard/text 类型、安全随机排列、toolbar、确认删除按钮及遮罩安全区适配 [文档](https://www.seeuui.cn/components/keyboard/)
+- `<see-number-box>` NumberBox 步进器：数字步进器，通过加减按钮或输入调整数值，支持最小/最大值、步长、小数位数、异步模式与尺寸 [文档](https://www.seeuui.cn/components/number-box/)
+- `<see-picker>` Picker 选择器：滚轮选择器,支持单列、多列及联动三种模式,通过 columns 传选项,可自定义键名、toolbar 与可见项数 [文档](https://www.seeuui.cn/components/picker/)
+- `<see-radio>` Radio 单选框：单选框,通过 label 指定选项值,通常置于 see-radio-group 内实现单选,支持边框、选中色与尺寸 [文档](https://www.seeuui.cn/components/radio/)
+- `<see-radio-group>` Radio 单选框：单选框组容器,统一管理内部 see-radio 的单选状态,v-model 绑定选中值,支持整组禁用/只读、行内排列与选中色 [文档](https://www.seeuui.cn/components/radio/)
+- `<see-rate>` Rate 评分：星级评分，支持自定义星星数量、半星、颜色、图标、间距，可只读展示或点击清除 [文档](https://www.seeuui.cn/components/rate/)
+- `<see-search>` Search 搜索：搜索框，支持占位提示、清除按钮、右侧操作按钮、round/square 形状及尺寸，键盘确认触发搜索 [文档](https://www.seeuui.cn/components/search/)
+- `<see-select>` Select 经典下拉框：下拉选择器,支持单选/多选、搜索过滤、远程搜索、分组、清除及标签数限制,options 用 label/value 结构 [文档](https://www.seeuui.cn/components/select/)
+- `<see-slider>` Slider 滑动选择器：滑动选择器，拖动滑块选择数值，支持范围选择、垂直模式、步长刻度、值展示与自定义颜色 [文档](https://www.seeuui.cn/components/slider/)
+- `<see-switch>` Switch 开关选择器：开关选择器，在开/关两种对立状态间切换，支持自定义选中值、颜色、文字描述与 small/default/large 尺寸 [文档](https://www.seeuui.cn/components/switch/)
+- `<see-textarea>` Textarea 文本域：多行文本域，支持字数统计、自动增高、指定行数、清除按钮及键盘确认类型，可接入表单校验 [文档](https://www.seeuui.cn/components/textarea/)
+- `<see-upload>` Upload 上传：文件上传,v-model 绑定文件列表,支持图片/视频/文件类型、多选、数量与大小限制、预览、删除、压缩及自定义上传函数 [文档](https://www.seeuui.cn/components/upload/)
+
+## 布局组件
+- `<see-box>` Box 盒子：基础布局容器，通过属性快捷配置内边距、外边距、背景色、圆角、阴影、边框，并内置 Flex 布局（方向/对齐/换行/间距）。 [文档](https://www.seeuui.cn/components/box/)
+- `<see-card>` Card 卡片：卡片容器组件，支持标题、副标题、头部/底部插槽，可配置阴影、圆角、边框，并提供点击事件。 [文档](https://www.seeuui.cn/components/card/)
+- `<see-cell>` Cell 单元格：列表单元格组件，支持图标、标题、描述、右侧值、箭头，可设必填星号、跳转链接及点击反馈。 [文档](https://www.seeuui.cn/components/cell/)
+- `<see-grid>` Grid 宫格布局：宫格布局容器，搭配 see-grid-item 使用，可配置列数、间距、边框、正方形及点击反馈，子项支持图标、文字与跳转。 [文档](https://www.seeuui.cn/components/grid/)
+- `<see-layout>` Layout 布局：基于 Flex 的 24 列栅格布局容器，搭配 see-layout-item 使用，子项通过 span 占列、offset 偏移或自定义 flex。 [文档](https://www.seeuui.cn/components/layout/)
+- `<see-line>` Line 线条：水平或垂直分割线，支持实线/虚线、自定义颜色、粗细、长度和外边距。 [文档](https://www.seeuui.cn/components/line/)
+- `<see-loading-icon>` LoadingIcon 加载动画：加载动画图标，支持 spinner / circular / dots / pulse 四种类型，可自定义尺寸、颜色和动画速度。 [文档](https://www.seeuui.cn/components/loading-icon/)
+- `<see-loading-page>` LoadingPage 加载页：页面/区域加载状态遮罩，内置加载动画与提示文字，可选全屏，支持自定义图标类型、大小、背景和层级。 [文档](https://www.seeuui.cn/components/loading-page/)
+- `<see-no-network>` NoNetwork 无网络提示：无网络提示组件，可自动监听设备网络状态并在断网时显示提示，支持手动重试、全屏及自定义文案。 [文档](https://www.seeuui.cn/components/no-network/)
+- `<see-overlay>` Overlay 遮罩层：全屏半透明遮罩层，常用于弹窗、抽屉的背景，支持点击关闭、渐显动画、自定义背景色、透明度与层级。 [文档](https://www.seeuui.cn/components/overlay/)
+- `<see-scroll-list>` ScrollList 横向滚动列表：横向滚动列表，基于数据数组渲染列表项，支持自定义项内容、项间距、滚动条及触底/触顶加载更多事件。 [文档](https://www.seeuui.cn/components/scroll-list/)
+- `<see-skeleton>` Skeleton 骨架屏：骨架屏占位组件，加载时按配置显示头像、标题、多行占位块，支持行数/行宽/形状及闪烁动画，加载完成显示插槽内容。 [文档](https://www.seeuui.cn/components/skeleton/)
+- `<see-skeleton-global>` SkeletonGlobal 全局骨架屏：全局全屏骨架屏，内置导航栏+卡片预设布局，由 useSkeletonGlobal 的 show/hide 控制显隐，可自定义行数、动画与颜色。 [文档](https://www.seeuui.cn/components/skeleton-global/)
+- `<see-sticky>` Sticky 吸顶：吸顶组件，滚动时将内容固定在距顶部指定位置，常用于导航栏、标题栏，支持自定义偏移、层级并可开关。 [文档](https://www.seeuui.cn/components/sticky/)
+- `<see-swiper>` Swiper 轮播图：轮播图组件，基于数据渲染图片/自定义内容，支持自动播放、循环、dots/digital 指示器及切换、点击事件。 [文档](https://www.seeuui.cn/components/swiper/)
+- `<see-waterfall>` Waterfall 瀑布流：瀑布流布局组件，将数据按索引轮询分配到多列不等高排列，支持自定义项内容、列数、间距及触底加载更多。 [文档](https://www.seeuui.cn/components/waterfall/)
+
+## 数据组件
+- `<see-count-down>` CountDown 倒计时：倒计时组件，用于验证码、活动、支付剩余时间与订单超时场景，支持自定义格式、毫秒级、服务端时间校准与作用域插槽 [文档](https://www.seeuui.cn/components/count-down/)
+- `<see-count-to>` CountTo 数字滚动：数字滚动组件，用于统计卡片、金额变化与数据大屏，支持起止值、缓动动画、小数位、千分位分隔与前后缀 [文档](https://www.seeuui.cn/components/count-to/)
+- `<see-line-progress>` LineProgress 线形进度条：线形进度条组件，用于任务/上传/步骤进度展示，支持 normal/success/warning/error 状态、条纹动画、内外文本与圆角 [文档](https://www.seeuui.cn/components/line-progress/)
+- `<see-list>` List 列表：基础数据列表容器，统一处理加载/空/错误/完成状态、上拉加载更多、分组与分割线，列表项通过 item 插槽渲染 [文档](https://www.seeuui.cn/components/list/)
+- `<see-table>` Table 表格：功能完整的表格组件，支持列配置、边框斑马纹、固定表头/列、排序、多选、行展开、树形数据、分页与虚拟滚动 [文档](https://www.seeuui.cn/components/table/)
+- `<see-virtual-list>` VirtualList 虚拟列表：虚拟列表组件，仅渲染可视区域项以承载海量数据，支持固定/动态高度、横向滚动、缓冲区与触底加载 [文档](https://www.seeuui.cn/components/virtual-list/)
+
+## 反馈组件
+- `<see-action-sheet>` ActionSheet 操作菜单：从底部弹出的操作菜单，通过 actions 配置选项列表（支持图标、描述、禁用、加载态），v-model 控制显隐，可选带取消按钮 [文档](https://www.seeuui.cn/components/action-sheet/)
+- `<see-alert>` Alert 警告提示：页面内联的警告提示条，支持 success/error/warning/info 四种类型与 light/dark/border 三种效果，可选图标、可关闭、可折叠长内容 [文档](https://www.seeuui.cn/components/alert/)
+- `<see-collapse>` Collapse 折叠面板：折叠面板容器，配合 see-collapse-item 子项使用，v-model 绑定展开项 name 数组，支持手风琴模式（isAccordion）与子项图标、禁用、懒加载 [文档](https://www.seeuui.cn/components/collapse/)
+- `<see-copy>` Copy 复制：点击即复制文本到剪贴板的包裹容器，通过 text 指定内容，复制成功可自动弹 Toast 提示，支持成功/失败事件回调 [文档](https://www.seeuui.cn/components/copy/)
+- `<see-modal>` Modal 模态框：居中弹出的模态对话框，v-model:show 控制显隐，支持标题/内容/确认取消按钮、确认按钮类型与加载态、beforeClose 钩子；同时提供命令式 API modal.confirm() / modal.alert() 返回 Promise [文档](https://www.seeuui.cn/components/modal/)
+- `<see-notice-bar>` NoticeBar 滚动通知：横向滚动的通知栏，内容超长时自动跑马灯滚动，支持 info/warning/error 类型、左右图标、可关闭，以及 vertical 多条消息垂直轮播 [文档](https://www.seeuui.cn/components/notice-bar/)
+- `<see-notify>` Notify 消息提示：从顶部滑入的全局消息通知条，支持 success/error/warning/info 四种类型、自定义颜色与时长；主要通过命令式 API notify.success() / notify.error() 等调用 [文档](https://www.seeuui.cn/components/notify/)
+- `<see-popover>` Popover 弹窗提示：依附于触发元素的气泡卡片，默认插槽为触发器、#content 插槽为气泡内容，支持 12 个弹出方位、click/hover/manual 触发方式与箭头、关闭按钮 [文档](https://www.seeuui.cn/components/popover/)
+- `<see-popup>` Popup 弹出层：基础弹出层容器，v-model:show 控制显隐，支持 top/bottom/left/right/center 五个弹出方向、遮罩、圆角、关闭按钮与安全区适配，是多数弹层组件的底层实现 [文档](https://www.seeuui.cn/components/popup/)
+- `<see-swipe-action>` SwipeAction 滑动单元格：滑动单元格，左右滑动内容区露出操作按钮，通过 leftActions/rightActions 配置按钮（支持样式、图标、背景色），常用于列表项的删除、置顶等操作 [文档](https://www.seeuui.cn/components/swipe-action/)
+- `<see-toast>` Toast 消息提示：轻量的全局消息轻提示，支持 success/error/warning/info/loading 类型与 top/center/bottom 位置；主要通过命令式 API toast.success() / toast.loading() 等调用 [文档](https://www.seeuui.cn/components/toast/)
+- `<see-tooltip>` Tooltip 长按提示：轻量文字提示气泡，默认插槽为触发元素、content 属性为提示文字，支持 12 个方位、longpress/hover/click/manual 触发方式与 dark/light 两种效果 [文档](https://www.seeuui.cn/components/tooltip/)
+
+## 导航组件
+- `<see-backtop>` BackTop 返回顶部：返回顶部按钮，页面滚动超过阈值时浮现，点击平滑滚动回顶部，支持自定义位置、层级与图标插槽 [文档](https://www.seeuui.cn/components/backtop/)
+- `<see-city-locate>` CityLocate 城市定位选择：城市选择器，内置城市数据按首字母分组，支持搜索、GPS 定位、热门城市、最近访问历史与右侧字母索引导航 [文档](https://www.seeuui.cn/components/city-locate/)
+- `<see-dropdown>` Dropdown 下拉菜单：下拉菜单容器，通过 #menu 插槽放置菜单项、#panels 插槽放置面板，管理面板展开/收起、遮罩与选项变更事件 [文档](https://www.seeuui.cn/components/dropdown/)
+- `<see-dropdown-item>` Dropdown 下拉菜单：下拉菜单项，作为 see-dropdown 的 #menu 子组件，通过 name 与面板关联，显示标题与展开箭头，支持禁用 [文档](https://www.seeuui.cn/components/dropdown/)
+- `<see-dropdown-panel>` Dropdown 下拉菜单：下拉菜单面板，作为 see-dropdown 的 #panels 子组件，通过 name 与菜单项关联,对应项激活时展示插槽内容 [文档](https://www.seeuui.cn/components/dropdown/)
+- `<see-empty>` Empty 空状态：空状态占位，内置默认/搜索/网络/错误/404 多种预设图标与文案，支持自定义图片、标题、描述及操作按钮 [文档](https://www.seeuui.cn/components/empty/)
+- `<see-index-list>` IndexList 索引列表：索引列表，将数据按索引字段分组展示，支持吸顶分组标题、右侧字母导航、搜索与拼音索引 [文档](https://www.seeuui.cn/components/index-list/)
+- `<see-navbar>` Navbar 自定义导航栏：自定义导航栏，支持标题、左右按钮、返回箭头、搜索模式、毛玻璃、安全区适配与 fixed 固定占位 [文档](https://www.seeuui.cn/components/navbar/)
+- `<see-navbar-mini>` NavbarMini 迷你导航栏：迷你导航栏，轻量版标题栏，支持返回按钮、自定义高度与背景色,适用于子页面顶部导航 [文档](https://www.seeuui.cn/components/navbar-mini/)
+- `<see-pagination>` Pagination 分页器：分页器，支持 button/simple/number 三种模式，可显示总数、每页条数选择器,v-model 绑定当前页 [文档](https://www.seeuui.cn/components/pagination/)
+- `<see-steps>` Steps 步骤条：步骤条，展示流程进度，支持横向/纵向、圆点样式、步骤状态(等待/进行/完成/错误)与点击跳转 [文档](https://www.seeuui.cn/components/steps/)
+- `<see-subsection>` Subsection 分段器：分段选择器,在若干互斥选项间单选切换,支持 default/button/pill 三种样式、多种尺寸与自定义选中色 [文档](https://www.seeuui.cn/components/subsection/)
+- `<see-tab-pane>` Tabs 标签页：标签页面板,作为 see-tabs 的子组件,通过 name 关联标签,支持标题、图标、徽标、红点、禁用与可关闭 [文档](https://www.seeuui.cn/components/tabs/)
+- `<see-tabbar>` Tabbar 底部导航栏：底部导航栏,通过 tabs 数组配置标签,支持徽标/红点、中央凸起按钮、毛玻璃、路由模式与底部安全区适配 [文档](https://www.seeuui.cn/components/tabbar/)
+- `<see-tabs>` Tabs 标签页：标签页容器,内嵌 see-tab-pane 子组件,支持 line/card/button 样式、滑动切换、吸顶、滚动标签栏、懒加载与徽标 [文档](https://www.seeuui.cn/components/tabs/)
+- `<see-tree>` Tree 树形组件：树形控件,展示层级数据,支持单选/多选/级联勾选、手风琴、连接线、搜索过滤、懒加载与虚拟滚动 [文档](https://www.seeuui.cn/components/tree/)
+
+## 内容解析
+- `<see-markdown>` Markdown 文本解析：Markdown 渲染组件，将 Markdown 文本解析为富文本，支持 GFM 表格/删除线/任务列表、代码高亮、图片预览与链接点击 [文档](https://www.seeuui.cn/components/markdown/)
+- `<see-parse>` Parse 富文本解析器：富文本解析组件，将 HTML 字符串安全渲染为原生节点，支持标签样式注入、标签/属性白名单、图片点击预览与链接拦截 [文档](https://www.seeuui.cn/components/parse/)
+
+## 业务组件
+- `<see-coupon>` Coupon 优惠券：优惠券卡片组件，支持满减/折扣两种券面、四种主题色、可用/已领/已用/过期状态与领取按钮 [文档](https://www.seeuui.cn/components/coupon/)
+- `<see-scratch-card>` ScratchCard 刮刮卡：基于 Canvas 的刮刮卡组件，覆盖层可用纯色/图片/文字，可配笔刷大小与揭晓阈值，达到阈值自动揭晓奖品插槽内容 [文档](https://www.seeuui.cn/components/scratch-card/)
+- `<see-watermark>` Watermark 水印：水印组件，在内容区平铺文字水印，支持单行/多行内容、间距、旋转角度、字体样式、层级与全屏 fixed 覆盖 [文档](https://www.seeuui.cn/components/watermark/)
