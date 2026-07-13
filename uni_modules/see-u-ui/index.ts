@@ -339,6 +339,7 @@ export default {
 
 // 类型导出
 export type { CreateI18nOptions, I18nInstance, I18nUseReturn, LocaleMessages }
+export type { SeeButtonProps, SeeButtonEmits, ButtonType, ButtonSize } from './components/see-button/type'
 export type { FormRule, FormInstance, FormItemInstance, ValidateResult, ValidateError } from './utils/shared/form-types'
 export type { CascaderOption } from './components/see-cascader/type'
 export type { SelectOption } from './components/see-select/type'

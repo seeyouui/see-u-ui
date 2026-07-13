@@ -41,7 +41,13 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "commit": "cz",
-    "prepare": "husky"
+    "prepare": "husky",
+    "ai:registry": "node --experimental-strip-types scripts/gen-ai-meta/build-registry.mjs",
+    "ai:drafts": "node scripts/gen-ai-meta/gen-drafts.mjs",
+    "ai:artifacts": "node scripts/gen-ai-meta/gen-artifacts.mjs",
+    "ai:web-types": "node scripts/gen-ai-meta/gen-web-types.mjs",
+    "ai:sync-npm": "node scripts/sync-npm.mjs",
+    "ai:gen": "pnpm ai:registry && pnpm ai:artifacts && pnpm ai:web-types && pnpm ai:sync-npm"
   },
   "config": {
     "commitizen": {
