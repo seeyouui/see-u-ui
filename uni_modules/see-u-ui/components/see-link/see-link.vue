@@ -129,19 +129,19 @@ const onClick = () => {
 .info {
 }
 .primary {
-  color: $see-primary;
+  color: var(--see-primary);
 }
 .error {
-  color: $see-error;
+  color: var(--see-error);
 }
 .warning {
-  color: $see-warning;
+  color: var(--see-warning);
 }
 .success {
-  color: $see-success;
+  color: var(--see-success);
 }
 
 .href {
-  border-bottom: 1px $see-primary solid;
+  border-bottom: 1px var(--see-primary) solid;
 }
 </style>

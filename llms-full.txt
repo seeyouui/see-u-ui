@@ -1,4 +1,4 @@
-# SeeYouUI 完整组件 API (see-u-ui v1.3.2)
+# SeeYouUI 完整组件 API (see-u-ui v1.3.3)
 
 基于 uni-app + Vue3 + TypeScript 的跨端组件库。以下为全部 84 个组件的属性、事件、插槽与示例。
 

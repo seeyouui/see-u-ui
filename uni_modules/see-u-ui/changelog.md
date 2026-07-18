@@ -1,3 +1,10 @@
+## 1.3.3
+
+> > - <Badge type="warning" text="修复" /> 修复中英文侧边栏中 Badge 组件的错误跳转链接
+> > - <Badge type="tip" text="新增" /> 补全 Icon 组件的中英文官方文档，替换原有 TODO 占位内容
+> > - <Badge type="tip" text="新增" /> 新增 Badge 组件的完整中英文使用文档
+> > - <Badge type="tip" text="新增" /> 新增组件库说明文档 llms.txt
+
 ## 1.3.2（2026-07-13）
 
 > > - <Badge type="warning" text="修复" /> 安全：修复 Parse（H5 v-html 接入白名单+协议校验）、useHtmlParser（on\* 属性绕过）、Markdown（highlight 回调注入）三处 XSS
