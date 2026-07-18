@@ -60,23 +60,23 @@
         <text class="title">图标颜色</text>
         <view class="content">
           <view class="item">
-            <see-icon name="✓" :size="24" color="#3ca7ff" />
+            <see-icon name="✓" :size="24" color="var(--see-primary)" />
             <text class="label">primary</text>
           </view>
           <view class="item">
-            <see-icon name="✓" :size="24" color="#ff6b6b" />
+            <see-icon name="✓" :size="24" color="var(--see-error)" />
             <text class="label">error</text>
           </view>
           <view class="item">
-            <see-icon name="✓" :size="24" color="#37d497" />
+            <see-icon name="✓" :size="24" color="var(--see-success)" />
             <text class="label">success</text>
           </view>
           <view class="item">
-            <see-icon name="✓" :size="24" color="#ffb645" />
+            <see-icon name="✓" :size="24" color="var(--see-warning)" />
             <text class="label">warning</text>
           </view>
           <view class="item">
-            <see-icon name="✓" :size="24" color="#8a8f99" />
+            <see-icon name="✓" :size="24" color="var(--see-info)" />
             <text class="label">info</text>
           </view>
           <view class="item">
@@ -102,19 +102,19 @@
         <text class="title">综合示例</text>
         <view class="content">
           <view class="item">
-            <see-icon name="★" :size="32" color="#ffb645" />
+            <see-icon name="★" :size="32" color="var(--see-warning)" />
             <text class="label">收藏</text>
           </view>
           <view class="item">
-            <see-icon name="♥" :size="32" color="#ff6b6b" />
+            <see-icon name="♥" :size="32" color="var(--see-error)" />
             <text class="label">喜欢</text>
           </view>
           <view class="item">
-            <see-icon name="●" :size="32" color="#37d497" />
+            <see-icon name="●" :size="32" color="var(--see-success)" />
             <text class="label">在线</text>
           </view>
           <view class="item">
-            <see-icon name="✕" :size="32" color="#8a8f99" />
+            <see-icon name="✕" :size="32" color="var(--see-info)" />
             <text class="label">关闭</text>
           </view>
         </view>
@@ -125,7 +125,7 @@
         <text class="title">点击事件</text>
         <view class="content">
           <view class="item" @click="handleIconClick">
-            <see-icon name="✓" :size="32" color="#3ca7ff" />
+            <see-icon name="✓" :size="32" color="var(--see-primary)" />
             <text class="label">点击我</text>
           </view>
         </view>
@@ -154,6 +154,7 @@ const handleIconClick = () => {
   overflow: hidden;
   padding: 12px;
   box-sizing: border-box;
+  background-color: var(--see-bg-color);
 }
 
 .section {
@@ -162,7 +163,7 @@ const handleIconClick = () => {
 
 .title {
   font-size: 16px;
-  color: #333;
+  color: var(--see-main-color);
   font-weight: bold;
   margin-bottom: 12px;
   display: block;
@@ -171,7 +172,7 @@ const handleIconClick = () => {
 .content {
   display: flex;
   flex-wrap: wrap;
-  background-color: #fff;
+  background-color: var(--see-bg-light-color);
   border-radius: 8px;
   padding: 12px;
 }
@@ -190,6 +191,6 @@ const handleIconClick = () => {
 
 .label {
   font-size: 12px;
-  color: #666;
+  color: var(--see-tips-color);
 }
 </style>
