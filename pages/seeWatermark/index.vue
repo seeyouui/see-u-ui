@@ -12,7 +12,7 @@
 
       <text class="title">{{ t('watermark.demo.multiLine') }}</text>
       <view class="content">
-        <see-watermark :content="['SeeYouUI', '1.3.1', 'Confidential']" :gap="[120, 60]" rotate="-30" font-color="rgba(255, 107, 107, 0.12)">
+        <see-watermark :content="['SeeYouUI', '1.3.3', 'Confidential']" :gap="[120, 60]" rotate="-30" font-color="rgba(255, 107, 107, 0.12)">
           <view class="demo-card">
             <text class="demo-text">{{ t('watermark.demo.multiLineCover') }}</text>
           </view>

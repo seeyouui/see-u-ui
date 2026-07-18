@@ -6,7 +6,7 @@
           <image src="/static/logo.png" alt="see-u-ui Logo" mode="heightFix"></image>
         </view>
         <view class="detail-text">
-          <view class="title">SeeYouUI 1.3.1</view>
+          <view class="title">SeeYouUI 1.3.3</view>
           <view class="subtitle">{{ t('home.subtitle') }}</view>
         </view>
       </view>
