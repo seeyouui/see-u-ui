@@ -30,7 +30,7 @@ import { SeeButton, SeeInput } from 'see-u-ui'
 - `<see-badge>` — 徽标数组件，用于显示未读消息数量、状态提示等，支持圆点/数字两种形式、主题色、最大值溢出、绝对定位与显隐动画 例：`<see-badge :value="5" type="error"></see-badge>`
 - `<see-button>` — 基于 uni-app button 二次封装，支持 5 种预置类型、4 种尺寸、镂空、水波纹与自定义颜色。 例：`<see-button title="默认按钮" />`
 - `<see-config>` — 全局配置注入组件，作为应用根容器提供主题（明暗）、主题色 CSS 变量与全局骨架屏能力，内容通过默认插槽渲染 例：`<see-config>`
-- `<see-icon>` — 图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现 例：`<see-icon />`
+- `<see-icon>` — 图标组件，支持 Unicode 字符、图片路径、自定义图标字体等 例：`<see-icon name="checkmark" />`
 - `<see-image>` — 基于 uni-app image 二次封装的图片组件，集成加载动画、错误占位、点击预览、遮罩层与淡入效果 例：`<see-image src="https://www.seeuui.cn/logo.png" width="80px" height="80px" :radius="8" />`
 - `<see-link>` — 超链接文本组件，支持预置主题色、自定义颜色与下划线，点击可跳转 http/tel/mailto（小程序端复制链接到剪贴板） 例：`<see-link text="这是SeeYouUI的官方文档" type="primary" href="https://www.seeuui.cn" />`
 - `<see-tag>` — 标签组件，用于标记与分类，支持 6 种主题类型、dark/light/plain 三种效果、大小、圆角、可关闭与自定义颜色，文本通过默认插槽传入 例：`<see-tag>默认</see-tag>`

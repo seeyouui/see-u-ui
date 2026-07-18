@@ -1,7 +1,7 @@
 {
   "library": "see-u-ui",
   "version": "1.3.2",
-  "generatedAt": "2026-07-13T11:27:25.865Z",
+  "generatedAt": "2026-07-18T02:45:05.466Z",
   "total": 84,
   "withMeta": 84,
   "components": [
@@ -2620,15 +2620,74 @@
       "title": "图标",
       "titleEn": "Icon",
       "category": "基础组件",
-      "description": "图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现",
+      "description": "图标组件，支持 Unicode 字符、图片路径、自定义图标字体等",
       "docUrl": "/components/icon/",
-      "props": [],
-      "emits": [],
-      "slots": [],
+      "props": [
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "description": "图标名称或图片路径"
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "string | number",
+          "description": "图标大小"
+        },
+        {
+          "name": "color",
+          "required": false,
+          "type": "string",
+          "description": "图标颜色"
+        },
+        {
+          "name": "customPrefix",
+          "required": false,
+          "type": "string",
+          "description": "自定义图标类名前缀"
+        },
+        {
+          "name": "customFont",
+          "required": false,
+          "type": "string",
+          "description": "自定义图标字体名称"
+        },
+        {
+          "name": "alt",
+          "required": false,
+          "type": "string",
+          "description": "图片图标 alt 文本"
+        }
+      ],
+      "emits": [
+        {
+          "name": "onClick",
+          "payload": "",
+          "description": ""
+        }
+      ],
+      "slots": ["default"],
       "examples": [
         {
           "title": "基本使用",
-          "code": "<see-icon />"
+          "code": "<see-icon name=\"checkmark\" />"
+        },
+        {
+          "title": "Unicode 字符",
+          "code": "<see-icon name=\"✓\" />"
+        },
+        {
+          "title": "图片图标",
+          "code": "<see-icon name=\"/static/icon.png\" :size=\"32\" />"
+        },
+        {
+          "title": "自定义颜色和大小",
+          "code": "<see-icon name=\"home\" :size=\"24\" color=\"#7232dd\" />"
+        },
+        {
+          "title": "自定义图标字体",
+          "code": "<see-icon name=\"home\" custom-prefix=\"my-icon\" custom-font=\"MyIconFont\" />"
         }
       ],
       "related": []

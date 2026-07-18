@@ -116,13 +116,44 @@
 
 ### Icon 图标 `<see-icon>`
 
-图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现
+图标组件，支持 Unicode 字符、图片路径、自定义图标字体等
 文档: https://www.seeuui.cn/components/icon/
+
+**Props**
+
+| 属性 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| name | `string` | 否 | 图标名称或图片路径 |
+| size | `string \| number` | 否 | 图标大小 |
+| color | `string` | 否 | 图标颜色 |
+| customPrefix | `string` | 否 | 自定义图标类名前缀 |
+| customFont | `string` | 否 | 自定义图标字体名称 |
+| alt | `string` | 否 | 图片图标 alt 文本 |
+
+**Events**
+
+| 事件 | 参数 | 说明 |
+| --- | --- | --- |
+| onClick | `-` |  |
+
+**Slots**: `default`
 
 **示例**
 
 ```html
-<see-icon />
+<see-icon name="checkmark" />
+```
+```html
+<see-icon name="✓" />
+```
+```html
+<see-icon name="/static/icon.png" :size="32" />
+```
+```html
+<see-icon name="home" :size="24" color="#7232dd" />
+```
+```html
+<see-icon name="home" custom-prefix="my-icon" custom-font="MyIconFont" />
 ```
 
 ### Image 图片 `<see-image>`

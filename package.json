@@ -47,7 +47,7 @@
     "ai:artifacts": "node scripts/gen-ai-meta/gen-artifacts.mjs",
     "ai:web-types": "node scripts/gen-ai-meta/gen-web-types.mjs",
     "ai:sync-npm": "node scripts/sync-npm.mjs",
-    "ai:gen": "pnpm ai:registry && pnpm ai:artifacts && pnpm ai:web-types && pnpm ai:sync-npm"
+    "ai:gen": "pnpm ai:registry && pnpm ai:artifacts && pnpm ai:web-types"
   },
   "config": {
     "commitizen": {

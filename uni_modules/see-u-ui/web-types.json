@@ -2845,11 +2845,68 @@
         },
         {
           "name": "see-icon",
-          "description": "图标组件（占位/开发中），当前仅渲染占位文本，图标能力尚未实现",
+          "description": "图标组件，支持 Unicode 字符、图片路径、自定义图标字体等",
           "doc-url": "https://www.seeuui.cn/components/icon/",
-          "attributes": [],
-          "events": [],
-          "slots": []
+          "attributes": [
+            {
+              "name": "name",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "description": "图标名称或图片路径"
+            },
+            {
+              "name": "size",
+              "value": {
+                "kind": "expression",
+                "type": "string | number"
+              },
+              "description": "图标大小"
+            },
+            {
+              "name": "color",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "description": "图标颜色"
+            },
+            {
+              "name": "customPrefix",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "description": "自定义图标类名前缀"
+            },
+            {
+              "name": "customFont",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "description": "自定义图标字体名称"
+            },
+            {
+              "name": "alt",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "description": "图片图标 alt 文本"
+            }
+          ],
+          "events": [
+            {
+              "name": "on-click"
+            }
+          ],
+          "slots": [
+            {
+              "name": "default"
+            }
+          ]
         },
         {
           "name": "see-image",

@@ -1,1 +1,1 @@
-total=84 withMeta=84 missingMeta=0 metaError=0 noProps=2 noVue=0
+total=84 withMeta=84 missingMeta=0 metaError=0 noProps=1 noVue=0
